@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use COMPASS, please cite it as below."
+title: "COMPASS: Comparative Modeling of Parameter-Space Synergy and Sampling"
+abstract: >-
+  A falsification study asking whether higher-order parameter interactions in
+  phenotype-constrained conductance-based neuron models are neuron-specific
+  biological signatures or generic consequences of nonlinear model structure,
+  parameter sampling, covariance and conditioning on selected outputs.
+version: 0.1.0
+date-released: "2026-08-05"
+license: MIT
+type: software
+keywords:
+  - computational neuroscience
+  - conductance-based models
+  - O-information
+  - higher-order interactions
+  - parameter degeneracy
+  - sensitivity analysis
+references:
+  - type: article
+    authors: [{family-names: Reva, given-names: M.}]
+    title: "Higher-order interactions in neuronal function: from genes to ionic currents in biophysical models"
+    year: 2025
+    doi: 10.1073/pnas.2500048122
+  - type: article
+    authors: [{family-names: Rosas, given-names: "F. E."}]
+    title: "Quantifying high-order interdependencies via multivariate extensions of the mutual information"
+    year: 2019
+    doi: 10.1103/PhysRevE.100.032305

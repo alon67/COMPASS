@@ -1,0 +1,160 @@
+{
+ "by_feature": {
+  "ap_amplitude_mV": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.10244800849187126,
+    "control_random": 0.14137200622501656,
+    "top_synergy": 0.10119787642176853
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.061277362394754925,
+    "control_random": 0.06188623387245146,
+    "top_synergy": 0.06442070229796715
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.041666666666666664,
+    "control_random": 0.08333333333333333,
+    "top_synergy": 0.041666666666666664
+   },
+   "n": {
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
+   }
+  },
+  "ap_halfwidth_ms": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.1851360559504701,
+    "control_random": 0.17289073434168337,
+    "top_synergy": 0.1720397033726991
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.11214958168819682,
+    "control_random": 0.10926624420521008,
+    "top_synergy": 0.13600926003541497
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.1875,
+    "control_random": 0.08333333333333333,
+    "top_synergy": 0.125
+   },
+   "n": {
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
+   }
+  },
+  "first_isi_ms": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.06550265103501231,
+    "control_random": 0.047400456820861823,
+    "top_synergy": 0.14636858634277072
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.03437169857754596,
+    "control_random": 0.03023171917302328,
+    "top_synergy": 0.10481726956594145
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.041666666666666664,
+    "control_random": 0.0,
+    "top_synergy": 0.08333333333333333
+   },
+   "n": {
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
+   }
+  },
+  "mean_firing_rate_Hz": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.13413924186222173,
+    "control_random": 0.07732863779897044,
+    "top_synergy": 0.31350449798985464
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.039999879963631045,
+    "control_random": 0.021016649569040625,
+    "top_synergy": 0.08762817422233282
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.0625,
+    "control_random": 0.041666666666666664,
+    "top_synergy": 0.25
+   },
+   "n": {
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
+   }
+  }
+ },
+ "per_model_mean_abs_eta": {
+  "control_middle": {
+   "bbp_l5pc": 0.0077,
+   "hh_cable": 0.1761,
+   "hh_point": 0.3124,
+   "khaliq_purkinje": 0.0276,
+   "mainen_l5pc": 0.1125,
+   "migliore_ca1": 0.3144,
+   "pospischil_fs": 0.0235,
+   "pospischil_rs": 0.0988
+  },
+  "control_random": {
+   "bbp_l5pc": 0.0108,
+   "hh_cable": 0.1795,
+   "hh_point": 0.0643,
+   "khaliq_purkinje": 0.0219,
+   "mainen_l5pc": 0.1125,
+   "migliore_ca1": 0.1997,
+   "pospischil_fs": 0.0072,
+   "pospischil_rs": 0.0227
+  },
+  "top_synergy": {
+   "bbp_l5pc": 0.1587,
+   "hh_cable": 1.1008,
+   "hh_point": 0.631,
+   "khaliq_purkinje": 0.0609,
+   "mainen_l5pc": 0.0471,
+   "migliore_ca1": 0.2941,
+   "pospischil_fs": 0.1022,
+   "pospischil_rs": 0.1133
+  }
+ },
+ "top_vs_control_middle": {
+  "n_models": 8,
+  "mean_top": 0.3135044979898547,
+  "mean_control": 0.13413924186222176,
+  "ratio_point": 2.3371572228793727,
+  "ratio_ci95": [
+   1.1111255113074907,
+   4.603238137147667
+  ],
+  "difference_ci95": [
+   0.014100707036207935,
+   0.4198548608251795
+  ],
+  "wilcoxon_p": 0.109375,
+  "n_models_top_greater": 6,
+  "equivalent_within_0.10sd": false,
+  "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
+ },
+ "top_vs_control_random": {
+  "n_models": 8,
+  "mean_top": 0.3135044979898547,
+  "mean_control": 0.07732863779897044,
+  "ratio_point": 4.05418363640215,
+  "ratio_ci95": [
+   1.6765777493252616,
+   7.825097401434506
+  ],
+  "difference_ci95": [
+   0.04745100481524232,
+   0.47650155723311494
+  ],
+  "wilcoxon_p": 0.0234375,
+  "n_models_top_greater": 7,
+  "equivalent_within_0.10sd": false,
+  "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
+ }
+}

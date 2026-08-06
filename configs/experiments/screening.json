@@ -1,0 +1,32 @@
+{
+ "experiment_id": "screening",
+ "models": [
+  "hh_point",
+  "hh_cable",
+  "pospischil_rs",
+  "pospischil_fs",
+  "khaliq_purkinje",
+  "mainen_l5pc",
+  "migliore_ca1",
+  "bbp_l5pc"
+ ],
+ "regimes": [
+  "E1",
+  "E2",
+  "E6"
+ ],
+ "n_samples": 8192,
+ "replicates": 1,
+ "base_seed": 20260804,
+ "tolerances": [
+  "permissive",
+  "moderate",
+  "strict",
+  "very_strict"
+ ],
+ "prior_widths": [
+  "default"
+ ],
+ "notes": "Screening campaign; per-model sample sizes in tools/run_campaign.py SAMPLE_SIZES.",
+ "config_hash": "80f6433ac0efac9b"
+}

@@ -1,0 +1,49 @@
+[
+ {
+  "model_id": "hh_point",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 0,
+  "note": "built-in mechanisms only"
+ },
+ {
+  "model_id": "pospischil_rs",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 5,
+  "lib": "data/models/pospischil_rs/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "f906670fc4b6027a"
+ },
+ {
+  "model_id": "khaliq_purkinje",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 9,
+  "lib": "data/models/khaliq_purkinje/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "652564f3ee00b2b3"
+ },
+ {
+  "model_id": "mainen_l5pc",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 6,
+  "lib": "data/models/mainen_l5pc/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "4050ec98693bb432"
+ },
+ {
+  "model_id": "migliore_ca1",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 5,
+  "lib": "data/models/migliore_ca1/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "18743b25b47f3a36"
+ },
+ {
+  "model_id": "bbp_l5pc",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 12,
+  "lib": "data/models/bbp_l5pc/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "579739062ee339dd"
+ }
+]

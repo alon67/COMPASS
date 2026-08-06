@@ -1,0 +1,95 @@
+{
+ "criteria": [
+  {
+   "criterion": "conditioning effect direction agreement across models",
+   "supports": "H-G",
+   "value": 1.0,
+   "passed": true,
+   "detail": "toward synergy; n_models=8"
+  },
+  {
+   "criterion": "high-covariance subset effect direction agreement",
+   "supports": "H-G",
+   "value": 1.0,
+   "passed": true,
+   "detail": "toward redundancy; n_models=8"
+  },
+  {
+   "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
+   "supports": "H-G",
+   "value": 13.801172207972193,
+   "passed": true,
+   "detail": "sampling=0.153 geometry=0.019 identity=0.012"
+  },
+  {
+   "criterion": "out-of-sample R2 for a held-out model family (sampling+geometry)",
+   "supports": "H-G",
+   "value": 0.6938436691080727,
+   "passed": true,
+   "detail": "n_folds=8"
+  },
+  {
+   "criterion": "sampling regime predictable across unseen model families",
+   "supports": "H-G",
+   "value": 0.44611528822055135,
+   "passed": true,
+   "detail": "baseline=0.157, 11 classes"
+  },
+  {
+   "criterion": "model identity predictable from information summaries",
+   "supports": "H-B",
+   "value": 0.5758536585365854,
+   "passed": true,
+   "detail": "baseline=0.148, 8 classes"
+  },
+  {
+   "criterion": "intraclass correlation of model identity (mixed model)",
+   "supports": "H-B",
+   "value": 0.04809286441416719,
+   "passed": false,
+   "detail": "share of endpoint variance between model families"
+  },
+  {
+   "criterion": "top-tuple module stability (mean per-model Jaccard across estimators)",
+   "supports": "H-B",
+   "value": 0.8130686517783292,
+   "passed": true,
+   "detail": "31 models, min 0.54. NOTE blueprint 19.3 requires modules that are stable AND functionally validated; the perturbation criteria below test the second half."
+  },
+  {
+   "criterion": "statistical synergy modules validated by direct perturbation",
+   "supports": "H-B",
+   "value": 0.25,
+   "passed": false,
+   "detail": "n_top=48, n_control=48; supported 0.250 vs control 0.062"
+  },
+  {
+   "criterion": "top-synergy tuples more non-additive than matched middle-Omega controls",
+   "supports": "H-B",
+   "value": 2.3371572228793727,
+   "passed": true,
+   "detail": "top=0.314 SD vs control=0.134 SD (ratio 2.34x)"
+  },
+  {
+   "criterion": "top-synergy tuples more non-additive than random controls",
+   "supports": "H-B",
+   "value": 4.054183636402149,
+   "passed": true,
+   "detail": "top=0.314 SD vs control=0.077 SD (ratio 4.05x)"
+  }
+ ],
+ "thresholds": {
+  "cross_model_direction_agreement": 0.8,
+  "sampling_geometry_over_identity_ratio": 2.0,
+  "module_selection_probability": 0.8,
+  "perturbation_effect_sd": 0.25,
+  "lomo_r2_floor": 0.0
+ },
+ "n_hg_passed": 5,
+ "n_hg_total": 5,
+ "n_hb_passed": 4,
+ "n_hb_total": 6,
+ "conclusion": "H-M",
+ "hg_fraction_passed": 1.0,
+ "hb_fraction_passed": 0.6666666666666666
+}

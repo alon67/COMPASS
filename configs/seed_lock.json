@@ -1,0 +1,53 @@
+{
+ "pilot": {
+  "migliore_ca1": {
+   "1": 20261847
+  }
+ },
+ "screening": {
+  "bbp_l5pc": {
+   "1": 20262684
+  },
+  "hh_cable": {
+   "1": 20262777
+  },
+  "hh_point": {
+   "1": 20262140
+  },
+  "khaliq_purkinje": {
+   "1": 20261850
+  },
+  "mainen_l5pc": {
+   "1": 20261907
+  },
+  "migliore_ca1": {
+   "1": 20262703
+  },
+  "pospischil_fs": {
+   "1": 20262256
+  },
+  "pospischil_rs": {
+   "1": 20262247
+  }
+ },
+ "sobol": {
+  "bbp_l5pc": {
+   "1": 20260804
+  },
+  "hh_cable": {
+   "1": 20260804
+  },
+  "hh_point": {
+   "1": 20260804
+  },
+  "khaliq_purkinje": {
+   "1": 20260804
+  },
+  "pospischil_fs": {
+   "1": 20260804
+  },
+  "pospischil_rs": {
+   "1": 20260804
+  }
+ }
+}

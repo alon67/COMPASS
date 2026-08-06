@@ -1,0 +1,59 @@
+{
+ "experiment": "pilot",
+ "models": [
+  "bbp_l5pc",
+  "mainen_l5pc"
+ ],
+ "regimes": [
+  "E1"
+ ],
+ "replicates": 1,
+ "wall_min": 27.74,
+ "blocks": [
+  {
+   "shard": "E1_r1_000050.parquet",
+   "n": 10,
+   "wall_s": 144.0,
+   "n_error": 0,
+   "n_nonspiking": 0
+  },
+  {
+   "shard": "E1_r1_000025.parquet",
+   "n": 25,
+   "wall_s": 423.5,
+   "n_error": 0,
+   "n_nonspiking": 2
+  },
+  {
+   "shard": "E1_r1_000050.parquet",
+   "n": 10,
+   "wall_s": 428.2,
+   "n_error": 0,
+   "n_nonspiking": 0
+  },
+  {
+   "shard": "E1_r1_000000.parquet",
+   "n": 25,
+   "wall_s": 441.1,
+   "n_error": 0,
+   "n_nonspiking": 0
+  },
+  {
+   "shard": "E1_r1_000000.parquet",
+   "n": 25,
+   "wall_s": 1626.1,
+   "n_error": 0,
+   "n_nonspiking": 0
+  },
+  {
+   "shard": "E1_r1_000025.parquet",
+   "n": 25,
+   "wall_s": 1662.0,
+   "n_error": 0,
+   "n_nonspiking": 0
+  }
+ ],
+ "n_samples": 120,
+ "n_error": 0,
+ "n_nonspiking": 2
+}

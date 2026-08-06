@@ -1,0 +1,10 @@
+{
+ "endpoint": "synergy_area",
+ "var_fixed_effects": 0.8766106442299922,
+ "var_model_identity_random": 0.050566949123594815,
+ "var_residual": 0.12426631084228792,
+ "icc_model_identity": 0.04809286441416719,
+ "frac_fixed": 0.8337207916958803,
+ "n": 203,
+ "n_models": 8
+}
