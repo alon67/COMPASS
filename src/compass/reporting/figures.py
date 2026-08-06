@@ -470,42 +470,105 @@ def fig_sobol(summary: pd.DataFrame, indices: pd.DataFrame) -> plt.Figure:
 # --------------------------------------------------------------------------- #
 # Figure 9 - perturbation validation
 # --------------------------------------------------------------------------- #
-def fig_perturbation(pert: pd.DataFrame) -> plt.Figure:
+def fig_perturbation(pert: pd.DataFrame, resolution: pd.DataFrame | None = None
+                     ) -> plt.Figure:
+    """Perturbation battery: enrichment, correlation with Omega, and the floor.
+
+    Three corrections relative to the first version of this figure, all from the
+    2026-08-06 audit (M11, M5).
+
+    1. The battery emits ``control_middle`` and ``control_random``; the old code
+       still selected ``kind == "control"``, which matches nothing, so BOTH
+       control families were silently absent from the plot.
+    2. All four readouts were pooled, counting every tuple four times and mixing
+       quantities with different noise floors.  Panels A and B now use the
+       primary readout only, matching the decision code.
+    3. Panel C is new: it puts each model's median effect next to that model's
+       own measurement floor, because a spike-count readout over a 400 ms window
+       cannot resolve anything below 2.5 Hz however the effect is normalised.
+    """
     if pert is None or len(pert) == 0:
         return _empty_figure("perturbation results unavailable")
-    fig, (ax, ax2) = plt.subplots(1, 2, figsize=(11.2, 4.0))
-    kinds = ["top_synergy", "control"]
-    colours = {"top_synergy": SERIES[0], "control": INK3}
+    prim = pert[pert["primary_feature"]] if "primary_feature" in pert else pert
+    feat = (str(prim["feature"].iloc[0]) if "feature" in prim and len(prim)
+            else "primary readout")
+
+    fig, (ax, ax2, ax3) = plt.subplots(1, 3, figsize=(15.2, 4.2))
+    kinds = ["top_synergy", "control_middle", "control_random"]
+    labels = ["top-synergy\ntuples", "matched control\n(middle $\\Omega$)",
+              "random control"]
+    colours = {"top_synergy": SERIES[0], "control_middle": SERIES[1],
+               "control_random": INK3}
+    rng = np.random.default_rng(0)
+    present = []
     for i, k in enumerate(kinds):
-        g = pert[pert["kind"] == k]
+        g = prim[prim["kind"] == k]
         vals = np.abs(pd.to_numeric(g["mean_nonadditivity_sd"], errors="coerce").dropna())
         if not len(vals):
             continue
-        ax.scatter(np.full(len(vals), i) + np.random.default_rng(0).normal(0, 0.05, len(vals)),
+        present.append(i)
+        ax.scatter(np.full(len(vals), i) + rng.normal(0, 0.06, len(vals)),
                    vals, color=colours[k], s=26, alpha=0.8,
                    edgecolor=SURFACE, linewidth=0.7)
-        ax.hlines(vals.mean(), i - 0.22, i + 0.22, color=INK, lw=2.4)
-        ax.text(i, vals.mean() + 0.02, f"mean {vals.mean():.2f}", ha="center",
-                fontsize=8, color=INK2)
+        ax.hlines(vals.mean(), i - 0.24, i + 0.24, color=INK, lw=2.4)
+        ax.text(i, vals.mean() * 1.15 + 0.01, f"mean {vals.mean():.2f}",
+                ha="center", fontsize=8, color=INK2)
     ax.axhline(0.25, color=STATUS["critical"], ls="--", lw=1.4)
-    ax.text(1.42, 0.26, "preregistered\nthreshold 0.25 SD", fontsize=7.5,
+    ax.text(len(kinds) - 0.55, 0.26, "preregistered\nthreshold 0.25 SD", fontsize=7.5,
             color=STATUS["critical"], va="bottom", ha="right")
     ax.set_xticks(range(len(kinds)))
-    ax.set_xticklabels(["top-synergy tuples", "control tuples"], fontsize=9)
+    ax.set_xticklabels(labels, fontsize=8)
+    # |eta| spans three decades and includes exact zeros, so a log axis needs a
+    # linear region near zero -- but symlog also draws the negative branch,
+    # which is meaningless for an absolute value.  Clamp the lower limit.
+    ax.set_yscale("symlog", linthresh=0.01)
+    ax.set_ylim(bottom=0.0)
     ax.set_ylabel(r"|non-additivity $\eta$| (ensemble SD)")
-    ax.set_title("A  Do statistical modules interact in the equations?")
+    ax.set_title(f"A  Enrichment over both controls\n({feat})", fontsize=9.5)
 
-    g = pert.dropna(subset=["o_information", "mean_nonadditivity_sd"])
+    g = prim.dropna(subset=["o_information", "mean_nonadditivity_sd"])
     models = _order_models(g["model_id"].unique())
     for i, m in enumerate(models):
         gg = g[g["model_id"] == m]
         ax2.scatter(gg["o_information"], np.abs(gg["mean_nonadditivity_sd"]),
                     color=SERIES[i % 8], s=26, label=_lab(m),
                     edgecolor=SURFACE, linewidth=0.7)
+    if len(g) > 2:
+        r = float(np.corrcoef(g["o_information"],
+                              np.abs(g["mean_nonadditivity_sd"]))[0, 1])
+        ax2.text(0.03, 0.95, f"r = {r:+.3f}", transform=ax2.transAxes,
+                 fontsize=9, va="top")
     ax2.set_xlabel(r"tuple O-information $\Omega$ (more negative = more synergistic)")
     ax2.set_ylabel(r"|non-additivity $\eta$| (SD)")
-    ax2.set_title("B  Statistical synergy vs functional non-additivity")
-    ax2.legend(fontsize=7, ncol=2)
+    ax2.set_title("B  Statistical synergy vs functional non-additivity", fontsize=9.5)
+    ax2.legend(fontsize=6.5, ncol=2)
+
+    # Panel C: effect against each model's own measurement floor.
+    if resolution is not None and len(resolution):
+        res = resolution[resolution["feature"] == feat]
+        mods = _order_models(res["model_id"].unique())
+        med = [float(res[res["model_id"] == m]["median_abs_eta_sd"].iloc[0]) for m in mods]
+        flr = [float(res[res["model_id"] == m]["floor_in_sd"].iloc[0]) for m in mods]
+        xs = np.arange(len(mods))
+        below = [m_ <= f_ for m_, f_ in zip(med, flr, strict=True)]
+        ax3.bar(xs, med, color=[STATUS["critical"] if b else SERIES[0] for b in below],
+                edgecolor=SURFACE, linewidth=1.2, zorder=2)
+        ax3.hlines(flr, xs - 0.42, xs + 0.42, color=INK, lw=2.2, zorder=3)
+        for x, m_, f_, b in zip(xs, med, flr, below, strict=True):
+            if b:
+                ax3.text(x, max(m_, f_) * 1.25, "below\nfloor", ha="center",
+                         fontsize=6.5, color=STATUS["critical"])
+        ax3.set_yscale("log")
+        ax3.set_xticks(xs)
+        ax3.set_xticklabels([_lab(m) for m in mods], rotation=35, ha="right", fontsize=7.5)
+        ax3.set_ylabel(r"median |$\eta$| of top tuples (SD)")
+        ax3.set_title("C  Bars = effect, rules = that model's\nmeasurement floor",
+                      fontsize=9.5)
+    else:
+        ax3.axis("off")
+        ax3.text(0.5, 0.5, "resolution floors unavailable\n(run tools/readout_resolution.py)",
+                 ha="center", va="center", fontsize=8.5, color=INK3)
+
     fig.suptitle("Figure 9  Direct perturbation test of candidate synergy modules",
                  fontsize=11, fontweight="bold")
     fig.tight_layout()
@@ -572,6 +635,12 @@ def fig_module_stability(stab: pd.DataFrame, tuple_scores: pd.DataFrame) -> plt.
     ax.set_ylabel("mean Jaccard of top-10 tuples")
     ax.set_ylim(0, 1.05)
     ax.set_title("A  Module stability across estimators")
+    # Blueprint 19.3 requires modules that are stable AND functionally
+    # validated.  Clearing this threshold is necessary, not sufficient, and the
+    # figure said nothing about that until the 2026-08-06 audit (M11).
+    ax.text(0.02, 0.04, "stability is necessary, not sufficient:\n"
+            "19.3 also requires functional validation (Fig. 9)",
+            transform=ax.transAxes, fontsize=7, color=INK3, va="bottom")
 
     ts = tuple_scores[(tuple_scores["regime"] == "E3")]
     piv = ts.pivot_table(index=["model_id", "tuple"], columns="estimator",

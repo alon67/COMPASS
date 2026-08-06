@@ -24,6 +24,7 @@ import multiprocessing as mp
 import os
 import sys
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -46,6 +47,22 @@ OUT = ROOT / "data" / "provenance"
 # relative tolerance OR an absolute floor (features near zero cannot be judged
 # relatively).
 REL_TOL = 0.05
+
+# A convergence tolerance may never be finer than the readout's own quantisation
+# step, or it demands a precision the measurement cannot express and no mesh can
+# satisfy.  `mean_firing_rate_Hz` is a spike COUNT over the 400 ms analysis
+# window, so its quantum is 1000/400 = 2.5 Hz; the tolerance was 2.0 Hz.  A
+# single threshold-adjacent spike therefore scored as a convergence failure at
+# every rate below 40 Hz, while the identical difference in `spike_count`
+# (ABS_TOL 1.0, one spike) scored as agreement.  The same physical event was
+# both a pass and a fail depending on the units it was reported in.
+#
+# Raised to exactly one quantum on principle, decided from the protocol geometry
+# and not from any model's result.  Note that it does NOT change the verdict for
+# `mainen_l5pc`, which still fails on `adaptation_index`: this correction was not
+# a route to a wanted answer.  See D27 and RESULTS 5.1.
+_RATE_QUANTUM_HZ = 1000.0 / 400.0
+
 ABS_TOL = {
     "rest.resting_potential_mV": 0.5,
     "hyperpol_abs.input_resistance_Mohm": 1.0,
@@ -57,7 +74,7 @@ ABS_TOL = {
     "step_abs_hi.ap_halfwidth_ms": 0.1,
     "step_abs_hi.ahp_depth_mV": 2.0,
     "step_abs_hi.first_isi_ms": 2.0,
-    "step_abs_hi.mean_firing_rate_Hz": 2.0,
+    "step_abs_hi.mean_firing_rate_Hz": _RATE_QUANTUM_HZ,   # was 2.0: below the quantum
     "step_abs_hi.adaptation_index": 0.05,
     "step_abs_hi.spike_count": 1.0,
 }
@@ -128,6 +145,49 @@ def agrees(a: float, b: float, name: str) -> bool:
     return abs(a - b) <= max(tol, REL_TOL * abs(b))
 
 
+def rescore(model_id: str) -> int:
+    """Re-evaluate a stored audit under the current tolerances.
+
+    Every setting keeps its raw feature rows, so a tolerance correction does not
+    require re-running the simulations -- which for `mainen_l5pc` cost 75 minutes
+    on 7 cores.  Storing the rows was a deliberate choice; this is what makes it
+    pay off, and it is why a tolerance can be fixed without the fix being
+    entangled with a decision about whether to spend compute.
+    """
+    path = OUT / f"convergence_audit_{model_id}.json"
+    if not path.exists():
+        print(f"no stored audit at {path}")
+        return 1
+    d = json.loads(path.read_text())
+    ref_rows = d["reference"]["rows"]
+    feats = list(CONDITIONING_FEATURES)
+    print(f"{model_id}: re-scoring {len(d['settings'])} stored settings against "
+          f"reference dt={d['reference']['dt_ms']} "
+          f"mesh={d['reference'].get('mesh_factor')}x "
+          f"({d['reference'].get('total_nseg')} seg)")
+    for key, s in d["settings"].items():
+        per = {f: float(np.mean([agrees(a.get(f, np.nan), b.get(f, np.nan), f)
+                                 for a, b in zip(s["rows"], ref_rows, strict=True)]))
+               for f in feats}
+        worst = min(per, key=per.get)
+        was, s["fraction_features_reproduced"] = s["fraction_features_reproduced"], \
+            float(np.mean(list(per.values())))
+        s["min_feature_agreement"] = per[worst]
+        s["worst_feature"] = worst
+        s["accepted"] = bool(min(per.values()) == 1.0)
+        s["per_feature_agreement"] = per
+        failing = [k.split(".")[-1] for k, v in per.items() if v < 1.0]
+        print(f"  {key:26s} mean {was:.3f} -> {s['fraction_features_reproduced']:.3f}  "
+              f"{'ACCEPT' if s['accepted'] else 'reject'}  failing={failing}")
+    ok = {k: v for k, v in d["settings"].items() if v["accepted"]}
+    d["chosen"] = min(ok, key=lambda k: ok[k]["wall_s"]) if ok else None
+    d["tolerances"] = {"rel_tol": REL_TOL, "abs_tol": dict(ABS_TOL)}
+    d["rescored_utc"] = datetime.now(UTC).isoformat()
+    path.write_text(json.dumps(d, indent=1, default=float))
+    print(f"\nchosen: {d['chosen']}")
+    return 0
+
+
 def _audit_setting(job):
     """Evaluate one (dt, mesh) setting in a FRESH process.
 
@@ -168,7 +228,14 @@ def main() -> int:
                     help="'as_built' or a d_lambda multiple; use as_built for "
                          "point models, where nseg 1->3 is a different model "
                          "(spatially resolved mechanisms) not a refinement")
+    ap.add_argument("--rescore", action="store_true",
+                    help="re-evaluate the stored audit under the CURRENT "
+                         "tolerances, reusing its saved feature rows; no "
+                         "simulation is run")
     args = ap.parse_args()
+
+    if args.rescore:
+        return rescore(args.model)
 
     probe = get_adapter(args.model)
     specs = probe.parameter_specs()
@@ -235,9 +302,27 @@ def main() -> int:
 
     ok = {k: v for k, v in results["settings"].items() if v["accepted"]}
     results["chosen"] = min(ok, key=lambda k: ok[k]["wall_s"]) if ok else None
+    results["tolerances"] = {"rel_tol": REL_TOL, "abs_tol": dict(ABS_TOL)}
+    results["argv"] = sys.argv[1:]
+    results["written_utc"] = datetime.now(UTC).isoformat()
+
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / f"convergence_audit_{args.model}.json").write_text(
-        json.dumps(results, indent=1, default=float))
+    dest = OUT / f"convergence_audit_{args.model}.json"
+    # An audit output is EVIDENCE.  This file previously justified the Mainen
+    # mesh refinement in a source comment, and a later `--mesh as_built` run
+    # overwrote it: the accepted production combination vanished and `chosen`
+    # became null, so the code cited a file that no longer contained the claim.
+    # Supersede rather than overwrite (audit C1 / D26); nothing is ever lost.
+    if dest.exists():
+        prev = json.loads(dest.read_text())
+        tag = prev.get("written_utc", datetime.fromtimestamp(
+            dest.stat().st_mtime, UTC).isoformat()).replace(":", "").replace("-", "")
+        old_dir = OUT / "_superseded"
+        old_dir.mkdir(parents=True, exist_ok=True)
+        moved = old_dir / f"convergence_audit_{args.model}_{tag}.json"
+        dest.rename(moved)
+        print(f"previous audit preserved at {moved.relative_to(ROOT)}", flush=True)
+    dest.write_text(json.dumps(results, indent=1, default=float))
     print(f"\nchosen: {results['chosen']}")
     return 0
 

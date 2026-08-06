@@ -1,0 +1,10 @@
+hh_point         ensembles=15 rows=60
+hh_cable         ensembles=15 rows=120
+pospischil_rs    ensembles=14 rows=176
+pospischil_fs    ensembles=15 rows=236
+khaliq_purkinje  ensembles=5 rows=274
+mainen_l5pc      ensembles=10 rows=314
+migliore_ca1     ensembles=10 rows=354
+bbp_l5pc         ensembles=14 rows=410
+
+endpoints=410 curves=1230 tuples=46876 rsi=1600 -> /Users/alon/Python/COMPASS/compass/results/analyses

@@ -1,0 +1,19 @@
+  E1   absolute   none               none        models=8 N=256
+  E1   normalised none               none        models=8 N=256
+  E2   absolute   none               none        models=6 N=512
+  E2   normalised none               none        models=6 N=512
+  E3   absolute   max_z              permissive  models=8 N=140
+  E3   absolute   weighted_euclidean permissive  models=8 N=154
+  E3   normalised max_z              permissive  models=7 N=122
+  E3   normalised weighted_euclidean permissive  models=8 N=138
+  E3b  absolute   weighted_euclidean moderate    models=8 N=150
+  E3b  normalised weighted_euclidean moderate    models=8 N=131
+  E4   absolute   weighted_euclidean strict      models=8 N=127
+  E6   absolute   none               none        models=6 N=512
+  E6   normalised none               none        models=6 N=512
+  E8   absolute   none               none        models=8 N=140
+  E8   normalised none               none        models=7 N=122
+  E9   absolute   none               none        models=8 N=140
+  E9   normalised none               none        models=7 N=122
+
+wrote 2500 matched endpoint rows (8 models, 20 draws) -> /Users/alon/Python/COMPASS/compass/results/analyses

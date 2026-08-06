@@ -127,17 +127,32 @@ def mixed_effects_components(df: pd.DataFrame, endpoint: str) -> dict:
         m = smf.mixedlm(f"y ~ {fixed}", d, groups=d["model_id"]).fit(reml=True)
     except Exception as exc:  # noqa: BLE001
         return {"endpoint": endpoint, "error": str(exc)[:120]}
-    grp = float(m.cov_re.iloc[0, 0]) if m.cov_re.size else 0.0
-    resid = float(m.scale)
-    fitted_var = float(np.var(m.fittedvalues))
-    total = fitted_var + grp + resid
+    # Variance decomposition (Nakagawa & Schielzeth 2013).
+    #
+    # The fixed-effect variance MUST be computed from the fixed part alone.  An
+    # earlier version used `np.var(m.fittedvalues)`, but statsmodels' MixedLM
+    # `fittedvalues` already contain the random-effect BLUPs, so the group
+    # variance was counted once inside `fitted_var` and again as `grp`.  That
+    # inflates the denominator and the reported "ICC" of 0.048 was neither the
+    # adjusted ICC nor the variance-partition coefficient -- it was not a
+    # standard quantity at all.  Caught by the 2026-08-06 audit (M7).
+    var_grp = float(m.cov_re.iloc[0, 0]) if m.cov_re.size else 0.0
+    var_res = float(m.scale)
+    var_fix = float(np.var(np.asarray(m.model.exog) @ np.asarray(m.fe_params)))
+    total = var_fix + var_grp + var_res
+    # Adjusted ICC: between-family share of the variance that remains AFTER the
+    # fixed covariates have done their work.  This is the standard ICC and the
+    # only one comparable with values quoted elsewhere in the literature.
+    icc_adj = var_grp / (var_grp + var_res) if (var_grp + var_res) > 0 else np.nan
     return {
         "endpoint": endpoint,
-        "var_fixed_effects": fitted_var,
-        "var_model_identity_random": grp,
-        "var_residual": resid,
-        "icc_model_identity": grp / total if total > 0 else np.nan,
-        "frac_fixed": fitted_var / total if total > 0 else np.nan,
+        "var_fixed_effects": var_fix,
+        "var_model_identity_random": var_grp,
+        "var_residual": var_res,
+        "icc_adjusted": icc_adj,
+        "vpc_model_identity": var_grp / total if total > 0 else np.nan,
+        "r2_marginal": var_fix / total if total > 0 else np.nan,
+        "r2_conditional": (var_fix + var_grp) / total if total > 0 else np.nan,
         "n": int(len(d)),
         "n_models": int(d["model_id"].nunique()),
     }

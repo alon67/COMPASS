@@ -1,0 +1,63 @@
+{
+ "note": "Measurement floors for the perturbation readouts. floor_in_sd is the readout's quantisation step expressed in units of that model's accepted-ensemble feature SD, i.e. directly comparable with median_abs_eta_sd. ap_amplitude_mV is continuous and has no count quantum.",
+ "step_duration_ms": 400.0,
+ "rate_quantum_Hz": 2.5,
+ "per_model_rate": {
+  "bbp_l5pc": {
+   "feature_sd_Hz": 33.804,
+   "floor_in_sd": 0.074,
+   "median_abs_eta_sd": 0.0231,
+   "resolvable": false
+  },
+  "hh_cable": {
+   "feature_sd_Hz": 15.378,
+   "floor_in_sd": 0.1626,
+   "median_abs_eta_sd": 0.254,
+   "resolvable": true
+  },
+  "hh_point": {
+   "feature_sd_Hz": 17.003,
+   "floor_in_sd": 0.147,
+   "median_abs_eta_sd": 0.7168,
+   "resolvable": true
+  },
+  "khaliq_purkinje": {
+   "feature_sd_Hz": 54.759,
+   "floor_in_sd": 0.0457,
+   "median_abs_eta_sd": 0.0228,
+   "resolvable": false
+  },
+  "mainen_l5pc": {
+   "feature_sd_Hz": 34.258,
+   "floor_in_sd": 0.073,
+   "median_abs_eta_sd": 0.0502,
+   "resolvable": false
+  },
+  "migliore_ca1": {
+   "feature_sd_Hz": 28.162,
+   "floor_in_sd": 0.0888,
+   "median_abs_eta_sd": 0.3717,
+   "resolvable": true
+  },
+  "pospischil_fs": {
+   "feature_sd_Hz": 57.576,
+   "floor_in_sd": 0.0434,
+   "median_abs_eta_sd": 0.0488,
+   "resolvable": true
+  },
+  "pospischil_rs": {
+   "feature_sd_Hz": 50.643,
+   "floor_in_sd": 0.0494,
+   "median_abs_eta_sd": 0.0309,
+   "resolvable": false
+  }
+ },
+ "n_models_rate_resolvable": 4,
+ "n_models_rate_total": 8,
+ "unresolvable_models": [
+  "bbp_l5pc",
+  "khaliq_purkinje",
+  "mainen_l5pc",
+  "pospischil_rs"
+ ]
+}

@@ -1,0 +1,12 @@
+/Users/alon/Library/Python/3.12/lib/python/site-packages/scipy/stats/_qmc.py:958: UserWarning: The balance properties of Sobol' points require n to be a power of 2.
+  sample = self._random(n, workers=workers)
+all 7 settings evaluated in 75.0 min
+reference dt=0.00625 mesh=4.0x (4440 seg) 4499.1s
+  dt=0.05    mesh=as_built ( 2304 seg)   248.4s  mean_agree=0.956  worst=ap_halfwidth_ms@0.86  reject
+  dt=0.025   mesh=as_built ( 2304 seg)   494.7s  mean_agree=0.978  worst=ap_amplitude_mV@0.86  reject
+  dt=0.0125  mesh=as_built ( 2304 seg)   979.7s  mean_agree=0.967  worst=mean_firing_rate_Hz@0.71  reject
+  dt=0.05    mesh=1.0x     ( 1066 seg)   122.6s  mean_agree=0.846  worst=ap_amplitude_mV@0.43  reject
+  dt=0.025   mesh=1.0x     ( 1066 seg)   237.7s  mean_agree=0.813  worst=ap_amplitude_mV@0.43  reject
+  dt=0.0125  mesh=1.0x     ( 1066 seg)   485.5s  mean_agree=0.802  worst=mean_firing_rate_Hz@0.29  reject
+
+chosen: None

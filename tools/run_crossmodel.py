@@ -113,12 +113,22 @@ def covariance_shift(ep: pd.DataFrame) -> pd.DataFrame:
 
 def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
     """Evaluate the preregistered decision framework (blueprint 19)."""
-    ev: dict = {"criteria": [], "thresholds": THRESHOLDS}
+    ev: dict = {"criteria": [], "descriptive": [], "thresholds": THRESHOLDS}
 
     def add(name, hypothesis, value, passed, detail=""):
         ev["criteria"].append({"criterion": name, "supports": hypothesis,
                                "value": value, "passed": bool(passed),
                                "detail": detail})
+
+    def note(name, value, detail=""):
+        """Record a quantity for description without letting it cast a vote.
+
+        Anything in `descriptive` is excluded from the H-G/H-B tally by
+        construction, so a withdrawn criterion cannot leak back into the
+        decision by being re-read from the same file.
+        """
+        ev["descriptive"].append({"quantity": name, "value": value,
+                                  "detail": detail})
 
     # 1. direction of the conditioning effect is consistent across models
     if len(cond):
@@ -179,18 +189,30 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
                 float(r["accuracy"]), r["accuracy"] > r["baseline"] * 1.5,
                 f"baseline={r['baseline']:.3f}, {int(r['n_classes'])} classes")
 
-    # 6. model-identity intraclass correlation
-    if mixed and "icc_model_identity" in mixed:
-        icc = float(mixed["icc_model_identity"])
-        add("intraclass correlation of model identity (mixed model)", "H-B",
-            icc, icc >= 0.5, "share of endpoint variance between model families")
+    # 6. model-identity intraclass correlation -- REPORTED, NOT SCORED.
+    #
+    # Withdrawn as a decision criterion by the 2026-08-06 audit (M7).  Two
+    # reasons.  (a) The quantity that was being scored was computed with a
+    # double-counted group variance, so the 0.048 that voted for H-G was not an
+    # ICC.  (b) Even computed correctly, an adjusted ICC measures how much
+    # between-family variance survives the fixed covariates, and those
+    # covariates (regime, geometry, sample size) are themselves the H-G
+    # hypothesis.  Conditioning on the alternative and then testing whether the
+    # residual favours H-B loads the die.  The value is still written to
+    # mixed_effects.json for description; it no longer casts a vote.
+    if mixed and "icc_adjusted" in mixed:
+        note("adjusted ICC of model identity (mixed model, descriptive only)",
+             float(mixed["icc_adjusted"]),
+             "not scored: the fixed covariates are the H-G hypothesis, so the "
+             "residual between-family share is not a fair test of H-B")
 
     # 7. module stability across estimators / replicates
     if stability:
         j = float(stability.get("mean_jaccard", np.nan))
         add("top-tuple module stability (mean per-model Jaccard across estimators)",
             "H-B", j, np.isfinite(j) and j >= 0.5,
-            f"{stability.get('n_models')} models, min {stability.get('min_jaccard', float('nan')):.2f}. "
+            f"{stability.get('n_models')} models over {stability.get('n_cells')} "
+            f"ensemble cells, min per-model {stability.get('min_jaccard', float('nan')):.2f}. "
             f"NOTE blueprint 19.3 requires modules that are stable AND functionally "
             f"validated; the perturbation criteria below test the second half.")
 
@@ -318,11 +340,21 @@ def main() -> int:
                                          if k != "selection_probability"}})
         pd.DataFrame(per_model).to_parquet(OUT / "module_stability.parquet", index=False)
         if per_model:
-            j = [r["mean_jaccard"] for r in per_model if np.isfinite(r["mean_jaccard"])]
-            stability = {"mean_jaccard": float(np.mean(j)) if j else float("nan"),
-                         "n_runs": len(per_model),
-                         "n_models": len(per_model),
-                         "min_jaccard": float(np.min(j)) if j else float("nan")}
+            # Average WITHIN each model first, then across models.  The rows are
+            # ensemble x protocol-family x metric cells, and models contribute
+            # unequal numbers of them, so a flat mean silently weights the
+            # models with more surviving ensembles more heavily -- and the
+            # criterion string used to call that row count "models" (it was
+            # reporting 31 models from a panel of 8).  Audit 2026-08-06.
+            pm = pd.DataFrame(per_model)
+            pm = pm[np.isfinite(pm["mean_jaccard"])]
+            by_model = pm.groupby("model_id")["mean_jaccard"].mean()
+            stability = {"mean_jaccard": float(by_model.mean()) if len(by_model) else float("nan"),
+                         "n_cells": int(len(pm)),
+                         "n_models": int(by_model.size),
+                         "mean_jaccard_flat_over_cells": float(pm["mean_jaccard"].mean())
+                         if len(pm) else float("nan"),
+                         "min_jaccard": float(by_model.min()) if len(by_model) else float("nan")}
 
     pert = None
     if (OUT / "perturbations.parquet").exists():
@@ -336,6 +368,8 @@ def main() -> int:
         mark = "PASS" if c["passed"] else "----"
         print(f"[{mark}] ({c['supports']}) {c['criterion']}: "
               f"{c['value']:.3f}  {c['detail']}")
+    for q in decision.get("descriptive", []):
+        print(f"[desc] {q['quantity']}: {q['value']:.3f}  {q['detail']}")
     print(f"\nH-G {decision['n_hg_passed']}/{decision['n_hg_total']}   "
           f"H-B {decision['n_hb_passed']}/{decision['n_hb_total']}   "
           f"-> conclusion: {decision['conclusion']}")

@@ -2,19 +2,19 @@
  "by_feature": {
   "ap_amplitude_mV": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.10244800849187126,
-    "control_random": 0.14137200622501656,
-    "top_synergy": 0.10119787642176853
+    "control_middle": 0.12319938660987838,
+    "control_random": 0.11860486962290584,
+    "top_synergy": 0.1262097921500315
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.061277362394754925,
-    "control_random": 0.06188623387245146,
-    "top_synergy": 0.06442070229796715
+    "control_middle": 0.08810868825724885,
+    "control_random": 0.043649544574847744,
+    "top_synergy": 0.06057752498203968
    },
    "frac_functionally_supported": {
-    "control_middle": 0.041666666666666664,
+    "control_middle": 0.0,
     "control_random": 0.08333333333333333,
-    "top_synergy": 0.041666666666666664
+    "top_synergy": 0.16666666666666666
    },
    "n": {
     "control_middle": 48,
@@ -24,19 +24,19 @@
   },
   "ap_halfwidth_ms": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.1851360559504701,
-    "control_random": 0.17289073434168337,
-    "top_synergy": 0.1720397033726991
+    "control_middle": 0.22010944847007696,
+    "control_random": 0.1849277524719232,
+    "top_synergy": 0.16838535008286395
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.11214958168819682,
-    "control_random": 0.10926624420521008,
-    "top_synergy": 0.13600926003541497
+    "control_middle": 0.16386900757580244,
+    "control_random": 0.14719632596574264,
+    "top_synergy": 0.1621354395057662
    },
    "frac_functionally_supported": {
     "control_middle": 0.1875,
-    "control_random": 0.08333333333333333,
-    "top_synergy": 0.125
+    "control_random": 0.125,
+    "top_synergy": 0.14583333333333334
    },
    "n": {
     "control_middle": 48,
@@ -46,19 +46,19 @@
   },
   "first_isi_ms": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.06550265103501231,
-    "control_random": 0.047400456820861823,
-    "top_synergy": 0.14636858634277072
+    "control_middle": 0.04625027605874784,
+    "control_random": 0.04719356159876562,
+    "top_synergy": 0.14523126575305878
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.03437169857754596,
-    "control_random": 0.03023171917302328,
-    "top_synergy": 0.10481726956594145
+    "control_middle": 0.019769566436463874,
+    "control_random": 0.019631850247350695,
+    "top_synergy": 0.05102328436720688
    },
    "frac_functionally_supported": {
-    "control_middle": 0.041666666666666664,
-    "control_random": 0.0,
-    "top_synergy": 0.08333333333333333
+    "control_middle": 0.020833333333333332,
+    "control_random": 0.020833333333333332,
+    "top_synergy": 0.125
    },
    "n": {
     "control_middle": 48,
@@ -68,19 +68,19 @@
   },
   "mean_firing_rate_Hz": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.13413924186222173,
-    "control_random": 0.07732863779897044,
-    "top_synergy": 0.31350449798985464
+    "control_middle": 0.09575828504108068,
+    "control_random": 0.06488456858224483,
+    "top_synergy": 0.17949413213768098
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.039999879963631045,
-    "control_random": 0.021016649569040625,
-    "top_synergy": 0.08762817422233282
+    "control_middle": 0.023196615955463372,
+    "control_random": 0.020321163722341988,
+    "top_synergy": 0.04994338413194008
    },
    "frac_functionally_supported": {
     "control_middle": 0.0625,
-    "control_random": 0.041666666666666664,
-    "top_synergy": 0.25
+    "control_random": 0.020833333333333332,
+    "top_synergy": 0.20833333333333334
    },
    "n": {
     "control_middle": 48,
@@ -92,68 +92,68 @@
  "per_model_mean_abs_eta": {
   "control_middle": {
    "bbp_l5pc": 0.0077,
-   "hh_cable": 0.1761,
-   "hh_point": 0.3124,
-   "khaliq_purkinje": 0.0276,
+   "hh_cable": 0.0203,
+   "hh_point": 0.2389,
+   "khaliq_purkinje": 0.0209,
    "mainen_l5pc": 0.1125,
    "migliore_ca1": 0.3144,
    "pospischil_fs": 0.0235,
-   "pospischil_rs": 0.0988
+   "pospischil_rs": 0.0278
   },
   "control_random": {
    "bbp_l5pc": 0.0108,
-   "hh_cable": 0.1795,
-   "hh_point": 0.0643,
-   "khaliq_purkinje": 0.0219,
+   "hh_cable": 0.044,
+   "hh_point": 0.0582,
+   "khaliq_purkinje": 0.0609,
    "mainen_l5pc": 0.1125,
    "migliore_ca1": 0.1997,
    "pospischil_fs": 0.0072,
-   "pospischil_rs": 0.0227
+   "pospischil_rs": 0.0257
   },
   "top_synergy": {
    "bbp_l5pc": 0.1587,
-   "hh_cable": 1.1008,
-   "hh_point": 0.631,
-   "khaliq_purkinje": 0.0609,
+   "hh_cable": 0.2337,
+   "hh_point": 0.5483,
+   "khaliq_purkinje": 0.02,
    "mainen_l5pc": 0.0471,
    "migliore_ca1": 0.2941,
    "pospischil_fs": 0.1022,
-   "pospischil_rs": 0.1133
+   "pospischil_rs": 0.0319
   }
  },
  "top_vs_control_middle": {
   "n_models": 8,
-  "mean_top": 0.3135044979898547,
-  "mean_control": 0.13413924186222176,
-  "ratio_point": 2.3371572228793727,
+  "mean_top": 0.179494132137681,
+  "mean_control": 0.09575828504108068,
+  "ratio_point": 1.8744501539545881,
   "ratio_ci95": [
-   1.1111255113074907,
-   4.603238137147667
+   1.034247750609141,
+   4.445908938911573
   ],
   "difference_ci95": [
-   0.014100707036207935,
-   0.4198548608251795
+   0.0044605869691479744,
+   0.17357079776304193
   ],
-  "wilcoxon_p": 0.109375,
-  "n_models_top_greater": 6,
+  "wilcoxon_p": 0.1953125,
+  "n_models_top_greater": 5,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
  },
  "top_vs_control_random": {
   "n_models": 8,
-  "mean_top": 0.3135044979898547,
-  "mean_control": 0.07732863779897044,
-  "ratio_point": 4.05418363640215,
+  "mean_top": 0.179494132137681,
+  "mean_control": 0.06488456858224483,
+  "ratio_point": 2.766360878398415,
   "ratio_ci95": [
-   1.6765777493252616,
-   7.825097401434506
+   1.1905171354362645,
+   6.642614603559777
   ],
   "difference_ci95": [
-   0.04745100481524232,
-   0.47650155723311494
+   0.014192255282805861,
+   0.2444518449059091
   ],
-  "wilcoxon_p": 0.0234375,
-  "n_models_top_greater": 7,
+  "wilcoxon_p": 0.078125,
+  "n_models_top_greater": 6,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
  }

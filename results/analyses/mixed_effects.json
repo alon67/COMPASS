@@ -1,10 +1,12 @@
 {
  "endpoint": "synergy_area",
- "var_fixed_effects": 0.8766106442299922,
- "var_model_identity_random": 0.050566949123594815,
- "var_residual": 0.12426631084228792,
- "icc_model_identity": 0.04809286441416719,
- "frac_fixed": 0.8337207916958803,
- "n": 203,
+ "var_fixed_effects": 0.8565803369220691,
+ "var_model_identity_random": 0.022680863990045055,
+ "var_residual": 0.11481349020129299,
+ "icc_adjusted": 0.16495851137627235,
+ "vpc_model_identity": 0.022816056170428697,
+ "r2_marginal": 0.8616860931874863,
+ "r2_conditional": 0.8845021493579152,
+ "n": 205,
  "n_models": 8
 }

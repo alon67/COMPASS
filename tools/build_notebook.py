@@ -48,8 +48,9 @@ Pipeline that produced the inputs:
 ```bash
 python tools/fetch_models.py          # download panel, record provenance + hashes
 python tools/build_mechanisms.py      # compile per-model NEURON mechanism libraries
-python tools/numerical_qc.py --spatial  # time-step + spatial convergence audit
-python tools/canonical_audit.py       # canonical reproduction, f-I curves, traces
+python tools/numerical_qc.py --spatial  # first-pass QC (historical record only)
+python tools/convergence_audit.py <m>   # feature-level convergence -> production dt
+python tools/canonical_audit.py       # manifests, built under CAMPAIGN_SOLVER
 python tools/run_campaign.py --experiment screening
 python tools/run_analysis.py --experiment screening
 python tools/run_benchmarks.py
@@ -65,8 +66,14 @@ throughout:
 |---|---|---|
 | **Observed** | a metric has a value in a declared ensemble | yes |
 | **Statistical** | the ensemble is synergy- or redundancy-dominated under a stated estimator | yes |
-| **Functional** | joint perturbations are non-additive in the model equations | yes |
+| **Functional** | joint perturbations are non-additive in the model equations | **partly — see below** |
 | **Biological** | the same interaction occurs in real neurons | **no — out of scope** |
+
+The functional level is qualified because the perturbation battery gives a
+2–3× enrichment whose paired tests are not significant (p = 0.195, 0.078), whose
+size depends on which readout is measured, and which falls below the readout's
+own measurement floor in four of the eight models. Non-additivity is *observed*;
+that it identifies the tuples statistical synergy selects is **not established**.
 """)
 
 code(r"""
@@ -111,6 +118,7 @@ sobol_sum  = load("sobol_summary.parquet")
 sobol_idx  = load("sobol_indices.parquet")
 sobol_conv = load("sobol_convergence.parquet")
 pert       = load("perturbations.parquet")
+resolution = load("readout_resolution.parquet")
 bench      = load("benchmarks.json", "json")
 decision   = load("decision.json", "json")
 mixed      = load("mixed_effects.json", "json")
@@ -161,13 +169,31 @@ display(panel)
 md(r"""
 ### Numerical quality control
 
-Each model's time step was chosen by a convergence audit against the finest
-fixed step, and multicompartment models were additionally checked for spatial
-convergence. The campaign runs **deterministic fixed steps**, not CVODE: under a
-broad prior CVODE's cost depends on how stiff each individual sample happens to
-be (profiling `mainen_l5pc` gave a median of 11 s per sample but individual
-samples of 233 s and 307 s), which cannot be budgeted and risks biasing the
-ensemble if any sample were abandoned.
+The campaign runs **deterministic fixed steps**, not CVODE: under a broad prior
+CVODE's cost depends on how stiff each individual sample happens to be
+(profiling `mainen_l5pc` gave a median of 11 s per sample but individual samples
+of 233 s and 307 s), which cannot be budgeted and risks biasing the ensemble if
+any sample were abandoned.
+
+**Two audits, and only one of them chooses the settings.** `numerical_qc.json`
+below is the *first-pass* sweep, which compared spike count at the single
+canonical parameter point. It is retained as a historical record and is shown
+here for that reason only. Production settings come from
+`tools/convergence_audit.py`, which compares **all 13 conditioning features on
+six samples drawn from each model's own prior** against a refined reference;
+four of eight models failed that stricter check and were re-simulated. Compare
+the `audit_choice` column (first pass) with `campaign_dt_ms` (what actually
+ran) — where they differ, the campaign follows the stricter audit.
+
+Until the 2026-08-06 audit these two sources disagreed silently: the canonical
+manifests were built from the first-pass settings (CVODE at 0.025 ms) while the
+ensembles ran fixed-step. `CAMPAIGN_SOLVER` is now the single authority, and
+`tests/unit/test_solver_contract.py` fails if a stored manifest drifts from it.
+
+`mainen_l5pc` remains **not spatially converged** even at its production mesh:
+against a reference refined in both time and space it fails one conditioning
+feature (`adaptation_index`) on one of seven samples, through a single
+threshold-adjacent spike.
 """)
 
 code(r"""
@@ -410,23 +436,49 @@ background points spread across the accepted manifold, and the non-additivity
 
 $$\eta = \big[f(x_0+\textstyle\sum_i \delta_i)-f(x_0)\big]-\sum_i\big[f(x_0+\delta_i)-f(x_0)\big]$$
 
-is measured in ensemble-SD units. A matched set of *control* tuples from the
-middle of the O-information distribution is run identically, so the question is
-not "do extreme tuples interact at all" but "do they interact **more than
-ordinary tuples do**".
+is measured in ensemble-SD units. Two control families are run identically: a
+**matched** set from the middle of the O-information distribution, and a
+**uniformly random** set. The question is therefore not "do extreme tuples
+interact at all" but "do they interact **more than ordinary tuples do**".
+
+Two things must be held in view when reading the numbers below.
+
+**One readout at a time.** The battery evaluates four features from the same
+simulations. Pooling them counts every tuple four times and mixes quantities
+with different noise floors, so the headline comparison uses the primary
+readout only, exactly as the decision code does.
+
+**Effects below the measurement floor are not effects.** Firing rate is a
+*count* over a 400 ms window, so one extra spike is an irreducible 2.5 Hz step
+regardless of how fine the integration time step is. Expressed in each model's
+own ensemble SD, that floor ranges from 0.04 to 0.16 SD. Panel C compares each
+model's median effect with its own floor, and the result matters: the two
+multicompartment cortical reconstructions sit **below** it.
 """)
 
 code(r"""
 if pert is not None and len(pert):
-    fig = FG.fig_perturbation(pert); plt.show()
-    display(pert.groupby("kind").agg(
+    fig = FG.fig_perturbation(pert, resolution); plt.show()
+    prim = pert[pert["primary_feature"]] if "primary_feature" in pert else pert
+    print(f"primary readout: {prim['feature'].iloc[0]}   (n={len(prim)} tuples)")
+    display(prim.groupby("kind").agg(
         n=("tuple","size"),
         mean_abs_eta_SD=("mean_nonadditivity_sd", lambda s: np.abs(s).mean()),
         median_abs_eta_SD=("mean_nonadditivity_sd", lambda s: np.abs(s).median()),
         mean_sign_consistency=("sign_consistency","mean"),
         frac_functionally_supported=("functionally_supported","mean")).round(4))
-    display(pert.groupby(["model_id","kind"])["mean_nonadditivity_sd"]
+    display(prim.groupby(["model_id","kind"])["mean_nonadditivity_sd"]
             .apply(lambda s: np.abs(s).mean()).unstack().round(3))
+
+    # every readout, so the feature-dependence is visible rather than averaged away
+    display(pert.groupby(["feature","kind"])["mean_nonadditivity_sd"]
+            .apply(lambda s: np.abs(s).median()).unstack().round(4))
+
+if resolution is not None and len(resolution):
+    r = resolution[resolution["feature"] == "mean_firing_rate_Hz"]
+    display(r[["model_id","feature_sd","floor_in_sd",
+               "median_abs_eta_sd","resolvable"]].round(4)
+            .sort_values("median_abs_eta_sd", ascending=False))
 """)
 
 # --------------------------------------------------------------------------- #
@@ -546,47 +598,89 @@ Evidence that the sign is generic:
    independent prior (section 3).
 2. Its sign is set by the **ensemble regime**, identically across eight models
    spanning 1 to 2,304 compartments (section 5).
-3. Sampling and geometry explain **8.5x** more unique endpoint variance than
-   model identity (size-matched, model-cluster bootstrap 95% CI [3.0, 44.2],
+3. Sampling and geometry explain **9.3x** more unique endpoint variance than
+   model identity (size-matched, model-cluster bootstrap 95% CI [3.2, 54.2],
    exceeding the preregistered threshold of 2 in 100% of resamples).
-4. A shuffled null still reports **44%** "synergy-dominated" tuples by the naive
+4. A shuffled null still reports **45%** "synergy-dominated" tuples by the naive
    statistic; surrogate control returns exactly 0 (section 4).
 
 Evidence that the identities are not generic:
 
-5. Top tuples are **2.3x** more non-additive than matched middle-Omega controls
-   and **4.1x** more than random controls, with 25% meeting the absolute
-   functional-support bar versus 6% of controls (section 9).
-6. Model identity is decodable from information summaries at 0.58 against a
-   0.15 baseline, and top-tuple membership is stable across estimators
-   (Jaccard 0.81).
+5. Top tuples are **1.87x** more non-additive than matched middle-Omega controls
+   and **2.77x** more than random controls, with 20.8% meeting the absolute
+   functional-support bar versus 6.3% and 2.1% of controls (section 9).
+6. Model identity is decodable from information summaries at 0.585 against a
+   0.146 baseline, and top-tuple membership is stable across estimators
+   (per-model Jaccard 0.82, minimum 0.67).
 
-The honest limits: only 25% of top tuples clear the absolute functional-support
-threshold, so enrichment is clear but most individual tuples still fail it; the
-paired test against the harder middle-Omega comparator is p = 0.11 with n = 8
-models; and transfer to a held-out model family fails badly for one of the eight
-(migliore_ca1, R^2 = -4.5).
+The honest limits, and they are substantial enough that item 5 above should be
+read as suggestive rather than established:
+
+* **Neither perturbation comparison is statistically significant.** Wilcoxon
+  p = 0.195 against matched controls and p = 0.078 against random ones, with the
+  matched-control 95% CI running from **1.03** -- i.e. barely excluding no
+  enrichment at all. The analysis code labels both comparisons inconclusive.
+* **The enrichment is readout-specific.** On identical simulations, identical
+  tuples and identical perturbations, enrichment over matched controls is 3.14x
+  for first ISI and 1.87x for firing rate, but 1.02x for AP amplitude and 0.77x
+  for AP half-width. The correlations follow the same split: r(Omega, |eta|) is
+  -0.401 and -0.278 for the spike-timing readouts, -0.091 and +0.063 for the
+  waveform ones. A module claim is incomplete until it names the readout.
+* **It is unresolvable in half the panel.** Mean firing rate is a spike *count*
+  over a 400 ms window, so 2.5 Hz is an irreducible quantum. In **four of eight
+  models** the median effect is BELOW that floor: bbp_l5pc (0.023 SD vs a 0.074
+  floor), khaliq_purkinje (0.023 vs 0.046), pospischil_rs (0.031 vs 0.049) and
+  mainen_l5pc (0.050 vs 0.073). Both multicompartment cortical reconstructions
+  are in that list, so the design cannot resolve the claim in exactly the models
+  where it would matter most.
+* Transfer to a held-out model family still fails for one of the eight
+  (migliore_ca1, R^2 = -0.75, the smallest ensemble in the panel).
+* **The conditioning dose-response is monotone wherever it is resolvable**, but
+  resolvable coverage collapses 5 -> 6 -> 2 -> 1 across the four tolerances, so
+  the panel-level curve is not estimable. Every apparent sign reversal in the
+  panel is at 2.0 sigma or below (section 5).
+
+Two explanations of the readout split remain confounded: readout
+*representation* (different readouts are sensitive to different parameters) and
+*counting nonlinearity* (threshold crossing is itself non-additive, so any tuple
+looks non-additive in a counted readout). Distinguishing them needs disjoint
+waveform-only and rate-only conditioning vectors plus a graded, non-counted rate
+readout. That experiment has not been run.
 
 ### Methodological recommendations
 
-1. **Report a matched-search surrogate control.** Without one, ~46% of tuples
+1. **Report a matched-search surrogate control.** Without one, ~45% of tuples
    look "synergy-dominated" in an ensemble with no dependence at all.
 2. **Report the unconditioned ensemble.** The conditioned-vs-unconditioned
    contrast is the interpretable quantity; the conditioned value alone is not.
 3. **Do not read covariance magnitude as redundancy.** Two ensembles here at
    mean |r| = 0.28 sit on opposite sides of zero.
 4. **Validate modules by perturbation before interpreting them.** Estimator
-   stability (Jaccard 0.84 here) does not imply mechanism.
+   stability (per-model Jaccard 0.82 here) does not imply mechanism.
 5. **State the estimator's blind spot.** Gaussian and copula O-information
    return exactly 0.000 for product-type synergy that k-NN scores at −1.57 nats.
 6. **Keep O-information and RSI separate.** Here they respond to conditioning in
    opposite directions.
+7. **Name the readout in the claim.** The same tuples are a functional module
+   under a rate readout and not under a waveform readout.
+8. **Compare every effect with its readout's measurement floor.** A spike count
+   over a fixed window cannot resolve below one spike, however the effect is
+   normalised.
+9. **Do not let a vote-counting rule stand in for a result.** This project's
+   H-G/H-B tally moved twice for procedural reasons -- one criterion added after
+   the data were seen, one withdrawn as wrongly computed -- without any
+   measurement changing.
 
 ---
 ## 14. Scope of the claims
 
-* **Observed / Statistical / Functional** results above stand as reported, for the
+* **Observed** and **Statistical** results above stand as reported, for the
   declared ensembles, estimators and models.
+* **Functional** results split in two. The measured non-additivity values stand
+  as measurements. The *inference* that statistical synergy selects functionally
+  interacting tuples does **not** stand: 1.87x/2.77x with p = 0.195/0.078,
+  present for spike-timing readouts and absent for waveform ones, and below the
+  measurement floor in four of the eight models.
 * **Biological** claims are not made. No parameter in this study carries evidence
   tier A or B; the priors are optimisation ranges (tier C) or expert-defined
   ranges (tier D), and the conditioning targets are the models' own canonical

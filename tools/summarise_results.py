@@ -45,6 +45,7 @@ def main() -> int:
     sob = _load("sobol_summary.parquet")
     sobi = _load("sobol_indices.parquet")
     pert = _load("perturbations.parquet")
+    res = _load("readout_resolution.parquet")
     bench = _load("benchmarks.json", "json")
     dec = _load("decision.json", "json")
     mixed = _load("mixed_effects.json", "json")
@@ -164,19 +165,41 @@ def main() -> int:
             }
 
     if sob is not None and len(sob) and "interaction_fraction" in sob:
+        # The `quotable` gate MUST be applied here.  It marks analyses whose
+        # valid fraction clears VALID_FRACTION_FLOOR; below that floor the
+        # missing evaluations are mean-imputed, which inflates the apparent
+        # interaction in exactly the direction of the withdrawn 0.992
+        # adaptation-index claim.  Until the 2026-08-06 audit (M8) this file
+        # reported the ungated 0.4812 over 41 analyses while the prose reported
+        # the gated 0.3635 over 24 -- two different numbers for one quantity,
+        # in the same repository.
         s = sob.dropna(subset=["interaction_fraction"])
+        q = s[s["quotable"].fillna(False).astype(bool)]
         out["sobol"] = {
-            "mean_interaction_fraction": float(s["interaction_fraction"].mean()),
-            "by_model": s.groupby("model_id")["interaction_fraction"].mean().round(3).to_dict(),
-            "by_feature": s.groupby("feature")["interaction_fraction"].mean().round(3).to_dict(),
-            "n_analyses": int(len(s)),
+            "mean_interaction_fraction": float(q["interaction_fraction"].mean()),
+            "by_model": q.groupby("model_id")["interaction_fraction"].mean().round(3).to_dict(),
+            "by_feature": q.groupby("feature")["interaction_fraction"].mean().round(3).to_dict(),
+            "n_analyses": int(len(q)),
+            "gate": "quotable == True (valid fraction above the preregistered floor)",
+            "n_analyses_before_gate": int(len(s)),
+            "mean_interaction_fraction_ungated": float(s["interaction_fraction"].mean()),
+            "excluded_by_gate": sorted(
+                f"{r.model_id}.{r.feature}" for r in
+                s[~s["quotable"].fillna(False).astype(bool)].itertuples()),
         }
         if sobi is not None and "ST_minus_S1" in sobi:
             d = sobi.dropna(subset=["ST_minus_S1"])
+            if "quotable" in d:
+                d = d[d["quotable"].fillna(False).astype(bool)]
             out["sobol"]["mean_ST_minus_S1"] = float(d["ST_minus_S1"].mean())
 
     if pert is not None and len(pert):
-        gp = pert.groupby("kind")
+        # Headline numbers use the PRIMARY readout only.  The battery evaluates
+        # four features from the same simulations, so pooling counts each tuple
+        # four times and averages over quantities with different noise floors --
+        # the same defect the decision code was already corrected for.
+        prim = pert[pert["primary_feature"]] if "primary_feature" in pert else pert
+        gp = prim.groupby("kind")
         out["perturbation"] = {
             k: {"n": int(len(g)),
                 "mean_abs_eta_sd": float(np.nanmean(np.abs(g["mean_nonadditivity_sd"]))),
@@ -184,10 +207,32 @@ def main() -> int:
                 "frac_supported": float(g["functionally_supported"].mean()),
                 "mean_sign_consistency": float(g["sign_consistency"].mean())}
             for k, g in gp}
-        d = pert.dropna(subset=["o_information", "mean_nonadditivity_sd"])
+        out["perturbation"]["primary_feature"] = (
+            str(prim["feature"].iloc[0]) if "feature" in prim else "unknown")
+        # Readout dependence is a finding, not noise: report it rather than
+        # averaging it away.
+        if "feature" in pert:
+            out["perturbation"]["by_feature_median_abs_eta_sd"] = {
+                f: g.groupby("kind")["mean_nonadditivity_sd"]
+                    .apply(lambda s: float(np.nanmedian(np.abs(s)))).round(4).to_dict()
+                for f, g in pert.groupby("feature")}
+        d = prim.dropna(subset=["o_information", "mean_nonadditivity_sd"])
         if len(d) > 5:
             out["perturbation"]["r_omega_vs_eta"] = float(np.corrcoef(
                 d["o_information"], np.abs(d["mean_nonadditivity_sd"]))[0, 1])
+
+    if res is not None and len(res):
+        # Measurement floors (audit M5): an effect below its readout's
+        # quantisation step is not resolvable however it is normalised.
+        r = res[res["feature"] == "mean_firing_rate_Hz"]
+        out["readout_resolution"] = {
+            "rate_quantum_Hz": 2.5,
+            "n_models_resolvable": int(r["resolvable"].sum()),
+            "n_models": int(len(r)),
+            "below_floor": sorted(r[~r["resolvable"].astype(bool)]["model_id"]),
+            "floor_in_sd": r.set_index("model_id")["floor_in_sd"].round(4).to_dict(),
+            "median_abs_eta_sd": r.set_index("model_id")["median_abs_eta_sd"].round(4).to_dict(),
+        }
 
     if bench:
         ev = pd.DataFrame(bench["estimator_validation"])

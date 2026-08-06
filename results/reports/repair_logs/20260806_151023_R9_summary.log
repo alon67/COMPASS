@@ -1,0 +1,286 @@
+{
+ "campaign": {
+  "total_simulated_samples": 76288,
+  "per_model": {
+   "bbp_l5pc": {
+    "n": 2048,
+    "n_error": 0,
+    "n_nonspiking": 64,
+    "pct_nonspiking": 3.1,
+    "regimes": [
+     "E1",
+     "E2",
+     "E6"
+    ]
+   },
+   "hh_cable": {
+    "n": 16384,
+    "n_error": 0,
+    "n_nonspiking": 1021,
+    "pct_nonspiking": 6.2,
+    "regimes": [
+     "E1",
+     "E2",
+     "E6"
+    ]
+   },
+   "hh_point": {
+    "n": 16384,
+    "n_error": 0,
+    "n_nonspiking": 857,
+    "pct_nonspiking": 5.2,
+    "regimes": [
+     "E1",
+     "E2",
+     "E6"
+    ]
+   },
+   "khaliq_purkinje": {
+    "n": 8192,
+    "n_error": 0,
+    "n_nonspiking": 1089,
+    "pct_nonspiking": 13.3,
+    "regimes": [
+     "E1",
+     "E2",
+     "E6"
+    ]
+   },
+   "mainen_l5pc": {
+    "n": 256,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "pct_nonspiking": 0.4,
+    "regimes": [
+     "E1"
+    ]
+   },
+   "migliore_ca1": {
+    "n": 256,
+    "n_error": 0,
+    "n_nonspiking": 15,
+    "pct_nonspiking": 5.9,
+    "regimes": [
+     "E1"
+    ]
+   },
+   "pospischil_fs": {
+    "n": 16384,
+    "n_error": 0,
+    "n_nonspiking": 874,
+    "pct_nonspiking": 5.3,
+    "regimes": [
+     "E1",
+     "E2",
+     "E6"
+    ]
+   },
+   "pospischil_rs": {
+    "n": 16384,
+    "n_error": 0,
+    "n_nonspiking": 2012,
+    "pct_nonspiking": 12.3,
+    "regimes": [
+     "E1",
+     "E2",
+     "E6"
+    ]
+   }
+  },
+  "sobol_samples": 21760,
+  "grand_total": 98048
+ },
+ "regime_means": {
+  "E1": {
+   "net_o_information": -0.0,
+   "synergy_area": 0.0,
+   "frac_synergy_o3": 0.02292,
+   "mean_abs_pearson": 0.00179,
+   "n_samples": 4745.625
+  },
+  "E2": {
+   "net_o_information": 0.01091,
+   "synergy_area": 2e-05,
+   "frac_synergy_o3": 0.10507,
+   "mean_abs_pearson": 0.2701,
+   "n_samples": 3081.66667
+  },
+  "E3": {
+   "net_o_information": -0.00019,
+   "synergy_area": 0.00021,
+   "frac_synergy_o3": 0.55488,
+   "mean_abs_pearson": 0.05242,
+   "n_samples": 2525.625
+  },
+  "E3b": {
+   "net_o_information": -0.00052,
+   "synergy_area": 0.00055,
+   "frac_synergy_o3": 0.53533,
+   "mean_abs_pearson": 0.06947,
+   "n_samples": 1932.5
+  },
+  "E3m": {
+   "net_o_information": -0.0002,
+   "synergy_area": 0.00026,
+   "frac_synergy_o3": 0.49851,
+   "mean_abs_pearson": 0.06367,
+   "n_samples": 1260.0
+  },
+  "E4": {
+   "net_o_information": -0.00218,
+   "synergy_area": 0.00268,
+   "frac_synergy_o3": 0.5435,
+   "mean_abs_pearson": 0.13116,
+   "n_samples": 684.0
+  },
+  "E4b": {
+   "net_o_information": 0.00199,
+   "synergy_area": 0.00729,
+   "frac_synergy_o3": 0.45714,
+   "mean_abs_pearson": 0.29099,
+   "n_samples": 170.0
+  },
+  "E6": {
+   "net_o_information": -0.01705,
+   "synergy_area": 0.02033,
+   "frac_synergy_o3": 0.61224,
+   "mean_abs_pearson": 0.29085,
+   "n_samples": 3157.0
+  },
+  "E7": {
+   "net_o_information": 0.00086,
+   "synergy_area": 0.0003,
+   "frac_synergy_o3": 0.40593,
+   "mean_abs_pearson": 0.13093,
+   "n_samples": 1260.0
+  },
+  "E8": {
+   "net_o_information": 1e-05,
+   "synergy_area": 2e-05,
+   "frac_synergy_o3": 0.41797,
+   "mean_abs_pearson": 0.02975,
+   "n_samples": 2525.625
+  },
+  "E9": {
+   "net_o_information": -0.00012,
+   "synergy_area": 0.00018,
+   "frac_synergy_o3": 0.5338,
+   "mean_abs_pearson": 0.06391,
+   "n_samples": 2525.625
+  }
+ },
+ "variability": {
+  "sd_within_model_across_regimes": 0.005220752964409077,
+  "sd_within_regime_across_models": 0.00285104536651544,
+  "ratio": 1.8311714803717432
+ },
+ "e1_baseline": {
+  "mean_abs_pearson": 0.0017908675648741913,
+  "net_o_information": -1.7104648105753999e-07,
+  "n_models": 8
+ },
+ "geometry_correlation": {
+  "r_meanabs_pearson_vs_net_oinfo": -0.0880069629191609,
+  "n": 77
+ },
+ "conditioning": {
+  "n_models": 8,
+  "n_toward_synergy": 6,
+  "n_gaining_correlation": 8,
+  "by_tolerance": {
+   "moderate": {
+    "d_net_o_information": -0.00052,
+    "d_mean_abs_pearson": 0.06768,
+    "acceptance_rate": 0.41331
+   },
+   "permissive": {
+    "d_net_o_information": -0.00019,
+    "d_mean_abs_pearson": 0.05063,
+    "acceptance_rate": 0.52511
+   },
+   "strict": {
+    "d_net_o_information": -0.00218,
+    "d_mean_abs_pearson": 0.12918,
+    "acceptance_rate": 0.10412
+   },
+   "very_strict": {
+    "d_net_o_information": 0.00199,
+    "d_mean_abs_pearson": 0.29099,
+    "acceptance_rate": 0.02075
+   }
+  },
+  "per_model": {
+   "bbp_l5pc": {
+    "d_net_o_information": 1e-05,
+    "d_mean_abs_pearson": 0.05483
+   },
+   "hh_cable": {
+    "d_net_o_information": -0.00196,
+    "d_mean_abs_pearson": 0.0818
+   },
+   "hh_point": {
+    "d_net_o_information": -0.00461,
+    "d_mean_abs_pearson": 0.20507
+   },
+   "khaliq_purkinje": {
+    "d_net_o_information": -6e-05,
+    "d_mean_abs_pearson": 0.04645
+   },
+   "mainen_l5pc": {
+    "d_net_o_information": -1e-05,
+    "d_mean_abs_pearson": 0.06424
+   },
+   "migliore_ca1": {
+    "d_net_o_information": -0.0007,
+    "d_mean_abs_pearson": 0.08567
+   },
+   "pospischil_fs": {
+    "d_net_o_information": 0.00393,
+    "d_mean_abs_pearson": 0.14804
+   },
+   "pospischil_rs": {
+    "d_net_o_information": -0.00022,
+    "d_mean_abs_pearson": 0.08374
+   }
+  }
+ },
+ "covariance_contrast": {
+  "E6_vs_E3m": {
+   "d_net_o_information": -0.01687,
+   "d_frac_synergy_o3": 0.09002,
+   "d_mean_abs_pearson": 0.23787
+  },
+  "E7_vs_E3m": {
+   "d_net_o_information": 0.00106,
+   "d_frac_synergy_o3": -0.09258,
+   "d_mean_abs_pearson": 0.06726
+  },
+  "E8_vs_E3m": {
+   "d_net_o_information": 0.00021,
+   "d_frac_synergy_o3": -0.08054,
+   "d_mean_abs_pearson": -0.03392
+  },
+  "E9_vs_E3m": {
+   "d_net_o_information": 8e-05,
+   "d_frac_synergy_o3": 0.03529,
+   "d_mean_abs_pearson": 0.00024
+  },
+  "_n_models_toward_redundancy": 8,
+  "_n_models": 8
+ },
+ "surrogate_control": {
+  "E8_naive_frac_synergy": 0.4540149233482567,
+  "E8_surrogate_controlled_frac_synergy": 0.0,
+  "E3_naive_frac_synergy": 0.6205971089842057,
+  "E3_surrogate_controlled_frac_synergy": 0.2696703296703296
+ },
+ "order_curve_by_regime": [
+  {
+   "regime": "E1",
+   "order": 3,
+   "median": 0.0,
+   "frac_synergy": 0.0229,
+   "frac_synergy_sig": 0.0031,
+   "frac_redundancy_sig":
+
+... wrote /Users/alon/Python/COMPASS/compass/results/analyses/key_numbers.json

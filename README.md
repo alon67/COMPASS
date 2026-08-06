@@ -30,23 +30,51 @@ equations.
 
 | evidence that the sign is generic | value |
 |---|---|
-| cross-model agreement, conditioning → synergy | **8 / 8 models** |
+| cross-model agreement, conditioning → synergy | **8 / 8 models** at the permissive tolerance (scored 0.875 when averaged over tolerances — see below) |
 | cross-model agreement, high-covariance → redundancy | **8 / 8 models** |
-| unique R²(sampling+geometry) ÷ unique R²(identity), size-matched | **8.5×**, 95% CI [3.0, 44.2] |
-| intraclass correlation of model identity | **0.048** |
-| same effect in a non-neuronal gene circuit | Ω 0.0000 → **−0.068** |
-| shuffled null still "synergy-dominated" by the naive statistic | **44%** (surrogate-controlled: 0.000) |
+| unique R²(sampling+geometry) ÷ unique R²(identity) | **18.6×** point; **9.3×** size-matched, CI [3.2, 54.2], 100% of resamples above threshold |
+| effect resolvable against each model's own bootstrap noise | **5 / 8 models at 4–5σ** |
+| same effect in a non-neuronal gene circuit | Ω 0.0000 → **−0.0018 … −0.183** (permissive → very strict) |
+| shuffled null still "synergy-dominated" by the naive statistic | **45%** (surrogate-controlled: 0.000) |
 
 | evidence that the identities are not generic | value |
 |---|---|
-| top-synergy tuples vs **random** controls, non-additivity | **4.05×**, CI [1.68, 7.83], p = 0.023 |
-| top-synergy tuples vs **matched** controls | **2.34×**, CI [1.11, 4.60], p = 0.109 |
-| meeting the functional-support bar | **25%** vs 6% (matched), 4% (random) |
-| top-tuple stability across estimators | Jaccard **0.81** |
+| top-tuple stability across estimators | Jaccard **0.82** (min 0.67) |
+| model identity decodable from information summaries | **0.585** vs 0.146 baseline |
+| top-synergy vs **random** controls, non-additivity | 2.77×, CI [1.19, 6.64], **p = 0.078** |
+| top-synergy vs **matched** controls | 1.87×, CI [**1.03**, 4.45], **p = 0.195** |
+
+**The last two rows are suggestive, not established** — neither paired test
+reaches p < 0.05 and the matched-control interval starts at 1.03. Two further
+limits matter as much as the point estimates.
+
+*It depends on which quantity you measure.* On identical simulations, identical
+tuples and identical perturbations, enrichment over matched controls is:
+
+| readout | enrichment | r(Ω, \|η\|) |
+|---|---:|---:|
+| first ISI (spike time) | **3.14×** | −0.278 |
+| mean firing rate (spike count) | **1.87×** | −0.401 |
+| AP amplitude (waveform) | 1.02× | −0.091 |
+| AP half-width (waveform) | 0.77× | +0.063 |
+
+*It is unresolvable in half the panel.* Firing rate is a spike count over a
+400 ms window, so 2.5 Hz is an irreducible quantum. In **four of eight models —
+including both multicompartment cortical reconstructions** — the median effect
+falls below that floor, so for the models with real morphology the test does not
+resolve. See [`docs/RESULTS.md` §11.1](docs/RESULTS.md).
+
+*The direction criterion is scored at 0.875, not 1.000.* It averages the
+conditioning shift across all four tolerances, giving a 66-sample very-strict
+ensemble the same weight as a 6,642-sample permissive one. One model's mean
+turns positive on the strength of a 2.0σ fluctuation. At the permissive
+tolerance alone the agreement is 8/8, and five of eight models resolve the
+effect at 4–5σ against their own bootstrap noise. The criterion is left as
+preregistered rather than rescored after the fact.
 
 Three methodological results stand independently of the panel:
 
-* A **shuffled null** with all dependence destroyed still reports 44%
+* A **shuffled null** with all dependence destroyed still reports 45%
   "synergy-dominated" tuples; matched-search surrogate control returns **0.000**.
 * Gaussian and copula O-information are **structurally blind** to product-type
   synergy — exactly 0.000 where a k-NN estimator returns −1.57 nats.
@@ -121,7 +149,8 @@ jupyter nbconvert --execute --to notebook --inplace notebooks/COMPASS_results.ip
 Verification:
 
 ```bash
-pytest            # 86 tests: schema, transforms, features, estimators, Sobol, perturbation
+pytest            # 97 tests: schema, transforms, features, estimators, Sobol,
+                  # perturbation, variance decomposition, solver-contract provenance
 ruff check .
 ```
 
