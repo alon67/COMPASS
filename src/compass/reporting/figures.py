@@ -380,12 +380,17 @@ def fig_generalisation(lomo: pd.DataFrame, clf: pd.DataFrame) -> plt.Figure:
     fig, (ax, ax2) = plt.subplots(1, 2, figsize=(11.4, 4.0),
                                   gridspec_kw={"width_ratios": [1.5, 1]})
     sub = lomo[lomo["endpoint"] == "synergy_area"]
+    # lomo.parquet now carries BOTH fold levels; this panel is per-implementation,
+    # which is what it always actually plotted, so select that level explicitly
+    # rather than averaging implementation folds together with lineage folds.
+    if "fold_level" in sub.columns:
+        sub = sub[sub["fold_level"] == "model_id"]
     sets = list(dict.fromkeys(sub["predictors"]))
-    models = _order_models(sub["held_out_model"].unique())
+    models = _order_models(sub["held_out_group"].unique())
     x = np.arange(len(models))
     w = 0.8 / max(1, len(sets))
     for i, s in enumerate(sets):
-        vals = [float(sub[(sub["predictors"] == s) & (sub["held_out_model"] == m)]
+        vals = [float(sub[(sub["predictors"] == s) & (sub["held_out_group"] == m)]
                       ["r2_out_of_sample"].mean()) for m in models]
         ax.bar(x + (i - (len(sets) - 1) / 2) * w, vals, width=w * 0.88,
                color=SERIES[i], label=s, edgecolor=SURFACE, linewidth=1.0)

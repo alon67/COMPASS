@@ -1,0 +1,41 @@
+figure,quantity,value
+1,models / source lineages / compartment range,"8 / 6 / 1–2,304"
+1,"accepted samples, 3.0 z -> 0.5 z (min over models)",140 -> 66
+2,Omega for product of three: Gaussian / copula / k-NN,0.000 / 0.000 / -1.566
+2,Omega for product of two: Gaussian / copula / k-NN,0.000 / 0.000 / -0.839
+2,RSI validation: sum / duplicated / single,+1.97 / -1.82 / +0.00
+2,"repressilator mean |r|, prior -> 0.5 z",0.009 -> 0.204
+2,"repressilator Omega, prior -> 0.5 z",0.0000 -> -0.1826
+2,Lotka-Volterra max |Omega| over tolerances,0.0003
+3,"mean |r| panel mean, prior / 3.0 z / 0.5 z",0.0017 / 0.052 / 0.291
+3,models moving toward synergy at 3.0 z,7/7
+3,resolvable models by tolerance,5 -> 6 -> 2 -> 1
+3,sign-flip rate at n = 50 / 250 (mean over ensembles),23% / 11%
+4,E8 fraction Omega<0: naive / surrogate-controlled,0.4549 / 0.0004
+4,E3 fraction Omega<0: naive / surrogate-controlled,0.6174 / 0.2638
+5,SD within model / within regime,0.0052 / 0.0029  (1.82x)
+5,unique R2 sampling / geometry / identity / architecture (synergy area),0.160 / 0.025 / 0.000 / 0.000
+5,size-matched lineage-bootstrap ratio,"13.1 [4.0, 81.7], 100% of resamples > 2"
+5,leave-one-lineage-out R2 (sampling+geometry): median / worst,0.729 / -3.459
+5,adjusted ICC / VPC of model identity (descriptive),0.161 / 0.027
+5,"fraction Omega<0 (order 3), prior -> 1.0 z",0.023 -> 0.545
+5,"fraction RSI>0, prior -> 1.0 z",0.764 -> 0.693
+6,mean |eta|: top / matched / random (mean_firing_rate_Hz),0.306 / 0.103 / 0.065
+6,meeting the functional-support bar: top / matched / random,31.0% / 7.1% / 2.4%
+6,enrichment vs random control,"4.74x [1.90, 9.65], p = 0.016, 7/7 models"
+6,enrichment vs matched control,"2.97x [1.35, 7.71], p = 0.047, 6/7 models"
+6,top tuples whose bootstrap CI excludes zero,16/42
+6,"Pearson r(Omega,|eta|): rate / ISI / AP amplitude / AP half-width",-0.515 / -0.318 / -0.162 / -0.005
+6,"Spearman rho(Omega,|eta|): rate / ISI / AP amplitude / AP half-width",-0.362 / -0.353 / -0.022 / +0.012
+6,"top-synergy mean |eta| per model, largest / smallest",hh_cable 0.785 / khaliq_purkinje 0.029
+6,enrichment by readout: rate / ISI / amplitude / half-width,2.97x / 2.79x / 1.32x / 0.85x
+6,Sobol analyses quotable / total,8 / 56
+6,"mean Sobol interaction fraction, quotable / ungated",0.148 / 0.569
+1,"screening / Saltelli simulations, failed","76,288 / 23,040 / 0"
+1,source publication span,1952-2011
+5,endpoint rows entering the variance partition,166
+6,top tuples above |eta| = 0.25 SD (line drawn in 6A),42.9%
+6,prereg functional-support criterion (needs >= 0.50),0.310 - NOT MET
+6,numerical-repeatability gate,2 of 5 models pass
+6,half-dt sign flips by base effect size,0.0-0.02 SD: 17/32; 0.02-0.1 SD: 2/32; >=0.1 SD: 0/26
+-,preregistered decision (primary arm),"H-G 5/5, H-B 1/2 -> H-M"

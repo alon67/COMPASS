@@ -124,6 +124,16 @@ SENSITIVITY_ARMS: dict[str, dict] = {
                         "comparison stays like-for-like"),
         "exclude": [m for m in PRIMARY_EXCLUSIONS if m != "mainen_l5pc"],
         "drop_features": ["step_abs_hi.adaptation_index"],
+        # `drop_features` changes the conditioning phenotype, which is fixed when
+        # ensembles are built -- it cannot be applied by filtering an endpoint
+        # table afterwards.  The arm therefore needs its own analysis pass:
+        #   python tools/run_analysis.py --experiment screening \
+        #          --drop-features step_abs_hi.adaptation_index \
+        #          --suffix _dropfeat
+        # Until that table exists the arm is skipped rather than silently
+        # duplicating `retain_mainen`, which is what it did before: every
+        # substantive artifact was byte-identical and only the metadata differed.
+        "source_experiment": "screening_dropfeat",
     },
     "retain_partial_coverage": {
         "description": "ortner_snc_da retained despite partial protocol coverage",
@@ -148,6 +158,12 @@ SENSITIVITY_ARMS: dict[str, dict] = {
         "exclude": sorted(PRIMARY_EXCLUSIONS),
         "cohort": "replication",
         "drop_features": [],
+        # The replication models are simulated into their OWN campaign namespace,
+        # so their endpoints are not rows of the discovery table.  Filtering the
+        # discovery table by cohort=="replication" therefore matched nothing and
+        # the arm reported "too few models" while
+        # endpoints_screening_v2_replication.parquet sat unread on disk.
+        "source_experiment": "screening_v2_replication",
     },
 }
 

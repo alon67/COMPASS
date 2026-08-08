@@ -1,5 +1,5 @@
 {
- "written_utc": "2026-08-08T15:03:44.838060+00:00",
+ "written_utc": "2026-08-08T18:14:59.221196+00:00",
  "n_claims": 14,
  "claims": [
   {
@@ -137,7 +137,7 @@
   },
   {
    "label": "adjusted ICC",
-   "expected_string": "0.161",
+   "expected_string": "0.138",
    "documents": [
     "RESULTS.md"
    ],
@@ -150,7 +150,7 @@
   },
   {
    "label": "VPC",
-   "expected_string": "0.027",
+   "expected_string": "0.023",
    "documents": [
     "RESULTS.md"
    ],
@@ -163,7 +163,7 @@
   },
   {
    "label": "matched bootstrap median ratio",
-   "expected_string": "13.1",
+   "expected_string": "12.6",
    "documents": [
     "RESULTS.md",
     "README.md"

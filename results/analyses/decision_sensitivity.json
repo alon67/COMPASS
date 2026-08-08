@@ -30,7 +30,7 @@
   "all_models": {
    "conclusion": "H-M",
    "description": "every registered model, no gate exclusions at all",
-   "n_hg_passed": 5,
+   "n_hg_passed": 3,
    "n_hg_total": 5,
    "n_hb_passed": 1,
    "n_hb_total": 2,
@@ -168,7 +168,7 @@
   "drop_failed_feature": {
    "conclusion": "H-M",
    "description": "mainen_l5pc retained but step_abs_hi.adaptation_index -- the one feature that fails convergence -- removed from the conditioning phenotype for EVERY model, so the comparison stays like-for-like",
-   "n_hg_passed": 5,
+   "n_hg_passed": 4,
    "n_hg_total": 5,
    "n_hb_passed": 1,
    "n_hb_total": 2,
@@ -304,20 +304,58 @@
    "error": null
   },
   "replication_only": {
-   "conclusion": null,
-   "description": null,
-   "n_hg_passed": null,
-   "n_hg_total": null,
-   "n_hb_passed": null,
-   "n_hb_total": null,
-   "effective_sample": null,
-   "perturbation_coverage": null,
-   "error": "too few models"
+   "conclusion": "not evaluable: H-B has no computable criterion in this arm",
+   "description": "the external replication cohort alone",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 0,
+   "n_hb_total": 0,
+   "effective_sample": {
+    "n_rows_all": 128,
+    "n_rows_primary": 128,
+    "n_rows_primary_deduplicated": 114,
+    "n_model_ids": 3,
+    "n_model_ids_primary": 3,
+    "n_source_lineages": 3,
+    "n_source_lineages_primary": 3,
+    "n_neuron_classes": 3,
+    "n_classes_with_2plus_lineages": 0,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "dougalis_2017": [
+      "dougalis_vlpag_da"
+     ],
+     "migliore_1999": [
+      "tomko_ca1"
+     ],
+     "moubarak_2022": [
+      "moubarak_snc_da"
+     ]
+    },
+    "excluded_from_primary": {},
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "dougalis_vlpag_da",
+     "moubarak_snc_da",
+     "tomko_ca1"
+    ],
+    "models_with_perturbation_data": [],
+    "missing_from_perturbation": [
+     "dougalis_vlpag_da",
+     "moubarak_snc_da",
+     "tomko_ca1"
+    ],
+    "complete": false,
+    "caveat": "the perturbation criteria in this arm are computed without ['dougalis_vlpag_da', 'moubarak_snc_da', 'tomko_ca1']; their conclusion cannot be compared with an arm that has complete coverage"
+   },
+   "error": null
   },
   "retain_mainen": {
    "conclusion": "H-M",
    "description": "mainen_l5pc retained despite its N3 failure, to show how much the exclusion moves the result",
-   "n_hg_passed": 5,
+   "n_hg_passed": 3,
    "n_hg_total": 5,
    "n_hb_passed": 1,
    "n_hb_total": 2,

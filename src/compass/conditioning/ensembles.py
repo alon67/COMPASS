@@ -213,10 +213,20 @@ def high_covariance_subset(params: np.ndarray, distance: np.ndarray,
        concentration **subject to** ``max_mean_shift_sd <= balance_tol_sd``;
        the constraint is relaxed only if nothing satisfies it, and the achieved
        balance is always measurable via :func:`marginal_imbalance`.
-    3. **The selection axis is defined on held-out data.**  The principal axes
-       are computed on a ``construction_fraction`` split and applied to the
-       complement, so the subset is not selected using the same sample whose
-       covariance it is then reported to have concentrated.
+    3. **The selection axis is defined on held-out data, by CROSS-FITTING.**
+       The earlier implementation computed the axes on a ``construction_fraction``
+       split and then ranked and selected across *all* observations, so a
+       construction row could still be chosen using a covariance direction
+       estimated partly from itself -- the docstring promised the complement and
+       the code never restricted to it (post-revision audit, P1).
+
+       Selection is now two-fold cross-fitted: the sample is split in half, each
+       half is scored by axes fitted on the *other* half, and each half
+       contributes ``n_target / 2`` rows.  No observation is ever ranked by a
+       direction estimated from itself, and unlike complement-only selection this
+       keeps the full sample available, so ``n_target`` is still reachable.
+       ``construction_fraction`` is retained for signature compatibility and is
+       no longer used; the split is necessarily balanced under cross-fitting.
     """
     n = len(params)
     n_target = min(n_target, n)
@@ -224,27 +234,31 @@ def high_covariance_subset(params: np.ndarray, distance: np.ndarray,
         return np.arange(n)
 
     rng = np.random.default_rng(seed)
-    # (3) axes from a construction split, applied to the evaluation split.
+    # (3) two-fold cross-fitting: fold i is scored by axes fitted on fold 1-i.
     perm = rng.permutation(n)
-    n_con = max(20, int(n * construction_fraction))
-    construction = perm[:n_con]
-    score = covariance_score_from(params, params[construction])
-
-    order = np.argsort(distance)
-    strata = np.array_split(order, 10)
-    per = max(1, n_target // 10)
+    half = n // 2
+    folds = [perm[:half], perm[half:]]
+    scores = [covariance_score_from(params, params[folds[1]]),
+              covariance_score_from(params, params[folds[0]])]
+    per = max(1, (n_target // 2) // 10)
 
     def pick(jitter: float) -> np.ndarray:
         out = []
-        for s in strata:
-            take = min(per, len(s))
-            if take == 0:
-                continue
-            # (1) `n_candidates` randomised variants: rank on the score plus a
-            # small rank-space jitter, so the search explores near-optimal
-            # selections instead of returning one deterministic answer.
-            noisy = score[s] + jitter * rng.standard_normal(len(s)) * score[s].std()
-            out.append(s[np.argsort(noisy)[::-1][:take]])
+        for i, evaluation in enumerate(folds):
+            score = scores[i]
+            # stratify by target distance WITHIN the evaluation fold, so fitness
+            # matching still holds on each side of the cross-fit
+            order = evaluation[np.argsort(distance[evaluation])]
+            for s in np.array_split(order, 10):
+                take = min(per, len(s))
+                if take == 0:
+                    continue
+                # (1) `n_candidates` randomised variants: rank on the score plus a
+                # small rank-space jitter, so the search explores near-optimal
+                # selections instead of returning one deterministic answer.
+                sd = float(score[s].std()) or 1.0
+                noisy = score[s] + jitter * rng.standard_normal(len(s)) * sd
+                out.append(s[np.argsort(noisy)[::-1][:take]])
         return np.concatenate(out) if out else np.arange(n)
 
     best, best_key = None, None

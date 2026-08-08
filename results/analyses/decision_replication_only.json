@@ -1,0 +1,146 @@
+{
+ "criteria": [
+  {
+   "criterion": "conditioning effect direction agreement across LINEAGES",
+   "supports": "H-G",
+   "value": 1.0,
+   "passed": true,
+   "detail": "toward synergy; 3/3 lineages (3 implementations); exact two-sided sign p=0.25"
+  },
+  {
+   "criterion": "high-covariance subset effect direction agreement (lineages)",
+   "supports": "H-G",
+   "value": 1.0,
+   "passed": true,
+   "detail": "toward redundancy; 3/3 lineages; exact two-sided sign p=0.25"
+  },
+  {
+   "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
+   "supports": "H-G",
+   "value": 611.7235641863838,
+   "passed": true,
+   "detail": "sampling=0.049 geometry=0.012 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>612x), not a point estimate"
+  },
+  {
+   "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
+   "supports": "H-G",
+   "value": 0.7935373849120286,
+   "passed": true,
+   "detail": "n_folds=3; leave-one-lineage-out, so no relative of the held-out model stays in training"
+  },
+  {
+   "criterion": "sampling regime predictable across unseen lineages",
+   "supports": "H-G",
+   "value": 0.284981684981685,
+   "passed": true,
+   "detail": "baseline=0.181, 11 classes, cv=leave_one_source_lineage_id_out"
+  }
+ ],
+ "descriptive": [
+  {
+   "quantity": "within-campaign implementation identifiability (descriptive only)",
+   "value": 0.8015151515151515,
+   "detail": "baseline=0.456, 3 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
+  },
+  {
+   "quantity": "adjusted ICC of model identity (mixed model, descriptive only)",
+   "value": 0.9212787618272936,
+   "detail": "not scored: the fixed covariates are the H-G hypothesis, so the residual between-family share is not a fair test of H-B"
+  },
+  {
+   "quantity": "top-tuple Jaccard, Gaussian vs Gaussian-copula (descriptive only)",
+   "value": 0.8255390442890442,
+   "detail": "8 models over 31 ensemble cells, min per-model 0.67. Withdrawn as an H-B criterion by the 2026-08-06 audit (M6): both rankings come from Gaussian estimators on the SAME samples -- the copula transform only removes marginal non-Gaussianity -- so agreement between them measures estimator similarity, not module stability. Stability across independent samples is what blueprint 19.3 asks for and what the campaign-scramble replicate now supplies."
+  }
+ ],
+ "thresholds": {
+  "cross_model_direction_agreement": 0.8,
+  "sampling_geometry_over_identity_ratio": 2.0,
+  "module_selection_probability": 0.8,
+  "perturbation_effect_sd": 0.25,
+  "lomo_r2_floor": 0.0
+ },
+ "n_hg_passed": 5,
+ "n_hg_total": 5,
+ "n_hb_passed": 0,
+ "n_hb_total": 0,
+ "conclusion": "not evaluable: H-B has no computable criterion in this arm",
+ "hg_fraction_passed": 1.0,
+ "hb_fraction_passed": null,
+ "perturbation_coverage": {
+  "models_in_endpoints": [
+   "dougalis_vlpag_da",
+   "moubarak_snc_da",
+   "tomko_ca1"
+  ],
+  "models_with_perturbation_data": [],
+  "missing_from_perturbation": [
+   "dougalis_vlpag_da",
+   "moubarak_snc_da",
+   "tomko_ca1"
+  ],
+  "complete": false,
+  "caveat": "the perturbation criteria in this arm are computed without ['dougalis_vlpag_da', 'moubarak_snc_da', 'tomko_ca1']; their conclusion cannot be compared with an arm that has complete coverage"
+ },
+ "arm": "replication_only",
+ "arm_description": "the external replication cohort alone",
+ "excluded_models": [
+  "mainen_l5pc",
+  "miyasho_purkinje",
+  "ortner_snc_da",
+  "tzilivaki_fsbc"
+ ],
+ "effective_sample": {
+  "n_rows_all": 128,
+  "n_rows_primary": 128,
+  "n_rows_primary_deduplicated": 114,
+  "n_model_ids": 3,
+  "n_model_ids_primary": 3,
+  "n_source_lineages": 3,
+  "n_source_lineages_primary": 3,
+  "n_neuron_classes": 3,
+  "n_classes_with_2plus_lineages": 0,
+  "n_classes_with_3plus_lineages": 0,
+  "lineage_members": {
+   "dougalis_2017": [
+    "dougalis_vlpag_da"
+   ],
+   "migliore_1999": [
+    "tomko_ca1"
+   ],
+   "moubarak_2022": [
+    "moubarak_snc_da"
+   ]
+  },
+  "excluded_from_primary": {},
+  "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+ },
+ "nested_variance_components": {
+  "endpoint": "synergy_area",
+  "n": 57,
+  "n_lineages": 3,
+  "n_implementations": 3,
+  "lineage": {
+   "var_group": 0.10663495290208291,
+   "var_residual": 0.009111721525299252,
+   "var_fixed": 1.0010052599433756,
+   "icc_adjusted": 0.9212787618272712,
+   "vpc": 0.09548669639168092,
+   "n_groups": 3,
+   "converged": true,
+   "method": "REML",
+   "loglike": 31.722539094528827
+  },
+  "implementation": {
+   "var_group": 0.10663495290211422,
+   "var_residual": 0.009111721525299113,
+   "var_fixed": 1.001005259943365,
+   "icc_adjusted": 0.9212787618272936,
+   "vpc": 0.09548669639170719,
+   "n_groups": 3,
+   "converged": true,
+   "method": "REML",
+   "loglike": 31.722539094528862
+  }
+ }
+}

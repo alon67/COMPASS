@@ -293,15 +293,21 @@ def leave_one_model_out(df: pd.DataFrame, endpoint: str,
                              + PREDICTOR_BLOCKS["architecture"]),
     }
     d = prepare(df).dropna(subset=[endpoint])
+    if group_col not in d.columns:
+        raise KeyError(
+            f"leave_one_model_out: grouping column {group_col!r} is not in the "
+            f"frame. Refusing to fall back to 'model_id': a fold silently built "
+            f"on implementations while labelled as lineages is exactly the "
+            f"defect this argument exists to prevent.")
     rows = []
-    models = sorted(d["model_id"].unique())
+    groups = sorted(d[group_col].unique())
     for name, cols in predictor_sets.items():
         # build the design once on the pooled frame so dummy columns align
         X = _design(d, cols)
         y = d[endpoint].to_numpy(dtype=float)
         y = (y - y.mean()) / (y.std() or 1.0)
-        for held in models:
-            te = (d["model_id"] == held).to_numpy()
+        for held in groups:
+            te = (d[group_col] == held).to_numpy()
             tr = ~te
             if tr.sum() < 20 or te.sum() < 2 or X.shape[1] == 0:
                 continue
@@ -311,7 +317,10 @@ def leave_one_model_out(df: pd.DataFrame, endpoint: str,
             ss_res = float(np.sum((y[te] - pred) ** 2))
             ss_tot = float(np.sum((y[te] - y[tr].mean()) ** 2))
             rows.append({
-                "endpoint": endpoint, "predictors": name, "held_out_model": held,
+                "endpoint": endpoint, "predictors": name,
+                # the unit actually held out, and what kind of unit it is, so a
+                # stored fold can never again be described as something it isn't
+                "held_out_group": held, "group_col": group_col,
                 "n_train": int(tr.sum()), "n_test": int(te.sum()),
                 "rmse": float(np.sqrt(ss_res / te.sum())),
                 "r2_out_of_sample": float(1.0 - ss_res / ss_tot) if ss_tot > 0 else np.nan,
@@ -320,26 +329,36 @@ def leave_one_model_out(df: pd.DataFrame, endpoint: str,
 
 
 def classification_test(df: pd.DataFrame, feature_cols: list[str],
-                        seed: int = 0) -> pd.DataFrame:
+                        seed: int = 0,
+                        group_col: str = "source_lineage_id") -> pd.DataFrame:
     """Predict sampling regime and model identity from information summaries.
 
-    Regime is evaluated with *leave-one-model-family-out* CV so that success
-    means the regime signature generalises to unseen model families; identity is
+    Regime is evaluated with *leave-one-LINEAGE-out* CV so that success means the
+    regime signature generalises to an unseen source lineage; identity is
     evaluated with stratified CV within families.  Both are compared against the
     majority-class baseline (blueprint 18.4 -- secondary, nested CV).
+
+    ``group_col`` defaults to ``source_lineage_id``.  It used to be hard-coded to
+    ``model_id`` while the row was labelled a family fold, which left sibling
+    implementations (``hh_point``/``hh_cable``, ``pospischil_rs``/``_fs``) in the
+    training set of a fold advertised as holding out their family.
     """
     from sklearn.ensemble import RandomForestClassifier
     from sklearn.model_selection import StratifiedKFold
 
     d = prepare(df).copy()
+    if group_col not in d.columns:
+        raise KeyError(
+            f"classification_test: grouping column {group_col!r} is not in the "
+            f"frame; refusing to fall back to 'model_id'.")
     cols = [c for c in feature_cols if c in d.columns]
     X = d[cols].apply(pd.to_numeric, errors="coerce")
     X = X.fillna(X.median()).to_numpy(dtype=float)
     rows = []
 
-    # (a) regime, leave-one-model-family-out
+    # (a) regime, leave-one-lineage-out (or whatever group_col names)
     y = d["regime"].to_numpy()
-    groups = d["model_id"].to_numpy()
+    groups = d[group_col].to_numpy()
     accs, base = [], []
     for held in sorted(set(groups)):
         te = groups == held
@@ -352,7 +371,8 @@ def classification_test(df: pd.DataFrame, feature_cols: list[str],
         vals, cnt = np.unique(y[tr], return_counts=True)
         base.append(float((y[te] == vals[cnt.argmax()]).mean()))
     if accs:
-        rows.append({"task": "sampling_regime", "cv": "leave_one_model_family_out",
+        rows.append({"task": "sampling_regime",
+                     "cv": f"leave_one_{group_col}_out", "group_col": group_col,
                      "accuracy": float(np.mean(accs)), "accuracy_sd": float(np.std(accs)),
                      "baseline": float(np.mean(base)), "n_folds": len(accs),
                      "n_classes": int(len(set(y)))})

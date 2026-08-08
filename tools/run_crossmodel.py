@@ -340,8 +340,27 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
     ev["n_hb_passed"] = sum(c["passed"] for c in hb)
     ev["n_hb_total"] = len(hb)
 
-    hg_frac = ev["n_hg_passed"] / max(1, ev["n_hg_total"])
-    hb_frac = ev["n_hb_passed"] / max(1, ev["n_hb_total"])
+    # A side with NO computable criterion must not be scored as a failing side.
+    # `max(1, total)` was only a ZeroDivisionError guard, but it turned "no H-B
+    # criterion could be evaluated" into hb_frac = 0.0 -- indistinguishable from
+    # "every H-B criterion was tested and failed".  The replication arm then
+    # concluded H-G from a cohort that contains no perturbation data at all,
+    # i.e. absence of evidence scored as evidence.  This is the same principle
+    # the release manifest already applies to gates: a missing record is a
+    # failure to evaluate, not a pass (post-revision audit).
+    if ev["n_hg_total"] == 0 or ev["n_hb_total"] == 0:
+        absent = [s for s, n in (("H-G", ev["n_hg_total"]),
+                                 ("H-B", ev["n_hb_total"])) if n == 0]
+        ev["conclusion"] = (f"not evaluable: {' and '.join(absent)} has no "
+                            f"computable criterion in this arm")
+        ev["hg_fraction_passed"] = (ev["n_hg_passed"] / ev["n_hg_total"]
+                                    if ev["n_hg_total"] else None)
+        ev["hb_fraction_passed"] = (ev["n_hb_passed"] / ev["n_hb_total"]
+                                    if ev["n_hb_total"] else None)
+        return ev
+
+    hg_frac = ev["n_hg_passed"] / ev["n_hg_total"]
+    hb_frac = ev["n_hb_passed"] / ev["n_hb_total"]
     if hg_frac >= 0.6 and hb_frac < 0.4:
         ev["conclusion"] = "H-G"
     elif hb_frac >= 0.6 and hg_frac < 0.4:
@@ -451,22 +470,36 @@ def main() -> int:
     ap.add_argument("--arms", nargs="*", default=sorted(SENSITIVITY_ARMS))
     args = ap.parse_args()
 
-    ep = pd.read_parquet(OUT / f"endpoints_{args.experiment}.parquet")
     manifests = {}
     for p in (ROOT / "results" / "manifests").glob("canonical_*.json"):
         r = json.loads(p.read_text())
         manifests[r["model_id"]] = r
-    ep["n_compartments"] = ep["model_id"].map(lambda m: manifests.get(m, {}).get("n_compartments", 1))
-    ep["is_point_model"] = ep["model_id"].map(
-        lambda m: float(manifests.get(m, {}).get("manifest", {}).get("is_point_model", False)))
-    ep["neuron_class"] = ep["model_id"].map(
-        lambda m: manifests.get(m, {}).get("manifest", {}).get("neuron_class", "?"))
-    ep["lab"] = ep["model_id"].map(
-        lambda m: manifests.get(m, {}).get("manifest", {}).get("lab", "?"))
-    ep["pipeline"] = ep["model_id"].map(
-        lambda m: manifests.get(m, {}).get("manifest", {}).get("pipeline", "?"))
-    ep = annotate_lineage(ep)
-    ep.to_parquet(OUT / f"endpoints_annotated_{args.experiment}.parquet", index=False)
+
+    def load_annotated(experiment: str) -> pd.DataFrame:
+        """Endpoint table for one experiment, with registry annotation applied.
+
+        An arm may declare ``source_experiment`` to be evaluated on a DIFFERENT
+        endpoint table rather than on a filtered view of the primary one.  Before
+        this existed, ``replication_only`` filtered the discovery table for models
+        that are not in it and therefore reported "too few models" while
+        ``endpoints_screening_v2_replication.parquet`` sat unread on disk.
+        """
+        t = pd.read_parquet(OUT / f"endpoints_{experiment}.parquet")
+        t["n_compartments"] = t["model_id"].map(
+            lambda m: manifests.get(m, {}).get("n_compartments", 1))
+        t["is_point_model"] = t["model_id"].map(
+            lambda m: float(manifests.get(m, {}).get("manifest", {}).get("is_point_model", False)))
+        t["neuron_class"] = t["model_id"].map(
+            lambda m: manifests.get(m, {}).get("manifest", {}).get("neuron_class", "?"))
+        t["lab"] = t["model_id"].map(
+            lambda m: manifests.get(m, {}).get("manifest", {}).get("lab", "?"))
+        t["pipeline"] = t["model_id"].map(
+            lambda m: manifests.get(m, {}).get("manifest", {}).get("pipeline", "?"))
+        t = annotate_lineage(t)
+        t.to_parquet(OUT / f"endpoints_annotated_{experiment}.parquet", index=False)
+        return t
+
+    ep = load_annotated(args.experiment)
 
     # module stability across estimators (Gaussian vs copula) per model
     ts_path = OUT / f"tuple_scores_{args.experiment}.parquet"
@@ -518,8 +551,23 @@ def main() -> int:
         pert = pd.read_parquet(OUT / "perturbations.parquet")
 
     arms = {}
+    _sources: dict[str, pd.DataFrame] = {args.experiment: ep}
     for arm in args.arms:
-        d = run_arm(ep, arm, args.experiment, pert, stability, write=True)
+        src = SENSITIVITY_ARMS[arm].get("source_experiment")
+        if src:
+            path = OUT / f"endpoints_{src}.parquet"
+            if not path.exists():
+                print(f"\n### arm {arm}: source table {path.name} is absent; "
+                      f"arm skipped rather than silently evaluated on "
+                      f"{args.experiment}")
+                arms[arm] = {"error": f"source table {path.name} absent"}
+                continue
+            if src not in _sources:
+                _sources[src] = load_annotated(src)
+            ep_arm = _sources[src]
+        else:
+            ep_arm = ep
+        d = run_arm(ep_arm, arm, args.experiment, pert, stability, write=True)
         arms[arm] = d
         if "error" in d:
             print(f"\n### arm {arm}: {d['error']}")

@@ -45,8 +45,8 @@ equations.
 | evidence that the sign is generic | value |
 |---|---|
 | cross-model agreement, conditioning → synergy | **4 / 5 source lineages** in the primary cohort (5/6 with Mainen retained); exact two-sided sign p = 0.375, or 0.219 with Mainen. Unanimous across implementations at the permissive tolerance. |
-| cross-model agreement, high-covariance → redundancy | **5 / 5 source lineages** (6/6 with Mainen); exact two-sided sign p = 0.0625, or 0.031 with Mainen |
-| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,800×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **13.1×** size-matched, CI [4.0, 81.7], 100% of resamples above threshold |
+| cross-model agreement, high-covariance → redundancy | **4 / 5 source lineages**; exact two-sided sign p = 0.375. **Fails when Mainen is retained** (4/6, p = 0.6875). Weakened from 5/5 (p = 0.0625) once E7 selection was made genuinely held out by cross-fitting: the earlier subset was ranked using axes partly fitted on the rows it then selected. |
+| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,800×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **12.6×** size-matched, CI [3.6, 60.5], 100% of resamples above threshold |
 | effect exceeds each model's own conditional bootstrap noise | **5 / 8 implementations**, SNR 4–5 (a conditional bootstrap ratio, *not* a sigma significance — see below) |
 | effective inferential sample | **7 implementations / 5 source lineages** in the primary cohort; 14 implementations / 10 lineages registered |
 | same effect in a non-neuronal gene circuit | Ω 0.0000 → **−0.0018 … −0.183** (permissive → very strict) |

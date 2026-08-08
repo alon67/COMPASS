@@ -180,8 +180,15 @@ def main() -> int:
     lomo = pd.read_parquet(OUT / "lomo.parquet")
     sub = lomo[(lomo["predictors"] == "sampling+geometry") &
                (lomo["endpoint"] == "synergy_area")]
+    # lomo.parquet holds BOTH fold levels.  Without this filter the summary
+    # silently averaged lineage folds together with implementation folds, which
+    # double-counts every lineage that has more than one implementation.  The
+    # inferential unit is the source lineage, so select that level explicitly.
+    if "fold_level" in sub.columns:
+        sub = sub[sub["fold_level"] == "source_lineage_id"]
     out["lomo_all_folds"] = {
-        "folds": {r.held_out_model: round(float(r.r2_out_of_sample), 3)
+        "fold_level": "source_lineage_id",
+        "folds": {r.held_out_group: round(float(r.r2_out_of_sample), 3)
                   for r in sub.itertuples()},
         "median": float(sub["r2_out_of_sample"].median()),
         "mean": float(sub["r2_out_of_sample"].mean()),

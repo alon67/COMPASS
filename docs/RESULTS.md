@@ -840,8 +840,8 @@ bootstrap over models:
 
 | table | ratio median | 95% CI | resamples exceeding the preregistered 2.0 |
 |---|---:|---|---:|
-| raw endpoints | 11.7 | [3.6, 71.0] | **100%** |
-| **size-matched** (20 draws, common N per regime) | **13.1** | **[4.0, 81.7]** | **100%** |
+| raw endpoints | 11.9 | [3.3, 71.2] | **100%** |
+| **size-matched** (20 draws, common N per regime) | **12.6** | **[3.6, 60.5]** | **100%** |
 
 The size-matched table is the one that answers the review's F4: every model is
 subsampled to a common N per regime and the endpoints recomputed 20 times, so
@@ -851,8 +851,8 @@ withholds the four implementations that fail gate N3, so a model excluded from
 every other primary analysis can no longer bind a matched cell through the
 `min()` that sets the common N.
 
-Under that design the ratio is **13.1 with a proper interval**, slightly *above*
-the raw figure of 11.7 rather than below it. The earlier matched estimate of 9.3
+Under that design the ratio is **12.6 with a proper interval**, slightly *above*
+the raw figure of 11.9 rather than below it. The earlier matched estimate of 9.3
 was depressed by a gate-failed model sitting inside the design and by the small
 common N that model forced; removing it and enlarging the binding model's sample
 raises the matched ratio rather than lowering it. It remains well below the 22.6
@@ -867,10 +867,10 @@ and residual:
 
 | quantity | value | meaning |
 |---|---:|---|
-| variance-partition coefficient | 0.027 | between-family share of **total** variance |
-| **adjusted ICC** | **0.161** | between-family share of the variance **remaining after** the fixed covariates |
-| marginal R² | 0.833 | share explained by the fixed covariates alone |
-| conditional R² | 0.860 | share explained by fixed + family effects |
+| variance-partition coefficient | 0.023 | between-family share of **total** variance |
+| **adjusted ICC** | **0.138** | between-family share of the variance **remaining after** the fixed covariates |
+| marginal R² | 0.832 | share explained by the fixed covariates alone |
+| conditional R² | 0.856 | share explained by fixed + family effects |
 
 An earlier version of this document reported a single "intraclass correlation of
 **0.048**" and glossed it as "under 5% of endpoint variance lies between model
@@ -883,8 +883,8 @@ counted once inside that term and again as its own term. The denominator was
 inflated and the result was neither of the two standard quantities.
 
 **The right ICC is several times larger.** Computed correctly, the adjusted ICC
-is **0.161** — roughly 16% of the *residual* variance is between families, not
-under 5%. The 0.027 figure is the variance-partition coefficient, a different
+is **0.138** — roughly 14% of the *residual* variance is between families, not
+under 5%. The 0.023 figure is the variance-partition coefficient, a different
 and much weaker statement: family identity is a small share of total variance
 mainly because the fixed covariates already explain 83% of it. (On the previous,
 CVODE-built conditioning targets these were 0.289 and 0.050; correcting the

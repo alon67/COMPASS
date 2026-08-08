@@ -1,13 +1,13 @@
 {
  "flat": {
   "endpoint": "synergy_area",
-  "var_fixed_effects": 0.8400117655712952,
-  "var_model_identity_random": 0.02270802709727196,
-  "var_residual": 0.14094839931934908,
-  "icc_adjusted": 0.13875426461692383,
-  "vpc_model_identity": 0.022625034128355995,
-  "r2_marginal": 0.8369417027230137,
-  "r2_conditional": 0.8595667368513696,
+  "var_fixed_effects": 0.837012031853644,
+  "var_model_identity_random": 0.020438572142223246,
+  "var_residual": 0.14435047312096186,
+  "icc_adjusted": 0.12402870657804187,
+  "vpc_model_identity": 0.020401826878690528,
+  "r2_marginal": 0.8355072189207005,
+  "r2_conditional": 0.855909045799391,
   "n": 185,
   "n_models": 8
  },
@@ -17,26 +17,26 @@
   "n_lineages": 6,
   "n_implementations": 8,
   "lineage": {
-   "var_group": 0.021145350686760933,
-   "var_residual": 0.1405497834361463,
-   "var_fixed": 0.8496488023267172,
-   "icc_adjusted": 0.1307729561650754,
-   "vpc": 0.02090816973797538,
+   "var_group": 0.018446363743990123,
+   "var_residual": 0.14395809865901069,
+   "var_fixed": 0.8453832429629928,
+   "icc_adjusted": 0.11358286263228494,
+   "vpc": 0.018303818994587797,
    "n_groups": 6,
    "converged": true,
    "method": "REML",
-   "loglike": -92.96990844824921
+   "loglike": -94.82310360681373
   },
   "implementation": {
-   "var_group": 0.02270802709727196,
-   "var_residual": 0.14094839931934908,
-   "var_fixed": 0.8400117655712952,
-   "icc_adjusted": 0.13875426461692383,
-   "vpc": 0.022625034128355995,
+   "var_group": 0.020438572142223246,
+   "var_residual": 0.14435047312096186,
+   "var_fixed": 0.837012031853644,
+   "icc_adjusted": 0.12402870657804187,
+   "vpc": 0.020401826878690528,
    "n_groups": 8,
    "converged": true,
    "method": "REML",
-   "loglike": -94.44288513657722
+   "loglike": -96.25120383199902
   }
  }
 }

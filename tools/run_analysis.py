@@ -193,7 +193,27 @@ def main() -> int:
     ap.add_argument("--estimators", nargs="*", default=["gaussian", "copula"])
     ap.add_argument("--qc-policy", default="primary",
                     help="scientific-validity policy for QC flags (primary|strict|none)")
+    ap.add_argument("--drop-features", nargs="*", default=[],
+                    help="conditioning features to remove from the phenotype for "
+                         "EVERY model before ensembles are built. Used by the "
+                         "drop_failed_feature sensitivity arm; the phenotype is "
+                         "fixed at ensemble construction, so this cannot be "
+                         "applied by filtering endpoints afterwards.")
+    ap.add_argument("--suffix", default="",
+                    help="extra output suffix, e.g. '_dropfeat', so a deviating "
+                         "analysis never overwrites the primary tables")
     args = ap.parse_args()
+
+    drop = set(args.drop_features)
+    if drop:
+        known = set(CONDITIONING_FEATURES) | set(CONDITIONING_FEATURES_NORMALISED)
+        unknown = sorted(drop - known)
+        if unknown:
+            ap.error(f"--drop-features names features that are not in the "
+                     f"conditioning phenotype: {unknown}. Refusing to run: a "
+                     f"silently ignored drop would produce an arm identical to "
+                     f"its comparator while claiming to differ from it.")
+        print(f"dropping from the conditioning phenotype: {sorted(drop)}", flush=True)
 
     endpoints, curves, scores, rsis = [], [], [], []
     for model_id in args.models:
@@ -208,7 +228,7 @@ def main() -> int:
 
         for family, feats in (("absolute", CONDITIONING_FEATURES),
                               ("normalised", CONDITIONING_FEATURES_NORMALISED)):
-            feats = [f for f in feats if f in df.columns]
+            feats = [f for f in feats if f in df.columns and f not in drop]
             if len(feats) < 6:
                 continue
             target = canonical_target(model_id, feats)
@@ -246,7 +266,7 @@ def main() -> int:
     # sensitivity analysis silently destroyed the primary result and there was
     # no way to compare the two.  A non-primary policy now gets its own suffix,
     # and primary artifacts can never be overwritten by a sensitivity run.
-    tag = "" if args.qc_policy == "primary" else f"_qc_{args.qc_policy}"
+    tag = ("" if args.qc_policy == "primary" else f"_qc_{args.qc_policy}") + args.suffix
     for name, rows in (("endpoints", endpoints), ("order_curves", curves),
                        ("tuple_scores", scores), ("rsi", rsis)):
         pd.DataFrame(rows).to_parquet(

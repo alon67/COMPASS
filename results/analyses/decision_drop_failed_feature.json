@@ -10,30 +10,30 @@
   {
    "criterion": "high-covariance subset effect direction agreement (lineages)",
    "supports": "H-G",
-   "value": 1.0,
-   "passed": true,
-   "detail": "toward redundancy; 6/6 lineages; exact two-sided sign p=0.03125"
+   "value": 0.6666666666666666,
+   "passed": false,
+   "detail": "toward redundancy; 4/6 lineages; exact two-sided sign p=0.6875"
   },
   {
    "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
    "supports": "H-G",
-   "value": 1836.1214465422047,
+   "value": 1821.6478047037242,
    "passed": true,
-   "detail": "sampling=0.160 geometry=0.024 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>1836x), not a point estimate"
+   "detail": "sampling=0.157 geometry=0.025 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>1822x), not a point estimate"
   },
   {
    "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
    "supports": "H-G",
-   "value": 0.7648984834666521,
+   "value": 0.6481020971858605,
    "passed": true,
-   "detail": "n_folds=8; leave-one-lineage-out, so no relative of the held-out model stays in training"
+   "detail": "n_folds=6; leave-one-lineage-out, so no relative of the held-out model stays in training"
   },
   {
    "criterion": "sampling regime predictable across unseen lineages",
    "supports": "H-G",
-   "value": 0.43478923001949316,
+   "value": 0.3325632278702454,
    "passed": true,
-   "detail": "baseline=0.172, 11 classes, cv=leave_one_model_family_out"
+   "detail": "baseline=0.178, 11 classes, cv=leave_one_source_lineage_id_out"
   },
   {
    "criterion": "statistical synergy modules validated by direct perturbation",
@@ -53,12 +53,12 @@
  "descriptive": [
   {
    "quantity": "within-campaign implementation identifiability (descriptive only)",
-   "value": 0.5783783783783784,
+   "value": 0.6,
    "detail": "baseline=0.135, 8 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
   },
   {
    "quantity": "adjusted ICC of model identity (mixed model, descriptive only)",
-   "value": 0.13875426461692383,
+   "value": 0.13456360792511135,
    "detail": "not scored: the fixed covariates are the H-G hypothesis, so the residual between-family share is not a fair test of H-B"
   },
   {
@@ -79,12 +79,12 @@
   "perturbation_effect_sd": 0.25,
   "lomo_r2_floor": 0.0
  },
- "n_hg_passed": 5,
+ "n_hg_passed": 4,
  "n_hg_total": 5,
  "n_hb_passed": 1,
  "n_hb_total": 2,
  "conclusion": "H-M",
- "hg_fraction_passed": 1.0,
+ "hg_fraction_passed": 0.8,
  "hb_fraction_passed": 0.5,
  "perturbation_coverage": {
   "models_in_endpoints": [
@@ -163,26 +163,26 @@
   "n_lineages": 6,
   "n_implementations": 8,
   "lineage": {
-   "var_group": 0.021145350686760933,
-   "var_residual": 0.1405497834361463,
-   "var_fixed": 0.8496488023267172,
-   "icc_adjusted": 0.1307729561650754,
-   "vpc": 0.02090816973797538,
+   "var_group": 0.019987751979479523,
+   "var_residual": 0.14388090740480913,
+   "var_fixed": 0.8467162758778638,
+   "icc_adjusted": 0.12197422041884295,
+   "vpc": 0.019778398907455082,
    "n_groups": 6,
    "converged": true,
    "method": "REML",
-   "loglike": -92.96990844824921
+   "loglike": -94.82100862379292
   },
   "implementation": {
-   "var_group": 0.02270802709727196,
-   "var_residual": 0.14094839931934908,
-   "var_fixed": 0.8400117655712952,
-   "icc_adjusted": 0.13875426461692383,
-   "vpc": 0.022625034128355995,
+   "var_group": 0.022377342463155328,
+   "var_residual": 0.143918306176178,
+   "var_fixed": 0.8363209936778674,
+   "icc_adjusted": 0.13456360792511135,
+   "vpc": 0.022318941775630076,
    "n_groups": 8,
    "converged": true,
    "method": "REML",
-   "loglike": -94.44288513657722
+   "loglike": -96.11589033020078
   }
  }
 }
