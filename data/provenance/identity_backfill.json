@@ -1,0 +1,10 @@
+{
+ "written_utc": "2026-08-07T08:41:01.174932+00:00",
+ "summary": [
+  {
+   "experiment": "pilot",
+   "n_shards": 2,
+   "backfilled": 2
+  }
+ ]
+}

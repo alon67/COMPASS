@@ -1,0 +1,456 @@
+{
+ "primary_arm": "primary",
+ "exclusions": {
+  "mainen_l5pc": {
+   "gate": "N3",
+   "reason": "production dt=0.0125 ms / 2304 segments fails step_abs_hi.adaptation_index at 1 of 7 audit points; the other 12 conditioning features reproduce on all 7",
+   "remediation": "finer dt or mesh was measured and is not affordable at campaign scale; see docs/decisions",
+   "sensitivity_arm": "retain_mainen"
+  },
+  "miyasho_purkinje": {
+   "gate": "N3",
+   "reason": "no tested step converges. dt = 0.05 and 0.025 ms fail ap_amplitude_mV (agreement 0.40) on both the published 1,088-segment mesh and a 1,264-segment d_lambda mesh; 0.0125 ms still fails ap_amplitude_mV (0.60) and 0.00625 ms fails membrane_tau_ms (0.80) against a 0.003125 ms reference. The failing feature MOVES between steps, which is the signature of threshold-adjacent audit points rather than of an under-resolved integration",
+   "remediation": "not simulated. Halving again would make the reference the production setting; the honest reading is that this model's prior samples include points where a feature sits on a discontinuity, which a finer step cannot fix",
+   "sensitivity_arm": "retain_partial_coverage"
+  },
+  "tzilivaki_fsbc": {
+   "gate": "N3",
+   "reason": "step_abs_hi.mean_firing_rate_Hz reproduces on only 25-50% of audit points at dt = 0.05 and 0.025 ms, on both the published 9,875-segment mesh and the 4,096-segment d_lambda mesh. A fast-spiking cell at ~145 Hz puts one or two spikes per 400 ms window inside the tolerance, and the step needed to resolve them is finer than 0.0125 ms",
+   "remediation": "a converged campaign would cost ~4 h per 256 samples at 0.00625 ms on this morphology; not affordable in this release. Adapter, mechanisms, calibration and the failing audit are retained so it can be resumed",
+   "sensitivity_arm": "retain_partial_coverage"
+  },
+  "ortner_snc_da": {
+   "gate": "N3",
+   "reason": "no tested time step converges: step_abs_hi.ap_amplitude_mV fails on 1-2 of 7 prior points at dt = 0.025, 0.0125 AND 0.00625 ms, non-monotonically. Separately, its maximum rate of ~7.5 Hz gives <=3 spikes in the frozen 400 ms window, so ISI-derived conditioning features sit at their definitional floor (protocol_coverage='partial')",
+   "remediation": "not simulated at all; the adapter and its failing convergence audit are retained as the documented record",
+   "sensitivity_arm": "retain_partial_coverage"
+  }
+ },
+ "arms": {
+  "all_models": {
+   "conclusion": "H-M",
+   "description": "every registered model, no gate exclusions at all",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 1,
+   "n_hb_total": 2,
+   "effective_sample": {
+    "n_rows_all": 410,
+    "n_rows_primary": 410,
+    "n_rows_primary_deduplicated": 370,
+    "n_model_ids": 8,
+    "n_model_ids_primary": 8,
+    "n_source_lineages": 6,
+    "n_source_lineages_primary": 6,
+    "n_neuron_classes": 6,
+    "n_classes_with_2plus_lineages": 1,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hay_2011": [
+      "bbp_l5pc"
+     ],
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "mainen_1996": [
+      "mainen_l5pc"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {
+     "mainen_l5pc": "production dt=0.0125 ms / 2304 segments fails step_abs_hi.adaptation_index at 1 of 7 audit points; the other 12 conditioning features reproduce on all 7"
+    },
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "mainen_l5pc",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [
+     "mainen_l5pc"
+    ],
+    "complete": false,
+    "caveat": "the perturbation criteria in this arm are computed without ['mainen_l5pc']; their conclusion cannot be compared with an arm that has complete coverage"
+   },
+   "error": null
+  },
+  "discovery_only": {
+   "conclusion": "H-M",
+   "description": "the frozen discovery cohort alone, so the replication cohort can be evaluated against it rather than pooled with it before heterogeneity is assessed",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 1,
+   "n_hb_total": 2,
+   "effective_sample": {
+    "n_rows_all": 370,
+    "n_rows_primary": 370,
+    "n_rows_primary_deduplicated": 332,
+    "n_model_ids": 7,
+    "n_model_ids_primary": 7,
+    "n_source_lineages": 5,
+    "n_source_lineages_primary": 5,
+    "n_neuron_classes": 6,
+    "n_classes_with_2plus_lineages": 0,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hay_2011": [
+      "bbp_l5pc"
+     ],
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {},
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [],
+    "complete": true,
+    "caveat": ""
+   },
+   "error": null
+  },
+  "drop_failed_feature": {
+   "conclusion": "H-M",
+   "description": "mainen_l5pc retained but step_abs_hi.adaptation_index -- the one feature that fails convergence -- removed from the conditioning phenotype for EVERY model, so the comparison stays like-for-like",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 1,
+   "n_hb_total": 2,
+   "effective_sample": {
+    "n_rows_all": 410,
+    "n_rows_primary": 410,
+    "n_rows_primary_deduplicated": 370,
+    "n_model_ids": 8,
+    "n_model_ids_primary": 8,
+    "n_source_lineages": 6,
+    "n_source_lineages_primary": 6,
+    "n_neuron_classes": 6,
+    "n_classes_with_2plus_lineages": 1,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hay_2011": [
+      "bbp_l5pc"
+     ],
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "mainen_1996": [
+      "mainen_l5pc"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {
+     "mainen_l5pc": "production dt=0.0125 ms / 2304 segments fails step_abs_hi.adaptation_index at 1 of 7 audit points; the other 12 conditioning features reproduce on all 7"
+    },
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "mainen_l5pc",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [
+     "mainen_l5pc"
+    ],
+    "complete": false,
+    "caveat": "the perturbation criteria in this arm are computed without ['mainen_l5pc']; their conclusion cannot be compared with an arm that has complete coverage"
+   },
+   "error": null
+  },
+  "primary": {
+   "conclusion": "H-M",
+   "description": "gate-passing models only; the headline analysis",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 1,
+   "n_hb_total": 2,
+   "effective_sample": {
+    "n_rows_all": 370,
+    "n_rows_primary": 370,
+    "n_rows_primary_deduplicated": 332,
+    "n_model_ids": 7,
+    "n_model_ids_primary": 7,
+    "n_source_lineages": 5,
+    "n_source_lineages_primary": 5,
+    "n_neuron_classes": 6,
+    "n_classes_with_2plus_lineages": 0,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hay_2011": [
+      "bbp_l5pc"
+     ],
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {},
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [],
+    "complete": true,
+    "caveat": ""
+   },
+   "error": null
+  },
+  "replication_only": {
+   "conclusion": null,
+   "description": null,
+   "n_hg_passed": null,
+   "n_hg_total": null,
+   "n_hb_passed": null,
+   "n_hb_total": null,
+   "effective_sample": null,
+   "perturbation_coverage": null,
+   "error": "too few models"
+  },
+  "retain_mainen": {
+   "conclusion": "H-M",
+   "description": "mainen_l5pc retained despite its N3 failure, to show how much the exclusion moves the result",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 1,
+   "n_hb_total": 2,
+   "effective_sample": {
+    "n_rows_all": 410,
+    "n_rows_primary": 410,
+    "n_rows_primary_deduplicated": 370,
+    "n_model_ids": 8,
+    "n_model_ids_primary": 8,
+    "n_source_lineages": 6,
+    "n_source_lineages_primary": 6,
+    "n_neuron_classes": 6,
+    "n_classes_with_2plus_lineages": 1,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hay_2011": [
+      "bbp_l5pc"
+     ],
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "mainen_1996": [
+      "mainen_l5pc"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {
+     "mainen_l5pc": "production dt=0.0125 ms / 2304 segments fails step_abs_hi.adaptation_index at 1 of 7 audit points; the other 12 conditioning features reproduce on all 7"
+    },
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "mainen_l5pc",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [
+     "mainen_l5pc"
+    ],
+    "complete": false,
+    "caveat": "the perturbation criteria in this arm are computed without ['mainen_l5pc']; their conclusion cannot be compared with an arm that has complete coverage"
+   },
+   "error": null
+  },
+  "retain_partial_coverage": {
+   "conclusion": "H-M",
+   "description": "ortner_snc_da retained despite partial protocol coverage",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 1,
+   "n_hb_total": 2,
+   "effective_sample": {
+    "n_rows_all": 370,
+    "n_rows_primary": 370,
+    "n_rows_primary_deduplicated": 332,
+    "n_model_ids": 7,
+    "n_model_ids_primary": 7,
+    "n_source_lineages": 5,
+    "n_source_lineages_primary": 5,
+    "n_neuron_classes": 6,
+    "n_classes_with_2plus_lineages": 0,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hay_2011": [
+      "bbp_l5pc"
+     ],
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {},
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [],
+    "complete": true,
+    "caveat": ""
+   },
+   "error": null
+  }
+ }
+}

@@ -1,0 +1,189 @@
+{
+ "by_feature": {
+  "ap_amplitude_mV": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.15836801228955766,
+    "control_random": 0.2491008489752287,
+    "top_synergy": 0.22205298357866346
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.11846692239006798,
+    "control_random": 0.1094626543922683,
+    "top_synergy": 0.06957674871735939
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.06666666666666667,
+    "control_random": 0.13333333333333333,
+    "top_synergy": 0.1
+   },
+   "n": {
+    "control_middle": 30,
+    "control_random": 30,
+    "top_synergy": 30
+   }
+  },
+  "ap_halfwidth_ms": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.45980557836687763,
+    "control_random": 0.48462611540675865,
+    "top_synergy": 0.3285644839075783
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.2243305857342541,
+    "control_random": 0.33090406340420303,
+    "top_synergy": 0.27109354017252996
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.26666666666666666,
+    "control_random": 0.36666666666666664,
+    "top_synergy": 0.5
+   },
+   "n": {
+    "control_middle": 30,
+    "control_random": 30,
+    "top_synergy": 30
+   }
+  },
+  "first_isi_ms": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.06687796298386345,
+    "control_random": 0.06318754176982384,
+    "top_synergy": 0.19159736139400954
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.047775224808609934,
+    "control_random": 0.05102326243769138,
+    "top_synergy": 0.15217907085041854
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.03333333333333333,
+    "control_random": 0.0,
+    "top_synergy": 0.26666666666666666
+   },
+   "n": {
+    "control_middle": 30,
+    "control_random": 30,
+    "top_synergy": 30
+   }
+  },
+  "mean_firing_rate_Hz": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.07921416507790587,
+    "control_random": 0.05598808489919401,
+    "top_synergy": 0.32236695385366854
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.025770640805123212,
+    "control_random": 0.03198404942660339,
+    "top_synergy": 0.08758858665133265
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.06666666666666667,
+    "control_random": 0.0,
+    "top_synergy": 0.3333333333333333
+   },
+   "n": {
+    "control_middle": 30,
+    "control_random": 30,
+    "top_synergy": 30
+   }
+  },
+  "spike_count": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.07921416507790587,
+    "control_random": 0.05598808489919401,
+    "top_synergy": 0.32236695385366854
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.02577064080512321,
+    "control_random": 0.03198404942660339,
+    "top_synergy": 0.08758858665133265
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.06666666666666667,
+    "control_random": 0.0,
+    "top_synergy": 0.3333333333333333
+   },
+   "n": {
+    "control_middle": 30,
+    "control_random": 30,
+    "top_synergy": 30
+   }
+  }
+ },
+ "per_model_mean_abs_eta": {
+  "control_middle": {
+   "hh_cable": 0.238,
+   "hh_point": 0.0951,
+   "khaliq_purkinje": 0.0124,
+   "pospischil_fs": 0.0289,
+   "pospischil_rs": 0.0215
+  },
+  "control_random": {
+   "hh_cable": 0.0986,
+   "hh_point": 0.1044,
+   "khaliq_purkinje": 0.0162,
+   "pospischil_fs": 0.0136,
+   "pospischil_rs": 0.0472
+  },
+  "top_synergy": {
+   "hh_cable": 0.7549,
+   "hh_point": 0.6752,
+   "khaliq_purkinje": 0.0124,
+   "pospischil_fs": 0.1067,
+   "pospischil_rs": 0.0626
+  }
+ },
+ "top_vs_control_middle": {
+  "n_models": 5,
+  "mean_top": 0.32236695385366854,
+  "mean_control": 0.07921416507790588,
+  "ratio_point": 4.069561972112257,
+  "ratio_ci95": [
+   2.650628789638236,
+   6.534192371463036
+  ],
+  "difference_ci95": [
+   0.03196988199421899,
+   0.45962176436483176
+  ],
+  "wilcoxon_p": 0.06788915486182899,
+  "n_models_top_greater": 4,
+  "equivalent_within_0.10sd": false,
+  "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
+ },
+ "top_vs_control_random": {
+  "n_models": 5,
+  "mean_top": 0.32236695385366854,
+  "mean_control": 0.055988084899194004,
+  "ratio_point": 5.757777827801881,
+  "ratio_ci95": [
+   1.8285151211217716,
+   7.320643001011855
+  ],
+  "difference_ci95": [
+   0.023261751462714492,
+   0.5110233694904084
+  ],
+  "wilcoxon_p": 0.125,
+  "n_models_top_greater": 4,
+  "equivalent_within_0.10sd": false,
+  "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
+ },
+ "solver_dt_override_ms": null,
+ "solver_dt_scale": 0.5,
+ "effective_dt_ms": {
+  "hh_cable": 0.025,
+  "hh_point": 0.0125,
+  "khaliq_purkinje": 0.003125,
+  "pospischil_fs": 0.0125,
+  "pospischil_rs": 0.025
+ },
+ "quantisation_arithmetic": {
+  "single_observation_quantum_Hz": 2.5,
+  "n_backgrounds": 8,
+  "mean_over_backgrounds_grid_Hz": 0.3125,
+  "note": "a deterministic grid is not a stochastic detection limit; use background-level uncertainty for inferential precision and a finer-dt rerun for numerical repeatability"
+ },
+ "withdrawn": "The 2.5 Hz 'measurement floor' analysis and its '4/8 models unresolvable' conclusion were withdrawn by the 2026-08-06 audit (section 4). They compared a median of eight-background means against one unaveraged single-observation quantum. See results/analyses/perturbation_inference.json for the replacement."
+}

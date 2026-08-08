@@ -22,19 +22,29 @@ from dataclasses import dataclass
 
 from ..registry.schema import ProtocolSpec
 
-# Rheobase of each canonical model (nA), measured by tools/canonical_audit.py.
-# Absolute-current protocols are pinned to these so they are model-appropriate
-# yet fixed across the whole ensemble.
-CANONICAL_RHEOBASE = {
+# Rheobase measured at the time each model's ABSOLUTE_AMPLITUDES were frozen.
+#
+# NOT the current canonical measurement, and deliberately so: the absolute
+# amplitudes below are anchored to these values, and re-anchoring them after a
+# solver change would silently redefine the protocol every ensemble has already
+# been simulated under.  The name used to claim otherwise (audit 5.5); it now
+# says what it is.  For the *current* measured rheobase of a model see
+# ``results/manifests/canonical_<model>.json``.
+FROZEN_RHEOBASE_AT_AMPLITUDE_FREEZE = {
     "hh_point": 0.0640, "hh_cable": 0.1006, "pospischil_rs": 0.5449,
     "pospischil_fs": 0.3857, "khaliq_purkinje": 0.0, "mainen_l5pc": 0.1582,
     "migliore_ca1": 0.1777, "bbp_l5pc": 0.3384,
+    # replication cohort, from data/provenance/amplitude_calibration.json
+    "miyasho_purkinje": 0.8496, "tzilivaki_fsbc": 0.1484,
+    "moubarak_snc_da": 0.0, "dougalis_vlpag_da": 0.0039,
+    "ortner_snc_da": 0.2215, "tomko_ca1": 0.5586,
 }
+CANONICAL_RHEOBASE = FROZEN_RHEOBASE_AT_AMPLITUDE_FREEZE  # backward-compatible alias
 
 # Models that fire without injected current.  Rheobase is 0 for these, so the
 # rheobase-normalised protocol family is not defined; they are analysed with the
 # absolute family only and this is reported as a coverage limitation.
-SPONTANEOUSLY_ACTIVE = frozenset({"khaliq_purkinje"})
+SPONTANEOUSLY_ACTIVE = frozenset({"khaliq_purkinje", "moubarak_snc_da"})
 
 # Absolute step amplitudes (nA) per model: a sub-threshold hyperpolarising step
 # plus two depolarising steps bracketing the canonical repetitive-firing range.
@@ -53,6 +63,34 @@ ABSOLUTE_AMPLITUDES = {
     # ~0.40 nA, so both steps sit inside the 0.18-0.36 nA firing window.
     "migliore_ca1": (-0.100, 0.220, 0.300),   # ~42 / ~78 Hz
     "bbp_l5pc": (-0.250, 0.600, 1.100),      # ~14 / ~18 Hz
+    # --- external replication cohort -------------------------------------- #
+    # Measured, not chosen: tools/calibrate_amplitudes.py scans each model's f-I
+    # curve at dt = 0.0125 ms and applies one frozen rule to all of them --
+    # hyperpolarising at -0.5 x rheobase, `lo` at the first amplitude reaching
+    # 25% of peak rate, `hi` at 70% of peak, both on the RISING limb and clear
+    # of depolarisation block.  Raw scans are in
+    # data/provenance/amplitude_calibration.json.  Putting both steps on the
+    # rising limb matters: past the peak, a conductance change that raises
+    # excitability *lowers* the measured rate, and the feature stops being a
+    # monotone readout of the parameter.
+    "miyasho_purkinje": (-0.425, 1.800, 2.100),    # ~68 / ~128 Hz (peak 173 @ 4.8)
+    "tzilivaki_fsbc": (-0.074, 0.200, 0.400),      # ~63 / ~145 Hz (peak 203 @ 1.0)
+    # hyperpolarising step set by the -0.1 x hi floor, not by -0.5 x rheobase:
+    # a spontaneous pacemaker has rheobase 0, so the rheobase rule gives no step
+    # at all.  -0.045 nA is the smallest step that measurably hyperpolarises it.
+    "moubarak_snc_da": (-0.045, 0.100, 0.450),     # ~38 / ~90 Hz; spontaneous 9.5 Hz
+    # hyperpolarising step set by the -0.1 x hi floor.  -0.5 x its 0.0039 nA
+    # rheobase is -0.002 nA, at which the membrane DEPOLARISES by +2.8 mV over
+    # the step (baseline drift dominates) and input resistance comes out at
+    # -223 MOhm.  At -0.0125 nA the deflection is -28 mV and Rin ~2.4 GOhm,
+    # which is what a 15 um cell with gleak 2e-5 S/cm2 should give.
+    "dougalis_vlpag_da": (-0.0125, 0.025, 0.125),  # ~15 / ~48 Hz (peak 60 @ 0.15)
+    # ortner_snc_da peaks at 7.5 Hz = 3 spikes in the 400 ms window, so its
+    # ISI-derived features sit at their definitional floor.  It is retained with
+    # protocol_coverage="partial" and excluded from primary inference rather
+    # than compared as if it were measured on the same object.
+    "ortner_snc_da": (-0.111, 0.030, 0.420),       # ~2.5 / ~7.5 Hz
+    "tomko_ca1": (-0.279, 0.900, 1.100),           # ~23 / ~48 Hz; block above ~1.2
 }
 
 RHEOBASE_MULTIPLES = (1.5, 3.0)

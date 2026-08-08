@@ -193,7 +193,30 @@ class ProtocolSpec:
 
 @dataclass(frozen=True)
 class ModelManifest:
-    """Versioned description of one model in the panel (blueprint 8.1)."""
+    """Versioned description of one model in the panel (blueprint 8.1).
+
+    Lineage fields (2026-08-06 audit, section 9.6 item 1)
+    ----------------------------------------------------
+    The previous panel had eight ``model_id`` values but only six independently
+    developed sources, and every cross-model fold, bootstrap and variance
+    component treated the eight as independent.  Three identifiers now make the
+    dependence structure explicit and machine-readable:
+
+    ``source_lineage_id``
+        The independently developed body of model code and parameters.  Two
+        entries share a lineage when one was derived from the other, when they
+        come from the same publication or optimisation pipeline, or when the
+        same person wrote both implementations.  **This is the unit of
+        inference**: clustering, leave-one-out folds and bootstraps resample
+        lineages, not model IDs.
+    ``implementation_id``
+        The specific realisation within a lineage (morphology variant, cell
+        class, re-optimisation).  Nested inside the lineage.
+    ``neuron_class_id``
+        Biological cell class, used for class-specific claims.  A claim about a
+        class needs several *lineages* in that class, not several
+        implementations of one.
+    """
 
     model_id: str
     neuron_class: str
@@ -208,6 +231,20 @@ class ModelManifest:
     mechanism_dir: str | None
     lab: str
     pipeline: str                 # "bbp" | "independent"
+    source_lineage_id: str = ""
+    implementation_id: str = ""
+    neuron_class_id: str = ""
+    source_accession: str = ""
+    parent_lineage: str = ""      # non-empty when derived from another lineage
+    cohort: str = "discovery"     # "discovery" | "replication"
+    # "full"    -- the common-core protocol yields every conditioning feature
+    # "partial" -- some features are structurally undefined for this cell (e.g. a
+    #              slow pacemaker fires too few spikes in the 400 ms window for
+    #              ISI-derived features).  Such a model is reported in a labelled
+    #              stratum and excluded from primary cross-model inference rather
+    #              than silently compared on a different scientific object
+    #              (2026-08-06 audit, section 9.5 point 6).
+    protocol_coverage: str = "full"
     v_init_mV: float = -70.0
     notes: str = ""
 
@@ -224,6 +261,22 @@ class ModelManifest:
             raise ValidationError(f"{self.model_id}: point model must declare 1 compartment")
         if not (0.0 < self.temperature_c < 45.0):
             raise ValidationError(f"{self.model_id}: implausible temperature {self.temperature_c}")
+        # Lineage bookkeeping is mandatory: an unset lineage silently defaults to
+        # "this model is its own independent family", which is exactly the
+        # overstatement the 2026-08-06 audit flagged (finding 4).
+        for name in ("source_lineage_id", "implementation_id", "neuron_class_id"):
+            val = getattr(self, name)
+            if not val:
+                raise ValidationError(f"{self.model_id}: {name} is required")
+            if not _ID_RE.match(val):
+                raise ValidationError(
+                    f"{self.model_id}: {name}={val!r} must match {_ID_RE.pattern}")
+        if self.cohort not in {"discovery", "replication"}:
+            raise ValidationError(f"{self.model_id}: cohort must be discovery|replication")
+        if self.protocol_coverage not in {"full", "partial"}:
+            raise ValidationError(f"{self.model_id}: protocol_coverage must be full|partial")
+        if self.parent_lineage and self.parent_lineage == self.source_lineage_id:
+            raise ValidationError(f"{self.model_id}: parent_lineage cannot be its own lineage")
 
     def to_row(self) -> dict:
         return asdict(self)

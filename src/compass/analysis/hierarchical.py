@@ -25,16 +25,27 @@ import pandas as pd
 __all__ = [
     "PREDICTOR_BLOCKS",
     "classification_test",
+    "cluster_bootstrap",
+    "leave_one_lineage_out",
     "leave_one_model_out",
     "mixed_effects_components",
+    "nested_variance_components",
     "variance_partition",
 ]
 
 PREDICTOR_BLOCKS = {
     "sampling": ["regime", "tolerance", "log_n_samples", "acceptance_rate"],
+    # Intrinsic dimension enters twice, from two estimators with different bias
+    # behaviour, so the block cannot rest on one algorithm's quirks (audit 3.4
+    # point 5).
     "geometry": ["mean_abs_pearson", "effective_rank_norm", "intrinsic_dimension_norm",
-                 "participation_ratio_norm", "pc1_variance_fraction"],
-    "model_identity": ["model_id"],
+                 "intrinsic_dimension_mle_norm", "participation_ratio_norm",
+                 "pc1_variance_fraction"],
+    # The unit of identity is the SOURCE LINEAGE, not the model id.  Eight model
+    # ids over six lineages made "model identity" partly a within-lineage
+    # contrast, which is not what the H-B hypothesis is about (audit finding 4).
+    "model_identity": ["source_lineage_id"],
+    "implementation": ["model_id"],
     "architecture": ["n_params", "log_n_compartments", "is_point_model"],
 }
 
@@ -78,9 +89,97 @@ def prepare(df: pd.DataFrame) -> pd.DataFrame:
     # different dimensionality are comparable
     for src, dst in (("effective_rank", "effective_rank_norm"),
                      ("participation_ratio", "participation_ratio_norm"),
-                     ("intrinsic_dimension", "intrinsic_dimension_norm")):
+                     ("intrinsic_dimension", "intrinsic_dimension_norm"),
+                     ("intrinsic_dimension_mle", "intrinsic_dimension_mle_norm")):
         if src in out.columns:
             out[dst] = out[src] / out["n_params"]
+    if "source_lineage_id" not in out.columns:
+        from .cohorts import lineage_column
+
+        out["source_lineage_id"] = lineage_column(out)
+    return out
+
+
+def cluster_bootstrap(values: np.ndarray, clusters: np.ndarray,
+                      statistic=np.mean, n_boot: int = 5000,
+                      seed: int = 20260806) -> dict:
+    """Resample whole CLUSTERS, then rows within them.
+
+    The previous bootstrap resampled eight model ids as if they were eight
+    independent units.  Two pairs of those ids share a source lineage, so the
+    resampling distribution was narrower than the data support (audit finding
+    4, section 7.6).  Resampling lineages fixes the unit; resampling rows within
+    a drawn lineage keeps the within-lineage variability.
+    """
+    rng = np.random.default_rng(seed)
+    values = np.asarray(values, dtype=float)
+    clusters = np.asarray(clusters)
+    uniq = np.unique(clusters)
+    idx_by = {c: np.flatnonzero(clusters == c) for c in uniq}
+    stats = []
+    for _ in range(n_boot):
+        drawn = rng.choice(uniq, size=len(uniq), replace=True)
+        take = np.concatenate([
+            rng.choice(idx_by[c], size=len(idx_by[c]), replace=True) for c in drawn])
+        v = values[take]
+        v = v[np.isfinite(v)]
+        if v.size:
+            stats.append(float(statistic(v)))
+    if not stats:
+        return {"point": float("nan"), "ci95": [float("nan")] * 2, "n_clusters": len(uniq)}
+    fin = values[np.isfinite(values)]
+    return {
+        "point": float(statistic(fin)) if fin.size else float("nan"),
+        "ci95": [float(np.quantile(stats, 0.025)), float(np.quantile(stats, 0.975))],
+        "sd": float(np.std(stats, ddof=1)),
+        "n_clusters": int(len(uniq)),
+        "n_rows": int(len(values)),
+        "clusters": sorted(map(str, uniq)),
+    }
+
+
+def nested_variance_components(df: pd.DataFrame, endpoint: str) -> dict:
+    """Variance at class / lineage / implementation level (audit 9.6 item 9).
+
+    A flat "model identity" random effect cannot distinguish "different neuron
+    classes behave differently" from "two implementations of the same source
+    disagree".  Those are different scientific claims with different evidential
+    requirements, so they get different variance components.
+    """
+    import statsmodels.formula.api as smf
+
+    d = prepare(df).dropna(subset=[endpoint]).copy()
+    need = {"source_lineage_id", "model_id"}
+    if not need <= set(d.columns) or d["source_lineage_id"].nunique() < 3:
+        return {"endpoint": endpoint, "error": "insufficient lineage structure"}
+    d["y"] = (d[endpoint] - d[endpoint].mean()) / (d[endpoint].std() or 1.0)
+    fixed = ("C(regime) + mean_abs_pearson + effective_rank_norm "
+             "+ intrinsic_dimension_norm + log_n_samples")
+    out: dict = {"endpoint": endpoint,
+                 "n": int(len(d)),
+                 "n_lineages": int(d["source_lineage_id"].nunique()),
+                 "n_implementations": int(d["model_id"].nunique())}
+    for level, col in (("lineage", "source_lineage_id"),
+                       ("implementation", "model_id")):
+        try:
+            m = smf.mixedlm(f"y ~ {fixed}", d, groups=d[col]).fit(reml=True)
+        except Exception as exc:  # noqa: BLE001
+            out[f"{level}_error"] = str(exc)[:120]
+            continue
+        var_grp = float(m.cov_re.iloc[0, 0]) if m.cov_re.size else 0.0
+        var_res = float(m.scale)
+        var_fix = float(np.var(np.asarray(m.model.exog) @ np.asarray(m.fe_params)))
+        total = var_fix + var_grp + var_res
+        out[level] = {
+            "var_group": var_grp, "var_residual": var_res, "var_fixed": var_fix,
+            "icc_adjusted": var_grp / (var_grp + var_res) if (var_grp + var_res) > 0 else np.nan,
+            "vpc": var_grp / total if total > 0 else np.nan,
+            "n_groups": int(d[col].nunique()),
+            # Production diagnostics, not just point estimates (audit section 1).
+            "converged": bool(getattr(m, "converged", False)),
+            "method": str(getattr(m, "method", "reml")),
+            "loglike": float(m.llf) if np.isfinite(m.llf) else None,
+        }
     return out
 
 
@@ -158,13 +257,32 @@ def mixed_effects_components(df: pd.DataFrame, endpoint: str) -> dict:
     }
 
 
+def leave_one_lineage_out(df: pd.DataFrame, endpoint: str,
+                          predictor_sets: dict | None = None) -> pd.DataFrame:
+    """Hold out a whole SOURCE LINEAGE, not one model id.
+
+    The audit's finding 4 in its most consequential form: "'leave-one-model-
+    family-out' holds out IDs, so a related lineage may remain in training".
+    Holding out ``hh_point`` while ``hh_cable`` -- same channels, same lineage,
+    one extra compartment -- stays in the training set does not test transfer to
+    an unseen family at all.
+    """
+    return leave_one_model_out(df, endpoint, predictor_sets, group_col="source_lineage_id")
+
+
 def leave_one_model_out(df: pd.DataFrame, endpoint: str,
-                        predictor_sets: dict | None = None) -> pd.DataFrame:
-    """Predict a held-out model family's endpoints (blueprint 18.3).
+                        predictor_sets: dict | None = None,
+                        group_col: str = "model_id") -> pd.DataFrame:
+    """Predict a held-out group's endpoints (blueprint 18.3).
 
     Model-identity dummies are unusable for an unseen family by construction, so
     a predictor set built only from sampling and geometry that still transfers
     is direct evidence that those factors, not neuron identity, carry the signal.
+
+    ``group_col`` selects the held-out unit.  Use ``source_lineage_id`` for the
+    scientifically meaningful fold (see :func:`leave_one_lineage_out`);
+    ``model_id`` is retained for backward comparison and is reported as an
+    implementation-level fold, not a family-level one.
     """
     predictor_sets = predictor_sets or {
         "sampling_only": PREDICTOR_BLOCKS["sampling"],

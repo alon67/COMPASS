@@ -1,0 +1,1173 @@
+{
+ "written_utc": "2026-08-08T15:03:54.876696+00:00",
+ "git_tree": "1695d044961468959c609ca4d70a030ff7c0df3d-dirty",
+ "environment": {
+  "python": "3.12.4",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "neuron": "8.2.6-1-gb6e6a5fad+",
+  "efel": "5.7.29",
+  "numpy": "1.26.4",
+  "scipy": "1.14.0",
+  "pandas": "2.2.3",
+  "sklearn": "1.5.2",
+  "statsmodels": "0.14.6",
+  "SALib": "?"
+ },
+ "models": {
+  "bbp_l5pc": {
+   "cohort": "discovery",
+   "source_lineage_id": "hay_2011",
+   "implementation_id": "hay_cell1",
+   "neuron_class_id": "cortical_pyramidal_l5",
+   "source_accession": "modeldb:139653",
+   "license": "ModelDB terms (Hay et al.); BluePyOpt LGPL-3.0 for BBP config",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "convergence_chosen": "dt0.025_meshas_built",
+   "convergence_file": "convergence_audit_bbp_l5pc.json",
+   "excluded_from_primary": null
+  },
+  "dougalis_vlpag_da": {
+   "cohort": "replication",
+   "source_lineage_id": "dougalis_2017",
+   "implementation_id": "dougalis_vlpag_drn",
+   "neuron_class_id": "dopaminergic_midbrain",
+   "source_accession": "modeldb:226010",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.0125
+   },
+   "convergence_chosen": "dt0.0125_meshas_built",
+   "convergence_file": "convergence_audit_dougalis_vlpag_da.json",
+   "excluded_from_primary": null
+  },
+  "hh_cable": {
+   "cohort": "discovery",
+   "source_lineage_id": "hodgkin_huxley_1952",
+   "implementation_id": "hh_two_compartment_cable",
+   "neuron_class_id": "minimal_hh",
+   "source_accession": "NEURON built-in hh",
+   "license": "NEURON built-in (BSD-like)",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.05
+   },
+   "convergence_chosen": "dt0.05_meshas_built",
+   "convergence_file": "convergence_audit_hh_cable.json",
+   "excluded_from_primary": null
+  },
+  "hh_point": {
+   "cohort": "discovery",
+   "source_lineage_id": "hodgkin_huxley_1952",
+   "implementation_id": "hh_single_compartment",
+   "neuron_class_id": "minimal_hh",
+   "source_accession": "NEURON built-in hh",
+   "license": "NEURON built-in (BSD-like)",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "convergence_chosen": "dt0.025_meshas_built",
+   "convergence_file": "convergence_audit_hh_point.json",
+   "excluded_from_primary": null
+  },
+  "khaliq_purkinje": {
+   "cohort": "discovery",
+   "source_lineage_id": "khaliq_2003",
+   "implementation_id": "khaliq_soma",
+   "neuron_class_id": "cerebellar_purkinje",
+   "source_accession": "modeldb:48332",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.00625
+   },
+   "convergence_chosen": "dt0.00625_meshas_built",
+   "convergence_file": "convergence_audit_khaliq_purkinje.json",
+   "excluded_from_primary": null
+  },
+  "mainen_l5pc": {
+   "cohort": "discovery",
+   "source_lineage_id": "mainen_1996",
+   "implementation_id": "mainen_j4a",
+   "neuron_class_id": "cortical_pyramidal_l5",
+   "source_accession": "modeldb:2488",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.0125
+   },
+   "convergence_chosen": null,
+   "convergence_file": "convergence_audit_mainen_l5pc.json",
+   "excluded_from_primary": {
+    "gate": "N3",
+    "reason": "production dt=0.0125 ms / 2304 segments fails step_abs_hi.adaptation_index at 1 of 7 audit points; the other 12 conditioning features reproduce on all 7",
+    "remediation": "finer dt or mesh was measured and is not affordable at campaign scale; see docs/decisions",
+    "sensitivity_arm": "retain_mainen"
+   }
+  },
+  "migliore_ca1": {
+   "cohort": "discovery",
+   "source_lineage_id": "migliore_1999",
+   "implementation_id": "migliore_n160",
+   "neuron_class_id": "hippocampal_pyramidal_ca1",
+   "source_accession": "modeldb:2796",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "convergence_chosen": "dt0.025_mesh1.0x",
+   "convergence_file": "convergence_audit_migliore_ca1.json",
+   "excluded_from_primary": null
+  },
+  "miyasho_purkinje": {
+   "cohort": "replication",
+   "source_lineage_id": "miyasho_2001",
+   "implementation_id": "miyasho_shelton_morphology",
+   "neuron_class_id": "cerebellar_purkinje",
+   "source_accession": "modeldb:17664",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.00625
+   },
+   "convergence_chosen": null,
+   "convergence_file": "convergence_audit_miyasho_purkinje.json",
+   "excluded_from_primary": {
+    "gate": "N3",
+    "reason": "no tested step converges. dt = 0.05 and 0.025 ms fail ap_amplitude_mV (agreement 0.40) on both the published 1,088-segment mesh and a 1,264-segment d_lambda mesh; 0.0125 ms still fails ap_amplitude_mV (0.60) and 0.00625 ms fails membrane_tau_ms (0.80) against a 0.003125 ms reference. The failing feature MOVES between steps, which is the signature of threshold-adjacent audit points rather than of an under-resolved integration",
+    "remediation": "not simulated. Halving again would make the reference the production setting; the honest reading is that this model's prior samples include points where a feature sits on a discontinuity, which a finer step cannot fix",
+    "sensitivity_arm": "retain_partial_coverage"
+   }
+  },
+  "moubarak_snc_da": {
+   "cohort": "replication",
+   "source_lineage_id": "moubarak_2022",
+   "implementation_id": "moubarak_cell_04022014c2",
+   "neuron_class_id": "dopaminergic_snc",
+   "source_accession": "modeldb:267306",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.003125
+   },
+   "convergence_chosen": "dt0.00625_meshas_built",
+   "convergence_file": "convergence_audit_moubarak_snc_da.json",
+   "excluded_from_primary": null
+  },
+  "ortner_snc_da": {
+   "cohort": "replication",
+   "source_lineage_id": "dougalis_2017",
+   "implementation_id": "ortner_snc_single",
+   "neuron_class_id": "dopaminergic_snc",
+   "source_accession": "modeldb:2017402",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "partial",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.00625
+   },
+   "convergence_chosen": null,
+   "convergence_file": "convergence_audit_ortner_snc_da.json",
+   "excluded_from_primary": {
+    "gate": "N3",
+    "reason": "no tested time step converges: step_abs_hi.ap_amplitude_mV fails on 1-2 of 7 prior points at dt = 0.025, 0.0125 AND 0.00625 ms, non-monotonically. Separately, its maximum rate of ~7.5 Hz gives <=3 spikes in the frozen 400 ms window, so ISI-derived conditioning features sit at their definitional floor (protocol_coverage='partial')",
+    "remediation": "not simulated at all; the adapter and its failing convergence audit are retained as the documented record",
+    "sensitivity_arm": "retain_partial_coverage"
+   }
+  },
+  "pospischil_fs": {
+   "cohort": "discovery",
+   "source_lineage_id": "pospischil_2008",
+   "implementation_id": "pospischil_sin_fs",
+   "neuron_class_id": "cortical_interneuron_fs",
+   "source_accession": "modeldb:123623",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "convergence_chosen": "dt0.05_meshas_built",
+   "convergence_file": "convergence_audit_pospischil_fs.json",
+   "excluded_from_primary": null
+  },
+  "pospischil_rs": {
+   "cohort": "discovery",
+   "source_lineage_id": "pospischil_2008",
+   "implementation_id": "pospischil_spy_rs",
+   "neuron_class_id": "cortical_pyramidal_rs",
+   "source_accession": "modeldb:123623",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.05
+   },
+   "convergence_chosen": "dt0.05_meshas_built",
+   "convergence_file": "convergence_audit_pospischil_rs.json",
+   "excluded_from_primary": null
+  },
+  "tomko_ca1": {
+   "cohort": "replication",
+   "source_lineage_id": "migliore_1999",
+   "implementation_id": "tomko_reduced_weak_bap",
+   "neuron_class_id": "hippocampal_pyramidal_ca1",
+   "source_accession": "modeldb:266901",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "convergence_chosen": "dt0.025_meshas_built",
+   "convergence_file": "convergence_audit_tomko_ca1.json",
+   "excluded_from_primary": null
+  },
+  "tzilivaki_fsbc": {
+   "cohort": "replication",
+   "source_lineage_id": "tzilivaki_2019",
+   "implementation_id": "tzilivaki_somogyi_1",
+   "neuron_class_id": "cortical_interneuron_fs",
+   "source_accession": "modeldb:237595",
+   "license": "ModelDB terms; free for academic use",
+   "protocol_coverage": "full",
+   "solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "convergence_chosen": null,
+   "convergence_file": "convergence_audit_tzilivaki_fsbc.json",
+   "excluded_from_primary": {
+    "gate": "N3",
+    "reason": "step_abs_hi.mean_firing_rate_Hz reproduces on only 25-50% of audit points at dt = 0.05 and 0.025 ms, on both the published 9,875-segment mesh and the 4,096-segment d_lambda mesh. A fast-spiking cell at ~145 Hz puts one or two spikes per 400 ms window inside the tolerance, and the step needed to resolve them is finer than 0.0125 ms",
+    "remediation": "a converged campaign would cost ~4 h per 256 samples at 0.00625 ms on this morphology; not affordable in this release. Adapter, mechanisms, calibration and the failing audit are retained so it can be resumed",
+    "sensitivity_arm": "retain_partial_coverage"
+   }
+  }
+ },
+ "inferential_sample": {
+  "n_implementations": 14,
+  "n_source_lineages": 10,
+  "lineages": {
+   "dougalis_2017": [
+    "dougalis_vlpag_da",
+    "ortner_snc_da"
+   ],
+   "hay_2011": [
+    "bbp_l5pc"
+   ],
+   "hodgkin_huxley_1952": [
+    "hh_cable",
+    "hh_point"
+   ],
+   "khaliq_2003": [
+    "khaliq_purkinje"
+   ],
+   "mainen_1996": [
+    "mainen_l5pc"
+   ],
+   "migliore_1999": [
+    "migliore_ca1",
+    "tomko_ca1"
+   ],
+   "miyasho_2001": [
+    "miyasho_purkinje"
+   ],
+   "moubarak_2022": [
+    "moubarak_snc_da"
+   ],
+   "pospischil_2008": [
+    "pospischil_fs",
+    "pospischil_rs"
+   ],
+   "tzilivaki_2019": [
+    "tzilivaki_fsbc"
+   ]
+  },
+  "n_primary_implementations": 10,
+  "n_primary_lineages": 7
+ },
+ "provenance_files": {
+  "downloads.json": {
+   "path": "data/provenance/downloads.json",
+   "bytes": 36042,
+   "sha256": "29709f3a39e8b8f4fa4fb62888be3e9d"
+  },
+  "mechanism_builds.json": {
+   "path": "data/provenance/mechanism_builds.json",
+   "bytes": 2574,
+   "sha256": "ec9af177c05c436dc14c3aafc7a9b897"
+  },
+  "amplitude_calibration.json": {
+   "path": "data/provenance/amplitude_calibration.json",
+   "bytes": 28196,
+   "sha256": "608d2eb4614a54d71639f6e06689e736"
+  },
+  "identity_backfill.json": {
+   "path": "data/provenance/identity_backfill.json",
+   "bytes": 143,
+   "sha256": "bbaede6ec592e4e10d75ec6dc82c21b5"
+  }
+ },
+ "artifacts": [
+  {
+   "path": "results/analyses/_perturbation_cache/bbp_l5pc_main_raw.parquet",
+   "bytes": 57156,
+   "sha256": "95f30b4323ad3495aeba07540977e9e3",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/bbp_l5pc_main_summary.parquet",
+   "bytes": 14090,
+   "sha256": "18b494bd771c6ae9a0d16e346d3e400d",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_cable_dt_half_raw.parquet",
+   "bytes": 44770,
+   "sha256": "d52c1cf806495b6df628f8bca834c129",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_cable_dt_half_summary.parquet",
+   "bytes": 14623,
+   "sha256": "33d90f4b95545b6ec70332ea909db85e",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_cable_main_raw.parquet",
+   "bytes": 42069,
+   "sha256": "5f69e980f4db9befa31d57012a19b125",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_cable_main_summary.parquet",
+   "bytes": 14551,
+   "sha256": "7e4b164f5e05c1b3153aa9ee41d77a6a",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_point_dt_half_raw.parquet",
+   "bytes": 37981,
+   "sha256": "716f39e4051e5d244e91af225418c04d",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_point_dt_half_summary.parquet",
+   "bytes": 14483,
+   "sha256": "cd9ba2c5fde8b7f5272e05c59a9d267a",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_point_main_raw.parquet",
+   "bytes": 39420,
+   "sha256": "17cefd49c1f78097b0312e31271b1afa",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/hh_point_main_summary.parquet",
+   "bytes": 14535,
+   "sha256": "d78cd5c4ef6eacc8eb5d14ff627d85c0",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/khaliq_purkinje_dt_half_raw.parquet",
+   "bytes": 48299,
+   "sha256": "86a2838876f1780657893c17de487e4a",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/khaliq_purkinje_dt_half_summary.parquet",
+   "bytes": 14481,
+   "sha256": "d7d9f8a481f2724a4c5194a9d49fce14",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/khaliq_purkinje_main_raw.parquet",
+   "bytes": 49303,
+   "sha256": "eada719bd0636e93f31b9ac660782af0",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/khaliq_purkinje_main_summary.parquet",
+   "bytes": 14488,
+   "sha256": "226d4f10fe53a494a3625cd4a62b7309",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/migliore_ca1_main_raw.parquet",
+   "bytes": 44476,
+   "sha256": "19dbb2ebc0d5430bf5f32161008021a0",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/migliore_ca1_main_summary.parquet",
+   "bytes": 14611,
+   "sha256": "6296c1567cdfb93717695d4daa2c64dd",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_fs_dt_half_raw.parquet",
+   "bytes": 40990,
+   "sha256": "0f0aa2692d856cf80268a51742ec2d38",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_fs_dt_half_summary.parquet",
+   "bytes": 14522,
+   "sha256": "33b82194654644b3575a7efb89c165b6",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_fs_main_raw.parquet",
+   "bytes": 42143,
+   "sha256": "5d0e350b9407c0c43b7f8b7dca1b2ddc",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_fs_main_summary.parquet",
+   "bytes": 14498,
+   "sha256": "84fedba61ec8c67aed0a35b3e6ea5864",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_rs_dt_half_raw.parquet",
+   "bytes": 44905,
+   "sha256": "8f10bb99ac4490aaefb7d26dceef7d22",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_rs_dt_half_summary.parquet",
+   "bytes": 14715,
+   "sha256": "5cf36bad281edf7c0031185f06fd39d7",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_rs_main_raw.parquet",
+   "bytes": 42838,
+   "sha256": "2836a4f29e24a091cb5a1e0ca34a2ebb",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/pospischil_rs_main_summary.parquet",
+   "bytes": 14658,
+   "sha256": "126bde410ac15e8548b054ea89395b0d",
+   "rows": 90
+  },
+  {
+   "path": "results/analyses/benchmarks.json",
+   "bytes": 25261,
+   "sha256": "403dc8ae320ebe29d7756b7007603f74"
+  },
+  {
+   "path": "results/analyses/claim_manifest.json",
+   "bytes": 7640,
+   "sha256": "684ccb7b7e46e254919ca1b1630a9cac"
+  },
+  {
+   "path": "results/analyses/classification.parquet",
+   "bytes": 4683,
+   "sha256": "0c0e477517174bc43fe0313f1bf8c0c1",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/classification_all_models.parquet",
+   "bytes": 4683,
+   "sha256": "ad59e5dc661ef738b767df373d219b90",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/classification_discovery_only.parquet",
+   "bytes": 4683,
+   "sha256": "0c0e477517174bc43fe0313f1bf8c0c1",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/classification_drop_failed_feature.parquet",
+   "bytes": 4683,
+   "sha256": "ad59e5dc661ef738b767df373d219b90",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/classification_retain_mainen.parquet",
+   "bytes": 4683,
+   "sha256": "ad59e5dc661ef738b767df373d219b90",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/classification_retain_partial_coverage.parquet",
+   "bytes": 4683,
+   "sha256": "0c0e477517174bc43fe0313f1bf8c0c1",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/conditioning_shift.parquet",
+   "bytes": 16982,
+   "sha256": "ea293a0a0989f3004273b85f3f0dee30",
+   "rows": 190
+  },
+  {
+   "path": "results/analyses/conditioning_shift_all_models.parquet",
+   "bytes": 17721,
+   "sha256": "cb32249a4b6a1487d30441d2bfa52789",
+   "rows": 210
+  },
+  {
+   "path": "results/analyses/conditioning_shift_discovery_only.parquet",
+   "bytes": 16982,
+   "sha256": "ea293a0a0989f3004273b85f3f0dee30",
+   "rows": 190
+  },
+  {
+   "path": "results/analyses/conditioning_shift_drop_failed_feature.parquet",
+   "bytes": 17721,
+   "sha256": "cb32249a4b6a1487d30441d2bfa52789",
+   "rows": 210
+  },
+  {
+   "path": "results/analyses/conditioning_shift_retain_mainen.parquet",
+   "bytes": 17721,
+   "sha256": "cb32249a4b6a1487d30441d2bfa52789",
+   "rows": 210
+  },
+  {
+   "path": "results/analyses/conditioning_shift_retain_partial_coverage.parquet",
+   "bytes": 16982,
+   "sha256": "ea293a0a0989f3004273b85f3f0dee30",
+   "rows": 190
+  },
+  {
+   "path": "results/analyses/covariance_shift.parquet",
+   "bytes": 11057,
+   "sha256": "01e1dd96feeb638ca5d4c9c7fcbfa008",
+   "rows": 102
+  },
+  {
+   "path": "results/analyses/covariance_shift_all_models.parquet",
+   "bytes": 11439,
+   "sha256": "d0adf0522078b1a6ba9eceb11c39c2b7",
+   "rows": 114
+  },
+  {
+   "path": "results/analyses/covariance_shift_discovery_only.parquet",
+   "bytes": 11057,
+   "sha256": "01e1dd96feeb638ca5d4c9c7fcbfa008",
+   "rows": 102
+  },
+  {
+   "path": "results/analyses/covariance_shift_drop_failed_feature.parquet",
+   "bytes": 11439,
+   "sha256": "d0adf0522078b1a6ba9eceb11c39c2b7",
+   "rows": 114
+  },
+  {
+   "path": "results/analyses/covariance_shift_retain_mainen.parquet",
+   "bytes": 11439,
+   "sha256": "d0adf0522078b1a6ba9eceb11c39c2b7",
+   "rows": 114
+  },
+  {
+   "path": "results/analyses/covariance_shift_retain_partial_coverage.parquet",
+   "bytes": 11057,
+   "sha256": "01e1dd96feeb638ca5d4c9c7fcbfa008",
+   "rows": 102
+  },
+  {
+   "path": "results/analyses/decision.json",
+   "bytes": 6044,
+   "sha256": "0555ad69adb418101a67014ebd8f91c3"
+  },
+  {
+   "path": "results/analyses/decision_all_models.json",
+   "bytes": 6396,
+   "sha256": "8d00f76607fe48eb824db531c4903968"
+  },
+  {
+   "path": "results/analyses/decision_discovery_only.json",
+   "bytes": 6152,
+   "sha256": "874a8c7cb0a5670b033b7b92d2772635"
+  },
+  {
+   "path": "results/analyses/decision_drop_failed_feature.json",
+   "bytes": 6611,
+   "sha256": "13a3ee6a5447927308f750a86df9e7a2"
+  },
+  {
+   "path": "results/analyses/decision_retain_mainen.json",
+   "bytes": 6504,
+   "sha256": "dc7e5903ded701ec0775da50f08eb05f"
+  },
+  {
+   "path": "results/analyses/decision_retain_partial_coverage.json",
+   "bytes": 6050,
+   "sha256": "5aec8dbd9c227e3981d3ac1f28ce4fd9"
+  },
+  {
+   "path": "results/analyses/decision_sensitivity.json",
+   "bytes": 13728,
+   "sha256": "ca2dde36fc34cf5a8ff5edd3526c14ce"
+  },
+  {
+   "path": "results/analyses/e7_marginal_balance.parquet",
+   "bytes": 8029,
+   "sha256": "d6d09c9585bc81028324585681da4860",
+   "rows": 72
+  },
+  {
+   "path": "results/analyses/endpoints_annotated_screening.parquet",
+   "bytes": 81835,
+   "sha256": "d4c094eac36290b0e330244ed8dac587",
+   "rows": 410
+  },
+  {
+   "path": "results/analyses/endpoints_matched_screening.parquet",
+   "bytes": 308934,
+   "sha256": "e6ead152cb8c4f67d101d7f9d524d930",
+   "rows": 3220
+  },
+  {
+   "path": "results/analyses/endpoints_screening.parquet",
+   "bytes": 74836,
+   "sha256": "cc2e834ab2ef601b42ceaa678eb61af6",
+   "rows": 410
+  },
+  {
+   "path": "results/analyses/endpoints_screening_qc_strict.parquet",
+   "bytes": 73786,
+   "sha256": "82879e3981cee2c004294c2a9b5be18d",
+   "rows": 394
+  },
+  {
+   "path": "results/analyses/endpoints_screening_scramble2.parquet",
+   "bytes": 62129,
+   "sha256": "ad75fa060ce4c226005ec1c4d420c721",
+   "rows": 308
+  },
+  {
+   "path": "results/analyses/endpoints_screening_v2_replication.parquet",
+   "bytes": 43469,
+   "sha256": "0a65b0cf447e30e2bd55781d3e4c9ecb",
+   "rows": 128
+  },
+  {
+   "path": "results/analyses/estimator_reliability.json",
+   "bytes": 15289,
+   "sha256": "ce9d50dc71124b1c88c50cb9f1c20312"
+  },
+  {
+   "path": "results/analyses/key_numbers.json",
+   "bytes": 37059,
+   "sha256": "08781e74c5162f211d55c15ba6c7cd8c"
+  },
+  {
+   "path": "results/analyses/lomo.parquet",
+   "bytes": 8254,
+   "sha256": "6e9b8b0b4439b4eaabf2a76f82f288c2",
+   "rows": 280
+  },
+  {
+   "path": "results/analyses/lomo_all_models.parquet",
+   "bytes": 8506,
+   "sha256": "b32ab867a22360771e4089d8bcf92e5e",
+   "rows": 320
+  },
+  {
+   "path": "results/analyses/lomo_discovery_only.parquet",
+   "bytes": 8254,
+   "sha256": "6e9b8b0b4439b4eaabf2a76f82f288c2",
+   "rows": 280
+  },
+  {
+   "path": "results/analyses/lomo_drop_failed_feature.parquet",
+   "bytes": 8506,
+   "sha256": "b32ab867a22360771e4089d8bcf92e5e",
+   "rows": 320
+  },
+  {
+   "path": "results/analyses/lomo_retain_mainen.parquet",
+   "bytes": 8506,
+   "sha256": "b32ab867a22360771e4089d8bcf92e5e",
+   "rows": 320
+  },
+  {
+   "path": "results/analyses/lomo_retain_partial_coverage.parquet",
+   "bytes": 8254,
+   "sha256": "6e9b8b0b4439b4eaabf2a76f82f288c2",
+   "rows": 280
+  },
+  {
+   "path": "results/analyses/manifest_diff.parquet",
+   "bytes": 7482,
+   "sha256": "99723bd3b827af7a5a188b85a58ebba6",
+   "rows": 96
+  },
+  {
+   "path": "results/analyses/matched_design_screening.parquet",
+   "bytes": 6294,
+   "sha256": "d83dbfc85d5765ea2c7f9c9a554c1555",
+   "rows": 30
+  },
+  {
+   "path": "results/analyses/mixed_effects.json",
+   "bytes": 1079,
+   "sha256": "49a828cea7242d307e6cb56507d91b13"
+  },
+  {
+   "path": "results/analyses/mixed_effects_all_models.json",
+   "bytes": 1077,
+   "sha256": "b78e9e24b5d3047727fdedbdd7745adf"
+  },
+  {
+   "path": "results/analyses/mixed_effects_discovery_only.json",
+   "bytes": 1079,
+   "sha256": "49a828cea7242d307e6cb56507d91b13"
+  },
+  {
+   "path": "results/analyses/mixed_effects_drop_failed_feature.json",
+   "bytes": 1077,
+   "sha256": "b78e9e24b5d3047727fdedbdd7745adf"
+  },
+  {
+   "path": "results/analyses/mixed_effects_retain_mainen.json",
+   "bytes": 1077,
+   "sha256": "b78e9e24b5d3047727fdedbdd7745adf"
+  },
+  {
+   "path": "results/analyses/mixed_effects_retain_partial_coverage.json",
+   "bytes": 1079,
+   "sha256": "49a828cea7242d307e6cb56507d91b13"
+  },
+  {
+   "path": "results/analyses/module_stability.parquet",
+   "bytes": 4866,
+   "sha256": "71baba43e34bb81492142175fccfcd04",
+   "rows": 31
+  },
+  {
+   "path": "results/analyses/order_curves_screening.parquet",
+   "bytes": 118420,
+   "sha256": "abe0acbd778d84f8be5469cdda364fa0",
+   "rows": 1230
+  },
+  {
+   "path": "results/analyses/order_curves_screening_qc_strict.parquet",
+   "bytes": 115110,
+   "sha256": "cdcc6bd4322e30fb28867af59730b5e1",
+   "rows": 1182
+  },
+  {
+   "path": "results/analyses/order_curves_screening_scramble2.parquet",
+   "bytes": 90215,
+   "sha256": "8941fe45787cd6e68dade60254dbbd3b",
+   "rows": 924
+  },
+  {
+   "path": "results/analyses/order_curves_screening_v2_replication.parquet",
+   "bytes": 50270,
+   "sha256": "27377ca5a752d291d6663f9106855b50",
+   "rows": 384
+  },
+  {
+   "path": "results/analyses/perturbation_inference.json",
+   "bytes": 4736,
+   "sha256": "0e09e258e82fc75b2609d84070daf881"
+  },
+  {
+   "path": "results/analyses/perturbation_inference.parquet",
+   "bytes": 44003,
+   "sha256": "3a63302cfa01f5d75e5d507d34330b3d",
+   "rows": 630
+  },
+  {
+   "path": "results/analyses/perturbations.parquet",
+   "bytes": 34240,
+   "sha256": "b89e0ea151af92d9a14c2d59d8e33e19",
+   "rows": 630
+  },
+  {
+   "path": "results/analyses/perturbations_dt_half.parquet",
+   "bytes": 27978,
+   "sha256": "ff7c4a87038a9abf8b423c39e6e89d00",
+   "rows": 450
+  },
+  {
+   "path": "results/analyses/perturbations_fast5.parquet",
+   "bytes": 27663,
+   "sha256": "8696664991eb3b199c9cb1acd996b73f",
+   "rows": 450
+  },
+  {
+   "path": "results/analyses/perturbations_raw.parquet",
+   "bytes": 222581,
+   "sha256": "9b240815c13368ffb6145818b6b2e830",
+   "rows": 5040
+  },
+  {
+   "path": "results/analyses/perturbations_raw_dt_half.parquet",
+   "bytes": 144174,
+   "sha256": "c1ac5dfdd3bf3e215deee63a962e0f5b",
+   "rows": 3600
+  },
+  {
+   "path": "results/analyses/perturbations_raw_fast5.parquet",
+   "bytes": 141989,
+   "sha256": "71648128b8a2328106af887e5deec748",
+   "rows": 3600
+  },
+  {
+   "path": "results/analyses/perturbations_summary.json",
+   "bytes": 5318,
+   "sha256": "2b254e5aca8a88d2748fba6a9c1c424c"
+  },
+  {
+   "path": "results/analyses/perturbations_summary_dt_half.json",
+   "bytes": 5285,
+   "sha256": "06465ee4d41f4f739ff129af50650a95"
+  },
+  {
+   "path": "results/analyses/perturbations_summary_fast5.json",
+   "bytes": 5082,
+   "sha256": "034e4a32a69bac567552d75996072d1f"
+  },
+  {
+   "path": "results/analyses/robustness.json",
+   "bytes": 2655,
+   "sha256": "937c2a86b73ce7eab232845cc8b9fa67"
+  },
+  {
+   "path": "results/analyses/rsi_screening.parquet",
+   "bytes": 66291,
+   "sha256": "53f1f9e019f99ef91380a83ee51f1e67",
+   "rows": 1600
+  },
+  {
+   "path": "results/analyses/rsi_screening_qc_strict.parquet",
+   "bytes": 66130,
+   "sha256": "1d4302f2806442deb8cafde8a00d64ae",
+   "rows": 1584
+  },
+  {
+   "path": "results/analyses/rsi_screening_scramble2.parquet",
+   "bytes": 46773,
+   "sha256": "b076ae02bbc62f782f7d9a1795d040ba",
+   "rows": 1068
+  },
+  {
+   "path": "results/analyses/rsi_screening_v2_replication.parquet",
+   "bytes": 27908,
+   "sha256": "8a688d39681ce8e781bc3364c676cdbb",
+   "rows": 528
+  },
+  {
+   "path": "results/analyses/sobol_convergence.parquet",
+   "bytes": 14042,
+   "sha256": "3b893581e9601fc8e92fe2d9abfd83a6",
+   "rows": 214
+  },
+  {
+   "path": "results/analyses/sobol_indices.parquet",
+   "bytes": 72628,
+   "sha256": "cebf1e8f42ca4a86645ac58b6920d383",
+   "rows": 2561
+  },
+  {
+   "path": "results/analyses/sobol_summary.parquet",
+   "bytes": 17147,
+   "sha256": "96cdc7c0f843964edcb15afee436ac8b",
+   "rows": 56
+  },
+  {
+   "path": "results/analyses/tuple_scores_screening.parquet",
+   "bytes": 453098,
+   "sha256": "f41c993f274635effd008ff50af6938e",
+   "rows": 46876
+  },
+  {
+   "path": "results/analyses/tuple_scores_screening_qc_strict.parquet",
+   "bytes": 424163,
+   "sha256": "dd910d6643d4feb0403bcb6da0a837fd",
+   "rows": 43402
+  },
+  {
+   "path": "results/analyses/tuple_scores_screening_scramble2.parquet",
+   "bytes": 319863,
+   "sha256": "41982690e14329e55fe26464e4cfb956",
+   "rows": 33916
+  },
+  {
+   "path": "results/analyses/tuple_scores_screening_v2_replication.parquet",
+   "bytes": 424798,
+   "sha256": "a31ff989b91157a39967aeeb67089c25",
+   "rows": 44458
+  },
+  {
+   "path": "results/analyses/variance_partition.parquet",
+   "bytes": 5160,
+   "sha256": "9bec91d3072642b27b3251dff6c472c0",
+   "rows": 20
+  },
+  {
+   "path": "results/analyses/variance_partition_all_models.parquet",
+   "bytes": 5160,
+   "sha256": "f38154f207d21b3e3bd6d28fad1ed550",
+   "rows": 20
+  },
+  {
+   "path": "results/analyses/variance_partition_discovery_only.parquet",
+   "bytes": 5160,
+   "sha256": "9bec91d3072642b27b3251dff6c472c0",
+   "rows": 20
+  },
+  {
+   "path": "results/analyses/variance_partition_drop_failed_feature.parquet",
+   "bytes": 5160,
+   "sha256": "f38154f207d21b3e3bd6d28fad1ed550",
+   "rows": 20
+  },
+  {
+   "path": "results/analyses/variance_partition_retain_mainen.parquet",
+   "bytes": 5160,
+   "sha256": "f38154f207d21b3e3bd6d28fad1ed550",
+   "rows": 20
+  },
+  {
+   "path": "results/analyses/variance_partition_retain_partial_coverage.parquet",
+   "bytes": 5160,
+   "sha256": "9bec91d3072642b27b3251dff6c472c0",
+   "rows": 20
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_bbp_l5pc.json",
+   "bytes": 17830,
+   "sha256": "a77018efafc481ca6b607b09ccc12ccd"
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_hh_cable.json",
+   "bytes": 12717,
+   "sha256": "fa92f45f00eb0560fc6a1b0f0d3c03ab"
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_hh_point.json",
+   "bytes": 11554,
+   "sha256": "7dcf26bcb9e1c810ef118ee3d2acb207"
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_khaliq_purkinje.json",
+   "bytes": 14679,
+   "sha256": "269434d865b5d7fc98bf8ced945d6829"
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_mainen_l5pc.json",
+   "bytes": 13857,
+   "sha256": "674251f4749bf57d52e805d2a5638f4d"
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_migliore_ca1.json",
+   "bytes": 12757,
+   "sha256": "fbe01993bf214d5648773ac74ecd61b8"
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_pospischil_fs.json",
+   "bytes": 12248,
+   "sha256": "c1d3aed411afe510c3933cd1ea948acb"
+  },
+  {
+   "path": "results/manifests/_superseded/20260806T094255Z_cvode_contract/canonical_pospischil_rs.json",
+   "bytes": 12755,
+   "sha256": "454d5cccf1a5f9961adf21372be2398a"
+  },
+  {
+   "path": "results/manifests/campaign_pilot.json",
+   "bytes": 2038,
+   "sha256": "45630dd58c26ad0be0ff84f4945aca8c"
+  },
+  {
+   "path": "results/manifests/campaign_screening.json",
+   "bytes": 574626,
+   "sha256": "6fd71f4d58c70d96df584278a6f63cf7"
+  },
+  {
+   "path": "results/manifests/campaign_screening_expand.json",
+   "bytes": 14152,
+   "sha256": "4f0ff0eb5310132c272c4a6afb084676"
+  },
+  {
+   "path": "results/manifests/campaign_screening_scramble2.json",
+   "bytes": 220941,
+   "sha256": "a77f5155a9540214a6e85f530a4957d7"
+  },
+  {
+   "path": "results/manifests/campaign_screening_v2_replication.json",
+   "bytes": 76555,
+   "sha256": "b8366becb65e438cc668da986777e207"
+  },
+  {
+   "path": "results/manifests/canonical_bbp_l5pc.json",
+   "bytes": 18068,
+   "sha256": "1c3b2e354707557598c132e6f5b71b24"
+  },
+  {
+   "path": "results/manifests/canonical_dougalis_vlpag_da.json",
+   "bytes": 15332,
+   "sha256": "3db0d473988c5bcd760b633dbe7f2d0a"
+  },
+  {
+   "path": "results/manifests/canonical_hh_cable.json",
+   "bytes": 12949,
+   "sha256": "765b845ea35bb4f1c894b566b8172679"
+  },
+  {
+   "path": "results/manifests/canonical_hh_point.json",
+   "bytes": 11814,
+   "sha256": "8d15a7da1cf6e0864e3d5a1e9ae641ca"
+  },
+  {
+   "path": "results/manifests/canonical_khaliq_purkinje.json",
+   "bytes": 14990,
+   "sha256": "219bafd038193a6ba78ebcbf6003f4e8"
+  },
+  {
+   "path": "results/manifests/canonical_mainen_l5pc.json",
+   "bytes": 14087,
+   "sha256": "0847fddc6987f717d728ff0569b474b0"
+  },
+  {
+   "path": "results/manifests/canonical_migliore_ca1.json",
+   "bytes": 12935,
+   "sha256": "ab92486e78a6392e91aa14088008d083"
+  },
+  {
+   "path": "results/manifests/canonical_miyasho_purkinje.json",
+   "bytes": 15325,
+   "sha256": "806eee1682653120379067ba67a0458e"
+  },
+  {
+   "path": "results/manifests/canonical_moubarak_snc_da.json",
+   "bytes": 17353,
+   "sha256": "36a02269aca649ac99cabb3ae96adbac"
+  },
+  {
+   "path": "results/manifests/canonical_ortner_snc_da.json",
+   "bytes": 15563,
+   "sha256": "d8c503f12244521761525d2206019917"
+  },
+  {
+   "path": "results/manifests/canonical_pospischil_fs.json",
+   "bytes": 12441,
+   "sha256": "3724207e62f3732fa3ccfe0050c7eac7"
+  },
+  {
+   "path": "results/manifests/canonical_pospischil_rs.json",
+   "bytes": 13002,
+   "sha256": "dac7ddf6d09b390df91a33517b31a563"
+  },
+  {
+   "path": "results/manifests/canonical_tomko_ca1.json",
+   "bytes": 18614,
+   "sha256": "4f4bf85c09eefd781b6e8554c2a97129"
+  },
+  {
+   "path": "results/manifests/canonical_tzilivaki_fsbc.json",
+   "bytes": 16863,
+   "sha256": "aee74917845502f23407a5f4368e8211"
+  },
+  {
+   "path": "results/validation/campaign_integrity.json",
+   "bytes": 3781507,
+   "sha256": "8a27d04fbed300fd332d3ee36f9e1aa2"
+  },
+  {
+   "path": "results/validation/replay_gate_screening.json",
+   "bytes": 15278,
+   "sha256": "0a41614cc03ff3b1f8feb9db3b4e5b82"
+  },
+  {
+   "path": "results/validation/replay_gate_screening_v2_replication.json",
+   "bytes": 18906,
+   "sha256": "8edd75c9f537a57271e70b85b3553f9a"
+  },
+  {
+   "path": "results/validation/replay_screening.parquet",
+   "bytes": 42723,
+   "sha256": "841be25924dbdfbf0e91daae5e61c2f9",
+   "rows": 3339
+  },
+  {
+   "path": "results/validation/replay_screening_v2_replication.parquet",
+   "bytes": 14680,
+   "sha256": "d8d1e8bc27f19cc235675646e38fae1b",
+   "rows": 531
+  }
+ ],
+ "gates": {
+  "D1": {
+   "n": 5,
+   "passed": 5,
+   "failed": [],
+   "sources": [
+    "campaign_integrity.json"
+   ]
+  },
+  "D2": {
+   "n": 49,
+   "passed": 49,
+   "failed": [],
+   "sources": [
+    "campaign_integrity.json"
+   ]
+  },
+  "D3": {
+   "n": 6,
+   "passed": 6,
+   "failed": [],
+   "sources": [
+    "campaign_integrity.json"
+   ]
+  },
+  "D4": {
+   "n": 4662,
+   "passed": 4662,
+   "failed": [],
+   "sources": [
+    "campaign_integrity.json"
+   ]
+  },
+  "D5": {
+   "n": 57,
+   "passed": 57,
+   "failed": [],
+   "sources": [
+    "campaign_integrity.json"
+   ]
+  },
+  "REPLAY": {
+   "n": 2,
+   "passed": 2,
+   "failed": [],
+   "sources": [
+    "replay_gate_screening.json",
+    "replay_gate_screening_v2_replication.json"
+   ]
+  }
+ },
+ "release_verdict": "RELEASE-BLOCKED",
+ "blockers": [
+  "working tree is 1695d044961468959c609ca4d70a030ff7c0df3d-dirty: reproducibility claims apply only to a committed, tagged state",
+  "models excluded on gate failure: mainen_l5pc (N3), miyasho_purkinje (N3), ortner_snc_da (N3), tzilivaki_fsbc (N3) -- valid for a screening result, blocking for a confirmatory release"
+ ]
+}

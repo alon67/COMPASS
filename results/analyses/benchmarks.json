@@ -902,7 +902,7 @@
      "median_omega_o3": 1.3597591357851697e-07,
      "mean_abs_pearson": 0.008596475294039063,
      "effective_rank": 5.998412804269283,
-     "intrinsic_dimension": 8.254183336738354
+     "intrinsic_dimension": 5.684901719421007
     },
     {
      "label": "conditioned_permissive",
@@ -915,7 +915,7 @@
      "median_omega_o3": -2.642602255341765e-05,
      "mean_abs_pearson": 0.055191391822538544,
      "effective_rank": 5.923164736414101,
-     "intrinsic_dimension": 8.333243887953206,
+     "intrinsic_dimension": 5.7276354139154755,
      "tolerance": "permissive",
      "acceptance_rate": 0.6365,
      "threshold": 3.0
@@ -931,7 +931,7 @@
      "median_omega_o3": -5.306644032925575e-06,
      "mean_abs_pearson": 0.07267827616763323,
      "effective_rank": 5.817434200784113,
-     "intrinsic_dimension": 8.318451400463655,
+     "intrinsic_dimension": 5.709868270486802,
      "tolerance": "moderate",
      "acceptance_rate": 0.52955,
      "threshold": 2.0
@@ -947,7 +947,7 @@
      "median_omega_o3": -0.0002255561964048169,
      "mean_abs_pearson": 0.16788435977224314,
      "effective_rank": 5.324675796806924,
-     "intrinsic_dimension": 7.995186822807586,
+     "intrinsic_dimension": 5.4443515947442735,
      "tolerance": "strict",
      "acceptance_rate": 0.20415,
      "threshold": 1.0
@@ -963,7 +963,7 @@
      "median_omega_o3": -0.0005328804819936979,
      "mean_abs_pearson": 0.20352869262873732,
      "effective_rank": 5.06179864097688,
-     "intrinsic_dimension": 7.8295631567905355,
+     "intrinsic_dimension": 5.138766832550737,
      "tolerance": "very_strict",
      "acceptance_rate": 0.03945,
      "threshold": 0.5
@@ -1004,7 +1004,7 @@
      "median_omega_o3": 1.3597591357853052e-07,
      "mean_abs_pearson": 0.008596475294039056,
      "effective_rank": 5.998412804269285,
-     "intrinsic_dimension": 8.254183336738356
+     "intrinsic_dimension": 5.684901719421008
     },
     {
      "label": "conditioned_permissive",
@@ -1017,7 +1017,7 @@
      "median_omega_o3": -3.1877619285432024e-07,
      "mean_abs_pearson": 0.02873245522711914,
      "effective_rank": 5.945235333929847,
-     "intrinsic_dimension": 8.237688273830754,
+     "intrinsic_dimension": 5.672099429656658,
      "tolerance": "permissive",
      "acceptance_rate": 0.8524,
      "threshold": 3.0
@@ -1033,7 +1033,7 @@
      "median_omega_o3": -4.897411151316271e-08,
      "mean_abs_pearson": 0.026443792540438864,
      "effective_rank": 5.9468232234419505,
-     "intrinsic_dimension": 8.270986765270099,
+     "intrinsic_dimension": 5.6968608854333915,
      "tolerance": "moderate",
      "acceptance_rate": 0.79395,
      "threshold": 2.0
@@ -1049,7 +1049,7 @@
      "median_omega_o3": -6.686557635197671e-08,
      "mean_abs_pearson": 0.026059928001332278,
      "effective_rank": 5.946413601001804,
-     "intrinsic_dimension": 8.238323711649182,
+     "intrinsic_dimension": 5.672125106846361,
      "tolerance": "strict",
      "acceptance_rate": 0.594,
      "threshold": 1.0
@@ -1065,7 +1065,7 @@
      "median_omega_o3": -1.7077445498378421e-06,
      "mean_abs_pearson": 0.02962167923999887,
      "effective_rank": 5.94698291306635,
-     "intrinsic_dimension": 8.113322281983555,
+     "intrinsic_dimension": 5.550857027063791,
      "tolerance": "very_strict",
      "acceptance_rate": 0.2723,
      "threshold": 0.5

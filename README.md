@@ -7,10 +7,18 @@ neuronal models neuron-specific biological signatures, or generic consequences o
 nonlinear model structure, parameter sampling, covariance, and conditioning on
 selected outputs?
 
-COMPASS applies one sampling and analysis framework to a panel of eight
-independently developed conductance-based neuron models, plus synthetic systems
-with analytically known dependence structure and two non-neuronal nonlinear
-dynamical systems, under matched sampling and conditioning regimes.
+COMPASS applies one sampling and analysis framework to a panel of
+conductance-based neuron models -- **fourteen implementations across ten source
+lineages**, of which the frozen discovery cohort is eight implementations over
+six lineages -- plus synthetic systems with analytically known dependence
+structure and two non-neuronal nonlinear dynamical systems, under matched
+sampling and conditioning regimes.
+
+The distinction between *implementation* and *source lineage* is load-bearing
+and was the subject of the third audit's finding 4: `hh_point`/`hh_cable` are one
+Hodgkin-Huxley lineage and `pospischil_rs`/`pospischil_fs` one Destexhe-lab
+framework, so counting model ids overstates the inferential sample. Every fold,
+bootstrap and random effect clusters on `source_lineage_id`.
 
 It is designed as a **falsification study**: a synergistic parameter tuple is not
 treated as biological merely because it appears in a neuron model. See
@@ -21,7 +29,13 @@ thresholds, and `docs/RESULTS.md` for the findings.
 
 ## Headline result
 
-**98,048 simulations across 8 model families. Conclusion: mixed (H-M).**
+**Conclusion: mixed (H-M)**, on 7 implementations over 5 source lineages after
+three models were excluded by the numerical-convergence gate.
+
+Read [`docs/RESULTS.md` §0](docs/RESULTS.md) first: the third audit
+(2026-08-06) invalidated two published results — a biased intrinsic-dimension
+estimator and a spike-count "measurement floor" — and both are withdrawn and
+recomputed rather than softened.
 
 The **sign** of higher-order structure is generic — set by how the ensemble was
 built, not by which neuron it came from. The **identity** of the parameters
@@ -30,47 +44,76 @@ equations.
 
 | evidence that the sign is generic | value |
 |---|---|
-| cross-model agreement, conditioning → synergy | **8 / 8 models** at the permissive tolerance (scored 0.875 when averaged over tolerances — see below) |
-| cross-model agreement, high-covariance → redundancy | **8 / 8 models** |
-| unique R²(sampling+geometry) ÷ unique R²(identity) | **18.6×** point; **9.3×** size-matched, CI [3.2, 54.2], 100% of resamples above threshold |
-| effect resolvable against each model's own bootstrap noise | **5 / 8 models at 4–5σ** |
+| cross-model agreement, conditioning → synergy | **4 / 5 source lineages** in the primary cohort (5/6 with Mainen retained); exact two-sided sign p = 0.375, or 0.219 with Mainen. Unanimous across implementations at the permissive tolerance. |
+| cross-model agreement, high-covariance → redundancy | **5 / 5 source lineages** (6/6 with Mainen); exact two-sided sign p = 0.0625, or 0.031 with Mainen |
+| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,800×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **13.1×** size-matched, CI [4.0, 81.7], 100% of resamples above threshold |
+| effect exceeds each model's own conditional bootstrap noise | **5 / 8 implementations**, SNR 4–5 (a conditional bootstrap ratio, *not* a sigma significance — see below) |
+| effective inferential sample | **7 implementations / 5 source lineages** in the primary cohort; 14 implementations / 10 lineages registered |
 | same effect in a non-neuronal gene circuit | Ω 0.0000 → **−0.0018 … −0.183** (permissive → very strict) |
 | shuffled null still "synergy-dominated" by the naive statistic | **45%** (surrogate-controlled: 0.000) |
 
 | evidence that the identities are not generic | value |
 |---|---|
-| top-tuple stability across estimators | Jaccard **0.82** (min 0.67) |
-| model identity decodable from information summaries | **0.585** vs 0.146 baseline |
-| top-synergy vs **random** controls, non-additivity | 2.77×, CI [1.19, 6.64], **p = 0.078** |
-| top-synergy vs **matched** controls | 1.87×, CI [**1.03**, 4.45], **p = 0.195** |
+| top-tuple agreement, Gaussian vs Gaussian-copula | Jaccard **0.83** (min 0.67) — descriptive only; both are Gaussian estimators on the same samples, so this measures estimator similarity, not module stability |
+| within-campaign implementation identifiability | **0.566** vs 0.151 baseline — descriptive only; random within-table splits of derived rows from one campaign measure dataset fingerprinting, not biological identity |
+| top-synergy vs **random** controls, non-additivity | 4.74× point, CI [1.90, 9.65], paired p = 0.016 over 7 models |
+| top-synergy vs **matched** controls | 2.97× point, CI [1.35, 7.71], paired p = 0.047; lineage-clustered paired difference +0.203 SD, CI [+0.018, +0.439] over 5 lineages |
 
-**The last two rows are suggestive, not established** — neither paired test
-reaches p < 0.05 and the matched-control interval starts at 1.03. Two further
-limits matter as much as the point estimates.
+**The last two rows are stronger than the previous release reported, but still
+bounded.** The point ratios are 2.97
+(matched) and 4.74 (random), with
+paired Wilcoxon p = 0.047 and
+p = 0.016 — both now below 0.05, where the
+previous release had 0.195 and 0.078 and neither reached it. Every one of the
+seven models shows top > random, and six of seven show top > matched.
+
+Three limits keep this short of established. The bootstrap upper bounds (7.71
+and 9.65) sit far above the point estimates, because seven models is a small
+unit. `mainen_l5pc` is absent from the perturbation battery entirely, so this
+arm carries the partial-coverage caveat the decision table prints and cannot be
+compared with an arm that has complete coverage. And the lineage-clustered
+interval — the quantity actually scored — rests on five lineages.
+**Only one of the two control comparisons is scored**:
+they come from the same perturbation result on the same top tuples and differ
+only in the denominator, so scoring both would count one measurement twice.
+Two further limits matter as much as the point estimates.
 
 *It depends on which quantity you measure.* On identical simulations, identical
 tuples and identical perturbations, enrichment over matched controls is:
 
 | readout | enrichment | r(Ω, \|η\|) |
 |---|---:|---:|
-| first ISI (spike time) | **3.14×** | −0.278 |
-| mean firing rate (spike count) | **1.87×** | −0.401 |
-| AP amplitude (waveform) | 1.02× | −0.091 |
-| AP half-width (waveform) | 0.77× | +0.063 |
+| mean firing rate (spike count) | **2.97×** | −0.515 |
+| first ISI (spike time) | **2.79×** | −0.318 |
+| AP amplitude (waveform) | 1.32× | −0.162 |
+| AP half-width (waveform) | 0.85× | −0.005 |
 
-*It is unresolvable in half the panel.* Firing rate is a spike count over a
-400 ms window, so 2.5 Hz is an irreducible quantum. In **four of eight models —
-including both multicompartment cortical reconstructions** — the median effect
-falls below that floor, so for the models with real morphology the test does not
-resolve. See [`docs/RESULTS.md` §11.1](docs/RESULTS.md).
+*A previous "measurement floor" claim here has been withdrawn.* The 2026-08-06
+audit (§4) showed the analysis was invalid: it compared a **median over six
+tuple means of eight backgrounds** against **one unaveraged single-observation
+2.5 Hz quantum**. The mean's own grid is 2.5/8 = 0.3125 Hz, and a deterministic
+quantisation step is not a stochastic detection limit — a mean below one quantum
+is exactly observable and exactly repeatable. Everything that followed from it
+is retired: "four of eight models unresolvable", "the effect is carried by the
+two toy models", and "both cortical reconstructions are below a hard floor".
+The replacement separates the two questions the old analysis conflated —
+numerical repeatability (rerun at half the time step, compare per-background η)
+and inferential precision (bootstrap and exact sign-flip inference over the
+background distribution) — in
+[`results/analyses/perturbation_inference.json`](results/analyses/perturbation_inference.json).
+Raw per-background outcomes are now archived in `perturbations_raw.parquet`;
+the earlier run stored only summaries, which is why no reanalysis was possible.
 
-*The direction criterion is scored at 0.875, not 1.000.* It averages the
-conditioning shift across all four tolerances, giving a 66-sample very-strict
-ensemble the same weight as a 6,642-sample permissive one. One model's mean
-turns positive on the strength of a 2.0σ fluctuation. At the permissive
-tolerance alone the agreement is 8/8, and five of eight models resolve the
-effect at 4–5σ against their own bootstrap noise. The criterion is left as
-preregistered rather than rescored after the fact.
+*The direction criterion is scored below 1.000.* It averages the conditioning
+shift across all four tolerances, giving a 66-sample very-strict ensemble the
+same weight as a 6,642-sample permissive one. One model's mean turns positive on
+the strength of a 2.0σ fluctuation. At the permissive tolerance alone the
+agreement is unanimous. The per-model bootstrap ratios reported in
+`estimator_reliability.json` are **conditional bootstrap signal-to-noise
+ratios**, not sigma significances: they bootstrap only the already-selected E3
+parameters, hold the E1 endpoint fixed, do not repeat conditioning or target
+estimation, and use 40 replicates. The criterion is left as preregistered rather
+than rescored after the fact.
 
 Three methodological results stand independently of the panel:
 
@@ -132,26 +175,52 @@ Requires NEURON ≥ 8.2 with a working `nrnivmodl`, and a C compiler.
 
 ## Reproduce
 
+**One command rebuilds everything** — assets, mechanisms, calibration, campaigns,
+analyses, gates, notebook and report — with per-stage logs and fail-closed
+behaviour:
+
+```bash
+./tools/run_all.sh
+```
+
+It supports `--from <stage>`, `--until <stage>`, `--only <stage>`, `--dry-run`
+and `--analysis-only`. Stages that are not run are reported as **skipped**, never
+as passed. (The three older partial drivers — `run_pipeline.sh`, `run_phase2.sh`,
+`run_repair.sh` — each reproduced a different subset and no single one recreated
+all headline artifacts; `run_all.sh` replaces them.)
+
+Individual stages, if you want them separately:
+
 ```bash
 python tools/fetch_modeldb_index.py     # full ModelDB metadata index (model selection audit)
 python tools/fetch_models.py            # download the panel, hash and record provenance
 python tools/build_mechanisms.py        # compile per-model NEURON mechanism libraries
+python tools/calibrate_amplitudes.py    # measure f-I curves, propose protocol amplitudes
 python tools/convergence_audit.py <model>  # feature-level convergence over prior samples
 python tools/canonical_audit.py         # canonical reproduction, f-I curves, reference traces
-
-python tools/run_campaign.py --experiment screening   # the simulation campaign
-bash  tools/run_pipeline.sh                            # analysis -> Sobol -> perturbations -> decision
-
-python tools/build_notebook.py          # regenerate the notebook
-jupyter nbconvert --execute --to notebook --inplace notebooks/COMPASS_results.ipynb
+python tools/run_campaign.py --experiment screening
+python tools/run_campaign.py --experiment screening_v2_replication
 ```
 
 Verification:
 
 ```bash
-pytest            # 97 tests: schema, transforms, features, estimators, Sobol,
-                  # perturbation, variance decomposition, solver-contract provenance
-ruff check .
+pytest -m "not slow"
+```
+
+```bash
+ruff check src tests tools
+```
+
+Release validation (slow; every gate fails closed, and a missing gate record is
+a failure rather than a pass):
+
+```bash
+python tools/validate_campaign.py --all && python tools/validate_replay.py --experiment screening && python tools/build_release_manifest.py
+```
+
+```bash
+pytest -m slow
 ```
 
 ## Layout

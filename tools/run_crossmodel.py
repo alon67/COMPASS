@@ -27,10 +27,21 @@ os.environ.setdefault("MPLBACKEND", "Agg")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from compass.analysis.cohorts import (  # noqa: E402
+    PRIMARY_EXCLUSIONS,
+    SENSITIVITY_ARMS,
+    annotate_lineage,
+    drop_duplicate_scientific_rows,
+    effective_sample_summary,
+    primary_mask,
+)
 from compass.analysis.hierarchical import (  # noqa: E402
     classification_test,
+    cluster_bootstrap,
+    leave_one_lineage_out,
     leave_one_model_out,
     mixed_effects_components,
+    nested_variance_components,
     variance_partition,
 )
 
@@ -71,6 +82,7 @@ def conditioning_shift(ep: pd.DataFrame) -> pd.DataFrame:
         for _, r in g[g["regime"].isin(["E3", "E3b", "E4", "E4b"])].iterrows():
             rows.append({
                 "model_id": mid, "estimator": est, "protocol_family": fam,
+                "source_lineage_id": r.get("source_lineage_id", mid),
                 "regime": r["regime"], "tolerance": r["tolerance"],
                 "metric": r["metric"],
                 "d_synergy_area": r["synergy_area"] - b["synergy_area"],
@@ -100,6 +112,7 @@ def covariance_shift(ep: pd.DataFrame) -> pd.DataFrame:
             r = r.iloc[0]
             rows.append({
                 "model_id": mid, "estimator": est, "protocol_family": fam,
+                "source_lineage_id": r.get("source_lineage_id", mid),
                 "contrast": f"{regime}_vs_{b['regime']}",
                 "regime": regime,
                 "d_synergy_area": r["synergy_area"] - b["synergy_area"],
@@ -130,26 +143,39 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
         ev["descriptive"].append({"quantity": name, "value": value,
                                   "detail": detail})
 
-    # 1. direction of the conditioning effect is consistent across models
+    # 1. direction of the conditioning effect is consistent across LINEAGES.
+    #
+    # Counting model ids let hh_point and hh_cable -- one lineage, one extra
+    # compartment -- vote twice, as did pospischil_rs/fs.  Under a fair null the
+    # exact two-sided sign probability for 8 independent units is 0.0078; for
+    # the 6 lineages those 8 ids actually represent it is 0.03125 (audit 9.1).
     if len(cond):
-        g = cond[cond["estimator"] == "gaussian"].groupby("model_id")["d_net_o_information"].mean()
+        g = (cond[cond["estimator"] == "gaussian"]
+             .groupby("source_lineage_id")["d_net_o_information"].mean())
+        by_model = (cond[cond["estimator"] == "gaussian"]
+                    .groupby("model_id")["d_net_o_information"].mean())
         if len(g):
             frac = float(max((g < 0).mean(), (g > 0).mean()))
             direction = "toward synergy" if (g < 0).mean() >= 0.5 else "toward redundancy"
-            add("conditioning effect direction agreement across models", "H-G",
+            k = int(max((g < 0).sum(), (g > 0).sum()))
+            add("conditioning effect direction agreement across LINEAGES", "H-G",
                 frac, frac >= THRESHOLDS["cross_model_direction_agreement"],
-                f"{direction}; n_models={len(g)}")
+                f"{direction}; {k}/{len(g)} lineages "
+                f"({len(by_model)} implementations); exact two-sided sign "
+                f"p={_sign_p(k, len(g)):.4g}")
 
     # 2. direction of the covariance/clustering effect
     if len(cov):
         sub = cov[(cov["regime"] == "E7") & (cov["estimator"] == "gaussian")]
-        g = sub.groupby("model_id")["d_net_o_information"].mean()
+        g = sub.groupby("source_lineage_id")["d_net_o_information"].mean()
         if len(g):
             frac = float(max((g > 0).mean(), (g < 0).mean()))
             direction = "toward redundancy" if (g > 0).mean() >= 0.5 else "toward synergy"
-            add("high-covariance subset effect direction agreement", "H-G",
+            k = int(max((g > 0).sum(), (g < 0).sum()))
+            add("high-covariance subset effect direction agreement (lineages)", "H-G",
                 frac, frac >= THRESHOLDS["cross_model_direction_agreement"],
-                f"{direction}; n_models={len(g)}")
+                f"{direction}; {k}/{len(g)} lineages; exact two-sided sign "
+                f"p={_sign_p(k, len(g)):.4g}")
 
     # 3. sampling+geometry variance vs model identity
     for endpoint in PRIMARY_ENDPOINTS[:1]:
@@ -158,36 +184,59 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
             samp = float(v[v["block"] == "sampling"]["r2_unique"].iloc[0])
             geo = float(v[v["block"] == "geometry"]["r2_unique"].iloc[0])
             ident = float(v[v["block"] == "model_identity"]["r2_unique"].iloc[0])
-            ratio = (samp + geo) / ident if ident > 1e-6 else np.inf
+            # `ident` is the unique (semi-partial) R2 of SOURCE LINEAGE, which
+            # can be numerically zero once sampling and geometry are in the
+            # model.  Reporting inf would be a non-quotable headline, so the
+            # ratio is floored at the resolution of the R2 computation and
+            # reported as a LOWER BOUND when identity is unresolvable.
+            floor = 1e-4
+            unresolved = ident < floor
+            ratio = (samp + geo) / max(ident, floor)
             add(f"unique R2(sampling+geometry) / unique R2(model identity) [{endpoint}]",
                 "H-G", float(ratio),
                 ratio >= THRESHOLDS["sampling_geometry_over_identity_ratio"],
-                f"sampling={samp:.3f} geometry={geo:.3f} identity={ident:.3f}")
+                f"sampling={samp:.3f} geometry={geo:.3f} identity={ident:.4f}"
+                + (f"; identity is below the {floor} resolution floor, so the "
+                   f"ratio is a LOWER BOUND (>{ratio:.0f}x), not a point estimate"
+                   if unresolved else ""))
 
-    # 4. transfer to unseen model families
+    # 4. transfer to an unseen SOURCE LINEAGE
     if len(lomo):
-        sub = lomo[(lomo["predictors"] == "sampling+geometry") &
-                   (lomo["endpoint"] == PRIMARY_ENDPOINTS[0])]
+        sub = lomo[(lomo["predictors"] == "sampling+geometry")
+                   & (lomo["endpoint"] == PRIMARY_ENDPOINTS[0])
+                   & (lomo["fold_level"] == "source_lineage_id")]
         if len(sub):
             med = float(sub["r2_out_of_sample"].median())
-            add("out-of-sample R2 for a held-out model family (sampling+geometry)",
+            add("out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
                 "H-G", med, med > THRESHOLDS["lomo_r2_floor"],
-                f"n_folds={len(sub)}")
+                f"n_folds={len(sub)}; leave-one-lineage-out, so no relative of the "
+                f"held-out model stays in training")
 
-    # 5. classifier: regime generalises, identity does not
+    # 5. classifier: regime generalises across lineages; identity does not.
+    #
+    # The identity task is NOT scored.  It uses random within-table splits of
+    # derived rows from a single campaign, so it measures within-campaign
+    # dataset fingerprinting, not biological identifiability: two rows from the
+    # same model share a campaign, a seed and a parameter matrix, and a random
+    # split puts near-duplicates on both sides (audit 7.5).
     if len(clf):
         reg = clf[clf["task"] == "sampling_regime"]
         ide = clf[clf["task"] == "model_identity"]
         if len(reg):
             r = reg.iloc[0]
-            add("sampling regime predictable across unseen model families", "H-G",
+            add("sampling regime predictable across unseen lineages", "H-G",
                 float(r["accuracy"]), r["accuracy"] > r["baseline"] * 1.5,
-                f"baseline={r['baseline']:.3f}, {int(r['n_classes'])} classes")
+                f"baseline={r['baseline']:.3f}, {int(r['n_classes'])} classes, "
+                f"cv={r['cv']}")
         if len(ide):
             r = ide.iloc[0]
-            add("model identity predictable from information summaries", "H-B",
-                float(r["accuracy"]), r["accuracy"] > r["baseline"] * 1.5,
-                f"baseline={r['baseline']:.3f}, {int(r['n_classes'])} classes")
+            note("within-campaign implementation identifiability (descriptive only)",
+                 float(r["accuracy"]),
+                 f"baseline={r['baseline']:.3f}, {int(r['n_classes'])} classes, "
+                 f"cv={r['cv']}. Withdrawn as an H-B criterion by the 2026-08-06 "
+                 f"audit (7.5): random within-table splits of derived rows from "
+                 f"one campaign measure dataset fingerprinting, not independent "
+                 f"biological identity.")
 
     # 6. model-identity intraclass correlation -- REPORTED, NOT SCORED.
     #
@@ -206,15 +255,19 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
              "not scored: the fixed covariates are the H-G hypothesis, so the "
              "residual between-family share is not a fair test of H-B")
 
-    # 7. module stability across estimators / replicates
+    # 7. module stability across estimators -- REPORTED, NOT SCORED.
     if stability:
         j = float(stability.get("mean_jaccard", np.nan))
-        add("top-tuple module stability (mean per-model Jaccard across estimators)",
-            "H-B", j, np.isfinite(j) and j >= 0.5,
-            f"{stability.get('n_models')} models over {stability.get('n_cells')} "
-            f"ensemble cells, min per-model {stability.get('min_jaccard', float('nan')):.2f}. "
-            f"NOTE blueprint 19.3 requires modules that are stable AND functionally "
-            f"validated; the perturbation criteria below test the second half.")
+        note("top-tuple Jaccard, Gaussian vs Gaussian-copula (descriptive only)", j,
+             f"{stability.get('n_models')} models over {stability.get('n_cells')} "
+             f"ensemble cells, min per-model "
+             f"{stability.get('min_jaccard', float('nan')):.2f}. Withdrawn as an "
+             f"H-B criterion by the 2026-08-06 audit (M6): both rankings come "
+             f"from Gaussian estimators on the SAME samples -- the copula "
+             f"transform only removes marginal non-Gaussianity -- so agreement "
+             f"between them measures estimator similarity, not module stability. "
+             f"Stability across independent samples is what blueprint 19.3 asks "
+             f"for and what the campaign-scramble replicate now supplies.")
 
     # 8. perturbation validation of statistical modules
     #
@@ -237,15 +290,48 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
                 "H-B", frac, frac >= 0.5,
                 f"n_top={len(top)}, n_control={len(ctrl)}; "
                 f"supported {frac:.3f} vs control {frac_c:.3f}")
-            for group, label in ((ctrl, "matched middle-Omega"), (rand, "random")):
+            # The two point ratios are NOT two votes.  They come from the same
+            # perturbation result on the same top tuples, differing only in
+            # which control family sits in the denominator, so scoring both
+            # double-counts one measurement (audit M6, 7.7).  One paired,
+            # lineage-clustered test decides; the other ratio is described.
+            for group, label, scored in ((ctrl, "matched middle-Omega", True),
+                                         (rand, "random", False)):
                 if not len(group):
                     continue
                 a = float(np.nanmean(np.abs(top["mean_nonadditivity_sd"])))
                 b = float(np.nanmean(np.abs(group["mean_nonadditivity_sd"])))
-                add(f"top-synergy tuples more non-additive than {label} controls",
-                    "H-B", float(a / b) if b > 0 else float("nan"), b > 0 and a > b * 1.5,
-                    f"top={a:.3f} SD vs control={b:.3f} SD (ratio {a/b:.2f}x)"
-                    if b > 0 else "control SD is zero")
+                ratio = float(a / b) if b > 0 else float("nan")
+                # Pair within lineage, then resample lineages: the eight model
+                # ids are not eight independent units.
+                paired = (prim.pivot_table(index=["source_lineage_id", "model_id"],
+                                           columns="kind",
+                                           values="mean_nonadditivity_sd",
+                                           aggfunc=lambda s: float(np.nanmean(np.abs(s))))
+                          if "source_lineage_id" in prim else None)
+                ci = None
+                if paired is not None and "top_synergy" in paired and \
+                        group["kind"].iloc[0] in paired:
+                    d = (paired["top_synergy"] - paired[group["kind"].iloc[0]]).to_numpy(float)
+                    lin = paired.index.get_level_values("source_lineage_id").to_numpy()
+                    ci = cluster_bootstrap(d, lin)
+                detail = (f"top={a:.3f} SD vs control={b:.3f} SD (ratio {ratio:.2f}x)"
+                          if b > 0 else "control SD is zero")
+                if ci:
+                    detail += (f"; paired difference {ci['point']:+.3f} SD, "
+                               f"lineage-clustered 95% CI "
+                               f"[{ci['ci95'][0]:+.3f}, {ci['ci95'][1]:+.3f}] "
+                               f"over {ci['n_clusters']} lineages")
+                if scored:
+                    passed = bool(ci and ci["ci95"][0] > 0)
+                    add("top-synergy tuples more non-additive than matched controls",
+                        "H-B", ratio, passed,
+                        detail + ". Scored on the lineage-clustered paired interval, "
+                        "not on the point ratio.")
+                else:
+                    note(f"top vs {label} control point ratio (descriptive only)",
+                         ratio, detail + ". Not scored: same measurement as the "
+                         "criterion above with a different denominator.")
 
     hg = [c for c in ev["criteria"] if c["supports"] == "H-G"]
     hb = [c for c in ev["criteria"] if c["supports"] == "H-B"]
@@ -269,9 +355,100 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
     return ev
 
 
+def _sign_p(k: int, n: int) -> float:
+    """Exact two-sided sign probability of k/n agreeing under a fair null."""
+    from math import comb
+
+    if n == 0:
+        return float("nan")
+    k = max(k, n - k)
+    tail = sum(comb(n, i) for i in range(k, n + 1))
+    return float(min(1.0, 2.0 * tail / 2**n))
+
+
+def run_arm(ep_all: pd.DataFrame, arm: str, experiment: str,
+            pert_all, stability, write: bool) -> dict:
+    """Run the whole cross-model analysis under one sensitivity arm."""
+    spec = SENSITIVITY_ARMS[arm]
+    ep = ep_all[primary_mask(ep_all, arm)].reset_index(drop=True)
+    if ep.empty or ep["model_id"].nunique() < 3:
+        return {"arm": arm, "error": "too few models", "spec": spec}
+    # Duplicate scientific rows are valid for display but are not independent
+    # observations for regression or classification (audit 6.2).
+    ep_fit = drop_duplicate_scientific_rows(ep)
+
+    cond = conditioning_shift(ep)
+    cov = covariance_shift(ep)
+    gauss = ep_fit[ep_fit["estimator"] == "gaussian"]
+
+    vps = [variance_partition(gauss, e) for e in PRIMARY_ENDPOINTS]
+    vp = (pd.concat([v for v in vps if len(v)], ignore_index=True)
+          if any(len(v) for v in vps) else pd.DataFrame())
+    mixed = mixed_effects_components(gauss, PRIMARY_ENDPOINTS[0])
+    nested = nested_variance_components(gauss, PRIMARY_ENDPOINTS[0])
+
+    lomos = []
+    for e in PRIMARY_ENDPOINTS:
+        a = leave_one_lineage_out(gauss, e)
+        if len(a):
+            a["fold_level"] = "source_lineage_id"
+            lomos.append(a)
+        b = leave_one_model_out(gauss, e)
+        if len(b):
+            b["fold_level"] = "model_id"
+            lomos.append(b)
+    lomo = pd.concat(lomos, ignore_index=True) if lomos else pd.DataFrame()
+
+    clf = classification_test(gauss, INFO_FEATURES, seed=20260804)
+    pert = pert_all
+    if pert is not None and len(pert):
+        pert = annotate_lineage(pert)
+        pert = pert[primary_mask(pert, arm)]
+
+    decision = decide(ep, cond, cov, vp, lomo, clf, mixed, pert, stability)
+    # An arm can only test what it has data for.  `retain_mainen` exists to show
+    # what changes when mainen_l5pc is put back, but mainen's perturbation
+    # battery was not regenerated (it is excluded from primary inference and
+    # cost ~16 h), so the perturbation criteria in that arm are computed WITHOUT
+    # it.  Silently reporting the arm's conclusion would attribute a change to
+    # the analysis that is really an absence of data.
+    endpoint_models = sorted(ep["model_id"].unique())
+    pert_models = sorted(pert["model_id"].unique()) if pert is not None and len(pert) else []
+    missing_pert = [m for m in endpoint_models if m not in pert_models]
+    decision["perturbation_coverage"] = {
+        "models_in_endpoints": endpoint_models,
+        "models_with_perturbation_data": pert_models,
+        "missing_from_perturbation": missing_pert,
+        "complete": not missing_pert,
+        "caveat": ("" if not missing_pert else
+                   f"the perturbation criteria in this arm are computed without "
+                   f"{missing_pert}; their conclusion cannot be compared with an "
+                   f"arm that has complete coverage"),
+    }
+    decision["arm"] = arm
+    decision["arm_description"] = spec["description"]
+    decision["excluded_models"] = spec["exclude"]
+    decision["effective_sample"] = effective_sample_summary(ep, arm)
+    decision["nested_variance_components"] = nested
+
+    if write:
+        sfx = "" if arm == "primary" else f"_{arm}"
+        cond.to_parquet(OUT / f"conditioning_shift{sfx}.parquet", index=False)
+        cov.to_parquet(OUT / f"covariance_shift{sfx}.parquet", index=False)
+        vp.to_parquet(OUT / f"variance_partition{sfx}.parquet", index=False)
+        lomo.to_parquet(OUT / f"lomo{sfx}.parquet", index=False)
+        clf.to_parquet(OUT / f"classification{sfx}.parquet", index=False)
+        (OUT / f"mixed_effects{sfx}.json").write_text(
+            json.dumps({"flat": mixed, "nested": nested}, indent=1, default=float))
+        (OUT / f"decision{sfx}.json").write_text(
+            json.dumps(decision, indent=1, default=float))
+    return decision
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--experiment", default="screening")
+    ap.add_argument("--arms", nargs="*", default=sorted(SENSITIVITY_ARMS))
     args = ap.parse_args()
 
     ep = pd.read_parquet(OUT / f"endpoints_{args.experiment}.parquet")
@@ -288,28 +465,8 @@ def main() -> int:
         lambda m: manifests.get(m, {}).get("manifest", {}).get("lab", "?"))
     ep["pipeline"] = ep["model_id"].map(
         lambda m: manifests.get(m, {}).get("manifest", {}).get("pipeline", "?"))
+    ep = annotate_lineage(ep)
     ep.to_parquet(OUT / f"endpoints_annotated_{args.experiment}.parquet", index=False)
-
-    cond = conditioning_shift(ep)
-    cov = covariance_shift(ep)
-    cond.to_parquet(OUT / "conditioning_shift.parquet", index=False)
-    cov.to_parquet(OUT / "covariance_shift.parquet", index=False)
-    print(f"conditioning contrasts={len(cond)} covariance contrasts={len(cov)}")
-
-    gauss = ep[ep["estimator"] == "gaussian"]
-    vps = [variance_partition(gauss, e) for e in PRIMARY_ENDPOINTS]
-    vp = pd.concat([v for v in vps if len(v)], ignore_index=True) if any(len(v) for v in vps) else pd.DataFrame()
-    vp.to_parquet(OUT / "variance_partition.parquet", index=False)
-
-    mixed = mixed_effects_components(gauss, PRIMARY_ENDPOINTS[0])
-    (OUT / "mixed_effects.json").write_text(json.dumps(mixed, indent=1, default=float))
-
-    lomos = [leave_one_model_out(gauss, e) for e in PRIMARY_ENDPOINTS]
-    lomo = pd.concat([x for x in lomos if len(x)], ignore_index=True) if any(len(x) for x in lomos) else pd.DataFrame()
-    lomo.to_parquet(OUT / "lomo.parquet", index=False)
-
-    clf = classification_test(gauss, INFO_FEATURES, seed=20260804)
-    clf.to_parquet(OUT / "classification.parquet", index=False)
 
     # module stability across estimators (Gaussian vs copula) per model
     ts_path = OUT / f"tuple_scores_{args.experiment}.parquet"
@@ -360,19 +517,53 @@ def main() -> int:
     if (OUT / "perturbations.parquet").exists():
         pert = pd.read_parquet(OUT / "perturbations.parquet")
 
-    decision = decide(ep, cond, cov, vp, lomo, clf, mixed, pert, stability)
-    (OUT / "decision.json").write_text(json.dumps(decision, indent=1, default=float))
+    arms = {}
+    for arm in args.arms:
+        d = run_arm(ep, arm, args.experiment, pert, stability, write=True)
+        arms[arm] = d
+        if "error" in d:
+            print(f"\n### arm {arm}: {d['error']}")
+            continue
+        print(f"\n=== DECISION TABLE [arm: {arm}] ===")
+        print(f"    {d['arm_description']}")
+        es = d["effective_sample"]
+        print(f"    {es['n_model_ids_primary']} implementations / "
+              f"{es['n_source_lineages_primary']} source lineages / "
+              f"{es['n_neuron_classes']} classes; "
+              f"{es['n_classes_with_2plus_lineages']} classes have >=2 lineages")
+        for c in d["criteria"]:
+            mark = "PASS" if c["passed"] else "----"
+            print(f"[{mark}] ({c['supports']}) {c['criterion']}: "
+                  f"{c['value']:.3f}  {c['detail']}")
+        for q in d.get("descriptive", []):
+            print(f"[desc] {q['quantity']}: {q['value']:.3f}  {q['detail'][:110]}")
+        pc = d.get("perturbation_coverage", {})
+        if pc and not pc.get("complete", True):
+            print(f"    ! partial perturbation coverage: {pc['caveat']}")
+        print(f"H-G {d['n_hg_passed']}/{d['n_hg_total']}   "
+              f"H-B {d['n_hb_passed']}/{d['n_hb_total']}   "
+              f"-> conclusion: {d['conclusion']}")
 
-    print("\n=== DECISION TABLE ===")
-    for c in decision["criteria"]:
-        mark = "PASS" if c["passed"] else "----"
-        print(f"[{mark}] ({c['supports']}) {c['criterion']}: "
-              f"{c['value']:.3f}  {c['detail']}")
-    for q in decision.get("descriptive", []):
-        print(f"[desc] {q['quantity']}: {q['value']:.3f}  {q['detail']}")
-    print(f"\nH-G {decision['n_hg_passed']}/{decision['n_hg_total']}   "
-          f"H-B {decision['n_hb_passed']}/{decision['n_hb_total']}   "
-          f"-> conclusion: {decision['conclusion']}")
+    (OUT / "decision_sensitivity.json").write_text(json.dumps(
+        {"primary_arm": "primary",
+         "exclusions": PRIMARY_EXCLUSIONS,
+         "arms": {a: {"conclusion": d.get("conclusion"),
+                      "description": d.get("arm_description"),
+                      "n_hg_passed": d.get("n_hg_passed"),
+                      "n_hg_total": d.get("n_hg_total"),
+                      "n_hb_passed": d.get("n_hb_passed"),
+                      "n_hb_total": d.get("n_hb_total"),
+                      "effective_sample": d.get("effective_sample"),
+                      "perturbation_coverage": d.get("perturbation_coverage"),
+                      "error": d.get("error")}
+                  for a, d in arms.items()}},
+        indent=1, default=float))
+
+    print("\n=== SENSITIVITY CASCADE ===")
+    for a, d in arms.items():
+        print(f"  {a:26s} -> {d.get('conclusion', d.get('error'))}"
+              f"  (H-G {d.get('n_hg_passed')}/{d.get('n_hg_total')}, "
+              f"H-B {d.get('n_hb_passed')}/{d.get('n_hb_total')})")
     return 0
 
 

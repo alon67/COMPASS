@@ -45,5 +45,69 @@
   "n_mod": 12,
   "lib": "data/models/bbp_l5pc/mod/arm64/.libs/libnrnmech.so",
   "sha256": "579739062ee339dd"
+ },
+ {
+  "model_id": "miyasho_purkinje",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 20,
+  "lib": "data/models/miyasho_purkinje/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "0a77eaf86d470a01"
+ },
+ {
+  "model_id": "diwakar_granule",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 14,
+  "lib": "data/models/diwakar_granule/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "4e8cc36bb10d4693"
+ },
+ {
+  "model_id": "dougalis_vlpag_da",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 9,
+  "lib": "data/models/dougalis_vlpag_da/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "57521df8206d2851"
+ },
+ {
+  "model_id": "moubarak_snc_da",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 9,
+  "lib": "data/models/moubarak_snc_da/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "a24a944da0c762ac"
+ },
+ {
+  "model_id": "ortner_snc_da",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 17,
+  "lib": "data/models/ortner_snc_da/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "9fefb2476b7eccd3"
+ },
+ {
+  "model_id": "tomko_ca1",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 13,
+  "lib": "data/models/tomko_ca1/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "943b164a8d5de462"
+ },
+ {
+  "model_id": "poirazi_ca1",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 19,
+  "lib": "data/models/poirazi_ca1/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "fa5204b6157e1a7b"
+ },
+ {
+  "model_id": "tzilivaki_fsbc",
+  "arch": "arm64",
+  "status": "ok",
+  "n_mod": 53,
+  "lib": "data/models/tzilivaki_fsbc/mod/arm64/.libs/libnrnmech.so",
+  "sha256": "2fc078f851b8f083"
  }
 ]

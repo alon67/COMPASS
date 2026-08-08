@@ -149,19 +149,68 @@ def test_full_block_produces_a_joinable_result_table(adapter, tmp_path):
 
 
 def test_interrupted_block_is_not_recomputed(adapter, tmp_path):
-    """Resume semantics: an existing shard is skipped, never duplicated."""
+    """Resume semantics: a shard with a MATCHING IDENTITY is skipped.
+
+    Reuse used to be decided by "the path exists" (2026-08-06 audit, 5.2), so
+    this test passed while a shard written by different code, a different
+    solver contract or a different design was silently reused. The worker now
+    takes an identity and reuses only on an exact match; the companion test
+    below checks that a changed identity is quarantined instead.
+    """
     from compass.workflows.simulate import _worker
 
     specs = adapter.parameter_specs()
     pids = [s.parameter_id for s in specs]
     scales = independent_sample(specs, 4, seed=2, method="sobol")
     out = tmp_path / "resume.parquet"
-    args = (CHEAP, scales, pids, np.arange(4), "E1", 1, 2, "independent_sobol", str(out))
+    identity = {"experiment": "test", "model_id": CHEAP, "regime": "E1",
+                "seed": 2, "code_hash": "abc123"}
+    args = (CHEAP, scales, pids, np.arange(4), "E1", 1, 2, "independent_sobol",
+            str(out), identity)
     first = _worker(args)
     assert first["n"] == 4 and not first.get("skipped")
     second = _worker(args)
     assert second.get("skipped") is True and second["n"] == 0
 
+
+
+def test_shard_with_a_changed_identity_is_quarantined_not_reused(adapter, tmp_path):
+    """The defect the identity check exists for: silent reuse across a change."""
+    from compass.workflows.simulate import _worker, shard_is_reusable, sidecar_path
+
+    specs = adapter.parameter_specs()
+    pids = [s.parameter_id for s in specs]
+    scales = independent_sample(specs, 4, seed=2, method="sobol")
+    out = tmp_path / "identity.parquet"
+    ident = {"experiment": "test", "model_id": CHEAP, "regime": "E1",
+             "seed": 2, "code_hash": "before"}
+    _worker((CHEAP, scales, pids, np.arange(4), "E1", 1, 2, "independent_sobol",
+             str(out), ident))
+    assert out.exists() and sidecar_path(out).exists()
+    assert shard_is_reusable(out, ident, 4)[0]
+
+    changed = dict(ident, code_hash="after")
+    reusable, why = shard_is_reusable(out, changed, 4)
+    assert not reusable and why.startswith("identity_mismatch"), why
+
+    st = _worker((CHEAP, scales, pids, np.arange(4), "E1", 1, 2,
+                  "independent_sobol", str(out), changed))
+    assert not st.get("skipped"), "a changed identity must force recomputation"
+    quarantined = list((tmp_path / "_quarantine").glob("identity_*.parquet"))
+    assert quarantined, "the superseded shard must be preserved, not overwritten"
+    assert shard_is_reusable(out, changed, 4)[0]
+
+
+def test_a_shard_without_a_sidecar_is_not_reusable(adapter, tmp_path):
+    """Provenance-unknown is a recompute, not a pass."""
+    import pandas as pd
+
+    from compass.workflows.simulate import shard_is_reusable
+
+    out = tmp_path / "orphan.parquet"
+    pd.DataFrame({"x": [1, 2, 3, 4]}).to_parquet(out, index=False)
+    reusable, why = shard_is_reusable(out, {"model_id": CHEAP}, 4)
+    assert not reusable and why == "identity_unknown"
 
 def test_ensembles_build_from_a_feature_table(adapter, tmp_path):
     """Conditioning + ensemble construction on a real (small) feature table."""

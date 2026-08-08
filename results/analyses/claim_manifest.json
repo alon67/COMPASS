@@ -1,0 +1,260 @@
+{
+ "written_utc": "2026-08-08T15:03:44.838060+00:00",
+ "n_claims": 14,
+ "claims": [
+  {
+   "label": "decision H-B tally",
+   "expected_string": "H-B: 1/2",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "decision.json",
+   "selector": "n_hb_passed/n_hb_total",
+   "aggregation": "count of passed criteria",
+   "units": "",
+   "uncertainty": "",
+   "note": "primary sensitivity arm only"
+  },
+  {
+   "label": "conditioning direction agreement",
+   "expected_string": "0.800",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "decision.json",
+   "selector": "criteria[criterion='conditioning effect direction agreement across LINEAGES'].value",
+   "aggregation": "fraction of lineages agreeing in sign",
+   "units": "fraction",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "source lineage count",
+   "expected_string": "5 source lineages",
+   "documents": [
+    "RESULTS.md",
+    "README.md"
+   ],
+   "artifact": "decision.json",
+   "selector": "effective_sample.n_source_lineages_primary",
+   "aggregation": "distinct source_lineage_id in the primary cohort",
+   "units": "",
+   "uncertainty": "",
+   "note": "NOT the number of model ids"
+  },
+  {
+   "label": "perturbation matched ratio",
+   "expected_string": "2.97",
+   "documents": [
+    "RESULTS.md",
+    "README.md"
+   ],
+   "artifact": "perturbations_summary.json",
+   "selector": "top_vs_control_middle.ratio_point",
+   "aggregation": "mean |eta| of top tuples / mean |eta| of controls",
+   "units": "dimensionless ratio of feature-SD units",
+   "uncertainty": "model-bootstrap 95% CI [1.3510495900698163, 7.7102236500185874]",
+   "note": ""
+  },
+  {
+   "label": "perturbation matched p",
+   "expected_string": "0.047",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "perturbations_summary.json",
+   "selector": "top_vs_control_middle.wilcoxon_p",
+   "aggregation": "paired Wilcoxon across models",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "perturbation random ratio",
+   "expected_string": "4.74",
+   "documents": [
+    "RESULTS.md",
+    "README.md"
+   ],
+   "artifact": "perturbations_summary.json",
+   "selector": "top_vs_control_random.ratio_point",
+   "aggregation": "mean |eta| of top tuples / mean |eta| of controls",
+   "units": "dimensionless ratio of feature-SD units",
+   "uncertainty": "model-bootstrap 95% CI [1.9020147819718705, 9.647767906807328]",
+   "note": ""
+  },
+  {
+   "label": "perturbation random p",
+   "expected_string": "0.016",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "perturbations_summary.json",
+   "selector": "top_vs_control_random.wilcoxon_p",
+   "aggregation": "paired Wilcoxon across models",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "top tuples distinguishable from zero",
+   "expected_string": "16/42",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "perturbation_inference.json",
+   "selector": "inferential_precision.n_top_tuples_ci_excludes_zero",
+   "aggregation": "count of tuples whose background bootstrap CI excludes 0",
+   "units": "",
+   "uncertainty": "",
+   "note": "replaces the withdrawn resolvable/floor comparison"
+  },
+  {
+   "label": "sobol mean interaction fraction",
+   "expected_string": "0.148",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "key_numbers.json",
+   "selector": "sobol.mean_interaction_fraction",
+   "aggregation": "mean over quotable summaries",
+   "units": "fraction",
+   "uncertainty": "",
+   "note": "quotable now requires completeness AND precision AND physical plausibility (audit M8)"
+  },
+  {
+   "label": "sobol quotable count",
+   "expected_string": "8 quotable",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "key_numbers.json",
+   "selector": "sobol.n_analyses",
+   "aggregation": "count",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "adjusted ICC",
+   "expected_string": "0.161",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "mixed_effects.json",
+   "selector": "flat.icc_adjusted",
+   "aggregation": "var_group / (var_group + var_residual)",
+   "units": "",
+   "uncertainty": "",
+   "note": "descriptive only; withdrawn as a decision criterion"
+  },
+  {
+   "label": "VPC",
+   "expected_string": "0.027",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "mixed_effects.json",
+   "selector": "flat.vpc_model_identity",
+   "aggregation": "var_group / total variance",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "matched bootstrap median ratio",
+   "expected_string": "13.1",
+   "documents": [
+    "RESULTS.md",
+    "README.md"
+   ],
+   "artifact": "robustness.json",
+   "selector": "cluster_bootstrap_matched.synergy_area.ratio_median",
+   "aggregation": "median over cluster-bootstrap replicates",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "E8 naive synergy fraction",
+   "expected_string": "0.455",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "key_numbers.json",
+   "selector": "surrogate_control.E8_naive_frac_synergy",
+   "aggregation": "point value",
+   "units": "fraction",
+   "uncertainty": "",
+   "note": ""
+  }
+ ],
+ "forbidden_wording": [
+  {
+   "pattern": "eight independent (model )?(families|lineages)",
+   "reason": "the eight model ids represent ten source lineages across the whole panel and six in the discovery cohort; say 'implementations' or name the lineage count"
+  },
+  {
+   "pattern": "(four|4) (of eight |of 8 )?models are (below|unresolvable)",
+   "reason": "the 2.5 Hz measurement-floor analysis was withdrawn (audit section 4)"
+  },
+  {
+   "pattern": "irreducible measurement floor",
+   "reason": "withdrawn: a deterministic quantisation grid is not a stochastic detection limit"
+  },
+  {
+   "pattern": "\\b4\\s*[-\u2013]\\s*5\\s*(sigma|\u03c3)\\b",
+   "reason": "these are conditional bootstrap signal-to-noise ratios, not sigma significances (audit 7.3)"
+  },
+  {
+   "pattern": "biological synergy modules were established",
+   "reason": "not supported: 20.8% pass functional support and the paired tests are inconclusive"
+  },
+  {
+   "pattern": "Sobol interactions are pervasive(?!.{0,120}(precision|convergence|qualif))",
+   "reason": "requires a precision qualification (audit 7.8)"
+  },
+  {
+   "pattern": "ruff check \\.\\s*$",
+   "reason": "`ruff check .` includes generated notebooks and fails; the checked command is `ruff check src tests tools`"
+  }
+ ],
+ "retired_values": {
+  "0.4812": "ungated Sobol mean (pre-quotable-gate)",
+  "2.34\u00d7": "perturbation matched ratio before target correction",
+  "4.05\u00d7": "perturbation random ratio before target correction",
+  "\u22124.468": "migliore LOMO R2 before target correction",
+  "0.048": "the mis-computed 'ICC'",
+  "8.5\u00d7": "matched variance ratio before target correction",
+  "12.743": "median intrinsic dimension under the biased TwoNN",
+  "18.57": "unique-R2 ratio under the biased TwoNN"
+ },
+ "repository_facts": [
+  {
+   "check": "documented fast-test count == observed (311)",
+   "ok": true,
+   "detail": "311 fast tests, consistently quoted"
+  },
+  {
+   "check": "`ruff check src tests tools` passes",
+   "ok": true,
+   "detail": "All checks passed!"
+  },
+  {
+   "check": "withdrawn artifact readout_resolution.json not cited as evidence",
+   "ok": true,
+   "detail": "not cited, or cited as withdrawn"
+  },
+  {
+   "check": "withdrawn artifact readout_resolution.parquet not cited as evidence",
+   "ok": true,
+   "detail": "not cited, or cited as withdrawn"
+  },
+  {
+   "check": "model audit is not stale",
+   "ok": true,
+   "detail": "audit 2026-08-08 14:55 vs newest convergence file 2026-08-08 14:54"
+  }
+ ],
+ "n_failures": 0
+}

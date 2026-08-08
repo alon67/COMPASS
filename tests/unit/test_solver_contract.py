@@ -118,3 +118,46 @@ def test_stored_manifest_compartment_counts_match_the_adapters() -> None:
              for r, b in zip(rows, built, strict=True)
              if int(r.get("n_compartments", -1)) != b]
     assert not wrong, "manifests record a mesh the adapter does not build:\n" + "\n".join(wrong)
+
+
+# --------------------------------------------------------------------------- #
+# The feature schema must be DECLARED, not inferred from a byte hash
+# --------------------------------------------------------------------------- #
+# Shard reuse compares the declared `FEATURE_SCHEMA_VERSION`, not a hash of
+# `extract.py`, because a byte hash would discard 98,048 correct simulations
+# when a comment changed. That trade is only safe if an undeclared change to the
+# extractor is caught somewhere else -- here.
+#
+# The recorded digest below is the content hash of the extraction module at the
+# moment FEATURE_SCHEMA_VERSION was last set. Changing the module without
+# bumping the version fails this test, which is a code-review failure rather
+# than a data-discarding one.
+FEATURE_MODULE_DIGEST = {
+    "features-2": "7f7efafe586169eb",
+}
+
+
+def test_feature_schema_version_is_declared_when_the_extractor_changes():
+    """An undeclared extractor change must fail review, not silently ship."""
+    import hashlib
+    from pathlib import Path as _P
+
+    from compass.features.extract import FEATURE_SCHEMA_VERSION
+
+    src = _P(__file__).resolve().parents[2] / "src" / "compass" / "features" / "extract.py"
+    digest = hashlib.sha256(src.read_bytes()).hexdigest()[:16]
+    recorded = FEATURE_MODULE_DIGEST.get(FEATURE_SCHEMA_VERSION)
+    if recorded is None:
+        # First run under a newly declared version: record it and pass. The
+        # value is written into this file by the developer, so the NEXT change
+        # without a version bump fails.
+        pytest.skip(
+            f"FEATURE_SCHEMA_VERSION={FEATURE_SCHEMA_VERSION} has no recorded "
+            f"module digest yet. Set FEATURE_MODULE_DIGEST[{FEATURE_SCHEMA_VERSION!r}] "
+            f"= {digest!r} in this file to arm the check.")
+    assert digest == recorded, (
+        f"src/compass/features/extract.py changed (digest {digest}) while "
+        f"FEATURE_SCHEMA_VERSION is still {FEATURE_SCHEMA_VERSION!r}. Either the "
+        f"change cannot alter a stored feature -- in which case update "
+        f"FEATURE_MODULE_DIGEST -- or it can, in which case bump the version so "
+        f"shards extracted under the two definitions can never be pooled.")

@@ -1,0 +1,1410 @@
+{
+ "dougalis_vlpag_da": {
+  "model_id": "dougalis_vlpag_da",
+  "n_sections": 1,
+  "n_segments": 1,
+  "n_parameters": 11,
+  "build_s": 1.53,
+  "rheobase_nA": 0.00390625,
+  "rheobase_search_s": 0.19,
+  "per_protocol_s": 0.075,
+  "resting_potential_mV": -66.10395257859588,
+  "spontaneous_rate_Hz": 0.0,
+  "calibration_dt_ms": 0.0125,
+  "fi_curve": [
+   {
+    "amplitude_nA": 0.0,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.025,
+    "rate_Hz": 15.0,
+    "spike_count": 6.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 61.037984726501016,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.05,
+    "rate_Hz": 22.5,
+    "spike_count": 9.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 66.57002704939077,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.075,
+    "rate_Hz": 30.0,
+    "spike_count": 12.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 84.5653712927087,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.1,
+    "rate_Hz": 37.5,
+    "spike_count": 15.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 86.66862598347326,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.125,
+    "rate_Hz": 47.5,
+    "spike_count": 19.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 86.87567573589328,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.15,
+    "rate_Hz": 60.0,
+    "spike_count": 24.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 89.07102572320498,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.175,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 85.2466953935083,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.2,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 83.72048070664981,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.225,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 85.23066204394428,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.25,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 88.60072552018374,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.275,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.3,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.325,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.35,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.375,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.4,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.425,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.45,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.475,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.5,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": true,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   }
+  ],
+  "canonical_absolute": {
+   "gnat_soma": 0.02,
+   "gnap_soma": 2e-05,
+   "gkdr_soma": 0.003,
+   "gka_soma": 0.006,
+   "gkm_soma": 0.001,
+   "gh_soma": 8e-05,
+   "gcahva_soma": 4e-05,
+   "gcalva_soma": 4e-05,
+   "gleak_soma": 2e-05,
+   "cm_soma": 1.0,
+   "diam_soma": 15.0
+  },
+  "proposal": {
+   "status": "ok",
+   "peak_rate_Hz": 60.0,
+   "peak_amplitude_nA": 0.15,
+   "amplitudes": [
+    -0.002,
+    0.025,
+    0.125
+   ],
+   "rate_at_lo_Hz": 15.0,
+   "rate_at_hi_Hz": 47.5
+  }
+ },
+ "ortner_snc_da": {
+  "model_id": "ortner_snc_da",
+  "n_sections": 1,
+  "n_segments": 1,
+  "n_parameters": 11,
+  "build_s": 1.6,
+  "rheobase_nA": 0.22148437499999996,
+  "rheobase_search_s": 0.26,
+  "per_protocol_s": 0.087,
+  "resting_potential_mV": -58.893709220124386,
+  "spontaneous_rate_Hz": 0.0,
+  "calibration_dt_ms": 0.0125,
+  "fi_curve": [
+   {
+    "amplitude_nA": 0.0,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.03,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 55.24671990528084,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.06,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 54.87836298574313,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.09,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 55.72497926906149,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.12,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 54.91686265962052,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.15,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 56.80119270824697,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.18,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 56.682788750437744,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.21,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 59.42039150440268,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.24,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 61.36829318737905,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.27,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 63.8835087863354,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.3,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 64.52850235368518,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.33,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 62.829070188825895,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.36,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 67.26173064249413,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.39,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 63.16060310725748,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.42,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 68.30283785717208,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.45,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 70.19188574362337,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.48,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 63.91185733304991,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.51,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 64.46466030253112,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.54,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 67.19941844561444,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.57,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 71.19357694519812,
+    "qc": [
+     "unstable_baseline"
+    ]
+   },
+   {
+    "amplitude_nA": 0.6,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 63.56416182298515,
+    "qc": [
+     "unstable_baseline"
+    ]
+   }
+  ],
+  "canonical_absolute": {
+   "gna_soma": 0.05,
+   "gk_soma": 0.01,
+   "gleak_soma": 8e-05,
+   "gka_soma": 0.01,
+   "gh_soma": 0.0002,
+   "gkca_soma": 0.0004,
+   "gcan_soma": 5e-05,
+   "gcar_soma": 5e-05,
+   "gcat_soma": 7.5e-05,
+   "cm_soma": 1.0,
+   "diam_soma": 30.0
+  },
+  "proposal": {
+   "status": "ok",
+   "peak_rate_Hz": 7.5,
+   "peak_amplitude_nA": 0.42,
+   "amplitudes": [
+    -0.1107,
+    0.03,
+    0.42
+   ],
+   "rate_at_lo_Hz": 2.5,
+   "rate_at_hi_Hz": 7.5
+  }
+ },
+ "moubarak_snc_da": {
+  "model_id": "moubarak_snc_da",
+  "n_sections": 38,
+  "n_segments": 254,
+  "n_parameters": 14,
+  "build_s": 1.46,
+  "rheobase_nA": 0.0,
+  "rheobase_search_s": 2.45,
+  "per_protocol_s": 2.951,
+  "resting_potential_mV": -70.09178369884701,
+  "spontaneous_rate_Hz": 9.52380952380966,
+  "calibration_dt_ms": 0.0125,
+  "fi_curve": [
+   {
+    "amplitude_nA": 0.0,
+    "rate_Hz": 12.5,
+    "spike_count": 5.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 61.476335961441436,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.05,
+    "rate_Hz": 25.0,
+    "spike_count": 10.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 61.842564283291225,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.1,
+    "rate_Hz": 37.5,
+    "spike_count": 15.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 63.661003218915326,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.15,
+    "rate_Hz": 47.5,
+    "spike_count": 19.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 64.03433966857006,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.2,
+    "rate_Hz": 55.0,
+    "spike_count": 22.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 64.39952925978935,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.25,
+    "rate_Hz": 65.0,
+    "spike_count": 26.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 65.09608662590404,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.3,
+    "rate_Hz": 72.5,
+    "spike_count": 29.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 65.31756772357333,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.35,
+    "rate_Hz": 77.5,
+    "spike_count": 31.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 64.88654730478444,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.4,
+    "rate_Hz": 85.0,
+    "spike_count": 34.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 66.02796026650684,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.45,
+    "rate_Hz": 90.0,
+    "spike_count": 36.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 66.32024646206472,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.5,
+    "rate_Hz": 95.0,
+    "spike_count": 38.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 67.54670710877369,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.55,
+    "rate_Hz": 100.0,
+    "spike_count": 40.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 68.28434186236149,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.6,
+    "rate_Hz": 102.5,
+    "spike_count": 41.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 69.59123513594264,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.65,
+    "rate_Hz": 107.5,
+    "spike_count": 43.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 70.44911913270784,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.7,
+    "rate_Hz": 110.0,
+    "spike_count": 44.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 71.4671244256231,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.75,
+    "rate_Hz": 115.0,
+    "spike_count": 46.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 72.92513183138814,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.8,
+    "rate_Hz": 117.5,
+    "spike_count": 47.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 74.67728039805627,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.85,
+    "rate_Hz": 120.0,
+    "spike_count": 48.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 77.76905729152364,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.9,
+    "rate_Hz": 122.5,
+    "spike_count": 49.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 102.10657822488528,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 0.95,
+    "rate_Hz": 125.0,
+    "spike_count": 50.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 102.78374741489313,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   },
+   {
+    "amplitude_nA": 1.0,
+    "rate_Hz": 127.5,
+    "spike_count": 51.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 103.3446787013653,
+    "qc": [
+     "unstable_baseline",
+     "depolarised_rest"
+    ]
+   }
+  ],
+  "canonical_absolute": {
+   "gna_soma": 50.0,
+   "gkdr_soma": 150.0,
+   "gka_soma": 50.0,
+   "gkca_soma": 0.10000000000000002,
+   "gih_soma": 3.0,
+   "gcav13_soma": 1.25,
+   "gna_dend": 50.0,
+   "gkdr_dend": 100.6,
+   "gka_dend": 10.0,
+   "gcav13_dend": 1.25,
+   "gna_ais": 4000.0,
+   "gkdr_ais": 4000.0,
+   "gpas_all": 1.0000000000000003e-05,
+   "cm_all": 0.75
+  },
+  "proposal": {
+   "status": "ok",
+   "peak_rate_Hz": 127.5,
+   "peak_amplitude_nA": 1.0,
+   "amplitudes": [
+    -0.0225,
+    0.1,
+    0.45
+   ],
+   "rate_at_lo_Hz": 37.5,
+   "rate_at_hi_Hz": 90.0
+  }
+ },
+ "tomko_ca1": {
+  "model_id": "tomko_ca1",
+  "n_sections": 23,
+  "n_segments": 131,
+  "n_parameters": 16,
+  "build_s": 1.59,
+  "rheobase_nA": 0.55859375,
+  "rheobase_search_s": 14.26,
+  "per_protocol_s": 3.493,
+  "resting_potential_mV": -72.54788715543434,
+  "spontaneous_rate_Hz": 0.0,
+  "calibration_dt_ms": 0.0125,
+  "fi_curve": [
+   {
+    "amplitude_nA": 0.0,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.1,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.2,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.3,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.4,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.5,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.6,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 70.8143063255134,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.7,
+    "rate_Hz": 5.0,
+    "spike_count": 2.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 70.25605334628365,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.8,
+    "rate_Hz": 10.0,
+    "spike_count": 4.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 68.76787879733287,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.9,
+    "rate_Hz": 22.5,
+    "spike_count": 9.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 69.30277212114005,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.0,
+    "rate_Hz": 35.0,
+    "spike_count": 14.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 68.93591322374289,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.1,
+    "rate_Hz": 47.5,
+    "spike_count": 19.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 68.21416684714276,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.2,
+    "rate_Hz": 62.5,
+    "spike_count": 25.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 68.34692458501769,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.3,
+    "rate_Hz": 7.5,
+    "spike_count": 3.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 68.82568310027203,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.4,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 71.83810062980402,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.5,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 95.74902817909728,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.6,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 94.89139011867896,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.7,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 95.33962242834235,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.8,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 94.59140331774056,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.9,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 94.2921731962084,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 2.0,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": true,
+    "ap_amplitude_mV": 94.59629756133646,
+    "qc": []
+   }
+  ],
+  "canonical_absolute": {
+   "gna_soma": 0.035,
+   "gkdr_soma": 0.0015,
+   "gka_soma": 0.0075,
+   "gkm_soma": 0.001,
+   "gkca_soma": 0.0015,
+   "gcal_soma": 0.0005,
+   "gcat_soma": 5e-05,
+   "gna_axon": 0.035,
+   "gkm_axon": 0.026473888790212396,
+   "gka_axon": 0.1636942175250268,
+   "gna_dend": 0.03588926055294732,
+   "gkdr_dend": 0.006980025389618544,
+   "gkad_dend": 0.10680415534710437,
+   "ghd_all": 0.0001707981297971514,
+   "gpas_all": 9.238000198333585e-05,
+   "cm_all": 1.0
+  },
+  "proposal": {
+   "status": "ok",
+   "peak_rate_Hz": 62.5,
+   "peak_amplitude_nA": 1.2,
+   "amplitudes": [
+    -0.2793,
+    0.9,
+    1.1
+   ],
+   "rate_at_lo_Hz": 22.5,
+   "rate_at_hi_Hz": 47.5
+  }
+ },
+ "miyasho_purkinje": {
+  "model_id": "miyasho_purkinje",
+  "n_sections": 1088,
+  "n_segments": 1088,
+  "n_parameters": 12,
+  "build_s": 1.5,
+  "rheobase_nA": 0.849609375,
+  "rheobase_search_s": 48.05,
+  "per_protocol_s": 10.973,
+  "resting_potential_mV": -67.76861353649042,
+  "spontaneous_rate_Hz": 0.0,
+  "calibration_dt_ms": 0.0125,
+  "fi_curve": [
+   {
+    "amplitude_nA": 0.0,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.3,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.6,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.9,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 83.69461955235332,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.2,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 87.62170974191073,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.5,
+    "rate_Hz": 2.5,
+    "spike_count": 1.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 97.66046860083279,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.8,
+    "rate_Hz": 67.5,
+    "spike_count": 27.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 91.7301240289418,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 2.1,
+    "rate_Hz": 127.5,
+    "spike_count": 51.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 2.4,
+    "rate_Hz": 137.5,
+    "spike_count": 55.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 111.41435209512679,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 2.7,
+    "rate_Hz": 147.5,
+    "spike_count": 59.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 3.0,
+    "rate_Hz": 147.5,
+    "spike_count": 59.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 111.6529270293174,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 3.3,
+    "rate_Hz": 150.0,
+    "spike_count": 60.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 105.94845954779952,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 3.6,
+    "rate_Hz": 152.5,
+    "spike_count": 61.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 98.02180679150766,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 3.9,
+    "rate_Hz": 155.0,
+    "spike_count": 62.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 111.41480959028758,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 4.2,
+    "rate_Hz": 152.5,
+    "spike_count": 61.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 110.96671382204474,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 4.5,
+    "rate_Hz": 157.5,
+    "spike_count": 63.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 108.61965819779307,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 4.8,
+    "rate_Hz": 172.5,
+    "spike_count": 69.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 105.23262019333883,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 5.1,
+    "rate_Hz": 152.5,
+    "spike_count": 61.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 5.4,
+    "rate_Hz": 152.5,
+    "spike_count": 61.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 99.21346575323761,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 5.7,
+    "rate_Hz": 137.5,
+    "spike_count": 55.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 97.09703540347557,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 6.0,
+    "rate_Hz": 147.5,
+    "spike_count": 59.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 111.3727188157244,
+    "qc": []
+   }
+  ],
+  "canonical_absolute": {
+   "gna_soma": 10.0,
+   "gcap_soma": 0.0005,
+   "gkh_soma": 0.0005,
+   "gleak_all": 0.00020986213235294125,
+   "gcap_dend": 0.004000000000000001,
+   "gcat_dend": 0.0014999999999999996,
+   "gcae_dend": 0.008000000000000002,
+   "gka_dend": 0.07999999999999999,
+   "gkd_dend": 0.08999999999999998,
+   "gkc3_dend": 0.06,
+   "gkm_dend": 1e-05,
+   "cm_all": 1.4446691176470587
+  },
+  "proposal": {
+   "status": "ok",
+   "peak_rate_Hz": 172.5,
+   "peak_amplitude_nA": 4.8,
+   "amplitudes": [
+    -0.4248,
+    1.8,
+    2.1
+   ],
+   "rate_at_lo_Hz": 67.5,
+   "rate_at_hi_Hz": 127.5
+  }
+ },
+ "tzilivaki_fsbc": {
+  "model_id": "tzilivaki_fsbc",
+  "n_sections": 1096,
+  "n_segments": 9875,
+  "n_parameters": 14,
+  "build_s": 1.57,
+  "rheobase_nA": 0.1484375,
+  "rheobase_search_s": 226.2,
+  "per_protocol_s": 57.718,
+  "resting_potential_mV": -70.54891654413387,
+  "spontaneous_rate_Hz": 0.0,
+  "calibration_dt_ms": 0.0125,
+  "fi_curve": [
+   {
+    "amplitude_nA": 0.0,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.05,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.1,
+    "rate_Hz": 0.0,
+    "spike_count": 0.0,
+    "depol_block": false,
+    "ap_amplitude_mV": NaN,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.15,
+    "rate_Hz": 15.0,
+    "spike_count": 6.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 99.59499594189023,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.2,
+    "rate_Hz": 62.5,
+    "spike_count": 25.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 96.56233282311229,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.25,
+    "rate_Hz": 90.0,
+    "spike_count": 36.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 96.66191093674415,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.3,
+    "rate_Hz": 112.5,
+    "spike_count": 45.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 95.91331782977716,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.35,
+    "rate_Hz": 135.0,
+    "spike_count": 54.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 96.94103974872976,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.4,
+    "rate_Hz": 145.0,
+    "spike_count": 58.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 96.36875222939506,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.45,
+    "rate_Hz": 155.0,
+    "spike_count": 62.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 97.69896492686871,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.5,
+    "rate_Hz": 162.5,
+    "spike_count": 65.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 97.57150877874685,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.55,
+    "rate_Hz": 167.5,
+    "spike_count": 67.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 97.98275664157538,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.6,
+    "rate_Hz": 172.5,
+    "spike_count": 69.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 98.5445783328816,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.65,
+    "rate_Hz": 177.5,
+    "spike_count": 71.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 99.712194752095,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.7,
+    "rate_Hz": 182.5,
+    "spike_count": 73.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 100.82283902754617,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.75,
+    "rate_Hz": 185.0,
+    "spike_count": 74.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 124.86624549598517,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.8,
+    "rate_Hz": 187.5,
+    "spike_count": 75.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 124.89997794065343,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.85,
+    "rate_Hz": 192.5,
+    "spike_count": 77.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 124.83028937501217,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.9,
+    "rate_Hz": 195.0,
+    "spike_count": 78.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 124.93514737479369,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 0.95,
+    "rate_Hz": 197.5,
+    "spike_count": 79.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 124.92696966917966,
+    "qc": []
+   },
+   {
+    "amplitude_nA": 1.0,
+    "rate_Hz": 202.5,
+    "spike_count": 81.0,
+    "depol_block": false,
+    "ap_amplitude_mV": 124.93279821179726,
+    "qc": []
+   }
+  ],
+  "canonical_absolute": {
+   "gnaf_soma": 0.39599999999999996,
+   "gkdr_soma": 0.043199999999999995,
+   "gkslow_soma": 0.000725,
+   "gka_soma": 0.0032,
+   "gkct_soma": 0.0001,
+   "gkca_soma": 0.02,
+   "gh_soma": 1e-05,
+   "gnaf_axon": 1.2959999999999996,
+   "gkdr_axon": 0.144,
+   "gnaf_dend": 0.01448333333333333,
+   "gka_dend": 0.0006400000000000002,
+   "gpas_all": 4.9985872932054845e-06,
+   "cm_all": 1.1999999999999997,
+   "ra_all": 166.08759124087592
+  },
+  "proposal": {
+   "status": "ok",
+   "peak_rate_Hz": 202.5,
+   "peak_amplitude_nA": 1.0,
+   "amplitudes": [
+    -0.0742,
+    0.2,
+    0.4
+   ],
+   "rate_at_lo_Hz": 62.5,
+   "rate_at_hi_Hz": 145.0
+  }
+ },
+ "_written_utc": "2026-08-06T18:10:55.453277+00:00"
+}

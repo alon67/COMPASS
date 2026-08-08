@@ -228,6 +228,10 @@ def main() -> int:
                     help="'as_built' or a d_lambda multiple; use as_built for "
                          "point models, where nseg 1->3 is a different model "
                          "(spatially resolved mechanisms) not a refinement")
+    ap.add_argument("--workers", type=int, default=7,
+                    help="parallel settings evaluated at once (default 7). This "
+                         "pool used to be hard-coded, so an audit run alongside "
+                         "a campaign silently oversubscribed the machine")
     ap.add_argument("--rescore", action="store_true",
                     help="re-evaluate the stored audit under the CURRENT "
                          "tolerances, reusing its saved feature rows; no "
@@ -258,7 +262,7 @@ def main() -> int:
 
     t_all = time.time()
     ctx = mp.get_context("spawn")
-    with ctx.Pool(min(len(jobs), 7), maxtasksperchild=1) as pool:
+    with ctx.Pool(min(len(jobs), args.workers), maxtasksperchild=1) as pool:
         done = list(pool.imap_unordered(_audit_setting, jobs))
     print(f"all {len(jobs)} settings evaluated in {(time.time()-t_all)/60:.1f} min", flush=True)
 

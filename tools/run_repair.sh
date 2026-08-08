@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+# SUPERSEDED by tools/run_all.sh (2026-08-06 audit, section 5.6).
+#
+# This driver reproduces only a SUBSET of the project's artifacts. The audit
+# found that none of the three partial drivers recreated all headline artifacts
+# from a clean checkout, and that the gap was invisible because each one
+# succeeded on what it did run. It is kept so old commands still work and so the
+# stage lists stay readable, but `tools/run_all.sh` is the documented path and
+# is the only one that ends with the release gates, the report-number check and
+# an artifact inventory.
 # Repair cascade for the 2026-08-06 audit blockers C1-C4.
 #
 # Rebuilding the canonical manifests under the campaign's own solver contract
@@ -53,7 +62,7 @@ log "stage R5: perturbation battery (E3 backgrounds move with the targets)"
 run R5_perturb 30 python3 -u tools/run_perturbations.py --experiment screening --workers 8
 
 log "stage R6: readout measurement floors"
-run R6_resolution 10 python3 tools/readout_resolution.py
+run R6_resolution 10 python3 tools/perturbation_inference.py
 
 log "stage R7: cross-model analysis and preregistered decision"
 run R7_crossmodel 20 python3 tools/run_crossmodel.py --experiment screening

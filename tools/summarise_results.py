@@ -45,7 +45,7 @@ def main() -> int:
     sob = _load("sobol_summary.parquet")
     sobi = _load("sobol_indices.parquet")
     pert = _load("perturbations.parquet")
-    res = _load("readout_resolution.parquet")
+    res = _load("perturbation_inference.parquet")
     bench = _load("benchmarks.json", "json")
     dec = _load("decision.json", "json")
     mixed = _load("mixed_effects.json", "json")
@@ -221,17 +221,27 @@ def main() -> int:
             out["perturbation"]["r_omega_vs_eta"] = float(np.corrcoef(
                 d["o_information"], np.abs(d["mean_nonadditivity_sd"]))[0, 1])
 
-    if res is not None and len(res):
-        # Measurement floors (audit M5): an effect below its readout's
-        # quantisation step is not resolvable however it is normalised.
-        r = res[res["feature"] == "mean_firing_rate_Hz"]
-        out["readout_resolution"] = {
-            "rate_quantum_Hz": 2.5,
-            "n_models_resolvable": int(r["resolvable"].sum()),
-            "n_models": int(len(r)),
-            "below_floor": sorted(r[~r["resolvable"].astype(bool)]["model_id"]),
-            "floor_in_sd": r.set_index("model_id")["floor_in_sd"].round(4).to_dict(),
-            "median_abs_eta_sd": r.set_index("model_id")["median_abs_eta_sd"].round(4).to_dict(),
+    if res is not None and len(res) and "ci95_lo" in res:
+        # Background-level PRECISION, not a quantisation floor.  The previous
+        # block reported "n_models_resolvable" from a comparison of a median of
+        # eight-background means against one unaveraged spike quantum; the
+        # 2026-08-06 audit (section 4) withdrew that comparison entirely.
+        r = res[(res["feature"] == "mean_firing_rate_Hz")
+                & (res["kind"] == "top_synergy")]
+        by_model = r.groupby("model_id")
+        out["perturbation_precision"] = {
+            "definition": ("bootstrap and exact sign-flip inference over the "
+                           "eight-background distribution of eta; supersedes the "
+                           "withdrawn readout_resolution floor comparison"),
+            "n_top_tuples": int(len(r)),
+            "n_ci_excludes_zero": int(r["ci_excludes_zero"].sum()),
+            "median_sem_sd": round(float(r["sem_eta_sd"].median()), 4)
+            if len(r) else None,
+            "per_model_n_ci_excludes_zero":
+                by_model["ci_excludes_zero"].sum().astype(int).to_dict(),
+            "per_model_median_abs_mean_eta_sd":
+                by_model["mean_eta_sd"].apply(
+                    lambda s: round(float(s.abs().median()), 4)).to_dict(),
         }
 
     if bench:

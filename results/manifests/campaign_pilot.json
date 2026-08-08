@@ -1,59 +1,118 @@
-{
- "experiment": "pilot",
- "models": [
-  "bbp_l5pc",
-  "mainen_l5pc"
- ],
- "regimes": [
-  "E1"
- ],
- "replicates": 1,
- "wall_min": 27.74,
- "blocks": [
-  {
-   "shard": "E1_r1_000050.parquet",
-   "n": 10,
-   "wall_s": 144.0,
-   "n_error": 0,
-   "n_nonspiking": 0
+[
+ {
+  "experiment": "pilot",
+  "models": [
+   "bbp_l5pc",
+   "mainen_l5pc"
+  ],
+  "regimes": [
+   "E1"
+  ],
+  "replicates": 1,
+  "wall_min": 27.74,
+  "blocks": [
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 10,
+    "wall_s": 144.0,
+    "n_error": 0,
+    "n_nonspiking": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 423.5,
+    "n_error": 0,
+    "n_nonspiking": 2
+   },
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 10,
+    "wall_s": 428.2,
+    "n_error": 0,
+    "n_nonspiking": 0
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 441.1,
+    "n_error": 0,
+    "n_nonspiking": 0
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 1626.1,
+    "n_error": 0,
+    "n_nonspiking": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 1662.0,
+    "n_error": 0,
+    "n_nonspiking": 0
+   }
+  ],
+  "n_samples": 120,
+  "n_error": 0,
+  "n_nonspiking": 2
+ },
+ {
+  "invocation_utc": "2026-08-07T17:10:27.121018+00:00",
+  "experiment": "pilot",
+  "models": [
+   "migliore_ca1"
+  ],
+  "regimes": [
+   "E1",
+   "E2",
+   "E6"
+  ],
+  "replicates": 1,
+  "workers": 12,
+  "seeds": {
+   "migliore_ca1:r1": 20261847
   },
-  {
-   "shard": "E1_r1_000025.parquet",
-   "n": 25,
-   "wall_s": 423.5,
-   "n_error": 0,
-   "n_nonspiking": 2
+  "code_hash": "f74ff9815105ea83",
+  "config_hash": "b8128cf21a74543c",
+  "env_hash": "26da7d85899aec51",
+  "asset_hash": {
+   "migliore_ca1": "2b0b22794ef7eb05"
   },
-  {
-   "shard": "E1_r1_000050.parquet",
-   "n": 10,
-   "wall_s": 428.2,
-   "n_error": 0,
-   "n_nonspiking": 0
+  "mechanism_hash": {
+   "migliore_ca1": "18743b25b47f3a36"
   },
-  {
-   "shard": "E1_r1_000000.parquet",
-   "n": 25,
-   "wall_s": 441.1,
-   "n_error": 0,
-   "n_nonspiking": 0
+  "n_reused_shards": 0,
+  "n_stale_quarantined": 2,
+  "env": {
+   "python": "3.12.4",
+   "numpy": "1.26.4",
+   "platform": "macOS-26.5.2-arm64-arm-64bit"
   },
-  {
-   "shard": "E1_r1_000000.parquet",
-   "n": 25,
-   "wall_s": 1626.1,
-   "n_error": 0,
-   "n_nonspiking": 0
-  },
-  {
-   "shard": "E1_r1_000025.parquet",
-   "n": 25,
-   "wall_s": 1662.0,
-   "n_error": 0,
-   "n_nonspiking": 0
-  }
- ],
- "n_samples": 120,
- "n_error": 0,
- "n_nonspiking": 2
-}
+  "wall_min": 21.61,
+  "blocks": [
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 1284.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 1293.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   }
+  ],
+  "n_blocks_total": 2,
+  "n_blocks_run": 2,
+  "n_samples": 50,
+  "n_error": 0,
+  "n_nonspiking": 2
+ }
+]

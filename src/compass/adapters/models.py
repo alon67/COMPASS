@@ -50,7 +50,10 @@ class HHPoint(NeuronAdapter):
         brain_region="none", simulator="neuron", source_reference=REF,
         license="NEURON built-in (BSD-like)", temperature_c=6.3, is_point_model=True,
         n_compartments=1, mechanism_dir=None, lab="hodgkin_huxley",
-        pipeline="independent", v_init_mV=-65.0,
+        pipeline="independent",
+        source_lineage_id="hodgkin_huxley_1952", implementation_id="hh_single_compartment",
+        neuron_class_id="minimal_hh", source_accession="NEURON built-in hh",
+        cohort="discovery", v_init_mV=-65.0,
         notes="Reference minimal model; morphology partner of hh_cable.",
     )
     manifest_rheobase_hi = 1.0
@@ -102,7 +105,10 @@ class HHCable(NeuronAdapter):
         brain_region="none", simulator="neuron", source_reference=REF,
         license="NEURON built-in (BSD-like)", temperature_c=6.3, is_point_model=False,
         n_compartments=11, mechanism_dir=None, lab="hodgkin_huxley",
-        pipeline="independent", v_init_mV=-65.0,
+        pipeline="independent",
+        source_lineage_id="hodgkin_huxley_1952", implementation_id="hh_two_compartment_cable",
+        neuron_class_id="minimal_hh", source_accession="NEURON built-in hh",
+        cohort="discovery", v_init_mV=-65.0,
         notes="Morphology partner of hh_point: same channels, added dendrite.",
     )
     manifest_rheobase_hi = 2.0
@@ -218,6 +224,9 @@ class PospischilRS(_PospischilBase):
         source_reference=_PospischilBase.REF, license=_PospischilBase.LICENSE,
         temperature_c=36.0, is_point_model=True, n_compartments=1,
         mechanism_dir="pospischil_rs", lab="destexhe", pipeline="independent",
+        source_lineage_id="pospischil_2008", implementation_id="pospischil_spy_rs",
+        neuron_class_id="cortical_pyramidal_rs", source_accession="modeldb:123623",
+        cohort="discovery",
         v_init_mV=-70.0,
         notes="Same framework and lab as pospischil_fs: isolates cell class from implementation.",
     )
@@ -242,6 +251,9 @@ class PospischilFS(_PospischilBase):
         source_reference=_PospischilBase.REF, license=_PospischilBase.LICENSE,
         temperature_c=36.0, is_point_model=True, n_compartments=1,
         mechanism_dir="pospischil_rs", lab="destexhe", pipeline="independent",
+        source_lineage_id="pospischil_2008", implementation_id="pospischil_sin_fs",
+        neuron_class_id="cortical_interneuron_fs", source_accession="modeldb:123623",
+        cohort="discovery",
         v_init_mV=-70.0,
         notes="Shares mechanisms and lab with pospischil_rs; no M current.",
     )
@@ -264,7 +276,10 @@ class KhaliqPurkinje(NeuronAdapter):
         brain_region="cerebellum", simulator="neuron", source_reference=REF,
         license="ModelDB terms; free for academic use", temperature_c=22.0,
         is_point_model=True, n_compartments=1, mechanism_dir="khaliq_purkinje",
-        lab="raman", pipeline="independent", v_init_mV=-68.0,
+        lab="raman", pipeline="independent",
+        source_lineage_id="khaliq_2003", implementation_id="khaliq_soma",
+        neuron_class_id="cerebellar_purkinje", source_accession="modeldb:48332",
+        cohort="discovery", v_init_mV=-68.0,
         notes="Spontaneously active; resurgent sodium current.",
     )
     manifest_rheobase_hi = 1.0
@@ -332,7 +347,10 @@ class MainenL5PC(NeuronAdapter):
         brain_region="neocortex_layer5", simulator="neuron", source_reference=REF,
         license="ModelDB terms; free for academic use", temperature_c=37.0,
         is_point_model=False, n_compartments=0, mechanism_dir="mainen_l5pc",
-        lab="mainen_sejnowski", pipeline="independent", v_init_mV=-70.0,
+        lab="mainen_sejnowski", pipeline="independent",
+        source_lineage_id="mainen_1996", implementation_id="mainen_j4a",
+        neuron_class_id="cortical_pyramidal_l5", source_accession="modeldb:2488",
+        cohort="discovery", v_init_mV=-70.0,
         notes="Independent (non-BBP) cortical pyramidal model; replication partner of bbp_l5pc.",
     )
     manifest_rheobase_hi = 3.0
@@ -538,6 +556,9 @@ class BBPL5PC(NeuronAdapter):
         license="ModelDB terms (Hay et al.); BluePyOpt LGPL-3.0 for BBP config",
         temperature_c=34.0, is_point_model=False, n_compartments=0,
         mechanism_dir="bbp_l5pc", lab="blue_brain_project", pipeline="bbp",
+        source_lineage_id="hay_2011", implementation_id="hay_cell1",
+        neuron_class_id="cortical_pyramidal_l5", source_accession="modeldb:139653",
+        cohort="discovery",
         v_init_mV=-80.0,
         notes="BBP-pipeline lineage; replication partner of mainen_l5pc.",
     )
@@ -634,7 +655,10 @@ class MiglioreCA1(NeuronAdapter):
         brain_region="hippocampus_ca1", simulator="neuron", source_reference=REF,
         license="ModelDB terms; free for academic use", temperature_c=34.0,
         is_point_model=False, n_compartments=0, mechanism_dir="migliore_ca1",
-        lab="migliore", pipeline="independent", v_init_mV=-65.0,
+        lab="migliore", pipeline="independent",
+        source_lineage_id="migliore_1999", implementation_id="migliore_n160",
+        neuron_class_id="hippocampal_pyramidal_ca1", source_accession="modeldb:2796",
+        cohort="discovery", v_init_mV=-65.0,
         notes="Distance-dependent K_A gradient; independent implementation.",
     )
     manifest_rheobase_hi = 2.0
@@ -785,7 +809,11 @@ class MiglioreCA1(NeuronAdapter):
 
 
 # --------------------------------------------------------------------------- #
-MODEL_REGISTRY: dict[str, type[NeuronAdapter]] = {
+# The frozen discovery cohort.  Never add a model here: a new model belongs in
+# `compass.adapters.replication`, so that "which models produced this result"
+# stays answerable from the registry alone and the discovery panel cannot be
+# retroactively enlarged and still called preregistered (audit 9.6 item 7).
+DISCOVERY_REGISTRY: dict[str, type[NeuronAdapter]] = {
     "hh_point": HHPoint,
     "hh_cable": HHCable,
     "pospischil_rs": PospischilRS,
@@ -795,6 +823,28 @@ MODEL_REGISTRY: dict[str, type[NeuronAdapter]] = {
     "migliore_ca1": MiglioreCA1,
     "bbp_l5pc": BBPL5PC,
 }
+
+from .replication import REPLICATION_REGISTRY  # noqa: E402  (cycle-free: leaf module)
+
+MODEL_REGISTRY: dict[str, type[NeuronAdapter]] = {
+    **DISCOVERY_REGISTRY,
+    **REPLICATION_REGISTRY,
+}
+
+
+def cohort_models(cohort: str) -> list[str]:
+    """Model ids belonging to ``discovery`` or ``replication``."""
+    return sorted(m for m, c in MODEL_REGISTRY.items() if c.manifest.cohort == cohort)
+
+
+def lineage_of(model_id: str) -> str:
+    """Source lineage of a model -- the unit of cross-model inference."""
+    return MODEL_REGISTRY[model_id].manifest.source_lineage_id
+
+
+def lineage_map() -> dict[str, str]:
+    """``model_id -> source_lineage_id`` for every registered model."""
+    return {m: c.manifest.source_lineage_id for m, c in MODEL_REGISTRY.items()}
 
 
 def get_adapter(model_id: str) -> NeuronAdapter:

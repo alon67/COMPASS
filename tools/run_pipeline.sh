@@ -1,4 +1,13 @@
 #!/usr/bin/env bash
+# SUPERSEDED by tools/run_all.sh (2026-08-06 audit, section 5.6).
+#
+# This driver reproduces only a SUBSET of the project's artifacts. The audit
+# found that none of the three partial drivers recreated all headline artifacts
+# from a clean checkout, and that the gap was invisible because each one
+# succeeded on what it did run. It is kept so old commands still work and so the
+# stage lists stay readable, but `tools/run_all.sh` is the documented path and
+# is the only one that ends with the release gates, the report-number check and
+# an artifact inventory.
 # COMPASS analysis pipeline: repair -> information analysis -> Sobol ->
 # perturbations -> cross-model decision -> report artefacts.
 #
@@ -75,7 +84,7 @@ log "stage 4: perturbation battery"
 run 4_perturb 14 python3 tools/run_perturbations.py --experiment screening --workers 8
 
 log "stage 4b: readout measurement floors (audit M5)"
-run 4b_resolution 10 python3 tools/readout_resolution.py
+run 4b_resolution 10 python3 tools/perturbation_inference.py
 
 log "stage 5: cross-model analysis and decision"
 run 5_crossmodel 30 python3 tools/run_crossmodel.py --experiment screening

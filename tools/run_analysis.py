@@ -240,12 +240,20 @@ def main() -> int:
         print(f"{model_id:16s} ensembles={len(ens_list)} rows={len(endpoints)}", flush=True)
 
     OUT.mkdir(parents=True, exist_ok=True)
-    pd.DataFrame(endpoints).to_parquet(OUT / f"endpoints_{args.experiment}.parquet", index=False)
-    pd.DataFrame(curves).to_parquet(OUT / f"order_curves_{args.experiment}.parquet", index=False)
-    pd.DataFrame(scores).to_parquet(OUT / f"tuple_scores_{args.experiment}.parquet", index=False)
-    pd.DataFrame(rsis).to_parquet(OUT / f"rsi_{args.experiment}.parquet", index=False)
+    # SEPARATE NAMESPACE per QC policy (2026-08-06 audit, M1).
+    #
+    # `--qc-policy strict` used to write the primary filenames, so running the
+    # sensitivity analysis silently destroyed the primary result and there was
+    # no way to compare the two.  A non-primary policy now gets its own suffix,
+    # and primary artifacts can never be overwritten by a sensitivity run.
+    tag = "" if args.qc_policy == "primary" else f"_qc_{args.qc_policy}"
+    for name, rows in (("endpoints", endpoints), ("order_curves", curves),
+                       ("tuple_scores", scores), ("rsi", rsis)):
+        pd.DataFrame(rows).to_parquet(
+            OUT / f"{name}_{args.experiment}{tag}.parquet", index=False)
     print(f"\nendpoints={len(endpoints)} curves={len(curves)} "
-          f"tuples={len(scores)} rsi={len(rsis)} -> {OUT}")
+          f"tuples={len(scores)} rsi={len(rsis)} "
+          f"[qc_policy={args.qc_policy}] -> {OUT}/*_{args.experiment}{tag}.parquet")
     return 0
 
 

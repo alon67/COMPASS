@@ -1,0 +1,151 @@
+{
+ "_doc": [
+  "THE authoritative campaign configuration (2026-08-06 audit, section 5.5).",
+  "Sample sizes, block size, regimes, the E2 correlation and the secondary",
+  "fraction used to live as hard-coded constants in tools/run_campaign.py while",
+  "configs/experiments/screening.json sat next to them unread, so the file that",
+  "looked like the configuration was not the configuration. This file is read by",
+  "tools/run_campaign.py and its hash is stamped into every shard identity.",
+  "",
+  "Adding a model to an existing campaign is forbidden: create a new campaign",
+  "entry instead, so an expanded panel can never be described retroactively as",
+  "the preregistered one (audit 9.6 item 7)."
+ ],
+ "block_size": 25,
+ "base_seed": 20260804,
+ "secondary_fraction": 0.5,
+ "e2_rho": 0.6,
+ "e6_n_centres": 24,
+ "campaigns": {
+  "pilot": {
+   "regimes": [
+    "E1",
+    "E2",
+    "E6"
+   ],
+   "cohort": "discovery",
+   "sample_sizes": {
+    "migliore_ca1": 50
+   },
+   "regimes_by_model": {
+    "migliore_ca1": [
+     "E1"
+    ]
+   },
+   "notes": [
+    "The pilot was a cost-measurement run, not an experiment. It executed E1 only,",
+    "for migliore_ca1 only, at 50 samples. The configuration previously declared",
+    "all eight models at 60 samples across three regimes, which gate D1 correctly",
+    "reported as 22 missing cells. Corrected to describe what was actually run."
+   ]
+  },
+  "screening": {
+   "regimes": [
+    "E1",
+    "E2",
+    "E6"
+   ],
+   "cohort": "discovery",
+   "notes": [
+    "Frozen discovery campaign. Sizes were set from the canonical-audit cost",
+    "measurements before any endpoint was computed.",
+    "mainen_l5pc and migliore_ca1 ran E1 only: at 256 draws their E2/E6 halves",
+    "(128 rows) fall below the 50-row floor build_ensembles needs for a regime to",
+    "be analysed at all, so simulating them would have produced no endpoint. This",
+    "was true of the stored campaign all along; the configuration now says so",
+    "instead of implying three regimes for every model."
+   ],
+   "sample_sizes": {
+    "hh_point": 8192,
+    "hh_cable": 8192,
+    "pospischil_rs": 8192,
+    "pospischil_fs": 8192,
+    "khaliq_purkinje": 4096,
+    "mainen_l5pc": 256,
+    "bbp_l5pc": 1024,
+    "migliore_ca1": 256
+   },
+   "regimes_by_model": {
+    "mainen_l5pc": [
+     "E1"
+    ],
+    "migliore_ca1": [
+     "E1"
+    ]
+   }
+  },
+  "screening_expand": {
+   "regimes": [
+    "E1",
+    "E2",
+    "E6"
+   ],
+   "cohort": "discovery",
+   "notes": [
+    "Audit section 9.7: the expensive models cap every matched cell. Mainen and",
+    "Migliore yield only ~60-70 matched E7 points from 256 E1 draws, which puts",
+    "every model's E7 comparison below MIN_MATCH_N=120. Raising them to 512",
+    "accepted-eligible E1 draws is the minimum that lets an E7 half-subset clear",
+    "120. Written to its own shard namespace and merged by sample id, so the",
+    "frozen screening campaign is never mutated.",
+    "mainen_l5pc was REMOVED from this expansion. It is excluded from primary inference by gate N3, so enlarging its sample cannot improve any headline number; it accounted for 3.4 of the campaign's 3.7 hours. migliore_ca1 is retained because it is the BINDING constraint on the size-matched E7 cell (70 points against MIN_MATCH_N=120), and E7 is one of the two scored H-G direction criteria. Mainen sits at 76, so removing it does not lift the floor on its own -- only doubling Migliore does.",
+    "2026-08-08: `regimes` was declared as [E1] but the campaign executed E1+E2+E6 (E1 512 rows, E2 256, E6 256 = 1024 rows / 43 blocks, not the 512 / 21 the declaration implied). Gate D1 caught it. Root cause: build_jobs (tools/run_campaign.py:292) takes its regime list from the --regimes CLI argument, whose default is [E1,E2,E6], and consults only `regimes_by_model`; it never reads this campaign's top-level `regimes`. validate_campaign.py:92 does read it, so the two disagreed. `pilot` and `screening` were unaffected because their top-level list already was [E1,E2,E6] and they restrict per model. The declaration is corrected here to what actually ran rather than the data being discarded: the intended 512 E1 draws were produced exactly as designed, so the E7 expansion is unaffected, and the E2/E6 rows are additional valid simulations. Any future campaign that needs a restricted regime set must express it in `regimes_by_model`, not in the top-level `regimes`, until the runner is changed to honour the latter."
+   ],
+   "sample_sizes": {
+    "migliore_ca1": 512
+   }
+  },
+  "screening_scramble2": {
+   "regimes": [
+    "E1",
+    "E2",
+    "E6"
+   ],
+   "cohort": "discovery",
+   "seed_offset": 770000,
+   "notes": [
+    "Audit R2 / priority 1 item 3: an independent scrambled Sobol design for the",
+    "same models, so campaign-to-campaign variation can be measured instead of",
+    "assumed. Same sizes as `screening` for the cheap models; the expensive ones",
+    "are sized for a usable E3 rather than for parity.",
+    "2026-08-08: `regimes` was declared as [E1] but the campaign executed E1+E2+E6 (762 blocks, not the 380 the declaration implied). Same cause as in screening_expand: build_jobs (tools/run_campaign.py:292) reads the --regimes CLI default [E1,E2,E6] and only `regimes_by_model`, never this campaign's top-level `regimes`, while validate_campaign.py:92 reads the config. Gate D1 caught the disagreement. The declaration is corrected to what ran. This is favourable here rather than merely tolerable: the scramble now covers the same three regimes as `screening`, so campaign-to-campaign variation can be compared across the full design instead of E1 alone, which is a broader test than the one originally specified."
+   ],
+   "sample_sizes": {
+    "hh_point": 2048,
+    "hh_cable": 2048,
+    "pospischil_rs": 2048,
+    "pospischil_fs": 2048,
+    "khaliq_purkinje": 1024,
+    "bbp_l5pc": 256
+   }
+  },
+  "screening_v2_replication": {
+   "regimes": [
+    "E1",
+    "E2",
+    "E6"
+   ],
+   "cohort": "replication",
+   "notes": [
+    "External replication cohort (audit section 9.2/9.6 item 7). A NEW campaign",
+    "namespace, never an extension of `screening`. Sizes come from the measured",
+    "per-protocol cost in data/provenance/amplitude_calibration.json and from the",
+    "audit's >=256 accepted-E3 gate, subject to the workstation budget.",
+    "ortner_snc_da was fetched, adapted and audited but is NOT simulated: it fails gate N3 at every tested time step (ap_amplitude_mV on 1-2 of 7 prior points at 0.025, 0.0125 and 0.00625 ms) and its maximum rate of ~7.5 Hz gives <=3 spikes in the frozen 400 ms window. Two independent outcome-blind gate failures, decided before any information endpoint was computed.",
+    "moubarak_snc_da runs E1 only at 512 draws: its accepted setting is dt = 0.003125 ms (~49 s per sample), so E1+E2+E6 at 1024 would cost ~2.3 h of the budget for two secondary regimes.",
+    "tzilivaki_fsbc was fetched, adapted, its 53 mechanisms compiled, its f-I curve calibrated and its convergence audited -- and is NOT simulated. mean_firing_rate_Hz reproduces on 25-50% of audit points at dt = 0.05 and 0.025 ms on both the published 9,875-segment mesh and the 4,096-segment d_lambda mesh. A ~145 Hz fast-spiking cell needs a finer step than a 9,875-segment morphology allows within this budget. Gate N3 failure, decided before any information endpoint was computed for it.",
+    "miyasho_purkinje was fetched, adapted, its 20 mechanisms compiled, its f-I curve calibrated and its convergence audited over four time steps and two meshes -- and is NOT simulated. No setting converges, and the failing feature moves (ap_amplitude_mV at 0.05/0.025/0.0125 ms, membrane_tau_ms at 0.00625 ms), which points to threshold-adjacent prior samples rather than an under-resolved integration. Gate N3 failure."
+   ],
+   "sample_sizes": {
+    "dougalis_vlpag_da": 4096,
+    "tomko_ca1": 1024,
+    "moubarak_snc_da": 512
+   },
+   "regimes_by_model": {
+    "moubarak_snc_da": [
+     "E1"
+    ]
+   }
+  }
+ }
+}

@@ -16,6 +16,12 @@ import numpy as np
 
 from ..adapters.base import Recording
 
+# Stamped into every shard identity.  Bump on ANY change to a feature
+# definition, event definition or the feature list, so a shard extracted under
+# one schema can never be silently pooled with one extracted under another
+# (2026-08-06 audit, section 5.2).
+FEATURE_SCHEMA_VERSION = "features-2"   # features-2: cv_isi requires >=3 spikes
+
 # The minimum common feature set of blueprint 7.4.
 COMMON_FEATURES = (
     "resting_potential_mV",
@@ -163,9 +169,16 @@ def firing_features(rec: Recording) -> dict:
         isi = np.diff(st)
         out["first_isi_ms"] = float(isi[0])
         out["last_isi_ms"] = float(isi[-1])
-        out["cv_isi"] = float(np.std(isi) / np.mean(isi)) if np.mean(isi) > 0 else np.nan
     if st.size >= 3:
+        # CV of the ISI distribution needs at least TWO intervals.  With one
+        # interval np.std is exactly 0, so a two-spike train reported
+        # cv_isi = 0.0 -- "perfectly regular firing" manufactured out of
+        # nothing measurable.  Gate D3 found 2,127 such rows in the stored
+        # screening campaign (audit 6.4.2, D3 "ISI-derived features exist only
+        # when supported by enough spikes").
         isi = np.diff(st)
+        out["cv_isi"] = (float(np.std(isi, ddof=1) / np.mean(isi))
+                         if np.mean(isi) > 0 else np.nan)
         # Normalised adaptation: mean of (ISI_{i+1}-ISI_i)/(ISI_{i+1}+ISI_i).
         # Positive = slowing (adapting); bounded in [-1, 1] so it is comparable
         # across models with very different absolute rates.

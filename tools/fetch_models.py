@@ -42,6 +42,24 @@ MODELDB = {
     17664: dict(slot="cerebellar_purkinje_alt", why="Miyasho et al. 2001: multicompartment Purkinje"),
     116835: dict(slot="cerebellar_granule", why="Diwakar et al. 2009: multicompartment granule cell"),
     226010: dict(slot="dopaminergic_alt2", why="vlPAG/DRN dopamine neuron"),
+    # --- 2026-08-06 audit, section 9.4: "curate an independent CA1 lineage and
+    # an executable independent FS lineage. Those fill more important
+    # replication gaps than adding another unpaired class."  Both slots were
+    # singletons (migliore_ca1; pospischil_fs, whose only partner was the
+    # XPPAUT-only Golomb model that section 9.4 forbids placing in the NEURON
+    # core).  Chosen before any information endpoint was computed for them.
+    20212: dict(slot="hippocampal_ca1_alt",
+                why="Poirazi et al. 2003: CA1 pyramidal from the Mel lab, a source "
+                    "lineage independent of Migliore's"),
+    266901: dict(slot="hippocampal_ca1_alt2",
+                 why="Tomko et al. 2021: CA1 pyramidal optimised de novo and validated "
+                     "against HippoUnit; third independent CA1 lineage"),
+    3801: dict(slot="fast_spiking_interneuron_alt",
+               why="Bartos et al. 2001: dentate basket cell, executable NEURON FS "
+                   "lineage independent of Pospischil"),
+    237595: dict(slot="fast_spiking_interneuron_alt2",
+                 why="Tzilivaki et al. 2019: fast-spiking basket cells, second "
+                     "independent executable FS lineage"),
 }
 
 # Blue Brain Project assets, pinned by git ref.

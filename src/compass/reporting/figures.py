@@ -472,7 +472,7 @@ def fig_sobol(summary: pd.DataFrame, indices: pd.DataFrame) -> plt.Figure:
 # --------------------------------------------------------------------------- #
 def fig_perturbation(pert: pd.DataFrame, resolution: pd.DataFrame | None = None
                      ) -> plt.Figure:
-    """Perturbation battery: enrichment, correlation with Omega, and the floor.
+    """Perturbation battery: enrichment, correlation with Omega, and precision.
 
     Three corrections relative to the first version of this figure, all from the
     2026-08-06 audit (M11, M5).
@@ -483,9 +483,12 @@ def fig_perturbation(pert: pd.DataFrame, resolution: pd.DataFrame | None = None
     2. All four readouts were pooled, counting every tuple four times and mixing
        quantities with different noise floors.  Panels A and B now use the
        primary readout only, matching the decision code.
-    3. Panel C is new: it puts each model's median effect next to that model's
-       own measurement floor, because a spike-count readout over a 400 ms window
-       cannot resolve anything below 2.5 Hz however the effect is normalised.
+    3. Panel C shows each top tuple's mean non-additivity over its eight
+       backgrounds WITH its bootstrap interval.  It previously compared the
+       median effect against a spike-count "measurement floor"; the 2026-08-06
+       audit withdrew that comparison, because the plotted statistic is a mean
+       over eight backgrounds (grid 2.5/8 Hz) and a deterministic quantisation
+       grid is not a stochastic detection limit either way.
     """
     if pert is None or len(pert) == 0:
         return _empty_figure("perturbation results unavailable")
@@ -543,30 +546,52 @@ def fig_perturbation(pert: pd.DataFrame, resolution: pd.DataFrame | None = None
     ax2.set_title("B  Statistical synergy vs functional non-additivity", fontsize=9.5)
     ax2.legend(fontsize=6.5, ncol=2)
 
-    # Panel C: effect against each model's own measurement floor.
-    if resolution is not None and len(resolution):
-        res = resolution[resolution["feature"] == feat]
+    # Panel C: effect against its own UNCERTAINTY, not against a quantum.
+    #
+    # This panel used to plot each model's median |eta| against a "measurement
+    # floor" computed as one unaveraged spike-count quantum divided by the
+    # feature SD.  The 2026-08-06 audit withdrew that comparison: the plotted
+    # statistic is a median of eight-background means, whose grid is 2.5/8 Hz,
+    # and a deterministic grid is not a detection limit in any case.  The panel
+    # now shows what actually bounds the claim -- each top tuple's mean over its
+    # eight backgrounds with its bootstrap interval.
+    if resolution is not None and len(resolution) and "ci95_lo" in resolution:
+        res = resolution[(resolution["feature"] == feat)
+                         & (resolution.get("kind", "top_synergy") == "top_synergy")]
         mods = _order_models(res["model_id"].unique())
-        med = [float(res[res["model_id"] == m]["median_abs_eta_sd"].iloc[0]) for m in mods]
-        flr = [float(res[res["model_id"] == m]["floor_in_sd"].iloc[0]) for m in mods]
-        xs = np.arange(len(mods))
-        below = [m_ <= f_ for m_, f_ in zip(med, flr, strict=True)]
-        ax3.bar(xs, med, color=[STATUS["critical"] if b else SERIES[0] for b in below],
-                edgecolor=SURFACE, linewidth=1.2, zorder=2)
-        ax3.hlines(flr, xs - 0.42, xs + 0.42, color=INK, lw=2.2, zorder=3)
-        for x, m_, f_, b in zip(xs, med, flr, below, strict=True):
-            if b:
-                ax3.text(x, max(m_, f_) * 1.25, "below\nfloor", ha="center",
-                         fontsize=6.5, color=STATUS["critical"])
-        ax3.set_yscale("log")
-        ax3.set_xticks(xs)
-        ax3.set_xticklabels([_lab(m) for m in mods], rotation=35, ha="right", fontsize=7.5)
-        ax3.set_ylabel(r"median |$\eta$| of top tuples (SD)")
-        ax3.set_title("C  Bars = effect, rules = that model's\nmeasurement floor",
-                      fontsize=9.5)
+        xs, ys, los, his, excl = [], [], [], [], []
+        for i, m in enumerate(mods):
+            g = res[res["model_id"] == m]
+            for _, r in g.iterrows():
+                xs.append(i + np.random.default_rng(abs(hash(r["tuple"])) % 2**32)
+                          .normal(0, 0.08))
+                ys.append(float(r["mean_eta_sd"]))
+                los.append(float(r["ci95_lo"]))
+                his.append(float(r["ci95_hi"]))
+                excl.append(bool(r["ci_excludes_zero"]))
+        if xs:
+            for x, y, lo, hi, e in zip(xs, ys, los, his, excl, strict=True):
+                ax3.plot([x, x], [lo, hi], color=INK3, lw=1.0, zorder=2)
+                ax3.scatter([x], [y], s=26, zorder=3,
+                            color=SERIES[0] if e else STATUS["critical"],
+                            edgecolor=SURFACE, linewidth=0.7)
+            ax3.axhline(0.0, color=INK, lw=1.2, zorder=1)
+            n_e = int(np.sum(excl))
+            ax3.text(0.02, 0.97, f"{n_e}/{len(excl)} intervals exclude zero",
+                     transform=ax3.transAxes, fontsize=7.5, va="top", color=INK2)
+            ax3.set_xticks(range(len(mods)))
+            ax3.set_xticklabels([_lab(m) for m in mods], rotation=35,
+                                ha="right", fontsize=7.5)
+            ax3.set_ylabel(r"mean $\eta$ over backgrounds (SD), 95% CI")
+            ax3.set_title("C  Effect vs its own uncertainty\n"
+                          "(red = interval includes zero)", fontsize=9.5)
+        else:
+            ax3.axis("off")
     else:
         ax3.axis("off")
-        ax3.text(0.5, 0.5, "resolution floors unavailable\n(run tools/readout_resolution.py)",
+        ax3.text(0.5, 0.5,
+                 "background-level inference unavailable\n"
+                 "(run tools/perturbation_inference.py)",
                  ha="center", va="center", fontsize=8.5, color=INK3)
 
     fig.suptitle("Figure 9  Direct perturbation test of candidate synergy modules",

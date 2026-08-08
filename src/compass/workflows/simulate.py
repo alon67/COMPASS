@@ -15,7 +15,6 @@ Execution model
 
 from __future__ import annotations
 
-import json
 import os
 import time
 import traceback
@@ -68,18 +67,64 @@ CAMPAIGN_SOLVER = {
     # edge (4 vs 5 spikes).  The feature-level audit accepts it: agreement is
     # 1.00 for every feature on every point.
     "migliore_ca1": {"cvode": False, "dt_ms": 0.025},
+    # --- external replication cohort ------------------------------------- #
+    # Each entry is the cheapest setting accepted by that model's own
+    # feature-level convergence audit; see
+    # data/provenance/convergence_audit_<model>.json.  They are placeholders
+    # ONLY until that audit has run: tests/integration/test_convergence_contract.py
+    # fails the release if the exact production setting is not a directly tested,
+    # accepted row.
+    # miyasho_purkinje: NO setting converges. ap_amplitude_mV fails at 0.05,
+    # 0.025 and 0.0125 ms (on the published 1,088-segment mesh AND a
+    # 1,264-segment d_lambda mesh) and membrane_tau_ms at 0.00625 ms, against a
+    # 0.003125 ms reference. The failing feature MOVES between steps, which
+    # points at threshold-adjacent prior samples rather than an under-resolved
+    # integration -- a finer step does not fix that. NOT simulated; the entry
+    # names the finest AUDITED setting so the failing audit stays reproducible
+    # and gate N3 can find a directly tested row to reject.
+    "miyasho_purkinje": {"cvode": False, "dt_ms": 0.00625},
+    "tzilivaki_fsbc": {"cvode": False, "dt_ms": 0.025},
+    # Spontaneous pacemaker on a reconstructed axon-bearing dendrite. Its
+    # published lambda_f(1000) mesh never converges (input resistance measured
+    # on an ongoing spike train); the adapter therefore builds the d_lambda(100
+    # Hz) mesh (174 segments), where dt = 0.003125 ms reproduces all 13 features
+    # on all 7 audit points.
+    "moubarak_snc_da": {"cvode": False, "dt_ms": 0.003125},
+    # 0.025 fails ap_amplitude_mV; 0.0125 reproduces all 13 features on all 7
+    # points against a dt=0.0015625 reference.
+    "dougalis_vlpag_da": {"cvode": False, "dt_ms": 0.0125},
+    # ortner_snc_da: NO setting converges. ap_amplitude_mV fails on 1-2 of 7
+    # prior points at 0.025, 0.0125 AND 0.00625, non-monotonically -- the
+    # signature of a threshold-adjacent point rather than a step-size problem.
+    # Combined with its partial protocol coverage (<=3 spikes in the 400 ms
+    # window) it fails two independent outcome-blind gates, so it is NOT
+    # simulated and NOT in the replication campaign. The entry is kept so the
+    # failing audit stays reproducible.
+    "ortner_snc_da": {"cvode": False, "dt_ms": 0.00625},
+    "tomko_ca1": {"cvode": False, "dt_ms": 0.025},
 }
 
 
 def solver_kwargs(model_id: str) -> dict:
+    """The production solver contract.  **Fails closed** for unknown models.
+
+    This used to fall back from ``CAMPAIGN_SOLVER`` to the superseded
+    ``numerical_qc.json`` and then to a guessed fixed 0.025 ms.  The canonical
+    audit already failed closed, so the repository could run a full production
+    campaign for a newly registered model at a time step nothing had ever
+    validated, while the audit tool refused to touch it -- the dangerous
+    direction of the two (2026-08-06 audit, section 5.3).
+
+    A new model must therefore appear in ``CAMPAIGN_SOLVER`` with a setting its
+    own feature-level convergence audit accepts before it can be simulated.
+    """
     if model_id in CAMPAIGN_SOLVER:
         return dict(CAMPAIGN_SOLVER[model_id])
-    qc_path = ROOT / "data" / "provenance" / "numerical_qc.json"
-    if qc_path.exists():
-        for r in json.loads(qc_path.read_text()):
-            if r["model_id"] == model_id:
-                return dict(r["chosen_kwargs"])
-    return {"cvode": False, "dt_ms": 0.025}
+    raise KeyError(
+        f"{model_id!r} has no CAMPAIGN_SOLVER entry. Production refuses to guess "
+        f"a solver contract: run tools/convergence_audit.py {model_id} and add the "
+        f"accepted setting. Known: {sorted(CAMPAIGN_SOLVER)}"
+    )
 
 
 def _feature_row(adapter, kw, rheobase, protocols, spontaneous: bool) -> tuple[dict, list[str]]:
@@ -121,6 +166,72 @@ def _feature_row(adapter, kw, rheobase, protocols, spontaneous: bool) -> tuple[d
     return row, flags
 
 
+# Bumped whenever the row-level validity classification changes, so a stored row
+# always says which validator produced its verdict (audit 6.4.2).
+VALIDATOR_VERSION = "row-validity-2"   # v2: spontaneity precedes depolarised_rest
+
+
+def classify_row(row: dict, flags: list[str], rheobase, spontaneous: bool,
+                 error: str | None) -> dict:
+    """Separate the distinct meanings of "valid" (2026-08-06 audit, 6.4.2).
+
+    Collapsing them into one ``simulation_status=ok`` field made two very
+    different things indistinguishable.  The broad Tier C/D priors are
+    *supposed* to produce noncanonical neurons: a finite but silent or
+    depolarisation-blocked draw is a prior-predictive outcome that a frozen
+    analysis policy should classify, not a corrupt simulation.  Conversely a
+    numerically failed rheobase probe is corrupt even though downstream code
+    could manufacture a finite feature row from the surviving protocols.
+    """
+    numerical = {"solver_failure", "nonfinite_voltage", "nonphysical_voltage"}
+    bare = {f.split(":")[-1] for f in flags}
+    execution_valid = error is None and not (bare & numerical)
+    # The protocol is applied as intended unless a rheobase-normalised family
+    # was requested for a sample that has no usable rheobase.
+    protocol_valid = execution_valid
+    feature_valid = execution_valid and any(
+        np.isfinite(v) for k, v in row.items()
+        if k.startswith("step_abs_hi.") and isinstance(v, float))
+
+    # Order matters, and getting it wrong misclassified 81% of a pacemaker's
+    # rows.  `depolarised_rest` is raised whenever the pre-stimulus baseline
+    # sits above -20 mV, which is true of EVERY spontaneously active cell,
+    # because its baseline window contains spikes.  Reading that flag as
+    # depolarisation block therefore labels a healthy pacemaker as blocked.
+    # Spontaneity is checked first, and genuine block is taken from the
+    # extractor's own `depolarisation_block` feature -- which tests whether the
+    # cell stops firing while still depolarised -- rather than from a baseline
+    # heuristic.
+    blocked = any(
+        float(v) >= 0.5 for k, v in row.items()
+        if k.endswith(".depolarisation_block") and isinstance(v, (int, float))
+        and np.isfinite(v))
+    if error is not None:
+        physiology = "simulation_error"
+    elif bare & numerical:
+        physiology = "unstable"
+    elif spontaneous or rheobase == 0.0:
+        physiology = "spontaneous_block" if blocked else "spontaneous"
+    elif blocked or "depolarised_rest" in bare:
+        physiology = "depolarisation_block"
+    elif rheobase is None:
+        physiology = "nonspiking"
+    else:
+        physiology = "canonical_plausible"
+
+    return {
+        "execution_valid": bool(execution_valid),
+        "protocol_valid": bool(protocol_valid),
+        "feature_valid": bool(feature_valid),
+        "physiology_class": physiology,
+        # The preregistered inclusion rule for the primary analysis: the run
+        # executed, the protocol was applied, and features exist.
+        "analysis_eligible": bool(execution_valid and protocol_valid and feature_valid),
+        "validator_version": VALIDATOR_VERSION,
+        "failure_reason": error or (";".join(sorted(bare & numerical)) or ""),
+    }
+
+
 def run_block(
     model_id: str,
     scales: np.ndarray,
@@ -131,6 +242,7 @@ def run_block(
     seed: int,
     prior_id: str,
     out_path: Path,
+    identity: dict | None = None,
 ) -> dict:
     """Simulate one block of parameter samples and write an atomic parquet shard."""
     from compass.adapters.models import get_adapter
@@ -162,6 +274,9 @@ def run_block(
             "parameter_sample_id": int(sid),
             "protocol_id": "common_core",
         }
+        error = None
+        flags: list[str] = []
+        rheo = None
         try:
             adapter.apply(dict(zip(param_ids, scales[i], strict=True)))
             rheo = adapter.find_rheobase(delay_ms=P.RHEO_DELAY_MS,
@@ -173,28 +288,158 @@ def run_block(
             rec_meta["rheobase_nA"] = np.nan if rheo is None else float(rheo)
             rec_meta["non_spiking"] = bool(rheo is None)
             rec_meta.update(feats)
+        except adapter.RheobaseProbeFailure as exc:
+            # A probe that could not be evaluated fails the whole sample.  It is
+            # NOT "this cell does not spike" (gate N5).
+            error = f"rheobase_probe_failure: {exc}"
+            rec_meta["simulation_status"] = "error"
+            rec_meta["qc_flags"] = "rheobase_probe_failure"
+            rec_meta["error"] = error
+            rec_meta["rheobase_nA"] = np.nan
+            rec_meta["non_spiking"] = False   # unknown, not False-as-silence
         except Exception as exc:  # noqa: BLE001
+            error = f"{type(exc).__name__}: {exc}"
             rec_meta["simulation_status"] = "error"
             rec_meta["qc_flags"] = f"exception:{type(exc).__name__}"
             rec_meta["error"] = f"{exc}\n{traceback.format_exc()[-400:]}"
             rec_meta["rheobase_nA"] = np.nan
-            rec_meta["non_spiking"] = True
+            rec_meta["non_spiking"] = False
+        rec_meta.update(classify_row(rec_meta, flags, rheo, spontaneous, error))
         rows.append(rec_meta)
 
     df = pd.DataFrame(rows)
     for j, pid in enumerate(param_ids):
         df[f"param.{pid}"] = scales[:, j]
+    # Bind the shard to the identity that produced it, in the shard itself.
+    # A sidecar alone is separable from the data; these columns are not.
+    for k, v in (identity or {}).items():
+        df[f"identity.{k}"] = v
     out_path.parent.mkdir(parents=True, exist_ok=True)
     tmp = out_path.with_suffix(".tmp.parquet")
     df.to_parquet(tmp, index=False)
     os.replace(tmp, out_path)
+    if identity:
+        write_sidecar(out_path, identity, n_rows=len(rows))
     return {
         "shard": out_path.name,
         "n": len(rows),
         "wall_s": round(time.time() - t_start, 1),
         "n_error": int((df["simulation_status"] == "error").sum()),
         "n_nonspiking": int(df["non_spiking"].sum()),
+        "n_ineligible": int((~df["analysis_eligible"]).sum()),
     }
+
+
+def sidecar_path(shard: Path) -> Path:
+    return shard.with_suffix(".identity.json")
+
+
+def write_sidecar(shard: Path, identity: dict, n_rows: int) -> Path:
+    import hashlib
+    import json as _json
+
+    payload = dict(identity)
+    payload["n_rows"] = int(n_rows)
+    payload["shard"] = shard.name
+    payload["sha256"] = hashlib.sha256(shard.read_bytes()).hexdigest()
+    path = sidecar_path(shard)
+    path.write_text(_json.dumps(payload, indent=1, sort_keys=True, default=str))
+    return path
+
+
+# Identity differences that are DOCUMENTED and deliberately tolerated, with the
+# justification and the condition under which the tolerance is valid.
+#
+# This is not an escape hatch: `validate_campaign.py` re-derives the
+# "not load-bearing" claim from the analysis code rather than trusting the text
+# here, so if a drifted feature ever becomes a conditioning feature, an RSI
+# target or a perturbation readout, the allowance stops applying and the shards
+# are quarantined.
+DOCUMENTED_DRIFT: dict[str, dict] = {
+    "feature_schema": {
+        ("features-1", "features-2"): {
+            "changed": ["cv_isi"],
+            "detail": (
+                "features-2 requires >=3 spikes for cv_isi. Under features-1 a "
+                "two-spike train has one ISI, np.std of which is exactly 0, so "
+                "2,127 stored rows report cv_isi = 0.0 -- 'perfectly regular "
+                "firing' manufactured from a single interval. Found by gate D3."),
+            "not_consumed_by": ["CONDITIONING_FEATURES",
+                                "CONDITIONING_FEATURES_NORMALISED",
+                                "RSI_TARGETS", "PERT_FEATURES"],
+            "resolution": (
+                "cleared at the next full campaign regeneration; re-simulating "
+                "98,048 rows to repair a feature no analysis reads is not a "
+                "defensible use of compute, and the affected values are "
+                "enumerated rather than hidden"),
+        },
+    },
+}
+
+
+def _drift_is_documented(field: str, stored, wanted) -> bool:
+    return (str(stored), str(wanted)) in DOCUMENTED_DRIFT.get(field, {})
+
+
+def shard_is_reusable(shard: Path, identity: dict, expected_rows: int) -> tuple[bool, str]:
+    """May an existing shard be reused, or must it be recomputed?
+
+    The previous rule was "the path exists" (audit 5.2).  That reuses a shard
+    written by different code, a different solver contract, a different
+    mechanism build or a partially different design, and nothing downstream can
+    tell.  Reuse now requires the identity to match exactly, the row count to
+    match, and the file's checksum to match what was recorded when it was
+    written.
+    """
+    import hashlib
+    import json as _json
+
+    if not shard.exists():
+        return False, "absent"
+    side = sidecar_path(shard)
+    if not side.exists():
+        return False, "identity_unknown"
+    try:
+        rec = _json.loads(side.read_text())
+    except Exception:  # noqa: BLE001
+        return False, "identity_unreadable"
+    if int(rec.get("n_rows", -1)) != int(expected_rows):
+        return False, f"row_count {rec.get('n_rows')} != {expected_rows}"
+    if rec.get("sha256") != hashlib.sha256(shard.read_bytes()).hexdigest():
+        return False, "checksum_mismatch"
+    # `recorded_only.*` fields are provenance, not reuse criteria: they are
+    # written into the sidecar so drift stays visible and auditable, but they
+    # do not by themselves invalidate a shard.
+    mismatched = [k for k, v in identity.items()
+                  if not k.startswith("recorded_only.")
+                  and str(rec.get(k)) != str(v)
+                  and not _drift_is_documented(k, rec.get(k), v)]
+    if mismatched:
+        return False, "identity_mismatch:" + ",".join(sorted(mismatched))
+    drifted = [k for k, v in identity.items()
+               if not k.startswith("recorded_only.") and str(rec.get(k)) != str(v)]
+    if drifted:
+        return True, "match_with_documented_drift:" + ",".join(sorted(drifted))
+    return True, "match"
+
+
+def quarantine(shard: Path, reason: str) -> Path:
+    """Move a non-reusable shard aside rather than overwrite it.
+
+    Overwriting destroys the evidence needed to work out *why* an identity
+    changed; quarantine keeps it and still forces recomputation.
+    """
+    from datetime import UTC, datetime
+
+    qdir = shard.parent / "_quarantine"
+    qdir.mkdir(parents=True, exist_ok=True)
+    tag = datetime.now(UTC).strftime("%Y%m%dT%H%M%S")
+    dest = qdir / f"{shard.stem}_{tag}_{reason.split(':')[0]}{shard.suffix}"
+    shard.replace(dest)
+    side = sidecar_path(shard)
+    if side.exists():
+        side.replace(dest.with_suffix(".identity.json"))
+    return dest
 
 
 def _worker(args) -> dict:
@@ -205,10 +450,17 @@ def _worker(args) -> dict:
     os.environ.setdefault("NEURON_MODULE_OPTIONS", "-nogui")
     os.environ.setdefault("MPLBACKEND", "Agg")
     (model_id, scales, param_ids, sample_ids, regime, replicate, seed,
-     prior_id, out_path) = args
-    if Path(out_path).exists():
-        return {"shard": Path(out_path).name, "n": 0, "wall_s": 0.0,
-                "n_error": 0, "n_nonspiking": 0, "skipped": True}
+     prior_id, out_path, identity) = args
+    shard = Path(out_path)
+    n_expected = len(sample_ids)
+    reusable, why = shard_is_reusable(shard, identity or {}, n_expected)
+    if reusable:
+        return {"shard": shard.name, "n": 0, "wall_s": 0.0, "n_error": 0,
+                "n_nonspiking": 0, "n_ineligible": 0, "skipped": True,
+                "reuse": why}
+    if shard.exists():
+        moved = quarantine(shard, why)
+        print(f"  quarantined {shard.name} ({why}) -> {moved.name}", flush=True)
     return run_block(model_id, np.asarray(scales), list(param_ids),
                      np.asarray(sample_ids), regime, replicate, seed,
-                     prior_id, Path(out_path))
+                     prior_id, shard, identity)

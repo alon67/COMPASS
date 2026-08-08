@@ -186,3 +186,44 @@ These are limitations of scale, declared in advance, not changes of endpoint.
    the secondary covariance-prior and clustered-prior contrasts are reduced.
    Decided while the campaign was running and before any cross-model result was
    inspected.
+
+---
+
+## Addendum 3 — 2026-08-06 audit response (registered before the replication cohort was analysed)
+
+The following were fixed in advance of any analysis of the
+`screening_v2_replication` cohort. They are recorded here, not only in the
+decision log, because they change what the preregistered criteria *mean*.
+
+1. **The unit of cross-model inference is `source_lineage_id`, not `model_id`.**
+   Direction-agreement, leave-one-out folds, cluster bootstraps and random
+   effects all group on lineage. The frozen discovery cohort has eight
+   implementations over six lineages; the panel as a whole has fourteen over
+   ten.
+2. **Gate N3 is binding.** A model whose exact production `(dt, segment count)`
+   is not a directly tested, accepted row of its own feature-level convergence
+   audit is excluded from primary inference. Exclusions are listed in
+   `compass.analysis.cohorts.PRIMARY_EXCLUSIONS` and are enforced by a test that
+   also fails if a listed model starts passing.
+3. **A prespecified sensitivity cascade accompanies every exclusion.** Six arms:
+   primary, `retain_mainen`, `drop_failed_feature` (the failing feature removed
+   from the phenotype for every model), `retain_partial_coverage`, `all_models`,
+   and discovery/replication separately.
+4. **Two decision criteria are withdrawn and become descriptive**: the
+   Gaussian-vs-copula module Jaccard (both are Gaussian estimators on the same
+   samples) and the model-identity classifier (random within-table splits of one
+   campaign's derived rows). The two perturbation control ratios are collapsed to
+   **one** scored criterion, because they are the same measurement with different
+   denominators.
+5. **Sobol quotability requires completeness AND precision AND physical
+   plausibility**, not completeness alone.
+6. **New models enter a new campaign namespace.** `screening` is frozen; adding a
+   model to it is rejected by `tools/run_campaign.py`.
+7. **Inclusion gates for the replication cohort were frozen before any
+   information endpoint was computed** for any candidate: source and licence
+   recorded, executes without importing third-party experiment scaffolding, all
+   sampled parameters active (gate N4), canonical behaviour inside frozen
+   source-justified bounds (gate N1), exact production setting convergence-accepted
+   (gate N3), and common protocol coverage defined with explicit missingness.
+   Three candidates failed these gates and were excluded; two of them after their
+   mechanisms had been compiled and their convergence audited.

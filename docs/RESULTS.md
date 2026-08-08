@@ -17,6 +17,36 @@ never asserted.
 
 ---
 
+## 0. Corrections and withdrawn claims (2026-08-06 audit)
+
+Read this before anything else. The third external audit
+(`COMPASS_POST_REVISION_TECHNICAL_SCIENTIFIC_AUDIT.md`) found two invalid
+results, one unaccepted model and a systematically overstated inferential
+sample. All four are corrected here, and the affected claims are withdrawn
+rather than softened.
+
+| what changed | why | consequence |
+|---|---|---|
+| **TwoNN intrinsic dimension was biased upward by ~45–50%** | the empirical CDF was renormalised by the *retained* count after trimming, and the last retained point was assigned `F = 1`, so `-log(1-F)` hit the 1e-12 clip (≈ 27.6) and dragged the through-origin slope up | every geometry-dependent number was recomputed with the reference algorithm (`skdim.id.TwoNN` form). Synthetic calibration over six known dimensions, four sample sizes, five trimming fractions and duplicate rows is now a regression test (`tests/numerical/test_intrinsic_dimension.py`, 30 tests). A second estimator (Levina–Bickel MLE) is carried alongside so intrinsic dimension enters the model as a **sensitivity covariate**, not a uniquely measured truth. |
+| **The 2.5 Hz "measurement floor" analysis is withdrawn entirely** | it compared a median over six tuple means of eight backgrounds against one *unaveraged* single-observation quantum. The mean's grid is 2.5/8 = 0.3125 Hz; and a deterministic quantisation step is not a stochastic detection limit | §11.1 is rewritten. "Four of eight models unresolvable", "the enrichment is carried by the two toy models" and "both cortical reconstructions are below a hard floor" are all retired. The replacement (`tools/perturbation_inference.py`) separates **numerical repeatability** — rerun at half the time step, compare per-background η — from **inferential precision** — bootstrap and exact sign-flip inference over the background distribution. Raw per-background outcomes are now archived (`perturbations_raw.parquet`); the previous run stored only summaries, which is why no reanalysis was possible. |
+| **`mainen_l5pc` is excluded from primary inference** | it fails gate N3: at its exact production setting (dt = 0.0125 ms, 2,304 segments) it reproduces 12 of 13 conditioning features on all 7 audit points but fails `adaptation_index` on one | exclusion, not a footnote. A prespecified sensitivity cascade (`decision_sensitivity.json`) reports the result with Mainen retained, and with the failing feature removed from the phenotype for *every* model so the comparison stays like-for-like. |
+| **Inference is clustered on source lineage, not model id** | eight model ids represented six independently developed sources: `hh_point`/`hh_cable` are one HH lineage and `pospischil_rs`/`pospischil_fs` one Destexhe framework. Folds, bootstraps and the "8/8 agreement" sign test all treated them as independent | every fold, bootstrap and random effect now groups on `source_lineage_id`. Under a fair null, 8/8 agreement has exact two-sided sign probability 0.0078; 6/6 lineages has 0.03125. The panel has since been extended to **ten lineages across fourteen implementations** (§2). |
+
+Two further corrections of record:
+
+* **`ortner_snc_da` was adapted, audited and then not simulated.** It fails gate
+  N3 at every tested time step and produces ≤ 3 spikes in the frozen 400 ms
+  window. Two independent outcome-blind gate failures, decided before any
+  information endpoint was computed for it.
+* **425 `pospischil_rs` E1 rows came from a different Sobol design.** The new
+  identity-validated shard reuse found that sample ids 925–1349 had been
+  simulated under seed 20262103 while the other 7,767 rows used 20262247, so
+  the stored E1 table was a mixture of two scrambles. The affected shards were
+  quarantined and regenerated. Nothing had detected this before, because shard
+  reuse was decided by "the file exists".
+
+---
+
 ## 1. What was built and run
 
 An end-to-end pipeline: model acquisition with hashed provenance → per-model
@@ -37,8 +67,11 @@ sensitivity and perturbation analysis → preregistered decision.
 | Derived analysis tables | `results/analyses/*.parquet` |
 | Model audit | [`docs/model_audits/model_audit.md`](model_audits/model_audit.md) |
 
-Verification: 86 unit, numerical and integration tests exercising the real
-NEURON adapters (`pytest`).
+Verification: `pytest -m "not slow"` for the fast suite, `pytest -m slow` for
+the per-model NEURON gates N1-N7. The exact counts are checked against the
+documents by `tools/verify_report_numbers.py`, which now also asserts repository
+facts (test count, lint command, staleness of the model audit) that no
+number-matching can express.
 
 ---
 
@@ -58,7 +91,46 @@ Eight independently constructed conductance-based models spanning the blueprint
 | `migliore_ca1` | hippocampal CA1 pyramidal | ModelDB 2796 | independent | 8 | 1106 |
 | `bbp_l5pc` | cortical L5b pyramidal | ModelDB 139653 + BlueBrain/BluePyOpt | **BBP** | 15 | 642 |
 
-Three orthogonal contrasts are designed into the panel:
+### 2.0 The external replication cohort, and the unit of inference
+
+The table above is the **frozen discovery cohort**. Its eight `model_id` values
+represent **six independently developed source lineages**, and treating those
+eight ids as if they were eight separate families was the audit's finding 4. A separately versioned
+**replication cohort** (`screening_v2_replication`) now adds five more:
+
+| model | class | source | source lineage | role | outcome |
+|---|---|---|---|---|---|
+| `moubarak_snc_da` | SNc dopaminergic | ModelDB 267306 | `moubarak_2022` | first dopaminergic lineage | **simulated** |
+| `dougalis_vlpag_da` | vlPAG/DRN dopaminergic | ModelDB 226010 | `dougalis_2017` | second dopaminergic lineage | **simulated** |
+| `tomko_ca1` | hippocampal CA1 pyramidal | ModelDB 266901 | `migliore_1999` | second CA1 *implementation* | **simulated** |
+| `miyasho_purkinje` | cerebellar Purkinje | ModelDB 17664 | `miyasho_2001` | second Purkinje lineage | excluded, gate N3 (§5.0.1) |
+| `tzilivaki_fsbc` | hippocampal FS basket | ModelDB 237595 | `tzilivaki_2019` | second fast-spiking lineage | excluded, gate N3 (§5.0.1) |
+| `ortner_snc_da` | SNc dopaminergic | ModelDB 2017402 | `dougalis_2017` | nested DA implementation | excluded, gate N3 + partial coverage |
+
+**Fourteen implementations over ten source lineages are registered; ten
+implementations over seven lineages pass every gate and carry the primary
+result** (§5.0.2). The replication cohort's net contribution is two new
+lineages and one nested implementation — short of the audit's four-to-six
+target, and the reason is documented rather than absorbed. The distinction is the
+unit of inference, and it is not cosmetic: under a fair null, unanimous
+agreement across 8 units has exact two-sided sign probability 0.0078, while
+across the 6 lineages those 8 ids actually represent it is 0.03125. Every fold,
+bootstrap and random effect now clusters on `source_lineage_id`
+(`compass.analysis.cohorts`).
+
+Lineage attribution is deliberately conservative. `tomko_ca1` re-optimised every
+conductance de novo with BluePyOpt against HippoUnit on a different morphology,
+but takes its channel kinetics from the Migliore lineage, so it is a nested
+implementation rather than an independent CA1 source. `ortner_snc_da` shares an
+author's NEURON code with `dougalis_vlpag_da`; it was adapted and audited and
+then **not simulated**, because it fails gate N3 at every tested time step and
+produces ≤3 spikes in the frozen 400 ms window.
+
+Three of the six candidates failed outcome-blind gates *after* being fetched,
+adapted, compiled and audited. That is expensive and it is the point: a gate
+that never rejects anything that cost something is not doing any work.
+
+Four orthogonal contrasts are designed into the panel:
 
 * **Neuron identity vs laboratory.** `mainen_l5pc` and `bbp_l5pc` are the same
   nominal cell type (layer-5 cortical pyramidal) built by different groups two
@@ -67,6 +139,12 @@ Three orthogonal contrasts are designed into the panel:
   different cell classes from *one* framework, lab and mechanism set.
 * **Morphology vs channels.** `hh_point` and `hh_cable` have identical channel
   kinetics and differ only in whether a dendrite exists.
+* **Lineage vs class.** The dopaminergic class now contains two independently
+  developed lineages (`moubarak_2022`, `dougalis_2017`) — the only class in the
+  panel with more than one. The Purkinje and fast-spiking replicates were both
+  excluded by gate N3, so those classes remain singletons. **No class has the
+  three independent lineages the audit requires before a class-specific claim,
+  and none is made.**
 
 ### 2.1 Parameterisation
 
@@ -262,6 +340,114 @@ is not, by itself, evidence about neurons.
 
 ---
 
+
+## 5.0 Release gates: what they are, and what they found
+
+The 2026-08-06 audit's finding 5 was that the test suite measured software
+correctness rather than simulation validity: real NEURON physiology assertions
+existed for one adapter, everything else was build-checked. Sections 6.4.1-6.4.3
+specify what would close that gap. All of it is now implemented, **fails closed**
+(a skipped, missing or indeterminate gate is a failure, never a pass) and emits
+machine-readable records under `results/validation/`.
+
+| gate | what it checks | where |
+|---|---|---|
+| **N1** | every adapter built in a fresh spawned process, simulated under its exact production solver and mesh, checked against model-specific source-justified bounds; requested `dt`/temperature read back from NEURON so a silent fallback cannot pass | `tests/integration/test_all_model_canonical_behavior.py` |
+| **N2** | reproduced values against published/source values, per model, with the source of every bound named | `tools/build_model_audit.py` |
+| **N3** | the **exact** production `(dt, segment count)` is a directly tested, accepted row of that model's own convergence audit | `tests/integration/test_convergence_contract.py` |
+| **N4** | every exposed parameter writes `canonical x scale` to the intended NEURON attribute, moves at least one observable feature when scaled 1/4 and 4x, and `reset()` restores both the profile and the trace exactly | `tests/integration/test_parameter_activity.py` |
+| **N5** | tri-state rheobase probes (`spiking` / `nonspiking` / `failed`); a failed probe fails the parent sample instead of becoming "does not spike"; spike detection requires a genuine upward crossing | `tests/unit/test_rheobase_failure_states.py` |
+| **N6** | the project extractor against eFEL *and* against an independent reimplementation, on **archived real traces**, including threshold-adjacent cases | `tests/integration/test_real_trace_features.py` |
+| **N7** | identical fixed-step runs are bit-identical after unrelated work and after `reset()` | `tests/integration/test_all_model_canonical_behavior.py` |
+| **D1-D5** | 100% of stored rows and shards: design completeness from the frozen configuration, parameter regeneration from seed, row-level invariants, identity and immutability, population diagnostics | `tools/validate_campaign.py` |
+| **REPLAY** | one deterministically selected row from **every** shard plus every risky stratum, re-simulated and compared; a mismatch invalidates the whole shard and clusters escalate | `tools/validate_replay.py` |
+| **R1/D6** | provenance graph, artifact hashes, gate roll-up and a fail-closed release verdict | `tools/build_release_manifest.py` |
+
+### What the gates found
+
+Building the gates was not a formality. Each of the following was found by a
+gate, not by inspection, and each cost something to fix:
+
+1. **425 `pospischil_rs` E1 rows came from a different Sobol design.** Sample ids
+   925-1349 were simulated under seed 20262103 while the other 7,767 used
+   20262247, so the stored E1 table was a mixture of two scrambles. Detected the
+   first time identity-validated reuse ran; the 17 shards were quarantined and
+   regenerated. Nothing had detected it in three previous audits, because reuse
+   was decided by "the file exists".
+2. **`cv_isi` was manufactured as 0.0 on 2,127 rows.** With two spikes there is
+   one interval, whose standard deviation is exactly zero, so a two-spike train
+   reported perfectly regular firing. Gate D3's "ISI features exist only when
+   supported by enough spikes" invariant caught it. The extractor now requires
+   three spikes; the stored rows are enumerated as a documented, non-load-bearing
+   drift rather than hidden, and `tools/validate_campaign.py` **re-derives** the
+   "non-load-bearing" claim from the analysis code, so the allowance evaporates
+   if `cv_isi` ever becomes a conditioning feature.
+3. **`dougalis_vlpag_da` had an unmeasurable hyperpolarising step.** The frozen
+   amplitude rule (-0.5 x rheobase) gave -0.002 nA for a cell whose rheobase is
+   0.0039 nA; at that current the membrane *depolarises* by +2.8 mV over the
+   step as the baseline settles, and input resistance -- one of the 13
+   conditioning features -- comes out at **-223 MOhm**. Gate N6's sign check
+   caught it. The rule now has a floor at -0.1 x the `hi` amplitude, which binds
+   only for the two cells whose rheobase is at or near zero and changes nothing
+   for the other twelve. The affected shards were quarantined on their
+   `protocol_hash` and regenerated -- automatically, by the same mechanism.
+4. **Project and eFEL spike counts differ on the two spontaneously active
+   models**, by 4 (khaliq, ~135 Hz) and 3 (moubarak, ~90 Hz). Both are right
+   about different things: COMPASS counts spike *peaks* inside the analysis
+   window, eFEL counts spike *onsets*, and on a continuously firing cell the two
+   conventions disagree at the window edges. Recorded with the measured
+   difference, so a *change* in the gap fails the test even though the gap
+   itself is understood.
+5. **Three models fail gate N3 and are excluded from primary inference**
+   (§5.0.1).
+
+### 5.0.1 Models excluded by gate N3
+
+| model | failure | cost of the exclusion |
+|---|---|---|
+| `mainen_l5pc` | dt = 0.0125 ms / 2,304 segments reproduces 12 of 13 features on all 7 audit points, fails `adaptation_index` on one | the discovery cohort drops from 6 lineages to 5, and the L5-pyramidal class from 2 lineages to 1 |
+| `miyasho_purkinje` | no step converges: `ap_amplitude_mV` fails at 0.05, 0.025 and 0.0125 ms (on the published 1,088-segment mesh *and* a 1,264-segment d_lambda mesh), `membrane_tau_ms` at 0.00625 ms, against a 0.003125 ms reference | the cerebellar Purkinje class stays at one lineage |
+| `tzilivaki_fsbc` | `mean_firing_rate_Hz` reproduces on 25–50% of audit points at 0.05 and 0.025 ms, on both the 9,875-segment published mesh and a 4,096-segment d_lambda mesh | the fast-spiking class stays at one lineage |
+| `ortner_snc_da` | no step converges: `ap_amplitude_mV` fails on 1–2 of 7 points at 0.025, 0.0125 **and** 0.00625 ms. Separately, ≤3 spikes in the 400 ms window | the dopaminergic class loses its within-lineage implementation pair |
+
+Two of these four are informative about *why* they fail rather than merely
+that they do. For `miyasho_purkinje` and `ortner_snc_da` the failing feature
+**moves between time steps** — `ap_amplitude_mV` at one step, `membrane_tau_ms`
+at the next. That is not the signature of an under-resolved integration, which
+would converge monotonically; it is the signature of prior samples sitting on a
+discontinuity, where an arbitrarily fine step still lands on either side. A
+finer step cannot fix it, and reporting the model at a coarse step would mean
+quoting a feature the model does not determine at that point.
+
+### 5.0.2 What the panel actually is, after the gates
+
+| | implementations | source lineages |
+|---|---:|---:|
+| registered and adapted | 14 | 10 |
+| simulated | 11 | 8 |
+| **passing all gates (primary cohort)** | **10** | **7** |
+| discovery cohort alone, primary | 7 | 5 |
+
+The replication cohort's net contribution is **two new source lineages**
+(`moubarak_2022`, `dougalis_2017`) plus one nested implementation
+(`tomko_ca1` inside `migliore_1999`). The audit asked for four to six new
+lineages, and for three lineages in each class used for a class-specific claim.
+Neither target is met: **no neuron class in the primary cohort has three
+independent lineages**, so no class-specific claim is supportable, exactly as
+before.
+
+**This is the gate working, and it is expensive.** Two of the exclusions are
+models that were fetched, adapted, had their mechanisms compiled, their f-I
+curves calibrated and their convergence audited before being rejected. A gate
+that never rejects anything that cost something is not doing any work. The
+consequence is stated plainly rather than absorbed: the panel that actually
+produces the headline numbers is smaller than the panel that was built, and the
+two morphologically detailed replication candidates could not be run at a
+convergence-accepted time step within this project's compute budget. That is a
+real constraint on the audit's Priority-2 recommendation, not a detail.
+
+---
+
 ## 5. The campaign
 
 **98,048 simulations**: 76,288 for the screening ensembles and 21,760 for the
@@ -349,9 +535,11 @@ spike scored as a convergence failure at every rate below 40 Hz, while the same
 physical event expressed as `spike_count` (tolerance one spike) scored as
 agreement. Raised to exactly one quantum, from the protocol geometry, before
 looking at any model's result — and it **does not change the verdict**, which is
-how we know the correction was not a route to a wanted answer. This is the same
-measurement floor that governs the perturbation results (§11.1), here making
-convergence itself partly unanswerable for counted readouts.
+how we know the correction was not a route to a wanted answer. The same quantum arithmetic once
+supported a "measurement floor" reading of the perturbation results; that
+reading is withdrawn (§11.1). It remains valid *here*, where the comparison is
+between two single unaveraged observations of the same feature at two time
+steps, which is exactly the case a per-observation quantum describes.
 
 ### 5.2 An explicit QC validity policy
 
@@ -507,7 +695,7 @@ model's accepted ensemble at its own size (`tools/estimator_reliability.py`):
 | `mainen_l5pc` | 153 | −0.000031 | 0.000092 | 0.3σ |
 | `bbp_l5pc` | 321 | −0.000002 | 0.000018 | 0.1σ |
 
-**Five of eight models resolve the effect at 4–5σ.** The three that do not are
+**Five of eight implementations exceed their own conditional bootstrap noise by a factor of 4-5.** These are conditional bootstrap signal-to-noise ratios, **not sigma significances**: they bootstrap only the already-selected E3 parameters, hold the E1 endpoint fixed, do not repeat conditioning or target estimation, do not propagate tuple or surrogate choices, and rest on 40 replicates for the per-model SD (2026-08-06 audit, 7.3). The three that do not are
 exactly the three smallest ensembles (140, 153, 321 samples): they are
 sample-size limited, not effect limited, and their direction still agrees.
 
@@ -594,7 +782,7 @@ ensembles evaluated over the *same number of tuples*.
 
 | ensemble | naive fraction Ω<0 | surrogate-controlled |
 |---|---:|---:|
-| **E8 (shuffled null: dependence destroyed by construction)** | **0.454** | **0.000** |
+| **E8 (shuffled null: dependence destroyed by construction)** | **0.455** | **0.000** |
 | E3 (phenotype-conditioned) | 0.621 | 0.270 |
 
 An ensemble in which all dependence has been *deliberately destroyed* still
@@ -652,17 +840,26 @@ bootstrap over models:
 
 | table | ratio median | 95% CI | resamples exceeding the preregistered 2.0 |
 |---|---:|---|---:|
-| raw endpoints | 12.0 | [3.5, 70.2] | **100%** |
-| **size-matched** (20 draws, common N per regime) | **9.3** | **[3.2, 54.2]** | **100%** |
+| raw endpoints | 11.7 | [3.6, 71.0] | **100%** |
+| **size-matched** (20 draws, common N per regime) | **13.1** | **[4.0, 81.7]** | **100%** |
 
 The size-matched table is the one that answers the review's F4: every model is
 subsampled to a common N per regime and the endpoints recomputed 20 times, so
 "model identity" is no longer confounded with "how many samples that model got".
-The ratio drops from 22.6 (as originally reported, point estimate, unmatched) to
-**9.3 with a proper interval** — weaker than the original claim, but the
-preregistered threshold of 2.0 is exceeded in **every single resample**, and the
-interval is wide because eight models is a small bootstrap unit, not because the
-effect is fragile.
+The matched design additionally pools `screening_expand` into `migliore_ca1` and
+withholds the four implementations that fail gate N3, so a model excluded from
+every other primary analysis can no longer bind a matched cell through the
+`min()` that sets the common N.
+
+Under that design the ratio is **13.1 with a proper interval**, slightly *above*
+the raw figure of 11.7 rather than below it. The earlier matched estimate of 9.3
+was depressed by a gate-failed model sitting inside the design and by the small
+common N that model forced; removing it and enlarging the binding model's sample
+raises the matched ratio rather than lowering it. It remains well below the 22.6
+originally reported as an unmatched point estimate, the preregistered threshold
+of 2.0 is exceeded in **every single resample**, and the interval is wide
+because seven models is a small bootstrap unit, not because the effect is
+fragile.
 
 A mixed model with model family as a random effect decomposes `synergy_area`
 into a fixed part (regime, geometry, sample size), a between-family random part,
@@ -670,10 +867,10 @@ and residual:
 
 | quantity | value | meaning |
 |---|---:|---|
-| variance-partition coefficient | 0.023 | between-family share of **total** variance |
-| **adjusted ICC** | **0.165** | between-family share of the variance **remaining after** the fixed covariates |
-| marginal R² | 0.862 | share explained by the fixed covariates alone |
-| conditional R² | 0.885 | share explained by fixed + family effects |
+| variance-partition coefficient | 0.027 | between-family share of **total** variance |
+| **adjusted ICC** | **0.161** | between-family share of the variance **remaining after** the fixed covariates |
+| marginal R² | 0.833 | share explained by the fixed covariates alone |
+| conditional R² | 0.860 | share explained by fixed + family effects |
 
 An earlier version of this document reported a single "intraclass correlation of
 **0.048**" and glossed it as "under 5% of endpoint variance lies between model
@@ -686,10 +883,10 @@ counted once inside that term and again as its own term. The denominator was
 inflated and the result was neither of the two standard quantities.
 
 **The right ICC is several times larger.** Computed correctly, the adjusted ICC
-is **0.165** — roughly 17% of the *residual* variance is between families, not
-under 5%. The 0.023 figure is the variance-partition coefficient, a different
+is **0.161** — roughly 16% of the *residual* variance is between families, not
+under 5%. The 0.027 figure is the variance-partition coefficient, a different
 and much weaker statement: family identity is a small share of total variance
-mainly because the fixed covariates already explain 86% of it. (On the previous,
+mainly because the fixed covariates already explain 83% of it. (On the previous,
 CVODE-built conditioning targets these were 0.289 and 0.050; correcting the
 targets in §5.3 reduced the between-family share, which is consistent with part
 of the apparent family structure having been an artefact of a target computed by
@@ -763,27 +960,31 @@ middle-Ω one. All numbers below are computed against the corrected conditioning
 targets (§5.3), which moved the accepted ensembles the backgrounds are drawn
 from.
 
-Primary feature (mean firing rate), 8 models × 18 tuples × 8 backgrounds:
+Primary feature (mean firing rate), 7 models × 18 tuples × 8 backgrounds:
 
 | | top-synergy | middle-Ω control | random control |
 |---|---:|---:|---:|
-| mean \|η\| (ensemble SD) | **0.179** | 0.096 | 0.065 |
-| median \|η\| | 0.050 | 0.023 | 0.020 |
-| meeting the functional-support bar | **20.8%** | 6.3% | 2.1% |
+| mean \|η\| (ensemble SD) | **0.306** | 0.103 | 0.065 |
+| median \|η\| | 0.100 | 0.022 | 0.023 |
+| meeting the functional-support bar | **31.0%** | 7.1% | 2.4% |
 
 | comparison | ratio | 95% CI (model bootstrap) | Wilcoxon p | models with top > control |
 |---|---:|---|---:|---:|
-| top vs **random** | 2.77× | [1.19, 6.64] | 0.078 | 6 / 8 |
-| top vs **middle-Ω** | 1.87× | [**1.03**, 4.45] | 0.195 | 5 / 8 |
+| top vs **random** | 4.74× | [1.90, 9.65] | **0.016** | 7 / 7 |
+| top vs **middle-Ω** | 2.97× | [1.35, 7.71] | **0.047** | 6 / 7 |
 
-**This is weaker than the previous release reported, and the direction of the
-change matters.** Before the conditioning targets were corrected the same
-battery gave 4.05× and 2.34× with p = 0.023 and p = 0.109. With targets built by
-the campaign's own integrator, both ratios fall, neither paired test reaches
-p < 0.05, and the matched-control interval now runs from **1.03** — grazing no
-enrichment at all. The analysis code labels both comparisons *"inconclusive: the
-confidence interval spans both no enrichment and substantial enrichment"*, and
-that label should be taken at face value.
+**Both comparisons now separate from unity, but the intervals stay wide.** The
+battery is run on the seven models with a usable accepted ensemble; `mainen_l5pc`
+is absent, so this arm carries the partial-coverage caveat the decision table
+prints. Every model shows top > random, six of seven show top > middle-Ω, and
+both paired tests fall below 0.05 — where the previous release reported 2.77×
+(p = 0.078) and 1.87× (p = 0.195) with the matched-control interval grazing 1.03.
+
+The lower bounds are 1.90 and 1.35, so the direction is no longer in doubt, but
+the upper bounds (9.65 and 7.71) are far from the point estimates: seven models
+is a small bootstrap unit. The scored H-B criterion is judged on the
+lineage-clustered paired difference (+0.203 SD, 95% CI [+0.018, +0.439] over
+five lineages), not on the point ratio.
 
 The continuous relationship survives: across the 144 primary-readout tuples,
 more synergistic tuples are more non-additive, **r = −0.401**. But it too is
@@ -794,7 +995,7 @@ functional non-additivity by a point estimate of roughly 2–3×, in the same
 direction in 5–6 of 8 models, with intervals that exclude no-enrichment only
 barely. What cannot be said is that this is established: two non-significant
 paired tests with intervals spanning an order of magnitude do not validate a
-module claim, and §11.1 shows the effect is unresolvable in half the panel.
+module claim; the "unresolvable in half the panel" companion claim is withdrawn (§11.1).
 
 For the record, the *original* pre-audit numbers (1.40×, 12.5% supported vs
 14.6% for controls, r = −0.064) were an artefact of a flawed design and remain
@@ -829,54 +1030,151 @@ perturbations are identical. Only the measurement taken from the resulting
 voltage trace differs, and it decides whether "these parameters form a
 functional module" is true or false.
 
-### 11.1 The enrichment is carried by the two toy models and is unresolvable in the two cortical reconstructions
+### 11.1 WITHDRAWN: the "measurement floor" analysis, and what replaces it
 
-η is quoted in units of the ensemble SD, which hides an absolute floor. The
-primary readout is a **spike count** over a 400 ms step, so one extra spike is
-2.5 Hz — an irreducible quantum, independent of the integration time step.
-Divided by each model's own rate SD, that quantum becomes a floor in the same
-units as η (`tools/readout_resolution.py`, `readout_resolution.json`):
+**This section previously reported that the enrichment was carried by two toy
+models and was unresolvable in four models including both cortical
+reconstructions. That analysis was invalid and every conclusion from it is
+withdrawn** (2026-08-06 audit §4).
 
-| model | floor (SD) | median \|η\| (SD) | resolvable |
-|---|---:|---:|---|
-| `hh_point` | 0.147 | **0.717** | yes, 4.9× floor |
-| `migliore_ca1` | 0.089 | 0.372 | yes, 4.2× |
-| `hh_cable` | 0.163 | 0.254 | yes, 1.6× |
-| `pospischil_fs` | 0.043 | 0.049 | marginal, 1.1× |
-| **`mainen_l5pc`** | 0.073 | **0.050** | **no — below floor** |
-| **`pospischil_rs`** | 0.049 | **0.031** | **no — below floor** |
-| **`bbp_l5pc`** | 0.074 | **0.023** | **no — below floor** |
-| **`khaliq_purkinje`** | 0.046 | **0.023** | **no — below floor** |
+What it did. The primary readout is a spike count over a 400 ms step, so one
+extra spike is 2.5 Hz. The old analysis divided that quantum by each model's
+rate SD to get a "floor", and compared it against the per-model **median over
+six tuple means of eight backgrounds**.
 
-**Half the panel is now below its own measurement floor** — worse than the 2 of 8
-found before the conditioning targets were corrected. Only `hh_point` and
-`migliore_ca1` clear it comfortably; `hh_cable` clears it by 1.6× and
-`pospischil_fs` by 1.1×.
+Why that tests nothing. Three separate errors, any one of which is fatal:
 
-Three consequences, none of them cosmetic.
+1. **The units are aligned but the estimators are not.** The reported statistic
+   is a mean over eight backgrounds. Its native grid is 2.5/8 = **0.3125 Hz**,
+   and the per-model median over six such tuple means can fall on a 0.15625 Hz
+   grid. Comparing a median of averages against a single unaveraged quantum
+   compares two different sampling operations.
+2. **A quantisation grid is not a detection limit.** The quantum is
+   deterministic. A mean of 0.05 SD is exactly observable and exactly
+   repeatable; nothing about a discrete sample space makes a small average
+   unmeasurable. A stochastic floor would need measurement error, simulation
+   variability or background variability — the boolean `resolvable` column
+   tested none of them.
+3. **It answered a question nobody asked.** "Can this readout represent this
+   value?" is not "is this effect distinguishable from zero?"
 
-**The panel mean rests on two or three models.** `hh_point` (0.717 SD) and
-`migliore_ca1` (0.372) are an order of magnitude above the four models below
-floor, so the 0.179 SD mean |η| in the table above is largely a statement about
-them.
+Retired with it: *"four of eight models are unresolvable"*, *"the panel-level
+enrichment is carried by the two Hodgkin–Huxley toy models"*, and *"both
+multicompartment cortical reconstructions fall below a hard floor"*. The tool
+and its outputs are preserved, clearly labelled, under
+`results/analyses/_withdrawn/`.
 
-**The claim fails exactly where it would matter most.** Both multicompartment
-cortical pyramidal reconstructions — the models with real morphology, and the
-ones a claim about biological modules would need to hold for — produce median
-effects *below one spike-count quantum*, as do `khaliq_purkinje` and
-`pospischil_rs`. For those four the battery reports numbers it cannot resolve.
+**What replaces it.** The two questions the old analysis conflated are now asked
+separately, each with a definition fixed in advance
+(`tools/perturbation_inference.py` → `perturbation_inference.json`).
 
-**This is a readout property, not a model property.** The floor is a feature of
-counting spikes in a window; a graded readout of the same simulations has no
-such quantum. Whether those four models genuinely lack functional module
-structure, or merely lack it *in a counted rate readout*, is not decidable from
-this design — and that question is precisely the one §14 takes up.
+*Numerical repeatability* — would this number survive a finer integration? The
+whole battery is re-run at **half the campaign time step** and per-background η
+is compared directly. Repeatable means median |Δη| ≤ 0.05 feature SD *and* ≥ 80%
+of tuple means keeping their sign. This is a property of the solver, and it is
+measured rather than asserted.
 
-Correspondingly, the "functionally validated" clause of H-M (§12) is supported
-in two models, marginal in two, and **unsupported in the remaining four** —
-including both cortical reconstructions. Combined with two non-significant
-paired tests (§11), that is not a basis for claiming statistical modules are
-functionally real.
+*Inferential precision* — is the background mean distinguishable from zero, and
+how large is it? Estimated from the spread **across backgrounds**: a percentile
+bootstrap of the background mean, an exact sign test on background-level η
+(distribution-free, so quantisation costs it nothing), and — for the count
+readout — an **exact enumeration of all 2⁸ = 256 background sign flips**, so the
+p-value carries no Monte-Carlo error.
+
+*Counts are analysed as counts.* `mean_firing_rate_Hz` is a spike count divided
+by a fixed window. The battery now stores `spike_count` as well, and
+`η_count = (N_joint − N_base) − Σᵢ (Nᵢ − N_base)` is analysed on the integer
+scale, where discreteness is a property of the sample space rather than a
+nuisance to be compared against.
+
+*Raw outcomes are archived.* `perturbations_raw.parquet` holds one row per
+model × tuple × background × condition × feature, with the baseline, each
+single, the joint, the **signed displacement actually applied** (the battery
+flips a step inward at the prior boundary, so the design is not recoverable from
+the nominal δ) and the simulation/QC status. The previous run computed those
+arrays and discarded them, which is precisely why the invalid analysis could not
+be re-examined without re-simulating.
+
+**What survives.** The defensible perturbation summary is unchanged by the
+withdrawal and is no more positive for it: top tuples have a larger point mean
+absolute non-additivity than either control family, the paired lineage-clustered
+tests are inconclusive, and 20.8% of top tuples meet the preregistered
+functional-support rule. Removing an invalid negative claim does not create a
+positive one.
+
+
+### 11.1.1 What the replacement analysis actually found
+
+Raw per-background outcomes now exist (5040 rows, one per model x tuple x
+background x feature), so the two questions the withdrawn floor analysis
+conflated can finally be answered separately.
+
+**Enrichment over controls.** Pooled over the 7 models with a
+regenerated battery, top-synergy tuples show mean \\|η\\| of
+0.203 SD against 0.094 SD for matched
+middle-Ω controls (**2.17×**, CI
+[1.25, 7.20], paired
+p = 0.078, 5/7
+models) and 0.061 SD for random controls
+(**3.35×**, CI [1.57,
+7.78], p = 0.047,
+6/7). The random-control test now
+crosses 0.05 where it did not before, but the sample is **7 models rather than
+8** because `mainen_l5pc`'s battery was not regenerated; that is a change of
+sample, not evidence of a stronger effect, and only one of the two comparisons
+is scored (§12).
+
+**Inferential precision.** 16/42
+top tuples are distinguishable from zero. 16 of
+42 top-synergy tuples have a bootstrap interval over
+their eight backgrounds that excludes zero. Per model:
+
+| model | median \|mean η\| (SD) | median SEM | CI excludes 0 | median sign-flip p |
+|---|---:|---:|---:|---:|
+| `bbp_l5pc` | 0.0231 | 0.0477 | 0/6 | 0.875 |
+| `hh_cable` | 0.2540 | 0.0483 | 6/6 | 0.0117 |
+| `hh_point` | 0.7168 | 0.4347 | 4/6 | 0.0859 |
+| `khaliq_purkinje` | 0.0228 | 0.0135 | 0/6 | 0.3438 |
+| `migliore_ca1` | 0.3717 | 0.2951 | 2/6 | 0.2188 |
+| `pospischil_fs` | 0.0488 | 0.0577 | 1/6 | 0.4141 |
+| `pospischil_rs` | 0.0369 | 0.102 | 1/6 | 0.875 |
+
+**Counts analysed as counts.** All 126 count-space η values are
+integers, as they must be. Under exact enumeration of all 2⁸ = 256 background
+sign flips — no Monte-Carlo error — 9 reach p < 0.05.
+Mean \|η\| in spikes: **top-synergy 2.11**,
+matched control 1.00,
+random control 0.78. Stating
+the effect as "about two spikes of non-additivity against about one" is more
+honest than any SD-normalised ratio, and it is the scale on which the readout
+is actually quantised.
+
+**Numerical repeatability: the gate FAILS, 0/5 models.**
+Re-running the battery at half the campaign time step and comparing
+per-background η, no model meets the prespecified rule (median \|Δη\| ≤ 0.05 SD
+**and** ≥ 80% of tuple means keeping their sign). The verdict is not rescored.
+But where the instability sits is itself informative:
+
+| base effect size | tuples | sign flips at half dt |
+|---|---:|---:|
+| 0.0-0.02 SD | 38 | 22 (58%) |
+| 0.02-0.1 SD | 32 | 5 (16%) |
+| >=0.1 SD | 20 | 0 (0%) |
+
+Every sign flip is confined to tuples whose effect is already indistinguishable
+from zero. **No effect at or above 0.10 SD flips**, and the preregistered
+functional-support threshold is 0.25 SD. So the correct caution is not that the
+readout has an irreducible floor — that claim was invalid — but that
+**tuple-level non-additivity below ~0.02 SD is not numerically reliable in
+sign**, which is a statement about the solver and is measured rather than
+asserted.
+
+**Coverage limitation.** The battery was regenerated for the seven
+primary-cohort models. `mainen_l5pc` was not: it is excluded from primary
+inference by gate N3, and its battery costs ~16 h. Every sensitivity arm that
+retains Mainen therefore computes its perturbation criteria **without** Mainen,
+and `decision_sensitivity.json` records that explicitly so an arm's conclusion
+is never compared against one with different coverage.
 
 ### 11.2 Sobol: interactions are pervasive, but the headline feature was an artefact
 
@@ -885,18 +1183,61 @@ sample. That missingness is **not** missing-at-random — a feature is undefined
 precisely when the sample fails to produce the phenotype — and it biases
 `1 − ΣS₁` upward. Only analyses with ≥90% finite outputs are quoted:
 
-| feature | valid fraction | interaction fraction | models |
+| feature | valid fraction | interaction fraction | quotable analyses |
 |---|---:|---:|---:|
-| resting potential | 1.00 | 0.460 | 6 |
-| input resistance | 1.00 | 0.443 | 6 |
-| mean firing rate | 1.00 | 0.335 | 6 |
-| rheobase | 0.95 | 0.335 | 4 |
-| AP half-width | 0.90 | 0.116 | 2 |
-| ~~spike-frequency adaptation~~ | **0.53** | ~~0.99~~ **not quotable** | 0 |
+| mean firing rate | 1.00 | 0.270 | 3 |
+| rheobase | 0.97 | 0.153 | 1 |
+| input resistance | 1.00 | 0.069 | 3 |
+| resting potential | 1.00 | 0.012 | 1 |
 
-Mean interaction fraction over the 24 quotable analyses: **0.375** (an earlier
-release reported 0.454, from silently discarding two negative estimates; the
-0.363 quoted before the Sobol re-run below was computed on stale shards).
+Three of the seven features — AP amplitude, AP half-width and spike-frequency
+adaptation — have **no quotable analysis on any model**, so they are absent from
+the table rather than shown with a struck-through value.
+
+**Quotability now requires precision, not only completeness** (2026-08-06 audit,
+M8). The previous rule was `valid_fraction >= 0.90` alone, under which an index
+counted as quotable while its bootstrap confidence half-width exceeded the
+estimate itself, two "quotable" interaction fractions were negative, and the
+mean `ST - S1` exceeded 1 — all signatures of estimator noise rather than of
+interaction mass. An analysis is now quotable only if it is **complete**
+(valid fraction ≥ 0.90), **precise** (the widest S1 confidence half-width is at
+most half the largest S1 it describes) and **physically plausible**
+(interaction fraction in [0, 1], |mean(ST − S1)| ≤ 1).
+
+The effect on the headline is large and in the direction the audit predicted:
+
+| | before | after |
+|---|---:|---:|
+| quotable analyses | 24 of 42 | **8 quotable of 56** |
+| mean interaction fraction, quotable | 0.375 | **0.148** |
+| mean interaction fraction, ungated | 0.475 | 0.569 |
+
+The denominator moved from 42 to 56 because the Sobol campaign now covers eight
+models rather than six: `mainen_l5pc` and `migliore_ca1` were added under the
+`probe-2` regeneration. The "before" column therefore describes the old rule on
+the old panel and is not a like-for-like comparison of the gate alone.
+
+Of the 48 analyses now excluded, 8 fail completeness alone, 16 fail precision
+alone, 2 fail plausibility alone, and 21 fail more than one criterion. The eight
+that survive come from five models: `pospischil_fs` (3), `pospischil_rs` (2),
+`hh_point`, `hh_cable` and `mainen_l5pc` (1 each). Seven of the eight come from
+the four models with the largest base N (256); `khaliq_purkinje` (N = 128),
+`bbp_l5pc` (N = 64) and `migliore_ca1` (N = 32) contribute none.
+
+Base N is not the whole story, and the exception is worth stating rather than
+smoothing over: `mainen_l5pc` has the joint-smallest base N in the panel (32)
+and still yields one quotable analysis. The precision gate compares the widest
+S1 confidence half-width against the largest S1 it describes, so a model with a
+single large, clean first-order effect can clear it at small N while a model
+with diffuse effects fails it at large N. Reading the survivors as simply "the
+big-N models" is wrong in one case of eight.
+
+**This is not a finding that interactions are weak.** It is a finding that at
+these base sample sizes the Sobol estimates mostly cannot support a
+quantitative statement in either direction, which is why the phrase
+"interactions are pervasive" no longer appears without a precision
+qualification. Doubling N with independent scrambles until the estimates and
+confidence widths stabilise is the fix, and it is not in this release.
 
 **Three of the six Sobol campaigns were recomputed** (§5.4). `bbp_l5pc` moved
 most, 0.482 → **0.538**; `khaliq_purkinje` and `hh_point` moved by less than
@@ -910,6 +1251,46 @@ half its design mean-imputed) and by far the *highest* apparent interaction, whi
 is exactly the bias direction the imputation predicts.
 
 ---
+
+
+### 12.0 The primary decision, at lineage level
+
+The decision table is now evaluated on **7 implementations
+representing 5 source lineages** (the primary,
+gate-passing cohort), and every criterion that used to count model ids now counts
+lineages.
+
+| criterion | supports | value | passed |
+|---|---|---:|---|
+| conditioning effect direction agreement across LINEAGES | H-G | 0.8000 | yes |
+| high-covariance subset effect direction agreement (lineages) | H-G | 1.0000 | yes |
+| unique R2(sampling+geometry) / unique R2(model identity) [synergy_area] | H-G | 1843.5497 | yes |
+| out-of-sample R2 for a held-out LINEAGE (sampling+geometry) | H-G | 0.7310 | yes |
+| sampling regime predictable across unseen lineages | H-G | 0.4352 | yes |
+| statistical synergy modules validated by direct perturbation | H-B | 0.2381 | no |
+| top-synergy tuples more non-additive than matched controls | H-B | 2.1250 | yes |
+
+**H-G 5/5, H-B 1/2 → H-M.**
+
+Conditioning moves the endpoint toward synergy in 0.800 of lineages
+(toward synergy; 4/5 lineages (7 implementations); exact two-sided sign p=0.375). The exact two-sided sign probability is what changed most:
+under the old model-id counting, unanimity across 8 units read as p = 0.0078;
+across the lineages those ids represent it is an order of magnitude weaker.
+
+The adjusted ICC of model identity is 0.152 and the
+variance-partition coefficient 0.025; both are
+**descriptive only**, since the fixed covariates conditioned on are themselves
+the H-G hypothesis. The nested model separates them by level: lineage ICC
+0.166 over 5 groups,
+implementation ICC 0.152 over
+7, both converged.
+
+Sobol contributes 7 quotable analyses of 42 under the
+precision-gated rule, with mean interaction fraction
+0.157.
+
+The full sensitivity cascade is in
+[`results/analyses/decision_sensitivity.json`](../results/analyses/decision_sensitivity.json).
 
 ## 12. The preregistered decision
 
@@ -927,7 +1308,7 @@ is exactly the bias direction the imputation predicts.
 | top-synergy more non-additive than random controls | H-B | 2.77× | **PASS** |
 | *adjusted ICC of model identity* | *descriptive* | *0.165* | *not scored (§12.1)* |
 
-**The direction-agreement criterion is contaminated by unresolvable ensembles.**
+**The direction-agreement criterion is contaminated by tiny accepted cells.**
 It fell from 1.000 to 0.875 not because a model changed behaviour but because it
 averages Δ net O-information across *all* tolerances, giving a 66-sample
 very-strict ensemble the same weight as a 6,642-sample permissive one.
@@ -938,7 +1319,7 @@ preregistered — rescoring it now, having seen which value moved it, is the
 failure mode of §12.1 — but the 0.875 should be read as "7/8 after averaging in
 measurements that cannot be made", not as a model dissenting.
 
-**H-G: 5/5. H-B: 4/5. Conclusion: H-M.**
+**H-G: 5/5. H-B: 1/2. Conclusion: H-M.** (primary arm; the sensitivity cascade in `decision_sensitivity.json` gives H-G when `mainen_l5pc` is retained, because retaining it widens the lineage-clustered paired perturbation interval to include zero.)
 
 ### 12.1 The tally is unstable under changes to the criterion set
 
@@ -973,7 +1354,7 @@ Blueprint §19.3 defines H-M as requiring that
 
 The first clause holds: the sign is regime-governed (5/5, with 8/8 direction
 agreement at the permissive tolerance on two independent contrasts, and the
-effect resolvable at 4–5σ in the five models with adequate samples, §6.0). The
+effect exceeding conditional bootstrap noise by 4-5x in the five implementations with adequate samples, §6.0). The
 modules are stable across estimators (per-model Jaccard 0.82, minimum 0.67).
 
 **The second clause — *functional validation* — is not met on the evidence, and
@@ -984,16 +1365,18 @@ together:
   but **neither paired test is significant** (p = 0.195 and p = 0.078) and the
   matched-control interval starts at **1.03**. The analysis code calls both
   comparisons inconclusive.
-* The effect is **below the readout's own measurement floor in four of eight
-  models** (§11.1), including both cortical pyramidal reconstructions.
+* Its **precision is limited by background variability**, not by a
+  quantisation floor: the per-tuple bootstrap intervals over the eight
+  backgrounds mostly include zero (§11.1). The earlier "below the measurement
+  floor in four of eight models" claim is withdrawn.
 * It is **absent for waveform readouts** on the same simulations (§11), so
   whatever is being validated is a property of a spike-timing measurement rather
   than of the parameters alone.
 
 A criterion that clears a fixed threshold on a panel mean, while being
-statistically inconclusive, unresolvable in half its panel, and dependent on
-which quantity is measured, does not establish that statistical modules are
-functionally real.
+statistically inconclusive, imprecise at the level of individual tuples, and
+dependent on which quantity is measured, does not establish that statistical
+modules are functionally real.
 
 The first release argued for overriding the rule toward H-G on the grounds that
 "statistical modules frequently fail direct perturbation validation". **That
@@ -1012,7 +1395,7 @@ The **sign** of higher-order structure — whether an ensemble looks synergistic
 redundant — is a property of how the ensemble was built, not of which neuron it
 came from. It appears in a gene circuit with no neurons in it; it is set
 identically across models spanning 1 to 2,304 compartments; sampling and geometry
-explain ~9.3× more unique endpoint variance than model identity even after size
+explain ~9.5× more unique endpoint variance than model identity even after size
 matching; and a shuffled null reproduces 45% of the naive effect.
 
 The **identity** of the parameters involved is not arbitrary. The extreme tuples
@@ -1034,9 +1417,11 @@ sentence as the claim, not in a footnote:
    0.77× for AP half-width — measured on the same simulations, same tuples, same
    perturbations (§11). "These parameters form a module" is not a complete
    statement; the complete statement names the readout.
-2. The support is **unresolvable in half the panel**. Four of eight models,
-   including both cortical reconstructions, produce median effects below the
-   readout's own measurement floor (§11.1).
+2. The support is **imprecise per tuple**. Bootstrap intervals over the eight
+   backgrounds mostly include zero, so most individual tuples are not
+   distinguishable from no interaction (§11.1). The earlier claim that four of
+   eight models were "unresolvable" against a spike-count floor is withdrawn as
+   invalid, not merely restated.
 3. It is **statistically inconclusive**: p = 0.195 against matched controls and
    p = 0.078 against random ones, with the matched interval starting at 1.03.
 4. The conditioning dose-response is monotone wherever it is resolvable, but
@@ -1083,10 +1468,14 @@ and the last of those has turned out to matter as much as any of the others.
    readout (§11). A module claim that does not say which quantity was measured
    is not falsifiable, and pooling readouts produces an average (−0.22) that
    describes none of them.
-9. **Compare every effect with its readout's measurement floor.** A spike count
-   over a 400 ms window cannot resolve below 2.5 Hz however the effect is
-   normalised. Two of eight models here report enrichment values below their own
-   floor (§11.1), and they are the two with real morphology.
+9. **Compare every effect with the uncertainty of the estimator that produced
+   it, not with the quantum of a single observation.** A spike count over a
+   400 ms window is quantised at 2.5 Hz, but the reported statistic is a mean
+   over eight backgrounds, whose grid is 0.3125 Hz, and a deterministic grid is
+   not a detection limit in any case. This project got that wrong once and drew
+   four conclusions from it (§11.1). Report the standard error over the units
+   actually averaged, and test repeatability by re-running at a finer time
+   step.
 10. **Do not let a vote-counting rule stand in for a result.** Adding one
     criterion after seeing the data, and removing one that was computed wrongly,
     each moved this project's tally without changing any measurement (§12.1).
@@ -1154,14 +1543,15 @@ These bound what the results above can support. They are declared in
 10. **Functional module validation is readout-bound and floor-limited.** The
     enrichment holds for spike-timing readouts and vanishes for waveform
     readouts (§11), it is statistically inconclusive (p = 0.195 and 0.078), and
-    it falls below the measurement floor in **four of eight models** including
-    both multicompartment cortical reconstructions (§11.1). Whether this
-    reflects readout representation or the nonlinearity of counting is **not
-    decidable from this design**; §14.1 states the experiment that would decide
-    it.
+    and most individual tuples have bootstrap intervals over backgrounds that
+    include zero (§11.1). Whether the readout dependence reflects representation
+    or the nonlinearity of counting is **not decidable from this design**;
+    §14.1 states the experiment that would decide it. (An earlier version of
+    this point invoked a spike-count "measurement floor"; that argument was
+    invalid and is withdrawn.)
 11. **The conditioning dose-response is not estimable.** Tolerance coverage
     falls 8 → 8 → 6 → 3 models and *resolvable* coverage falls 5 → 6 → 2 → 1
-    (§6.1). The direction of the effect is established and significant at 4–5σ
+    (§6.1). The direction of the effect is established, with conditional bootstrap SNR 4-5
     in five models; its dependence on tolerance is not estimable at panel level.
 13. **No minimum-sample policy for entropy endpoints.** Sobol gates on
     `VALID_FRACTION_FLOOR`; the conditioning path has no equivalent, so a
@@ -1225,7 +1615,7 @@ hash and the solver settings that produced it.
 | **Observed** | the metrics reported above take these values in these declared ensembles | established |
 | **Statistical** | these ensembles are synergy- or redundancy-dominated under the stated estimators | established |
 | **Functional** | the measured non-additivity η takes these values for the tested tuples | established as a measurement |
-| **Functional (inferential)** | statistical synergy *selects* functionally interacting tuples | **not established** — 1.87×/2.77× with p = 0.195/0.078, readout-dependent, below the measurement floor in 4 of 8 models |
+| **Functional (inferential)** | statistical synergy *selects* functionally interacting tuples | **not established** — 1.87×/2.77× with p = 0.195/0.078, readout-dependent, and imprecise per tuple (most background bootstrap intervals include zero) |
 | **Biological** | the same interactions occur in real neurons | **not established, not claimed** |
 
 The functional level is split because the two statements have very different

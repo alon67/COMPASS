@@ -5,7 +5,7 @@
   "dt_ms": 0.00625,
   "mesh_factor": 2.0,
   "total_nseg": 26,
-  "wall_s": 8.7,
+  "wall_s": 9.4,
   "rows": [
    {
     "rheobase_nA": 0.1015625,
@@ -48,7 +48,7 @@
     "step_abs_lo.spontaneous_rate_Hz": NaN,
     "step_abs_lo.ap_threshold_mV": -53.77984380157058,
     "step_abs_lo.ap_peak_mV": 35.31404344160728,
-    "step_abs_lo.cv_isi": 0.0016031401054064493,
+    "step_abs_lo.cv_isi": 0.0016361980185156002,
     "step_abs_lo.last_isi_ms": 15.774999999972465,
     "step_abs_lo.depolarisation_block": 0.0,
     "step_abs_hi.resting_potential_mV": -63.80561432955959,
@@ -68,7 +68,7 @@
     "step_abs_hi.spontaneous_rate_Hz": NaN,
     "step_abs_hi.ap_threshold_mV": -61.85474692851587,
     "step_abs_hi.ap_peak_mV": 37.115062245773544,
-    "step_abs_hi.cv_isi": 0.004997629486170577,
+    "step_abs_hi.cv_isi": 0.00507759663554848,
     "step_abs_hi.last_isi_ms": 12.16875000004427,
     "step_abs_hi.depolarisation_block": 0.0
    },
@@ -133,7 +133,7 @@
     "step_abs_hi.spontaneous_rate_Hz": NaN,
     "step_abs_hi.ap_threshold_mV": -63.320082104323156,
     "step_abs_hi.ap_peak_mV": 39.83379616903767,
-    "step_abs_hi.cv_isi": 0.0009080283889322289,
+    "step_abs_hi.cv_isi": 0.0009260108948123309,
     "step_abs_hi.last_isi_ms": 14.962500000054433,
     "step_abs_hi.depolarisation_block": 0.0
    },
@@ -178,7 +178,7 @@
     "step_abs_lo.spontaneous_rate_Hz": NaN,
     "step_abs_lo.ap_threshold_mV": -54.44507301269201,
     "step_abs_lo.ap_peak_mV": 38.3086185334637,
-    "step_abs_lo.cv_isi": 0.0027823135325877033,
+    "step_abs_lo.cv_isi": 0.0028315618432173187,
     "step_abs_lo.last_isi_ms": 13.45000000004893,
     "step_abs_lo.depolarisation_block": 0.0,
     "step_abs_hi.resting_potential_mV": -62.83414072291733,
@@ -198,7 +198,7 @@
     "step_abs_hi.spontaneous_rate_Hz": NaN,
     "step_abs_hi.ap_threshold_mV": -62.8341559514032,
     "step_abs_hi.ap_peak_mV": 39.33857958955338,
-    "step_abs_hi.cv_isi": 0.0055848380219934764,
+    "step_abs_hi.cv_isi": 0.005664059539508855,
     "step_abs_hi.last_isi_ms": 10.900000000006457,
     "step_abs_hi.depolarisation_block": 0.0
    },
@@ -373,7 +373,7 @@
     "step_abs_lo.spontaneous_rate_Hz": NaN,
     "step_abs_lo.ap_threshold_mV": -54.820666965784895,
     "step_abs_lo.ap_peak_mV": 41.479474855571105,
-    "step_abs_lo.cv_isi": 0.00151938893158868,
+    "step_abs_lo.cv_isi": 0.0015588601522077768,
     "step_abs_lo.last_isi_ms": 19.437500000070713,
     "step_abs_lo.depolarisation_block": 0.0,
     "step_abs_hi.resting_potential_mV": -66.85448095014368,
@@ -393,7 +393,7 @@
     "step_abs_hi.spontaneous_rate_Hz": NaN,
     "step_abs_hi.ap_threshold_mV": -57.343198320386776,
     "step_abs_hi.ap_peak_mV": 42.06683759025412,
-    "step_abs_hi.cv_isi": 0.004045598151459216,
+    "step_abs_hi.cv_isi": 0.004125716783689088,
     "step_abs_hi.last_isi_ms": 14.95625000005441,
     "step_abs_hi.depolarisation_block": 0.0
    }
@@ -411,7 +411,7 @@
   "step_abs_hi.ap_halfwidth_ms": 0.1,
   "step_abs_hi.ahp_depth_mV": 2.0,
   "step_abs_hi.first_isi_ms": 2.0,
-  "step_abs_hi.mean_firing_rate_Hz": 2.0,
+  "step_abs_hi.mean_firing_rate_Hz": 2.5,
   "step_abs_hi.adaptation_index": 0.05,
   "step_abs_hi.spike_count": 1.0
  },
@@ -420,7 +420,7 @@
    "dt_ms": 0.05,
    "mesh_factor": null,
    "total_nseg": 11,
-   "wall_s": 0.7,
+   "wall_s": 0.9,
    "fraction_features_reproduced": 1.0,
    "min_feature_agreement": 1.0,
    "worst_feature": "rest.resting_potential_mV",
@@ -482,7 +482,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -54.01175364819285,
      "step_abs_lo.ap_peak_mV": 34.78652046246632,
-     "step_abs_lo.cv_isi": 0.0021860087801933567,
+     "step_abs_lo.cv_isi": 0.0022330251005226727,
      "step_abs_lo.last_isi_ms": 15.949999999985494,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -63.80702786690717,
@@ -502,7 +502,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -61.90727374661498,
      "step_abs_hi.ap_peak_mV": 36.11461737012206,
-     "step_abs_hi.cv_isi": 0.00546821722794244,
+     "step_abs_hi.cv_isi": 0.005555714259306556,
      "step_abs_hi.last_isi_ms": 12.249999999988859,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -567,7 +567,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -63.36391108323242,
      "step_abs_hi.ap_peak_mV": 39.12564399668126,
-     "step_abs_hi.cv_isi": 0.001885633991141324,
+     "step_abs_hi.cv_isi": 0.0019229769032646914,
      "step_abs_hi.last_isi_ms": 15.149999999986221,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -612,7 +612,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -54.65172812523214,
      "step_abs_lo.ap_peak_mV": 37.65438049816055,
-     "step_abs_lo.cv_isi": 0.003570041743446378,
+     "step_abs_lo.cv_isi": 0.003633233228763427,
      "step_abs_lo.last_isi_ms": 13.549999999987676,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -62.83517584776847,
@@ -632,7 +632,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -62.83519553229794,
      "step_abs_hi.ap_peak_mV": 38.82885901226315,
-     "step_abs_hi.cv_isi": 0.006076113331710199,
+     "step_abs_hi.cv_isi": 0.006162303641409045,
      "step_abs_hi.last_isi_ms": 10.999999999989996,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -807,7 +807,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -55.08467146215104,
      "step_abs_lo.ap_peak_mV": 40.89534378343318,
-     "step_abs_lo.cv_isi": 0.0018765243179100877,
+     "step_abs_lo.cv_isi": 0.0019252733273371096,
      "step_abs_lo.last_isi_ms": 19.54999999998222,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -66.85468909791689,
@@ -827,7 +827,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -57.45908583178083,
      "step_abs_hi.ap_peak_mV": 41.83432873787614,
-     "step_abs_hi.cv_isi": 0.003927245999734627,
+     "step_abs_hi.cv_isi": 0.004005020797465213,
      "step_abs_hi.last_isi_ms": 15.099999999986267,
      "step_abs_hi.depolarisation_block": 0.0
     }
@@ -837,7 +837,7 @@
    "dt_ms": 0.025,
    "mesh_factor": null,
    "total_nseg": 11,
-   "wall_s": 1.5,
+   "wall_s": 1.8,
    "fraction_features_reproduced": 1.0,
    "min_feature_agreement": 1.0,
    "worst_feature": "rest.resting_potential_mV",
@@ -899,7 +899,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -53.86851736730732,
      "step_abs_lo.ap_peak_mV": 35.39421741164169,
-     "step_abs_lo.cv_isi": 0.0016148916207256675,
+     "step_abs_lo.cv_isi": 0.0016481918586141772,
      "step_abs_lo.last_isi_ms": 15.825000000012835,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -63.807027859320876,
@@ -919,7 +919,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -61.874749502017664,
      "step_abs_hi.ap_peak_mV": 36.94034657025507,
-     "step_abs_hi.cv_isi": 0.004842140383824738,
+     "step_abs_hi.cv_isi": 0.004919619549587943,
      "step_abs_hi.last_isi_ms": 12.224999999991667,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -984,7 +984,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -63.33681420002665,
      "step_abs_hi.ap_peak_mV": 39.08441985402759,
-     "step_abs_hi.cv_isi": 0.0012000552027899005,
+     "step_abs_hi.cv_isi": 0.00122382097928285,
      "step_abs_hi.last_isi_ms": 15.02499999998696,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -1029,7 +1029,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -54.52547880347546,
      "step_abs_lo.ap_peak_mV": 38.277409694580335,
-     "step_abs_lo.cv_isi": 0.0027957214734994993,
+     "step_abs_lo.cv_isi": 0.0028452071112423944,
      "step_abs_lo.last_isi_ms": 13.49999999999369,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -62.835178270010346,
@@ -1049,7 +1049,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -62.83519555527948,
      "step_abs_hi.ap_peak_mV": 39.32009514627231,
-     "step_abs_hi.cv_isi": 0.0054637699927419245,
+     "step_abs_hi.cv_isi": 0.0055412741474686,
      "step_abs_hi.last_isi_ms": 10.95000000000556,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -1224,7 +1224,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -54.91104360521084,
      "step_abs_lo.ap_peak_mV": 40.816333808556074,
-     "step_abs_lo.cv_isi": 0.0014768594016878016,
+     "step_abs_lo.cv_isi": 0.0015152257752051174,
      "step_abs_lo.last_isi_ms": 19.499999999987097,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -66.85468908616971,
@@ -1244,7 +1244,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -57.381023879578585,
      "step_abs_hi.ap_peak_mV": 42.142422718140196,
-     "step_abs_hi.cv_isi": 0.0041542425776146695,
+     "step_abs_hi.cv_isi": 0.004236512793491038,
      "step_abs_hi.last_isi_ms": 14.999999999987438,
      "step_abs_hi.depolarisation_block": 0.0
     }
@@ -1254,7 +1254,7 @@
    "dt_ms": 0.0125,
    "mesh_factor": null,
    "total_nseg": 11,
-   "wall_s": 3.0,
+   "wall_s": 3.2,
    "fraction_features_reproduced": 1.0,
    "min_feature_agreement": 1.0,
    "worst_feature": "rest.resting_potential_mV",
@@ -1316,7 +1316,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -53.797189740518604,
      "step_abs_lo.ap_peak_mV": 35.351707784497634,
-     "step_abs_lo.cv_isi": 0.0015290381471111006,
+     "step_abs_lo.cv_isi": 0.001560568024030349,
      "step_abs_lo.last_isi_ms": 15.787500000057435,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -63.807027856250905,
@@ -1336,7 +1336,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -61.8578883867666,
      "step_abs_hi.ap_peak_mV": 37.07922314687191,
-     "step_abs_hi.cv_isi": 0.005065316437785505,
+     "step_abs_hi.cv_isi": 0.0051463666471592935,
      "step_abs_hi.last_isi_ms": 12.175000000044292,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -1401,7 +1401,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -63.32298669615692,
      "step_abs_hi.ap_peak_mV": 39.66554951076603,
-     "step_abs_hi.cv_isi": 0.0008630757018831125,
+     "step_abs_hi.cv_isi": 0.0008801679691219559,
      "step_abs_hi.last_isi_ms": 14.987500000054524,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -1446,7 +1446,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -54.46266197312239,
      "step_abs_lo.ap_peak_mV": 38.33404355949204,
-     "step_abs_lo.cv_isi": 0.002874029573918504,
+     "step_abs_lo.cv_isi": 0.0029249013033469987,
      "step_abs_lo.last_isi_ms": 13.462500000048976,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -62.835179636252825,
@@ -1466,7 +1466,7 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -62.83519556445107,
      "step_abs_hi.ap_peak_mV": 39.35965431287029,
-     "step_abs_hi.cv_isi": 0.005688274180021163,
+     "step_abs_hi.cv_isi": 0.005768962950368699,
      "step_abs_hi.last_isi_ms": 10.9125000000397,
      "step_abs_hi.depolarisation_block": 0.0
     },
@@ -1641,7 +1641,7 @@
      "step_abs_lo.spontaneous_rate_Hz": NaN,
      "step_abs_lo.ap_threshold_mV": -54.82549523498596,
      "step_abs_lo.ap_peak_mV": 41.341360067533856,
-     "step_abs_lo.cv_isi": 0.001441501496668613,
+     "step_abs_lo.cv_isi": 0.0014789493300803468,
      "step_abs_lo.last_isi_ms": 19.462500000070804,
      "step_abs_lo.depolarisation_block": 0.0,
      "step_abs_hi.resting_potential_mV": -66.8546890682868,
@@ -1661,12 +1661,48 @@
      "step_abs_hi.spontaneous_rate_Hz": NaN,
      "step_abs_hi.ap_threshold_mV": -57.34284584838482,
      "step_abs_hi.ap_peak_mV": 42.07774755366367,
-     "step_abs_hi.cv_isi": 0.004016547243168964,
+     "step_abs_hi.cv_isi": 0.0040960905540371705,
      "step_abs_hi.last_isi_ms": 14.975000000054479,
      "step_abs_hi.depolarisation_block": 0.0
     }
    ]
   }
  },
- "chosen": "dt0.05_meshas_built"
+ "chosen": "dt0.05_meshas_built",
+ "tolerances": {
+  "rel_tol": 0.05,
+  "abs_tol": {
+   "rest.resting_potential_mV": 0.5,
+   "hyperpol_abs.input_resistance_Mohm": 1.0,
+   "hyperpol_abs.membrane_tau_ms": 0.5,
+   "hyperpol_abs.sag_ratio": 0.02,
+   "rheobase_nA": 0.01,
+   "step_abs_hi.first_spike_latency_ms": 1.0,
+   "step_abs_hi.ap_amplitude_mV": 2.0,
+   "step_abs_hi.ap_halfwidth_ms": 0.1,
+   "step_abs_hi.ahp_depth_mV": 2.0,
+   "step_abs_hi.first_isi_ms": 2.0,
+   "step_abs_hi.mean_firing_rate_Hz": 2.5,
+   "step_abs_hi.adaptation_index": 0.05,
+   "step_abs_hi.spike_count": 1.0
+  }
+ },
+ "argv": [
+  "hh_cable",
+  "--samples",
+  "5",
+  "--dts",
+  "0.05",
+  "0.025",
+  "0.0125",
+  "--mesh",
+  "as_built",
+  "--workers",
+  "4",
+  "--ref-dt",
+  "0.00625",
+  "--ref-mesh",
+  "2.0"
+ ],
+ "written_utc": "2026-08-08T11:40:32.319564+00:00"
 }

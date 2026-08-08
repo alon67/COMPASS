@@ -1,0 +1,188 @@
+{
+ "criteria": [
+  {
+   "criterion": "conditioning effect direction agreement across LINEAGES",
+   "supports": "H-G",
+   "value": 0.8333333333333334,
+   "passed": true,
+   "detail": "toward synergy; 5/6 lineages (8 implementations); exact two-sided sign p=0.2188"
+  },
+  {
+   "criterion": "high-covariance subset effect direction agreement (lineages)",
+   "supports": "H-G",
+   "value": 1.0,
+   "passed": true,
+   "detail": "toward redundancy; 6/6 lineages; exact two-sided sign p=0.03125"
+  },
+  {
+   "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
+   "supports": "H-G",
+   "value": 1836.1214465422047,
+   "passed": true,
+   "detail": "sampling=0.160 geometry=0.024 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>1836x), not a point estimate"
+  },
+  {
+   "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
+   "supports": "H-G",
+   "value": 0.7648984834666521,
+   "passed": true,
+   "detail": "n_folds=8; leave-one-lineage-out, so no relative of the held-out model stays in training"
+  },
+  {
+   "criterion": "sampling regime predictable across unseen lineages",
+   "supports": "H-G",
+   "value": 0.43478923001949316,
+   "passed": true,
+   "detail": "baseline=0.172, 11 classes, cv=leave_one_model_family_out"
+  },
+  {
+   "criterion": "statistical synergy modules validated by direct perturbation",
+   "supports": "H-B",
+   "value": 0.30952380952380953,
+   "passed": false,
+   "detail": "n_top=42, n_control=42; supported 0.310 vs control 0.071"
+  },
+  {
+   "criterion": "top-synergy tuples more non-additive than matched controls",
+   "supports": "H-B",
+   "value": 2.9708770496886325,
+   "passed": true,
+   "detail": "top=0.306 SD vs control=0.103 SD (ratio 2.97x); paired difference +0.203 SD, lineage-clustered 95% CI [+0.018, +0.439] over 5 lineages. Scored on the lineage-clustered paired interval, not on the point ratio."
+  }
+ ],
+ "descriptive": [
+  {
+   "quantity": "within-campaign implementation identifiability (descriptive only)",
+   "value": 0.5783783783783784,
+   "detail": "baseline=0.135, 8 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
+  },
+  {
+   "quantity": "adjusted ICC of model identity (mixed model, descriptive only)",
+   "value": 0.13875426461692383,
+   "detail": "not scored: the fixed covariates are the H-G hypothesis, so the residual between-family share is not a fair test of H-B"
+  },
+  {
+   "quantity": "top-tuple Jaccard, Gaussian vs Gaussian-copula (descriptive only)",
+   "value": 0.8255390442890442,
+   "detail": "8 models over 31 ensemble cells, min per-model 0.67. Withdrawn as an H-B criterion by the 2026-08-06 audit (M6): both rankings come from Gaussian estimators on the SAME samples -- the copula transform only removes marginal non-Gaussianity -- so agreement between them measures estimator similarity, not module stability. Stability across independent samples is what blueprint 19.3 asks for and what the campaign-scramble replicate now supplies."
+  },
+  {
+   "quantity": "top vs random control point ratio (descriptive only)",
+   "value": 4.743843797949135,
+   "detail": "top=0.306 SD vs control=0.065 SD (ratio 4.74x); paired difference +0.242 SD, lineage-clustered 95% CI [+0.046, +0.515] over 5 lineages. Not scored: same measurement as the criterion above with a different denominator."
+  }
+ ],
+ "thresholds": {
+  "cross_model_direction_agreement": 0.8,
+  "sampling_geometry_over_identity_ratio": 2.0,
+  "module_selection_probability": 0.8,
+  "perturbation_effect_sd": 0.25,
+  "lomo_r2_floor": 0.0
+ },
+ "n_hg_passed": 5,
+ "n_hg_total": 5,
+ "n_hb_passed": 1,
+ "n_hb_total": 2,
+ "conclusion": "H-M",
+ "hg_fraction_passed": 1.0,
+ "hb_fraction_passed": 0.5,
+ "perturbation_coverage": {
+  "models_in_endpoints": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "mainen_l5pc",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "models_with_perturbation_data": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "missing_from_perturbation": [
+   "mainen_l5pc"
+  ],
+  "complete": false,
+  "caveat": "the perturbation criteria in this arm are computed without ['mainen_l5pc']; their conclusion cannot be compared with an arm that has complete coverage"
+ },
+ "arm": "retain_mainen",
+ "arm_description": "mainen_l5pc retained despite its N3 failure, to show how much the exclusion moves the result",
+ "excluded_models": [
+  "miyasho_purkinje",
+  "tzilivaki_fsbc",
+  "ortner_snc_da"
+ ],
+ "effective_sample": {
+  "n_rows_all": 410,
+  "n_rows_primary": 410,
+  "n_rows_primary_deduplicated": 370,
+  "n_model_ids": 8,
+  "n_model_ids_primary": 8,
+  "n_source_lineages": 6,
+  "n_source_lineages_primary": 6,
+  "n_neuron_classes": 6,
+  "n_classes_with_2plus_lineages": 1,
+  "n_classes_with_3plus_lineages": 0,
+  "lineage_members": {
+   "hay_2011": [
+    "bbp_l5pc"
+   ],
+   "hodgkin_huxley_1952": [
+    "hh_cable",
+    "hh_point"
+   ],
+   "khaliq_2003": [
+    "khaliq_purkinje"
+   ],
+   "mainen_1996": [
+    "mainen_l5pc"
+   ],
+   "migliore_1999": [
+    "migliore_ca1"
+   ],
+   "pospischil_2008": [
+    "pospischil_fs",
+    "pospischil_rs"
+   ]
+  },
+  "excluded_from_primary": {
+   "mainen_l5pc": "production dt=0.0125 ms / 2304 segments fails step_abs_hi.adaptation_index at 1 of 7 audit points; the other 12 conditioning features reproduce on all 7"
+  },
+  "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+ },
+ "nested_variance_components": {
+  "endpoint": "synergy_area",
+  "n": 185,
+  "n_lineages": 6,
+  "n_implementations": 8,
+  "lineage": {
+   "var_group": 0.021145350686760933,
+   "var_residual": 0.1405497834361463,
+   "var_fixed": 0.8496488023267172,
+   "icc_adjusted": 0.1307729561650754,
+   "vpc": 0.02090816973797538,
+   "n_groups": 6,
+   "converged": true,
+   "method": "REML",
+   "loglike": -92.96990844824921
+  },
+  "implementation": {
+   "var_group": 0.02270802709727196,
+   "var_residual": 0.14094839931934908,
+   "var_fixed": 0.8400117655712952,
+   "icc_adjusted": 0.13875426461692383,
+   "vpc": 0.022625034128355995,
+   "n_groups": 8,
+   "converged": true,
+   "method": "REML",
+   "loglike": -94.44288513657722
+  }
+ }
+}

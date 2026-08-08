@@ -32,13 +32,14 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from compass.adapters.models import get_adapter  # noqa: E402
 from compass.analysis.sensitivity import (  # noqa: E402
+    CONF_WIDTH_CEILING,  # noqa: E402
     VALID_FRACTION_FLOOR,  # noqa: E402
     saltelli_design,
     sobol_convergence,
     sobol_indices,
 )
 from compass.sampling.priors import scales_from_unit  # noqa: E402
-from compass.workflows.simulate import _worker  # noqa: E402
+from compass.workflows.simulate import _worker, shard_is_reusable  # noqa: E402
 
 # Only code that can change a simulated feature value belongs in a shard's
 # identity.  `run_campaign.code_hash()` hashes all of `src/`, which is right for
@@ -129,6 +130,39 @@ def _shard_is_current(shard: Path, identity: dict) -> bool:
         return False
 
 
+def flat_identity(model_id: str, identity: dict, start: int, n_rows: int) -> dict:
+    """The Sobol shard identity in the flat form shard_is_reusable() compares.
+
+    Sobol keeps its own richer `shard_identity()` (design, features, solver);
+    this flattens it into the same string-valued dictionary the screening
+    campaign uses, so there is ONE reuse rule in the project rather than two
+    that can drift apart.
+    """
+    from compass.adapters.base import MEASUREMENT_SCHEMA_VERSION
+    from compass.features.extract import FEATURE_SCHEMA_VERSION
+
+    # `sim_code_hash` is RECORDED, not compared -- the same scoping decision the
+    # screening campaign makes (see tools/run_campaign.py job_identity). A byte
+    # hash of the simulation source invalidates every stored shard when a
+    # comment changes, and a rule that discards correct data gets switched off.
+    # The compared fields are the declared semantic versions; an undeclared
+    # change to the extractor is caught by tests/unit/test_solver_contract.py
+    # instead, which is earlier and cheaper than throwing away simulations.
+    return {
+        "experiment": "sobol",
+        "model_id": model_id,
+        "regime": "SOBOL",
+        "block_start": int(start),
+        "n_rows": int(n_rows),
+        "feature_schema": FEATURE_SCHEMA_VERSION,
+        "measurement_schema": MEASUREMENT_SCHEMA_VERSION,
+        "solver": json.dumps(identity["solver"], sort_keys=True),
+        "design": json.dumps(identity["design"], sort_keys=True),
+        "features": json.dumps(identity["features"], sort_keys=True),
+        "recorded_only.sim_code_hash": identity["sim_code_hash"],
+    }
+
+
 def simulate(models: list[str], workers: int) -> None:
     jobs, quarantined = [], []
     stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
@@ -153,8 +187,9 @@ def simulate(models: list[str], workers: int) -> None:
                 if _identity_path(out).exists():
                     _identity_path(out).rename(sup / _identity_path(out).name)
                 quarantined.append(f"{mid}/{out.name}")
+            ident = flat_identity(mid, identity, start, stop - start)
             jobs.append((mid, scales[start:stop], pids, np.arange(start, stop),
-                         "SOBOL", 1, SEED, f"saltelli_N{n_base}", str(out)))
+                         "SOBOL", 1, SEED, f"saltelli_N{n_base}", str(out), ident))
 
     if quarantined:
         print(f"quarantined {len(quarantined)} shard(s) whose identity no longer "
@@ -164,7 +199,11 @@ def simulate(models: list[str], workers: int) -> None:
         if len(quarantined) > 10:
             print(f"    ... and {len(quarantined) - 10} more", flush=True)
 
-    todo = [j for j in jobs if not Path(j[-1]).exists()]
+    # Identity-validated reuse, the same fail-closed rule the screening
+    # campaign uses (audit 5.2). `_worker` quarantines anything that does not
+    # match rather than silently reusing it.
+    todo = [j for j in jobs
+            if not shard_is_reusable(Path(j[-2]), j[-1], len(j[3]))[0]]
     print(f"sobol: {len(jobs)} blocks, {len(todo)} to run, {workers} workers", flush=True)
     t0 = time.time()
     if todo:
@@ -174,13 +213,9 @@ def simulate(models: list[str], workers: int) -> None:
                 if i % 10 == 0 or i == len(todo):
                     print(f"  {i}/{len(todo)} blocks  {(time.time()-t0)/60:.1f} min", flush=True)
 
-    # Stamp after the fact, so a shard is only ever declared current once its
-    # parquet is actually on disk.  Written per shard rather than per model:
-    # a single index file would be a write race between workers.
-    for mid in models:
-        identity = shard_identity(mid)
-        for shard in sorted((FEAT_DIR / mid).glob("S_*.parquet")):
-            _identity_path(shard).write_text(json.dumps(identity, indent=1))
+    # `run_block` writes each shard's sidecar itself, atomically with the
+    # parquet, so there is no window in which a shard exists without its
+    # identity and no post-hoc stamping pass that could stamp a stale file.
 
 
 def analyse(models: list[str]) -> None:
@@ -209,16 +244,58 @@ def analyse(models: list[str]) -> None:
                 rows.append({"model_id": mid, "feature": feat, "error": str(exc)[:120],
                              "quotable": False, "valid_fraction": float("nan")})
                 continue
+            # Quotability now depends on PRECISION and PHYSICAL PLAUSIBILITY,
+            # not only on completeness (2026-08-06 audit, M8 and 7.8).
+            #
+            # The previous rule was `valid_fraction >= 0.9` alone, which called
+            # an index quotable while its confidence width exceeded the estimate
+            # itself, and while some interaction fractions were negative and
+            # some mean(ST-S1) values exceeded 1 -- both signatures of estimator
+            # noise rather than of interaction mass.  All four conditions must
+            # hold, and each is reported separately so a failure says why.
+            valid_fraction = res.n_valid / len(y)
+            max_s1_conf = float(np.nanmax(res.S1_conf))
+            max_st_conf = float(np.nanmax(res.ST_conf))
+            sum_st = float(np.nansum(res.ST))
+            complete = bool(valid_fraction >= VALID_FRACTION_FLOOR)
+            # A confidence half-width wider than the largest index it describes
+            # means the ranking is not resolved at this base N.
+            max_s1 = float(np.nanmax(np.abs(res.S1))) if np.isfinite(res.S1).any() else 0.0
+            precise = bool(np.isfinite(max_s1_conf) and max_s1 > 0
+                           and max_s1_conf <= CONF_WIDTH_CEILING * max_s1)
+            # An interaction fraction outside [0, 1] or a mean(ST-S1) above 1 is
+            # not a physical quantity; it is the estimator disagreeing with
+            # itself.
+            frac = res.interaction_fraction
+            physical = bool(np.isfinite(frac) and -1e-9 <= frac <= 1.0 + 1e-9
+                            and np.isfinite(res.mean_total_minus_first)
+                            and abs(res.mean_total_minus_first) <= 1.0)
+            reasons = []
+            if not complete:
+                reasons.append(f"valid_fraction {valid_fraction:.3f} < {VALID_FRACTION_FLOOR}")
+            if not precise:
+                reasons.append(f"max S1 confidence {max_s1_conf:.3f} > "
+                               f"{CONF_WIDTH_CEILING} x max|S1| {max_s1:.3f}")
+            if not physical:
+                reasons.append(f"interaction_fraction {frac:.3f} or "
+                               f"mean(ST-S1) {res.mean_total_minus_first:.3f} "
+                               f"outside the physical range")
             rows.append({
                 "model_id": mid, "feature": feat, "n_base": n_base,
                 "n_valid": res.n_valid, "n_total": len(y),
-                "valid_fraction": res.n_valid / len(y),
-                "quotable": bool(res.n_valid / len(y) >= VALID_FRACTION_FLOOR),
+                "valid_fraction": valid_fraction,
+                "complete": complete,
+                "precise": precise,
+                "physically_plausible": physical,
+                "quotable": bool(complete and precise and physical),
+                "not_quotable_because": "; ".join(reasons),
                 "interaction_fraction": res.interaction_fraction,
                 "mean_ST_minus_S1": res.mean_total_minus_first,
                 "sum_S1": float(np.nansum(res.S1)),
-                "sum_ST": float(np.nansum(res.ST)),
-                "max_S1_conf": float(np.nanmax(res.S1_conf)),
+                "sum_ST": sum_st,
+                "max_S1": max_s1,
+                "max_S1_conf": max_s1_conf,
+                "max_ST_conf": max_st_conf,
             })
             for j, nm in enumerate(names):
                 s2_rows.append({"model_id": mid, "feature": feat, "parameter": nm,

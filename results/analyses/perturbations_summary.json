@@ -2,159 +2,186 @@
  "by_feature": {
   "ap_amplitude_mV": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.12319938660987838,
-    "control_random": 0.11860486962290584,
-    "top_synergy": 0.1262097921500315
+    "control_middle": 0.1226023633580995,
+    "control_random": 0.168374343223801,
+    "top_synergy": 0.16123647502729743
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.08810868825724885,
-    "control_random": 0.043649544574847744,
-    "top_synergy": 0.06057752498203968
+    "control_middle": 0.05376106900370536,
+    "control_random": 0.048097386035904945,
+    "top_synergy": 0.052479248749090546
    },
    "frac_functionally_supported": {
-    "control_middle": 0.0,
-    "control_random": 0.08333333333333333,
-    "top_synergy": 0.16666666666666666
+    "control_middle": 0.047619047619047616,
+    "control_random": 0.11904761904761904,
+    "top_synergy": 0.07142857142857142
    },
    "n": {
-    "control_middle": 48,
-    "control_random": 48,
-    "top_synergy": 48
+    "control_middle": 42,
+    "control_random": 42,
+    "top_synergy": 42
    }
   },
   "ap_halfwidth_ms": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.22010944847007696,
-    "control_random": 0.1849277524719232,
-    "top_synergy": 0.16838535008286395
+    "control_middle": 0.28574364060419494,
+    "control_random": 0.2807096543871772,
+    "top_synergy": 0.24226632658560612
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.16386900757580244,
-    "control_random": 0.14719632596574264,
-    "top_synergy": 0.1621354395057662
+    "control_middle": 0.20781547546509638,
+    "control_random": 0.21524646164431244,
+    "top_synergy": 0.1962617679543235
    },
    "frac_functionally_supported": {
-    "control_middle": 0.1875,
-    "control_random": 0.125,
-    "top_synergy": 0.14583333333333334
+    "control_middle": 0.14285714285714285,
+    "control_random": 0.19047619047619047,
+    "top_synergy": 0.21428571428571427
    },
    "n": {
-    "control_middle": 48,
-    "control_random": 48,
-    "top_synergy": 48
+    "control_middle": 42,
+    "control_random": 42,
+    "top_synergy": 42
    }
   },
   "first_isi_ms": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.04625027605874784,
-    "control_random": 0.04719356159876562,
-    "top_synergy": 0.14523126575305878
+    "control_middle": 0.0547957200009525,
+    "control_random": 0.052638944449962886,
+    "top_synergy": 0.15286111585091305
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.019769566436463874,
-    "control_random": 0.019631850247350695,
-    "top_synergy": 0.05102328436720688
+    "control_middle": 0.02904475205788519,
+    "control_random": 0.025304841525205825,
+    "top_synergy": 0.09701139553060027
    },
    "frac_functionally_supported": {
-    "control_middle": 0.020833333333333332,
-    "control_random": 0.020833333333333332,
-    "top_synergy": 0.125
+    "control_middle": 0.023809523809523808,
+    "control_random": 0.0,
+    "top_synergy": 0.19047619047619047
    },
    "n": {
-    "control_middle": 48,
-    "control_random": 48,
-    "top_synergy": 48
+    "control_middle": 42,
+    "control_random": 42,
+    "top_synergy": 42
    }
   },
   "mean_firing_rate_Hz": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.09575828504108068,
-    "control_random": 0.06488456858224483,
-    "top_synergy": 0.17949413213768098
+    "control_middle": 0.10308326573106068,
+    "control_random": 0.0645568702114012,
+    "top_synergy": 0.30624770836736287
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.023196615955463372,
-    "control_random": 0.020321163722341988,
-    "top_synergy": 0.04994338413194008
+    "control_middle": 0.02230890701162197,
+    "control_random": 0.022907236271220634,
+    "top_synergy": 0.09977173059950986
    },
    "frac_functionally_supported": {
-    "control_middle": 0.0625,
-    "control_random": 0.020833333333333332,
-    "top_synergy": 0.20833333333333334
+    "control_middle": 0.07142857142857142,
+    "control_random": 0.023809523809523808,
+    "top_synergy": 0.30952380952380953
    },
    "n": {
-    "control_middle": 48,
-    "control_random": 48,
-    "top_synergy": 48
+    "control_middle": 42,
+    "control_random": 42,
+    "top_synergy": 42
+   }
+  },
+  "spike_count": {
+   "mean_abs_eta_sd": {
+    "control_middle": 0.10308326573106068,
+    "control_random": 0.06455687021140119,
+    "top_synergy": 0.30624770836736287
+   },
+   "median_abs_eta_sd": {
+    "control_middle": 0.02230890701162197,
+    "control_random": 0.02290723627122063,
+    "top_synergy": 0.09977173059950986
+   },
+   "frac_functionally_supported": {
+    "control_middle": 0.07142857142857142,
+    "control_random": 0.023809523809523808,
+    "top_synergy": 0.30952380952380953
+   },
+   "n": {
+    "control_middle": 42,
+    "control_random": 42,
+    "top_synergy": 42
    }
   }
  },
  "per_model_mean_abs_eta": {
   "control_middle": {
    "bbp_l5pc": 0.0077,
-   "hh_cable": 0.0203,
-   "hh_point": 0.2389,
-   "khaliq_purkinje": 0.0209,
-   "mainen_l5pc": 0.1125,
+   "hh_cable": 0.255,
+   "hh_point": 0.0798,
+   "khaliq_purkinje": 0.0124,
    "migliore_ca1": 0.3144,
    "pospischil_fs": 0.0235,
-   "pospischil_rs": 0.0278
+   "pospischil_rs": 0.0287
   },
   "control_random": {
    "bbp_l5pc": 0.0108,
-   "hh_cable": 0.044,
-   "hh_point": 0.0582,
-   "khaliq_purkinje": 0.0609,
-   "mainen_l5pc": 0.1125,
+   "hh_cable": 0.1088,
+   "hh_point": 0.0583,
+   "khaliq_purkinje": 0.0229,
    "migliore_ca1": 0.1997,
    "pospischil_fs": 0.0072,
-   "pospischil_rs": 0.0257
+   "pospischil_rs": 0.0441
   },
   "top_synergy": {
    "bbp_l5pc": 0.1587,
-   "hh_cable": 0.2337,
-   "hh_point": 0.5483,
-   "khaliq_purkinje": 0.02,
-   "mainen_l5pc": 0.0471,
+   "hh_cable": 0.7855,
+   "hh_point": 0.709,
+   "khaliq_purkinje": 0.0286,
    "migliore_ca1": 0.2941,
    "pospischil_fs": 0.1022,
-   "pospischil_rs": 0.0319
+   "pospischil_rs": 0.0656
   }
  },
  "top_vs_control_middle": {
-  "n_models": 8,
-  "mean_top": 0.179494132137681,
-  "mean_control": 0.09575828504108068,
-  "ratio_point": 1.8744501539545881,
+  "n_models": 7,
+  "mean_top": 0.30624770836736287,
+  "mean_control": 0.10308326573106066,
+  "ratio_point": 2.970877049688633,
   "ratio_ci95": [
-   1.034247750609141,
-   4.445908938911573
+   1.3510495900698163,
+   7.7102236500185874
   ],
   "difference_ci95": [
-   0.0044605869691479744,
-   0.17357079776304193
+   0.03550934300491289,
+   0.40355922785305237
   ],
-  "wilcoxon_p": 0.1953125,
-  "n_models_top_greater": 5,
+  "wilcoxon_p": 0.046875,
+  "n_models_top_greater": 6,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
  },
  "top_vs_control_random": {
-  "n_models": 8,
-  "mean_top": 0.179494132137681,
-  "mean_control": 0.06488456858224483,
-  "ratio_point": 2.766360878398415,
+  "n_models": 7,
+  "mean_top": 0.30624770836736287,
+  "mean_control": 0.0645568702114012,
+  "ratio_point": 4.743843797949135,
   "ratio_ci95": [
-   1.1905171354362645,
-   6.642614603559777
+   1.9020147819718705,
+   9.647767906807328
   ],
   "difference_ci95": [
-   0.014192255282805861,
-   0.2444518449059091
+   0.05879999233054574,
+   0.4775704141472606
   ],
-  "wilcoxon_p": 0.078125,
-  "n_models_top_greater": 6,
+  "wilcoxon_p": 0.015625,
+  "n_models_top_greater": 7,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
- }
+ },
+ "solver_dt_override_ms": null,
+ "quantisation_arithmetic": {
+  "single_observation_quantum_Hz": 2.5,
+  "n_backgrounds": 8,
+  "mean_over_backgrounds_grid_Hz": 0.3125,
+  "note": "a deterministic grid is not a stochastic detection limit; use background-level uncertainty for inferential precision and a finer-dt rerun for numerical repeatability"
+ },
+ "withdrawn": "The 2.5 Hz 'measurement floor' analysis and its '4/8 models unresolvable' conclusion were withdrawn by the 2026-08-06 audit (section 4). They compared a median of eight-background means against one unaveraged single-observation quantum. See results/analyses/perturbation_inference.json for the replacement."
 }

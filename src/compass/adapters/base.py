@@ -36,6 +36,25 @@ from ..registry.schema import ModelManifest, ParameterSpec
 
 os.environ.setdefault("NEURON_MODULE_OPTIONS", "-nogui")
 
+# Declared version of the MEASUREMENT procedure: how a protocol is executed and
+# how a rheobase probe decides "did this cell spike".  Stamped into every shard
+# identity and compared on reuse.
+#
+# This exists because the identity previously had a hole. `feature_schema`
+# covers extraction, `solver` covers the time step, `protocol_hash` covers the
+# stimulus -- but nothing covered the probe semantics in this module, so the N5
+# tri-state fix changed what a re-run produces on ~0.56% of rows (measured by
+# the deterministic replay gate) without anything forcing regeneration. A
+# declared-version scheme only works if it covers every input that can change a
+# stored value.
+#
+# probe-2: `find_rheobase` requires a genuine upward threshold crossing and
+#          raises on a failed probe. probe-1 accepted "any sample above 0 mV",
+#          so an already-depolarised trace was recorded as spiking at 0 nA and
+#          got rheobase = 0.0 plus rheobase-normalised features evaluated at
+#          0 nA (2026-08-06 audit, section 5.4).
+MEASUREMENT_SCHEMA_VERSION = "probe-2"
+
 _LOADED_MECH_DIRS: set[str] = set()
 
 # Which model this process has built.  NEURON's section list is process-global,
@@ -300,6 +319,63 @@ class NeuronAdapter(ABC):
     # ------------------------------------------------------------------ #
     # Rheobase
     # ------------------------------------------------------------------ #
+    class RheobaseProbeFailure(RuntimeError):
+        """A rheobase probe did not produce a usable trace.
+
+        Raised rather than returned, because the only correct response is to
+        fail the whole parameter sample.  Silently mapping a failed probe to
+        "does not spike" is how a solver blow-up at high current became a
+        finite feature row (2026-08-04/2026-08-06 audits, section 5.4).
+        """
+
+    # Probe outcomes.  The tri-state is the point: a probe that could not be
+    # evaluated is NOT evidence of silence (gate N5).
+    SPIKING, NONSPIKING, FAILED = "spiking", "nonspiking", "failed"
+
+    def probe_spiking(
+        self,
+        amplitude_nA: float,
+        delay_ms: float,
+        duration_ms: float,
+        total_ms: float,
+        dt_ms: float,
+        threshold_mV: float = 0.0,
+        **sim_kwargs,
+    ) -> str:
+        """Three-state spike probe: ``spiking`` | ``nonspiking`` | ``failed``.
+
+        Two defects of the previous boolean version are fixed here.
+
+        1. **A failed simulation returned "no spike".**  An empty trace, a
+           non-finite sample or a solver exception all became ``False``, so a
+           blow-up at high current was indistinguishable from a genuinely
+           silent cell -- and, because the bracket check runs at ``hi_nA``
+           first, it turned into ``rheobase = None`` and a "non-spiking" sample.
+        2. **Detection was "any sample above 0 mV".**  A trace that is *already*
+           depolarised above 0 mV counts as spiking without any upward
+           crossing.  Detection now requires a genuine rising crossing of the
+           threshold from below, and a baseline check rejects a trace that
+           never sits below it.
+        """
+        rec = self.simulate(amplitude_nA, delay_ms, duration_ms, total_ms, dt_ms,
+                            protocol_id="rheobase_probe", **sim_kwargs)
+        if rec.v.size == 0 or rec.t.size != rec.v.size:
+            return self.FAILED
+        if not np.all(np.isfinite(rec.v)):
+            return self.FAILED
+        mask = (rec.t >= delay_ms) & (rec.t <= delay_ms + duration_ms)
+        v = rec.v[mask]
+        if v.size < 2:
+            return self.FAILED
+        above = v > threshold_mV
+        if above.all():
+            # Never crosses from below during the step.  This is a depolarised
+            # or blocked state, not a spike train; report it as such instead of
+            # counting the plateau as a spike.
+            return self.NONSPIKING
+        crossings = int(np.count_nonzero((~above[:-1]) & above[1:]))
+        return self.SPIKING if crossings > 0 else self.NONSPIKING
+
     def find_rheobase(
         self,
         lo_nA: float = 0.0,
@@ -314,8 +390,11 @@ class NeuronAdapter(ABC):
     ) -> float | None:
         """Bisection search for the smallest step current that evokes a spike.
 
-        Returns ``None`` if the cell does not spike at ``hi_nA`` (the sample is
-        then classified as non-spiking rather than silently dropped).
+        Returns ``None`` when the cell genuinely does not spike at ``hi_nA``
+        (the sample is then classified as non-spiking, not dropped), and raises
+        :class:`RheobaseProbeFailure` when any probe could not be evaluated, so
+        a numerical failure fails the parent sample instead of masquerading as
+        silence.
 
         ``sim_kwargs`` (notably ``cvode``) is forwarded to every probe.  Passing
         the model's chosen solver settings here matters a great deal: the search
@@ -325,21 +404,22 @@ class NeuronAdapter(ABC):
         hi = self.manifest_rheobase_hi if hi_nA is None else hi_nA
         tol = self.manifest_rheobase_tol if tol_nA is None else tol_nA
 
-        def spikes(amp: float) -> bool:
-            rec = self.simulate(amp, delay_ms, duration_ms, total_ms, dt_ms,
-                                protocol_id="rheobase_probe", **sim_kwargs)
-            if rec.v.size == 0:
-                return False
-            mask = (rec.t >= delay_ms) & (rec.t <= delay_ms + duration_ms)
-            return bool(np.any(rec.v[mask] > 0.0))
+        def state(amp: float) -> str:
+            s = self.probe_spiking(amp, delay_ms, duration_ms, total_ms, dt_ms,
+                                   **sim_kwargs)
+            if s == self.FAILED:
+                raise self.RheobaseProbeFailure(
+                    f"{self.manifest.model_id}: rheobase probe at {amp:.6g} nA "
+                    f"produced no usable trace")
+            return s
 
-        if not spikes(hi):
+        if state(hi) != self.SPIKING:
             return None
-        if spikes(lo):
+        if state(lo) == self.SPIKING:
             return lo
         for _ in range(max_iter):
             mid = 0.5 * (lo + hi)
-            if spikes(mid):
+            if state(mid) == self.SPIKING:
                 hi = mid
             else:
                 lo = mid

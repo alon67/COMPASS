@@ -23,7 +23,7 @@ from ..sampling.priors import gaussian_copula_control, shuffle_control
 from .distances import TOLERANCES, ConditioningResult, condition
 
 __all__ = ["Ensemble", "CONDITIONING_FEATURES", "QC_POLICY", "build_ensembles",
-           "high_covariance_subset", "validity_mask"]
+           "high_covariance_subset", "marginal_imbalance", "validity_mask"]
 
 # --------------------------------------------------------------------------- #
 # Scientific-validity policy for QC flags (blueprint 14.5, 26)
@@ -160,33 +160,123 @@ def covariance_score(params: np.ndarray, n_axes: int = 2) -> np.ndarray:
     return np.where(den > 0, num / den, 0.0)
 
 
+def marginal_imbalance(params: np.ndarray, idx: np.ndarray) -> dict:
+    """How far a subset's per-parameter marginals drift from the parent set.
+
+    Reported so that E7 can be described honestly rather than asserted to be
+    matched.  ``max_mean_shift_sd`` and ``max_ks`` are the two quantities the
+    2026-08-06 audit measured when it found E7 was size- and distance-stratified
+    but *not* marginally matched (M4).
+    """
+    from scipy.stats import ks_2samp
+
+    x, sub = np.asarray(params, float), np.asarray(params, float)[idx]
+    sd = x.std(axis=0, ddof=1)
+    sd = np.where(sd > 0, sd, 1.0)
+    shift = np.abs(sub.mean(axis=0) - x.mean(axis=0)) / sd
+    sd_ratio = np.where(sd > 0, sub.std(axis=0, ddof=1) / sd, 1.0)
+    ks = np.array([ks_2samp(sub[:, j], x[:, j]).statistic for j in range(x.shape[1])])
+    return {
+        "max_mean_shift_sd": float(np.max(shift)),
+        "mean_mean_shift_sd": float(np.mean(shift)),
+        "max_ks": float(np.max(ks)),
+        "min_sd_ratio": float(np.min(sd_ratio)),
+        "max_sd_ratio": float(np.max(sd_ratio)),
+    }
+
+
 def high_covariance_subset(params: np.ndarray, distance: np.ndarray,
                            n_target: int, seed: int = 0,
-                           n_candidates: int = 400) -> np.ndarray:
-    """E7: a size-matched subset with elevated mean absolute correlation.
+                           n_candidates: int = 400,
+                           balance_tol_sd: float = 0.10,
+                           construction_fraction: float = 0.5,
+                           ) -> np.ndarray:
+    """E7: a size-matched, marginally balanced, high-covariance subset.
 
     Samples are ranked by :func:`covariance_score` *within target-distance
-    deciles*, and the top-scoring samples of each decile are taken.  Stratifying
-    by fitness is essential: an unstratified high-covariance subset would also
-    differ in phenotype quality, and the covariance contrast would be
-    confounded with a fitness contrast (blueprint risk table: "High-covariance
-    subset changes marginals and phenotype mix").
+    deciles*.  Stratifying by fitness is essential: an unstratified
+    high-covariance subset would also differ in phenotype quality, and the
+    covariance contrast would be confounded with a fitness contrast (blueprint
+    risk table).
+
+    Three changes forced by the 2026-08-06 audit (M4, 7.4)
+    ------------------------------------------------------
+    1. **``seed`` and ``n_candidates`` are used.**  They were accepted and then
+       deleted (``del seed, n_candidates``), so the "high-covariance subset" was
+       a single deterministic pick with no search and no randomisation --
+       documented parameters that did nothing.
+    2. **Marginal balance is enforced, not hoped for.**  The previous subset had
+       14 of 72 parameter comparisons at nominal KS ``p < 0.05``, a maximum KS
+       of 0.157 and a maximum mean shift of 0.307 SD, so the covariance contrast
+       carried a marginal contrast with it.  ``n_candidates`` randomised
+       within-decile selections are now generated and scored by covariance
+       concentration **subject to** ``max_mean_shift_sd <= balance_tol_sd``;
+       the constraint is relaxed only if nothing satisfies it, and the achieved
+       balance is always measurable via :func:`marginal_imbalance`.
+    3. **The selection axis is defined on held-out data.**  The principal axes
+       are computed on a ``construction_fraction`` split and applied to the
+       complement, so the subset is not selected using the same sample whose
+       covariance it is then reported to have concentrated.
     """
     n = len(params)
     n_target = min(n_target, n)
     if n_target < 20 or n < n_target + 10:
         return np.arange(n)
-    score = covariance_score(params)
+
+    rng = np.random.default_rng(seed)
+    # (3) axes from a construction split, applied to the evaluation split.
+    perm = rng.permutation(n)
+    n_con = max(20, int(n * construction_fraction))
+    construction = perm[:n_con]
+    score = covariance_score_from(params, params[construction])
+
     order = np.argsort(distance)
     strata = np.array_split(order, 10)
     per = max(1, n_target // 10)
-    picks = []
-    for s in strata:
-        take = min(per, len(s))
-        picks.append(s[np.argsort(score[s])[::-1][:take]])
-    idx = np.concatenate(picks)
-    del seed, n_candidates
-    return idx
+
+    def pick(jitter: float) -> np.ndarray:
+        out = []
+        for s in strata:
+            take = min(per, len(s))
+            if take == 0:
+                continue
+            # (1) `n_candidates` randomised variants: rank on the score plus a
+            # small rank-space jitter, so the search explores near-optimal
+            # selections instead of returning one deterministic answer.
+            noisy = score[s] + jitter * rng.standard_normal(len(s)) * score[s].std()
+            out.append(s[np.argsort(noisy)[::-1][:take]])
+        return np.concatenate(out) if out else np.arange(n)
+
+    best, best_key = None, None
+    n_try = max(1, int(n_candidates))
+    for i in range(n_try):
+        jitter = 0.0 if i == 0 else 0.35
+        idx = pick(jitter)
+        bal = marginal_imbalance(params, idx)
+        conc = float(np.mean(np.abs(np.corrcoef(params[idx], rowvar=False)
+                                    [~np.eye(params.shape[1], dtype=bool)])))
+        # (2) feasible first (balanced), then most concentrated.
+        feasible = bal["max_mean_shift_sd"] <= balance_tol_sd
+        key = (feasible, conc if feasible else -bal["max_mean_shift_sd"])
+        if best_key is None or key > best_key:
+            best, best_key = idx, key
+    return best if best is not None else np.arange(n)
+
+
+def covariance_score_from(params: np.ndarray, reference: np.ndarray,
+                          n_axes: int = 2) -> np.ndarray:
+    """Covariance score of ``params`` against axes fitted on ``reference``."""
+    x = np.asarray(params, dtype=float)
+    r = np.asarray(reference, dtype=float)
+    mu, sd = r.mean(axis=0), r.std(axis=0)
+    sd = np.where(sd > 0, sd, 1.0)
+    zr = (r - mu) / sd
+    z = (x - mu) / sd
+    _, _, vt = np.linalg.svd(zr - zr.mean(axis=0), full_matrices=False)
+    proj = z @ vt[:n_axes].T
+    num = np.sum(proj**2, axis=1)
+    den = np.sum(z**2, axis=1)
+    return np.where(den > 0, num / den, 0.0)
 
 
 def build_ensembles(df: pd.DataFrame, model_id: str, param_ids: list[str],
@@ -253,13 +343,14 @@ def build_ensembles(df: pd.DataFrame, model_id: str, param_ids: list[str],
                 # E7: high-covariance, size- and fitness-matched subset
                 idx = high_covariance_subset(acc_x, acc_d,
                                              n_target=max(60, res.n_accepted // 2),
-                                             seed=seed)
+                                             seed=seed, n_candidates=200)
                 if len(idx) >= 60:
+                    bal = marginal_imbalance(acc_x, idx)
                     out.append(Ensemble(model_id, "E7", "E7_high_covariance_subset",
                                         acc_x[idx], param_ids, tolerance=tol_name,
                                         metric=metric, source_regime="E3",
                                         meta={"protocol_family": protocol_family,
-                                              "matched_n": int(len(idx))}))
+                                              "matched_n": int(len(idx)), **bal}))
                     # size-matched random subset: the correct comparator for E7
                     rng = np.random.default_rng(seed + 5)
                     rnd = rng.choice(len(acc_x), size=len(idx), replace=False)

@@ -40,6 +40,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from compass.adapters.models import MODEL_REGISTRY, get_adapter  # noqa: E402
+from compass.analysis.cohorts import PRIMARY_EXCLUSIONS  # noqa: E402
 from compass.analysis.geometry import describe_geometry  # noqa: E402
 from compass.analysis.tuples import order_curve  # noqa: E402
 from compass.conditioning.ensembles import (  # noqa: E402
@@ -87,14 +88,29 @@ def _analysis_helpers():
     return mod.load_model_table, mod.canonical_target
 
 
-def collect(experiment: str, models: list[str], qc_policy: str) -> dict:
-    """Gather every ensemble of every model, keyed by (regime, family, metric)."""
+def collect(experiments: list[str], models: list[str], qc_policy: str) -> dict:
+    """Gather every ensemble of every model, keyed by (regime, family, metric).
+
+    Rows are pooled across ``experiments`` before ensembles are built.  An
+    expansion campaign writes to its own shard namespace so the frozen
+    screening campaign is never mutated, which means its extra draws reach a
+    matched design only if they are concatenated here.
+
+    Pooling is a concatenation and must never be a merge or a de-duplication on
+    ``parameter_sample_id``: that column is not a global key.  screening and
+    screening_expand draw migliore_ca1 from different seeds (20262703 vs
+    20262589), so id *n* denotes a different parameter vector in each campaign
+    (verified: max |delta param| = 3.7 across the 256 shared ids).  Treating the
+    ids as shared would silently discard 256 independent draws.
+    """
     load_model_table, canonical_target = _analysis_helpers()
     store: dict = {}
     for mid in models:
-        df = load_model_table(experiment, mid)
-        if df is None:
+        frames = [t for t in (load_model_table(e, mid) for e in experiments)
+                  if t is not None]
+        if not frames:
             continue
+        df = frames[0] if len(frames) == 1 else pd.concat(frames, ignore_index=True)
         specs = get_adapter(mid).parameter_specs()
         pids = [s.parameter_id for s in specs]
         for family, feats in (("absolute", CONDITIONING_FEATURES),
@@ -113,13 +129,33 @@ def collect(experiment: str, models: list[str], qc_policy: str) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--experiment", default="screening")
+    ap.add_argument("--pool", nargs="*", default=[],
+                    help="additional experiments concatenated onto --experiment "
+                         "before ensembles are built (e.g. screening_expand). "
+                         "Output filenames still follow --experiment.")
+    ap.add_argument("--keep-gate-failures", action="store_true",
+                    help="retain models that fail numerical acceptance "
+                         "(compass.analysis.cohorts.PRIMARY_EXCLUSIONS) in the "
+                         "matched design. Off by default: n_match is a min() "
+                         "across models, so one gate-failed model silently "
+                         "binds every cell it appears in.")
     ap.add_argument("--models", nargs="*", default=list(MODEL_REGISTRY))
     ap.add_argument("--draws", type=int, default=N_DRAWS)
     ap.add_argument("--qc-policy", default="primary")
     ap.add_argument("--estimators", nargs="*", default=["gaussian"])
     args = ap.parse_args()
 
-    store = collect(args.experiment, args.models, args.qc_policy)
+    models = list(args.models)
+    if not args.keep_gate_failures:
+        dropped = sorted(m for m in models if m in PRIMARY_EXCLUSIONS)
+        models = [m for m in models if m not in PRIMARY_EXCLUSIONS]
+        if dropped:
+            print(f"excluded on numerical-acceptance failure (gate N3): {dropped}",
+                  flush=True)
+    experiments = [args.experiment, *args.pool]
+    if args.pool:
+        print(f"pooling rows across experiments: {experiments}", flush=True)
+    store = collect(experiments, models, args.qc_policy)
     rows, summary = [], []
     for key, per_model in sorted(store.items(), key=lambda kv: str(kv[0])):
         regime, family, metric, tolerance = key
@@ -158,7 +194,13 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     df = pd.DataFrame(rows)
     df.to_parquet(OUT / f"endpoints_matched_{args.experiment}.parquet", index=False)
-    pd.DataFrame(summary).to_parquet(
+    # Carry the design's own provenance: which campaigns were pooled and which
+    # models were withheld.  n_match is a min() across models, so a cell's value
+    # is unreadable without knowing the membership that produced it.
+    design = pd.DataFrame(summary)
+    design["pooled_experiments"] = "|".join(experiments)
+    design["excluded_models"] = "|".join(sorted(set(args.models) - set(models)))
+    design.to_parquet(
         OUT / f"matched_design_{args.experiment}.parquet", index=False)
     print(f"\nwrote {len(df)} matched endpoint rows "
           f"({df['model_id'].nunique() if len(df) else 0} models, "

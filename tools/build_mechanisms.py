@@ -35,18 +35,45 @@ MOD_SOURCES: dict[str, list[str]] = {
     "bbp_l5pc": ["bbp_bluepyopt/examples/l5pc/mechanisms"],
     "dopaminergic_sn": ["modeldb_267306"],
     "stg_lp": ["modeldb_267621"],
+    # --- external replication cohort (2026-08-06 audit, section 9) ---------- #
+    # Each library is built in its own directory precisely because these models
+    # reuse generic mechanism names (`A.mod`, `H.mod`, `cal.mod`, `kdr.mod`) that
+    # would collide across lineages if they shared one namespace.
+    "miyasho_purkinje": ["modeldb_17664/prknj"],
+    "diwakar_granule": ["modeldb_116835/GrC"],
+    "dougalis_vlpag_da": ["modeldb_226010/DougalisEtAl2017model"],
+    "moubarak_snc_da": ["modeldb_267306"],
+    "ortner_snc_da": ["modeldb_2017402/Ortner_2017_DA_SNc"],
+    "tomko_ca1": ["modeldb_266901/TomkoEtAl2021/TomkoEtAl2021/Mods"],
+    "poirazi_ca1": ["modeldb_20212/CA1_multi/mechanism"],
+    "tzilivaki_fsbc": [
+        "modeldb_237595/TzilivakiEtal_FSBCs_model/Multicompartmental_Biophysical_models/mechanism"
+    ],
+}
+
+# Mod files that must NOT enter a library: files the upstream package ships but
+# does not compile (superseded variants kept for reference), or ones that clash
+# with a NEURON built-in.  Excluding them is a build decision, not a scientific
+# one, and every exclusion is recorded in the build provenance.
+MOD_EXCLUDE: dict[str, set[str]] = {
+    # `not-currently-used/` variants plus hha_old, the superseded predecessor of
+    # hha2 that redeclares the same SUFFIX.
+    "poirazi_ca1": {"hha_old.mod"},
 }
 
 
 def collect_mods(model_id: str) -> list[Path]:
     out: dict[str, Path] = {}
+    skip = MOD_EXCLUDE.get(model_id, set())
     for rel in MOD_SOURCES[model_id]:
         base = RAW / rel
         if not base.exists():
             print(f"  !! missing source dir {base}")
             continue
         for p in sorted(base.rglob("*.mod")):
-            if "__MACOSX" in p.parts:
+            if "__MACOSX" in p.parts or "not-currently-used" in p.parts:
+                continue
+            if p.name in skip:
                 continue
             out.setdefault(p.name, p)  # first occurrence wins, deterministic by sort
     return list(out.values())

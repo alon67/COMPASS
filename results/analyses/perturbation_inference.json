@@ -1,0 +1,143 @@
+{
+ "supersedes": "results/analyses/readout_resolution.json",
+ "withdrawn_claim": "'the firing-rate readout cannot resolve the effect in 4/8 models, so the panel-level enrichment is carried by two toy models'. Withdrawn: it compared a median of eight-background means with one unaveraged 2.5 Hz single-observation quantum, and a deterministic grid is not a stochastic detection limit.",
+ "quantisation_arithmetic": {
+  "window_ms": 400.0,
+  "single_observation_quantum_Hz": 2.5,
+  "n_backgrounds": 8,
+  "grid_of_the_reported_mean_Hz": 0.3125,
+  "note": "stated as arithmetic only; it licenses no conclusion"
+ },
+ "inferential_precision": {
+  "definition": "bootstrap CI and exact sign-flip test over the background distribution of eta; an effect is 'distinguishable' when the 95% CI excludes zero",
+  "per_model_primary_feature": {
+   "bbp_l5pc": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.0231,
+    "median_sem_sd": 0.0477,
+    "n_tuples_ci_excludes_zero": 0,
+    "median_signflip_p": 0.875
+   },
+   "hh_cable": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.8569,
+    "median_sem_sd": 0.5613,
+    "n_tuples_ci_excludes_zero": 5,
+    "median_signflip_p": 0.0234
+   },
+   "hh_point": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.9115,
+    "median_sem_sd": 0.5168,
+    "n_tuples_ci_excludes_zero": 5,
+    "median_signflip_p": 0.0742
+   },
+   "khaliq_purkinje": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.0315,
+    "median_sem_sd": 0.0191,
+    "n_tuples_ci_excludes_zero": 2,
+    "median_signflip_p": 0.25
+   },
+   "migliore_ca1": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.3717,
+    "median_sem_sd": 0.2951,
+    "n_tuples_ci_excludes_zero": 2,
+    "median_signflip_p": 0.2188
+   },
+   "pospischil_fs": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.0488,
+    "median_sem_sd": 0.0577,
+    "n_tuples_ci_excludes_zero": 1,
+    "median_signflip_p": 0.4141
+   },
+   "pospischil_rs": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.0369,
+    "median_sem_sd": 0.102,
+    "n_tuples_ci_excludes_zero": 1,
+    "median_signflip_p": 0.875
+   }
+  },
+  "n_top_tuples_total": 42,
+  "n_top_tuples_ci_excludes_zero": 16
+ },
+ "discrete_count_analysis": {
+  "definition": "eta recomputed on integer spike counts and tested by exact enumeration of all 2^n background sign flips",
+  "n_tuples": 126,
+  "n_integer_valued": 126,
+  "n_significant_p05": 9,
+  "per_kind_mean_abs_eta_counts": {
+   "control_middle": 1.0208,
+   "control_random": 0.7173,
+   "top_synergy": 2.7708
+  }
+ },
+ "numerical_repeatability": {
+  "status": "ok",
+  "sign_stability_by_effect_size": {
+   "0.0-0.02 SD": {
+    "n_tuples": 32,
+    "n_sign_flipped": 17,
+    "fraction_flipped": 0.5312,
+    "median_abs_delta_eta_sd": 0.0119
+   },
+   "0.02-0.1 SD": {
+    "n_tuples": 32,
+    "n_sign_flipped": 2,
+    "fraction_flipped": 0.0625,
+    "median_abs_delta_eta_sd": 0.0172
+   },
+   ">=0.1 SD": {
+    "n_tuples": 26,
+    "n_sign_flipped": 0,
+    "fraction_flipped": 0.0,
+    "median_abs_delta_eta_sd": 0.0408
+   }
+  },
+  "diagnostic_note": "the prespecified verdict is not rescored on this breakdown. It is reported because a sign instability confined to effects that are already indistinguishable from zero constrains the conclusion differently from one that touches large effects. The preregistered functional-support threshold is 0.25 SD.",
+  "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+  "tolerance_sd": 0.05,
+  "per_model": {
+   "hh_cable": {
+    "n_paired": 144,
+    "median_abs_delta_eta_sd": 0.0,
+    "max_abs_delta_eta_sd": 0.8161114152250151,
+    "tuple_mean_sign_agreement": 1.0,
+    "numerically_repeatable": true
+   },
+   "hh_point": {
+    "n_paired": 144,
+    "median_abs_delta_eta_sd": 0.0,
+    "max_abs_delta_eta_sd": 1.1785560532216846,
+    "tuple_mean_sign_agreement": 0.7222222222222222,
+    "numerically_repeatable": false
+   },
+   "khaliq_purkinje": {
+    "n_paired": 144,
+    "median_abs_delta_eta_sd": 0.0,
+    "max_abs_delta_eta_sd": 0.09162894508488253,
+    "tuple_mean_sign_agreement": 0.6111111111111112,
+    "numerically_repeatable": false
+   },
+   "pospischil_fs": {
+    "n_paired": 144,
+    "median_abs_delta_eta_sd": 0.04342115550404661,
+    "max_abs_delta_eta_sd": 0.08684231100809325,
+    "tuple_mean_sign_agreement": 0.7222222222222222,
+    "numerically_repeatable": false
+   },
+   "pospischil_rs": {
+    "n_paired": 144,
+    "median_abs_delta_eta_sd": 0.0,
+    "max_abs_delta_eta_sd": 0.14769571144742055,
+    "tuple_mean_sign_agreement": 0.8888888888888888,
+    "numerically_repeatable": true
+   }
+  },
+  "n_models_repeatable": 2,
+  "n_models": 5
+ }
+}

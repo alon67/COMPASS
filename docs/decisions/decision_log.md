@@ -695,9 +695,235 @@ the C2 repair fixed something real rather than merely relabelling it.
 
 | asset | intended slot | decision |
 |---|---|---|
-| ModelDB 97747 (Golomb FS interneuron) | FS interneuron replication | **excluded** — distributed as an XPPAUT `.ode` file, not an executable NEURON model; fails blueprint §6.2 |
-| ModelDB 17664, 116835, 226010, 267306, 2017402, 267621 | Purkinje/granule/dopaminergic/STG alternates | downloaded and archived with provenance; **not included** in the confirmatory panel on simulation-cost grounds only |
+| ModelDB 97747 (Golomb FS interneuron) | FS interneuron replication | **excluded** — distributed as an XPPAUT `.ode` file, not an executable NEURON model; fails blueprint §6.2. Its slot is now filled by ModelDB 237595 (Tzilivaki FS basket cell). |
+| ModelDB 17664 (Miyasho Purkinje) | Purkinje replication | **included** in the `screening_v2_replication` cohort (D31) |
+| ModelDB 267306 (Moubarak SNc DA) | first dopaminergic lineage | **included** (D31) |
+| ModelDB 226010 (Dougalis vlPAG/DRN DA) | second dopaminergic lineage | **included** (D31) |
+| ModelDB 266901 (Tomko CA1) | CA1 implementation replication | **included** as a nested implementation of the Migliore lineage (D31) |
+| ModelDB 237595 (Tzilivaki FS basket) | FS replication | **included** (D31) |
+| ModelDB 2017402 (Ortner SNc DA) | DA implementation replication | **adapted, audited, NOT simulated** — fails gate N3 at every tested time step and yields ≤3 spikes in the 400 ms window (D33) |
+| ModelDB 20212 (Poirazi CA1) | independent CA1 lineage | **excluded** — the published biophysics is only expressible through the package's own `ExperimentControl.defvar()` harness; adapting it would import a large third-party experiment scaffold across the adapter boundary (D33) |
+| ModelDB 116835 (Diwakar granule) | cerebellar granule class | **excluded** — the canonical channel distribution is applied by the GUI-only `Parametri.hoc`; the bare template rests at −32.7 mV instead of −70 mV (D33) |
+| ModelDB 267621 (Zang & Marder STG LP) | invertebrate stress test | downloaded and archived with provenance; **not evaluated**, deferred on cost |
 
 No model was excluded, and none was included, on the basis of the result it
 produced. Panel composition was frozen before the screening campaign
 (`preregistration.md` §1).
+
+---
+
+# Round 3 — 2026-08-06 post-revision technical and scientific audit
+
+Five blockers were raised (`COMPASS_POST_REVISION_TECHNICAL_SCIENTIFIC_AUDIT.md`).
+Each decision below states what was chosen **and what was rejected**, because in
+three of them the cheaper option was to keep the result and add a caveat.
+
+## D31 — Extend the panel from six source lineages to ten
+
+*Problem.* Eight `model_id` values represented six independently developed
+sources. `hh_point`/`hh_cable` are one HH lineage; `pospischil_rs`/`pospischil_fs`
+one Destexhe framework. Every fold, bootstrap and sign test treated eight as
+eight. Three biological classes had exactly one lineage, so no class-specific
+claim was supportable even in principle.
+
+*Decision.* Add a separately versioned `screening_v2_replication` cohort of five
+models chosen for **replication structure**, not breadth:
+
+| model | lineage | fills |
+|---|---|---|
+| `miyasho_purkinje` (ModelDB 17664) | `miyasho_2001` | second Purkinje lineage, with `khaliq_2003` |
+| `tzilivaki_fsbc` (ModelDB 237595) | `tzilivaki_2019` | second fast-spiking lineage, with `pospischil_2008` |
+| `moubarak_snc_da` (ModelDB 267306) | `moubarak_2022` | first dopaminergic lineage |
+| `dougalis_vlpag_da` (ModelDB 226010) | `dougalis_2017` | second dopaminergic lineage |
+| `tomko_ca1` (ModelDB 266901) | `migliore_1999` | second CA1 *implementation* |
+
+Ten lineages across fourteen implementations. Lineage attribution is
+deliberately **conservative**, because the failure being corrected is
+overstatement: `ortner_snc_da` shares an author's NEURON code with
+`dougalis_vlpag_da` and is filed as one lineage with two implementations, and
+`tomko_ca1` inherits Migliore's channel kinetics and is filed as a nested
+implementation rather than as an independent CA1 source.
+
+*Rejected.* Counting every new `model_id` as a new family, which would have
+reported fourteen "independent models" — the exact inflation the audit
+identified.
+
+## D32 — Exclude `mainen_l5pc` from primary inference rather than footnote it
+
+*Problem.* At its exact production setting (dt = 0.0125 ms, 2,304 segments)
+Mainen reproduces 12 of 13 conditioning features on all seven audit points and
+fails `adaptation_index` on one. The previous revision characterised this
+accurately and kept the model in every headline number.
+
+*Decision.* Exclusion, enforced in code. `compass.analysis.cohorts.PRIMARY_EXCLUSIONS`
+drives every analysis, and `tests/integration/test_convergence_contract.py`
+fails if a model listed as an N3 failure is *not* excluded — and also fails if a
+listed failure starts passing, so a stale exclusion is caught as readily as a
+stale inclusion. A prespecified sensitivity cascade
+(`decision_sensitivity.json`) reports six arms: primary, Mainen retained, the
+failing feature dropped from the phenotype for **every** model, partial-coverage
+retained, all models, and discovery/replication separately.
+
+*Rejected.* A publication-wide footnote. The audit's release rule 7 is explicit:
+"an exception requires exclusion of the affected model/data from primary
+inference and regeneration of dependent artifacts; it does not convert the gate
+to a pass."
+
+## D33 — Reject two candidate models and one adapted model on frozen gates
+
+`poirazi_ca1` (ModelDB 20212) and `diwakar_granule` (ModelDB 116835) were
+fetched, built and rejected on gate 9.5.2 and 9.5.4 respectively;
+`ortner_snc_da` (ModelDB 2017402) was fully adapted, its mechanisms compiled and
+its convergence audit run, and then **not simulated** because it fails gate N3
+at 0.025, 0.0125 and 0.00625 ms and produces ≤3 spikes in the frozen 400 ms
+window. All three exclusions were decided before any information endpoint was
+computed for them, and all three are recorded with their evidence
+(`EXCLUDED_CANDIDATES`, `convergence_audit_ortner_snc_da.json`).
+
+Rejecting a model *after* paying to adapt it is the outcome an outcome-blind
+gate is supposed to be able to produce. If a gate never rejects anything that
+cost something, it is not doing any work.
+
+## D34 — Withdraw the 2.5 Hz "measurement floor" rather than reinterpret it
+
+*Problem.* The claim compared a median over six tuple means of eight backgrounds
+against one unaveraged single-observation quantum, and treated a deterministic
+grid as a stochastic detection limit.
+
+*Decision.* Full withdrawal of the analysis and of all four conclusions drawn
+from it, with the tool and its outputs preserved under
+`results/analyses/_withdrawn/` so the record survives. The replacement separates
+numerical repeatability (rerun at half dt, compare per-background η) from
+inferential precision (bootstrap and exact sign-flip inference over backgrounds,
+and exact enumeration of all 2⁸ sign flips for the integer spike count).
+
+*Rejected.* Rescaling the floor by √8 or by the number of backgrounds. That
+would have preserved the framing while fixing the arithmetic, and the framing is
+what is wrong: quantisation is not noise.
+
+## D35 — Fail closed on shard identity, and backfill rather than re-simulate
+
+*Problem.* Screening reused a shard because its path existed. Nothing checked
+code, solver, mechanism build, configuration or design.
+
+*Decision.* Reuse now requires an exact match of a computed job identity
+(simulation-relevant code hash, per-job configuration hash, external asset hash,
+compiled mechanism hash, environment hash, solver contract, feature schema
+version, protocol hash, seed, prior and row count) plus a checksum match.
+Non-matching shards are **quarantined, never overwritten**.
+
+Two scoping decisions matter and were not obvious. The identity uses a
+*simulation-relevant* code hash rather than all of `src/`, and a *per-job*
+configuration hash rather than the whole config file — otherwise editing a
+plotting module or correcting a note in an unrelated campaign entry invalidates
+3,057 correct shards, and a validation rule that cries wolf gets switched off.
+
+Existing shards were **backfilled** with reconstructed identities stamped
+`identity_provenance: "backfilled"`, not re-simulated. A backfilled identity
+asserts only "these fields describe the tree at reconstruction time", which is
+why the deterministic replay gate exists and why backfilled shards are exactly
+the ones it targets.
+
+*Immediate payoff.* The check found that 425 `pospischil_rs` E1 rows (sample ids
+925–1349) had been simulated from a **different Sobol design** than the other
+7,767: seed 20262103 against 20262247. The stored E1 table was a mixture of two
+scrambles and no artifact recorded it. Those 17 shards were quarantined and
+regenerated.
+
+## D36 — Report intrinsic dimension as a sensitivity covariate, not a measurement
+
+The TwoNN implementation was biased upward by 45–50%. Fixing it was
+straightforward; the interesting decision was what to do afterwards. Rather than
+substituting a corrected number and continuing, a second estimator with
+different bias behaviour (Levina–Bickel MLE) is computed alongside it, both
+enter the hierarchical model's geometry block, and the estimator version is
+stamped into every endpoint row so a stored covariate can never be silently
+compared across algorithm versions.
+
+*Rejected.* Trusting one estimator because it is now unbiased on Gaussian test
+data. The covariate is load-bearing for the headline variance ratio; a single
+algorithm's finite-sample behaviour on non-Gaussian accepted ensembles is not
+something a synthetic calibration establishes.
+
+## D37 — Split "valid" into six row-level fields
+
+`simulation_status == "ok"` was doing the work of at least four different
+questions. Rows now carry `execution_valid`, `protocol_valid`, `feature_valid`,
+`physiology_class`, `analysis_eligible`, `validator_version` and
+`failure_reason`. The distinction that motivated it: under broad Tier C/D priors
+a finite but silent or depolarisation-blocked draw is a **prior-predictive
+outcome** to be classified, while a numerically failed rheobase probe is
+**corrupt** even though the surviving protocols would still yield a finite
+feature row. The old single field could not tell those apart, and the rheobase
+search actively confused them by returning `None` ("does not spike") for a
+solver failure.
+
+## D38 — What the new gates rejected, and what that cost
+
+Four defects were found by gates rather than by reading, and each one cost
+something real to act on. They are listed because a gate suite that only ever
+confirms what you already believed is not evidence that the data is sound.
+
+| found by | defect | action |
+|---|---|---|
+| identity-validated reuse | 425 `pospischil_rs` E1 rows (ids 925-1349) were simulated from a **different Sobol design** (seed 20262103 vs 20262247), so the stored E1 table was a mixture of two scrambles | 17 shards quarantined and regenerated |
+| gate D3 | `cv_isi` was **manufactured as 0.0** on 2,127 rows: two spikes give one interval, whose standard deviation is exactly zero | extractor now requires 3 spikes; stored rows enumerated as documented non-load-bearing drift, with the "non-load-bearing" claim re-derived from the analysis code rather than trusted |
+| gate N6 | `dougalis_vlpag_da`'s hyperpolarising step (-0.002 nA, from -0.5 x its 0.0039 nA rheobase) was **below the model's own baseline drift**: the membrane depolarised by +2.8 mV and input resistance came out at **-223 MOhm** | amplitude rule given a floor at -0.1 x the `hi` step; affected shards quarantined on `protocol_hash` and regenerated automatically |
+| gate N6 | project and eFEL spike counts differ by 4 and 3 on the two spontaneously active models | diagnosed as a peak-vs-onset windowing convention on a continuously firing cell; recorded with the measured value so a *change* in the gap still fails |
+
+## D39 — Scope the reuse criterion to semantic versions, not a byte hash
+
+*Problem discovered while building D35.* Hashing the simulation source into the
+shard identity meant that editing a comment in `extract.py` invalidated all
+98,048 stored simulations. A validation rule that discards correct data on a
+no-op change gets switched off, and then it protects nothing.
+
+*Decision.* The reuse criterion is the set of **declared semantic versions** --
+feature schema, solver contract, protocol hash, model-asset hash, compiled
+mechanism hash, per-job configuration hash, seed, prior, row count and file
+checksum. `sim_code_hash` is still written into every sidecar as
+`recorded_only.sim_code_hash`, so drift stays visible and auditable, but it does
+not by itself invalidate a shard.
+
+*What replaces the lost detection.* An undeclared change to the extractor is now
+a **code-review failure** rather than a data-discarding one:
+`tests/unit/test_solver_contract.py` records the content digest of
+`extract.py` against the declared `FEATURE_SCHEMA_VERSION` and fails if the
+module changes without the version changing. The check moved earlier in the
+pipeline, which is the direction you want it to move.
+
+*Rejected.* Keeping the byte hash and re-running the campaign on every source
+edit. That is correct in principle and unusable in practice, and an unusable
+gate is worse than a scoped one because nobody can tell it has been disabled.
+
+## D40 — The two highest-priority replication models could not be run
+
+The audit's section 9.4 named an alternate Purkinje and an executable
+independent fast-spiking model as the two most valuable additions. Both were
+fetched, adapted, had their mechanisms compiled and their f-I curves calibrated,
+and both then **failed gate N3**:
+
+* `tzilivaki_fsbc` (ModelDB 237595) — `mean_firing_rate_Hz` reproduces on
+  25-50% of audit points at dt = 0.05 and 0.025 ms, on the published
+  9,875-segment mesh *and* on a 4,096-segment d_lambda mesh. A ~145 Hz cell puts
+  one or two spikes per 400 ms window inside the tolerance, and resolving them
+  needs a finer step than a 9,875-section axonal arbor allows within this
+  budget.
+* `miyasho_purkinje` (ModelDB 17664) — `ap_amplitude_mV` reproduces on 40% of
+  points at 0.025 ms on both meshes; a finer-step audit was run and its outcome
+  is recorded in `convergence_audit_miyasho_purkinje.json`.
+
+*Decision.* Report the failure and its consequence rather than lowering the
+tolerance or quoting the models anyway. The fast-spiking class therefore still
+has one lineage, and the audit's Priority-2 recommendation is **partially
+unmet** — not because the models are unavailable but because a
+convergence-accepted campaign on morphologically detailed fast cells costs more
+compute than this release had.
+
+That is a substantive finding about the audit's own recommendation: "add six
+lineages" is not a purely curatorial task. Two of the six candidates were
+excluded on frozen technical gates before any endpoint was computed, one more
+was excluded for protocol coverage, and of the remainder the detailed
+morphologies are the expensive ones precisely because detail and stiffness go
+together.
+

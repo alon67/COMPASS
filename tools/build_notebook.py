@@ -72,7 +72,7 @@ throughout:
 The functional level is qualified because the perturbation battery gives a
 2–3× enrichment whose paired tests are not significant (p = 0.195, 0.078), whose
 size depends on which readout is measured, and which falls below the readout's
-own measurement floor in four of the eight models. Non-additivity is *observed*;
+imprecise per tuple once background variability is accounted for. Non-additivity is *observed*;
 that it identifies the tuples statistical synergy selects is **not established**.
 """)
 
@@ -118,7 +118,7 @@ sobol_sum  = load("sobol_summary.parquet")
 sobol_idx  = load("sobol_indices.parquet")
 sobol_conv = load("sobol_convergence.parquet")
 pert       = load("perturbations.parquet")
-resolution = load("readout_resolution.parquet")
+resolution = load("perturbation_inference.parquet")
 bench      = load("benchmarks.json", "json")
 decision   = load("decision.json", "json")
 mixed      = load("mixed_effects.json", "json")
@@ -448,12 +448,20 @@ simulations. Pooling them counts every tuple four times and mixes quantities
 with different noise floors, so the headline comparison uses the primary
 readout only, exactly as the decision code does.
 
-**Effects below the measurement floor are not effects.** Firing rate is a
-*count* over a 400 ms window, so one extra spike is an irreducible 2.5 Hz step
-regardless of how fine the integration time step is. Expressed in each model's
-own ensemble SD, that floor ranges from 0.04 to 0.16 SD. Panel C compares each
-model's median effect with its own floor, and the result matters: the two
-multicompartment cortical reconstructions sit **below** it.
+**Precision is bounded by background variability, not by a quantisation grid.**
+The 2.5 Hz "measurement floor" analysis that used to occupy this cell was
+withdrawn by the 2026-08-06 audit (section 4): it compared a median of
+eight-background means against one unaveraged single-observation quantum, and a
+deterministic grid is not a stochastic detection limit. What follows is the
+replacement -- bootstrap and exact sign-flip inference over the background
+distribution.
+
+For reference the arithmetic is: one extra spike in the 400 ms window is 2.5 Hz,
+but the reported statistic is a mean over eight backgrounds whose grid is
+2.5/8 = 0.3125 Hz, and a per-model median over six such means is finer still.
+That is quantisation, not noise. The table below reports what actually bounds
+the claim -- the standard error and bootstrap interval of each tuple's mean over
+its eight backgrounds, and an exact sign-flip p-value.
 """)
 
 code(r"""
@@ -475,10 +483,13 @@ if pert is not None and len(pert):
             .apply(lambda s: np.abs(s).median()).unstack().round(4))
 
 if resolution is not None and len(resolution):
-    r = resolution[resolution["feature"] == "mean_firing_rate_Hz"]
-    display(r[["model_id","feature_sd","floor_in_sd",
-               "median_abs_eta_sd","resolvable"]].round(4)
-            .sort_values("median_abs_eta_sd", ascending=False))
+    r = resolution[(resolution["feature"] == "mean_firing_rate_Hz")
+                   & (resolution["kind"] == "top_synergy")]
+    display(r[["model_id", "tuple", "mean_eta_sd", "sem_eta_sd",
+               "ci95_lo", "ci95_hi", "ci_excludes_zero", "signflip_p"]]
+            .round(4).sort_values("mean_eta_sd", key=abs, ascending=False).head(20))
+    print(f"{int(r['ci_excludes_zero'].sum())}/{len(r)} top tuples have a "
+          f"background bootstrap interval that excludes zero")
 """)
 
 # --------------------------------------------------------------------------- #
@@ -626,7 +637,10 @@ read as suggestive rather than established:
   for AP half-width. The correlations follow the same split: r(Omega, |eta|) is
   -0.401 and -0.278 for the spike-timing readouts, -0.091 and +0.063 for the
   waveform ones. A module claim is incomplete until it names the readout.
-* **It is unresolvable in half the panel.** Mean firing rate is a spike *count*
+* **WITHDRAWN (2026-08-06 audit section 4): a spike-count "measurement floor".**
+  The claim below is retained only so the correction is legible; it is not a
+  finding. It compared a median of eight-background means with one unaveraged
+  quantum. Mean firing rate is a spike *count*
   over a 400 ms window, so 2.5 Hz is an irreducible quantum. In **four of eight
   models** the median effect is BELOW that floor: bbp_l5pc (0.023 SD vs a 0.074
   floor), khaliq_purkinje (0.023 vs 0.046), pospischil_rs (0.031 vs 0.049) and

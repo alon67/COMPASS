@@ -34,6 +34,24 @@ Design decisions forced by the 2026-08-05 review (F2)
   model-cluster bootstrap of the top/control ratio, plus a TOST-style
   equivalence check, so "no enrichment" is a measured statement rather than a
   failure to reach a threshold.
+
+Design decisions forced by the 2026-08-06 audit (section 4)
+-----------------------------------------------------------
+* **Raw factorial outcomes are archived.**  Every baseline, single, joint and
+  per-background non-additivity is written to ``perturbations_raw.parquet``,
+  one row per model x tuple x background x feature, together with the signed
+  displacement actually applied and the simulation status.  The previous run
+  held those arrays in memory and stored only summaries, so no discrete-outcome
+  reanalysis was possible after the fact.
+* **Spike counts are stored, not just rates.**  ``mean_firing_rate_Hz`` is a
+  count over a fixed 400 ms window; the count is the quantity a discrete model
+  should see, and dividing by the window before analysis throws away the fact
+  that the observation is an integer.
+* **No "measurement floor".**  The withdrawn analysis compared a median of
+  eight-background means against one unaveraged spike quantum.  Precision is
+  now reported as the standard error over backgrounds, and repeatability is
+  tested by re-running selected points at a finer time step
+  (``tools/perturbation_inference.py``).
 """
 
 from __future__ import annotations
@@ -56,7 +74,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from compass.adapters.models import get_adapter  # noqa: E402
-from compass.analysis.perturbation import summarise_nonadditivity  # noqa: E402
+from compass.analysis.perturbation import (  # noqa: E402
+    background_grid_note,
+    summarise_nonadditivity,
+)
 from compass.conditioning.ensembles import CONDITIONING_FEATURES, build_ensembles  # noqa: E402
 
 OUT = ROOT / "results" / "analyses"
@@ -105,52 +126,83 @@ def _measure(args):
     import sys as _s
 
     _s.path.insert(0, str(ROOT / "src"))
-    model_id, backgrounds, jobs, param_ids, lo, hi = args
+    model_id, backgrounds, jobs, param_ids, lo, hi, dt_override, dt_scale = args
     from compass.features.extract import extract
     from compass.protocols import common as P
     from compass.workflows.simulate import solver_kwargs
 
     kw = solver_kwargs(model_id)
+    if dt_override is not None:
+        kw = dict(kw, dt_ms=float(dt_override))
+    elif dt_scale is not None:
+        # Scale each model's OWN campaign step.  A single absolute --dt cannot
+        # express "half the campaign dt" across a panel whose accepted steps
+        # span 0.05 to 0.003125 ms: --dt 0.0125 halves hh_point correctly but
+        # COARSENS khaliq_purkinje (0.00625) by 2x, inverting the convergence
+        # test it is supposed to perform.
+        base = kw.get("dt_ms")
+        if base is None:
+            raise ValueError(
+                f"{model_id}: --dt-scale requires a fixed-step solver, got {kw!r}")
+        kw = dict(kw, dt_ms=float(base) * float(dt_scale))
     amp = P.ABSOLUTE_AMPLITUDES[model_id][2]
     adapter = get_adapter(model_id).build()
     lo, hi = np.asarray(lo, float), np.asarray(hi, float)
+
+    # `spike_count` is carried alongside the derived rate so that the discrete
+    # readout can be modelled as the integer it is (audit 4.4 point 3).
+    measured = [*PERT_FEATURES, "spike_count"]
 
     def features_at(log_scales) -> dict:
         adapter.reset()
         adapter.apply(dict(zip(param_ids, 10.0**np.asarray(log_scales), strict=True)))
         rec = adapter.simulate(amp, delay_ms=P.DELAY_MS, duration_ms=P.DURATION_MS,
                                total_ms=P.TOTAL_MS, protocol_id="perturb", **kw)
+        flags = adapter.qc_flags(rec)
         f = extract(rec)
-        return {k: float(f.get(k, np.nan)) for k in PERT_FEATURES}
+        out = {k: float(f.get(k, np.nan)) if f.get(k) is not None else np.nan
+               for k in measured}
+        out["_status"] = "ok" if not flags else ";".join(sorted(flags))
+        return out
 
     base_vals = [features_at(bg) for bg in backgrounds]
     out = []
     for job in jobs:
         idx = job["tuple_idx"]
-        singles = {k: np.full((len(backgrounds), len(idx)), np.nan) for k in PERT_FEATURES}
-        joint = {k: np.full(len(backgrounds), np.nan) for k in PERT_FEATURES}
+        singles = {k: np.full((len(backgrounds), len(idx)), np.nan) for k in measured}
+        joint = {k: np.full(len(backgrounds), np.nan) for k in measured}
+        applied = np.zeros((len(backgrounds), len(idx)))
+        status = []
         n_flipped = 0
         for b, bg in enumerate(backgrounds):
             steps = signed_delta(np.asarray(bg, float), idx, lo, hi)
             n_flipped += sum(v < 0 for v in steps.values())
+            st = [base_vals[b]["_status"]]
             for k_i, i in enumerate(idx):
+                applied[b, k_i] = steps[i]
                 x = np.array(bg, dtype=float)
                 x[i] += steps[i]
                 fv = features_at(x)
-                for k in PERT_FEATURES:
+                st.append(fv["_status"])
+                for k in measured:
                     singles[k][b, k_i] = fv[k]
             x = np.array(bg, dtype=float)
             for i in idx:
                 x[i] += steps[i]
             fv = features_at(x)
-            for k in PERT_FEATURES:
+            st.append(fv["_status"])
+            for k in measured:
                 joint[k][b] = fv[k]
+            bad = sorted({s for s in st if s != "ok"})
+            status.append("ok" if not bad else ";".join(bad))
         out.append({
             "tuple_idx": idx, "kind": job["kind"],
             "o_information": job["o_information"],
-            "baseline": {k: [bv[k] for bv in base_vals] for k in PERT_FEATURES},
-            "singles": {k: singles[k].tolist() for k in PERT_FEATURES},
-            "joint": {k: joint[k].tolist() for k in PERT_FEATURES},
+            "baseline": {k: [bv[k] for bv in base_vals] for k in measured},
+            "singles": {k: singles[k].tolist() for k in measured},
+            "joint": {k: joint[k].tolist() for k in measured},
+            "applied_steps": applied.tolist(),
+            "status": status,
             "n_inward_flipped": int(n_flipped),
         })
     return model_id, out
@@ -240,10 +292,35 @@ def main() -> int:
     ap.add_argument("--experiment", default="screening")
     ap.add_argument("--models", nargs="*", default=None)
     ap.add_argument("--workers", type=int, default=8)
+    ap.add_argument("--dt", type=float, default=None,
+                    help="override the campaign time step; used by the "
+                         "numerical-repeatability check, which reruns the "
+                         "battery at a finer dt and compares eta")
+    ap.add_argument("--dt-scale", type=float, default=None,
+                    help="multiply each model's OWN campaign time step by this "
+                         "factor (0.5 = half). Prefer this over --dt for the "
+                         "numerical-repeatability check: a single absolute dt "
+                         "refines some models and coarsens others across a "
+                         "panel whose accepted steps span 0.05-0.003125 ms")
+    ap.add_argument("--resume", action="store_true",
+                    help="skip models whose per-model cache already exists")
+    ap.add_argument("--suffix", default="",
+                    help="filename suffix, e.g. '_dt_half' for a repeatability run")
     args = ap.parse_args()
+    if args.dt is not None and args.dt_scale is not None:
+        ap.error("--dt and --dt-scale are mutually exclusive")
 
     picks = select_candidates(args.experiment)
     models = args.models or sorted(picks)
+    if args.resume:
+        tag = args.suffix or "_main"
+        cached = {p.name.split(tag)[0]
+                  for p in (OUT / "_perturbation_cache").glob(f"*{tag}_raw.parquet")}
+        skipped = [m for m in models if m in cached]
+        models = [m for m in models if m not in cached]
+        if skipped:
+            print(f"resuming: {len(skipped)} model(s) already cached, skipping "
+                  f"{skipped}", flush=True)
     tasks, feature_sd, pid_map, meta = [], {}, {}, {}
     for mid in models:
         if mid not in picks:
@@ -259,40 +336,100 @@ def main() -> int:
         lo = np.log10([s.lower_bound for s in specs])
         hi = np.log10([s.upper_bound for s in specs])
         meta[mid] = {"n_backgrounds": len(bg)}
-        tasks.append((mid, bg, picks[mid], pids, lo.tolist(), hi.tolist()))
+        tasks.append((mid, bg, picks[mid], pids, lo.tolist(), hi.tolist(),
+                      args.dt, args.dt_scale))
 
     print(f"perturbation battery: {len(tasks)} models x "
           f"{N_TOP + N_CONTROL + N_RANDOM} tuples x {N_BACKGROUNDS} backgrounds x "
           f"{len(PERT_FEATURES)} features", flush=True)
+    # Per-model incremental cache.
+    #
+    # The battery used to accumulate every row in the parent and write once, at
+    # the end. One slow model therefore held ALL output hostage: a 15-hour
+    # `mainen_l5pc` meant zero usable output for 15 hours even though seven
+    # models had finished. Each model's rows are now cached the moment it
+    # completes, so a run can be interrupted, resumed or partially consumed.
+    CACHE = OUT / "_perturbation_cache"
+    CACHE.mkdir(parents=True, exist_ok=True)
+
+    def cache_path(mid: str, kind: str) -> Path:
+        tag = args.suffix or "_main"
+        return CACHE / f"{mid}{tag}_{kind}.parquet"
+
     t0 = time.time()
     ctx = mp.get_context("spawn")
-    rows = []
+    rows, raw_rows = [], []
+    # Spike count shares the firing-rate SD scaled back to counts, so that a
+    # count-space eta is expressed against the same population dispersion.
+    window_s = 0.4
     with ctx.Pool(min(args.workers, max(1, len(tasks))), maxtasksperchild=1) as pool:
         for mid, res in pool.imap_unordered(_measure, tasks):
             pids = pid_map[mid]
+            sds = dict(zip(PERT_FEATURES, feature_sd[mid], strict=True))
+            sds["spike_count"] = float(sds[PERT_FEATURES[0]] * window_s)
             for r in res:
-                for fi, feat in enumerate(PERT_FEATURES):
+                for feat in (*PERT_FEATURES, "spike_count"):
                     pr = summarise_nonadditivity(
                         mid, r["tuple_idx"], [pids[i] for i in r["tuple_idx"]],
                         feat, np.array(r["baseline"][feat]),
                         np.array(r["singles"][feat]), np.array(r["joint"][feat]),
-                        feature_sd[mid][fi])
+                        sds[feat], applied_steps=np.array(r["applied_steps"]),
+                        status=tuple(r["status"]))
                     row = pr.as_dict()
                     row["kind"] = r["kind"]
                     row["o_information"] = r["o_information"]
                     row["n_inward_flipped"] = r["n_inward_flipped"]
                     row["primary_feature"] = feat == PERT_FEATURES[0]
                     rows.append(row)
-            print(f"  {mid} done ({(time.time()-t0)/60:.1f} min)", flush=True)
+                    for rr in pr.as_rows():
+                        rr["kind"] = r["kind"]
+                        rr["o_information"] = r["o_information"]
+                        rr["primary_feature"] = feat == PERT_FEATURES[0]
+                        raw_rows.append(rr)
+            # Write this model's slice immediately.
+            mine = [r for r in rows if r["model_id"] == mid]
+            mine_raw = [r for r in raw_rows if r["model_id"] == mid]
+            pd.DataFrame(mine).to_parquet(cache_path(mid, "summary"), index=False)
+            pd.DataFrame(mine_raw).to_parquet(cache_path(mid, "raw"), index=False)
+            print(f"  {mid} done ({(time.time()-t0)/60:.1f} min) "
+                  f"-> cached {len(mine)} summary / {len(mine_raw)} raw rows",
+                  flush=True)
 
     OUT.mkdir(parents=True, exist_ok=True)
+    sfx = args.suffix
     df = pd.DataFrame(rows)
-    df.to_parquet(OUT / "perturbations.parquet", index=False)
+    df.to_parquet(OUT / f"perturbations{sfx}.parquet", index=False)
+    raw = pd.DataFrame(raw_rows)
+    raw.to_parquet(OUT / f"perturbations_raw{sfx}.parquet", index=False)
     summary = analyse(df)
-    (OUT / "perturbations_summary.json").write_text(json.dumps(summary, indent=1,
-                                                               default=float))
+    summary["solver_dt_override_ms"] = args.dt
+    summary["solver_dt_scale"] = args.dt_scale
+    # The step each model actually integrated at.  A repeatability claim must be
+    # checkable against the steps it was really computed from, rather than
+    # against an assumption that one flag meant the same thing for every model.
+    from compass.workflows.simulate import solver_kwargs as _sk
+
+    def _effective_dt(mid: str):
+        if args.dt is not None:
+            return float(args.dt)
+        base = _sk(mid).get("dt_ms")
+        if base is None:
+            return None
+        return float(base) * args.dt_scale if args.dt_scale is not None else float(base)
+
+    summary["effective_dt_ms"] = {mid: _effective_dt(mid) for mid in sorted(meta)}
+    summary["quantisation_arithmetic"] = background_grid_note(N_BACKGROUNDS)
+    summary["withdrawn"] = (
+        "The 2.5 Hz 'measurement floor' analysis and its '4/8 models "
+        "unresolvable' conclusion were withdrawn by the 2026-08-06 audit "
+        "(section 4). They compared a median of eight-background means against "
+        "one unaveraged single-observation quantum. See "
+        "results/analyses/perturbation_inference.json for the replacement.")
+    (OUT / f"perturbations_summary{sfx}.json").write_text(
+        json.dumps(summary, indent=1, default=float))
     print("\n" + json.dumps(summary, indent=1, default=float)[:2600])
-    print(f"\nwrote {OUT/'perturbations.parquet'} ({len(df)} rows)")
+    print(f"\nwrote {OUT/f'perturbations{sfx}.parquet'} ({len(df)} rows) "
+          f"and {OUT/f'perturbations_raw{sfx}.parquet'} ({len(raw)} rows)")
     return 0
 
 

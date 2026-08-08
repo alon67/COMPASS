@@ -88,6 +88,17 @@ MIN_VALID_FRACTION = 0.5
 # `sobol_indices`).  Analyses below it are still reported, marked `imputed`.
 VALID_FRACTION_FLOOR = 0.90
 
+# Completeness is NECESSARY BUT NOT SUFFICIENT (2026-08-06 audit, M8).
+# `quotable` used to mean `valid_fraction >= 0.90` alone, so an index whose
+# bootstrap confidence half-width exceeded the estimate itself still counted as
+# quotable, and two "quotable" interaction fractions were negative.  A
+# quantitatively quotable analysis must additionally be PRECISE -- the widest
+# S1 confidence half-width no larger than this multiple of the largest index it
+# describes -- and PHYSICALLY PLAUSIBLE.  SALib reports bootstrap confidence
+# intervals precisely so that they can gate quotability; see
+# https://salib.readthedocs.io/en/latest/api/SALib.analyze.html
+CONF_WIDTH_CEILING = 0.5
+
 
 def sobol_indices(y: np.ndarray, names: list[str], n_base: int,
                   calc_second_order: bool = True, output_name: str = "y",
