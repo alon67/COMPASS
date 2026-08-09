@@ -346,14 +346,33 @@ is not, by itself, evidence about neurons.
 The 2026-08-06 audit's finding 5 was that the test suite measured software
 correctness rather than simulation validity: real NEURON physiology assertions
 existed for one adapter, everything else was build-checked. Sections 6.4.1-6.4.3
-specify what would close that gap. All of it is now implemented, **fails closed**
-(a skipped, missing or indeterminate gate is a failure, never a pass) and emits
-machine-readable records under `results/validation/`.
+specify what would close that gap. Most of it is implemented, and the parts that
+are **fail closed** — a skipped, missing or indeterminate gate is a failure,
+never a pass — and emit machine-readable records under `results/validation/`.
+
+Two qualifications, because an earlier version of this section claimed the set
+was complete and automatically enforced, and it was not:
+
+* **N1 and N3–N7 now produce machine-readable evidence** via
+  `tools/record_numerical_gates.py`, which writes
+  `results/validation/numerical_gates.json` and is listed in the release
+  manifest's mandatory gates. Until the post-revision audit this did not exist:
+  the manifest required only D1–D5 and REPLAY, so a release could be assembled
+  while the neuronal-behaviour tests were failing or had never been run. The
+  first full run of the slow tests immediately found four failures that no
+  previous release record had exercised.
+* **N2 is not implemented.** Strict reproduction of published traces is not a
+  test. `compass.validation.bounds` says so itself — its intervals are
+  "unit-error and dead-channel detectors, not goodness-of-fit tests", and real
+  source reproduction "needs the matching published stimulus, temperature and
+  recording site". N2 is therefore recorded with `n = 0`, which the manifest
+  treats as missing evidence and blocks on. It is listed below for what it is
+  meant to be, not as something that runs.
 
 | gate | what it checks | where |
 |---|---|---|
 | **N1** | every adapter built in a fresh spawned process, simulated under its exact production solver and mesh, checked against model-specific source-justified bounds; requested `dt`/temperature read back from NEURON so a silent fallback cannot pass | `tests/integration/test_all_model_canonical_behavior.py` |
-| **N2** | reproduced values against published/source values, per model, with the source of every bound named | `tools/build_model_audit.py` |
+| **N2** — *NOT IMPLEMENTED* | intended: reproduced values against published/source values, per model, with the source of every bound named. What exists is a **descriptive** per-model audit, not a pass/fail gate: `docs/model_audits/model_audit.md` marks several models "accepted with deviation" against source targets. Recorded as missing evidence, which blocks the release. | `tools/build_model_audit.py` (descriptive) |
 | **N3** | the **exact** production `(dt, segment count)` is a directly tested, accepted row of that model's own convergence audit | `tests/integration/test_convergence_contract.py` |
 | **N4** | every exposed parameter writes `canonical x scale` to the intended NEURON attribute, moves at least one observable feature when scaled 1/4 and 4x, and `reset()` restores both the profile and the trace exactly | `tests/integration/test_parameter_activity.py` |
 | **N5** | tri-state rheobase probes (`spiking` / `nonspiking` / `failed`); a failed probe fails the parent sample instead of becoming "does not spike"; spike detection requires a genuine upward crossing | `tests/unit/test_rheobase_failure_states.py` |
@@ -450,8 +469,14 @@ real constraint on the audit's Priority-2 recommendation, not a detail.
 
 ## 5. The campaign
 
-**98,048 simulations**: 76,288 for the screening ensembles and 21,760 for the
-Saltelli designs. **Zero failed simulations** in the final tables.
+**130,098 simulations** across six campaigns: 76,288 screening, 23,040 Saltelli
+(Sobol), 18,944 second scramble, 10,752 external replication, 1,024 Migliore
+expansion and 50 pilot. **Zero failed simulations** in the final tables.
+
+The earlier figure of 98,048 counted only the screening ensembles and the
+Saltelli designs, and predated the expansion, second-scramble and replication
+campaigns. The per-model table below covers the screening campaign alone; the
+other five are described in their own sections.
 
 | model | samples | regimes | failures | non-spiking |
 |---|---:|---|---:|---:|
@@ -463,6 +488,35 @@ Saltelli designs. **Zero failed simulations** in the final tables.
 | `bbp_l5pc` | 2,048 | E1, E2, E6 | 0 | 3.1% |
 | `mainen_l5pc` | 256 | E1 | 0 | 0.4% |
 | `migliore_ca1` | 256 | E1 | 0 | 5.9% |
+
+**Not every sampled parameter is identifiable.** Gate N4 scales each exposed
+parameter by 1/4 and 4x and asks whether any extracted feature moves. Two models
+have parameters where none does:
+
+| model | sampled | identifiable | unidentifiable |
+|---|---:|---:|---|
+| `bbp_l5pc` (primary) | 15 | **13** | `gskv3_apical`, `gcalva_apical` |
+| `tomko_ca1` (replication) | 16 | **13** | `gkdr_soma`, `gcal_soma`, `gcat_soma` |
+
+These are not addressing bugs — `test_n4_parameter_writes_reach_the_intended_target`
+passes for both, so the value does reach NEURON with the intended magnitude. The
+measured cause is a fourth possibility the gate cannot distinguish on its own:
+the effect is **real but below the resolution of the feature set**. Scaling
+`tomko_ca1`'s `gkdr_soma` by 1/4 and 4x shifts the membrane potential by about
+0.07% while `spike_count` stays at 19 and `ap_halfwidth_ms` stays at 0.80 ms —
+an integer and a quantised value cannot register it. Its dendritic partner
+`gkdr_dend`, the same mechanism and attribute over 123 segments instead of 1,
+moves `spike_count` from 19 to 1. `tomko_ca1`'s soma is a single segment of 131.
+
+The consequence is that phenotype conditioning cannot constrain a parameter it
+cannot observe, so these stay at full prior width and add unconstrained
+dimensions to the parameter geometry. The endpoint evidence does not show the
+affected models as outliers — `bbp_l5pc` sits at 0.889 intrinsic dimension per
+parameter, second lowest of eight — so this is reported rather than repaired;
+removing the parameters would change the sampled space and force a full campaign
+regeneration. What is not defensible is quoting `n_params` as though every one
+were identifiable. Full measurements:
+`data/provenance/parameter_identifiability.json`.
 
 ### 5.1 Four models were re-simulated after a stricter convergence audit
 
@@ -1534,7 +1588,13 @@ These bound what the results above can support. They are declared in
    updated; it is withdrawn.
 6. **`khaliq_purkinje` has no rheobase-normalised protocol family** because it
    fires spontaneously. The normalised-protocol analysis covers 7 of 8 models.
-7. **Sobol is not run for `migliore_ca1`** (design size × per-sample cost).
+7. **Sobol now covers all eight screening models**, including `migliore_ca1` and
+   `mainen_l5pc`, which were added when the campaign was regenerated under
+   `probe-2`; the panel is 8 models × 7 features = 56 analyses. It is their
+   *quotability* that is limited, not their execution: 8 of the 56 clear the
+   completeness, precision and plausibility gate, and `migliore_ca1` contributes
+   none of the eight. An earlier version of this list said Sobol was not run for
+   Migliore at all, which stopped being true after the regeneration.
 8. **E6 is a clustered *prior*, not a clustered accepted ensemble.** Its basins
    are drawn from the prior rather than from accepted solutions; E7 provides the
    conditioned high-covariance contrast.

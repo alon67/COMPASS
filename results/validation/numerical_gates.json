@@ -1,0 +1,66 @@
+{
+ "tool": "record_numerical_gates.py",
+ "written_utc": "2026-08-08T20:25:54.531880+00:00",
+ "slow_tests_included": true,
+ "note": "N2 has no automated test: strict reproduction of published traces is not implemented, and the canonical-bounds checks are explicitly unit-error detectors rather than goodness-of-fit tests. It is reported with n=0 so the release manifest treats it as missing evidence.",
+ "by_gate": {
+  "N1": {
+   "n": 84,
+   "passed": 82,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": [
+    "tests/integration/test_all_model_canonical_behavior.py::test_n1_canonical_behaviour_is_inside_the_frozen_bounds[miyasho_purkinje]",
+    "tests/integration/test_all_model_canonical_behavior.py::test_n1_canonical_behaviour_is_inside_the_frozen_bounds[tzilivaki_fsbc]"
+   ]
+  },
+  "N2": {
+   "n": 0,
+   "passed": 0,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N3": {
+   "n": 46,
+   "passed": 46,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N4": {
+   "n": 56,
+   "passed": 54,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": [
+    "tests/integration/test_parameter_activity.py::test_n4_every_parameter_changes_the_model[bbp_l5pc]",
+    "tests/integration/test_parameter_activity.py::test_n4_every_parameter_changes_the_model[tomko_ca1]"
+   ]
+  },
+  "N5": {
+   "n": 10,
+   "passed": 10,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N6": {
+   "n": 97,
+   "passed": 97,
+   "skipped": 2,
+   "skipped_subjects": [
+    "tests/integration/test_real_trace_features.py::test_n6_undefined_features_are_nan_not_zero[khaliq_purkinje]",
+    "tests/integration/test_real_trace_features.py::test_n6_undefined_features_are_nan_not_zero[moubarak_snc_da]"
+   ],
+   "failed_subjects": []
+  },
+  "N7": {
+   "n": 14,
+   "passed": 14,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  }
+ }
+}

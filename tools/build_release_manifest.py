@@ -35,7 +35,19 @@ from compass.validation.gates import environment_record, git_tree  # noqa: E402
 
 OUT = ROOT / "results" / "validation" / "release_manifest.json"
 
-MANDATORY_GATES = ["D1", "D2", "D3", "D4", "D5", "REPLAY"]
+# Data-integrity gates, the deterministic-replay gate, and the neuronal-validity
+# gates.  N1-N7 were previously absent, so a release could be assembled while the
+# neuronal-behaviour tests were failing or had simply never been run -- the
+# post-revision audit's point that "N1-N7 are automatically enforced fail-closed"
+# was premature.  Evidence for them is produced by
+# tools/record_numerical_gates.py, which writes results/validation/
+# numerical_gates.json in the same `by_gate` form as every other gate file.
+#
+# N2 is listed even though nothing implements it.  That is deliberate: strict
+# reproduction of published traces is not a test today, and a gate with no
+# evidence must block rather than be quietly dropped from the list.
+MANDATORY_GATES = ["D1", "D2", "D3", "D4", "D5", "REPLAY",
+                   "N1", "N2", "N3", "N4", "N5", "N6", "N7"]
 
 
 def file_record(p: Path) -> dict:
@@ -135,7 +147,12 @@ def main() -> int:
                     cur["sources"].append(p.name)
     manifest["gates"] = gates
 
-    missing = [g for g in MANDATORY_GATES if g not in gates]
+    # A gate present in the roll-up but carrying NO evidence (n == 0) is missing,
+    # not passing.  Without the `n == 0` arm, `failed` below tests `passed < n`,
+    # which is `0 < 0` -> False, so a gate that ran nothing would slip through as
+    # though it had been satisfied.  N2 is exactly that case today.
+    missing = [g for g in MANDATORY_GATES
+               if g not in gates or gates[g].get("n", 0) == 0]
     failed = [g for g, v in gates.items() if v["passed"] < v["n"]]
     blockers = []
     if missing:
@@ -165,7 +182,12 @@ def main() -> int:
           f"{manifest['inferential_sample']['n_source_lineages']} lineages "
           f"-> {OUT}")
     print(f"manifest sha256 {hashlib.sha256(text.encode()).hexdigest()[:32]}")
-    return 0
+    # Exit non-zero when the release is blocked.  Returning 0 meant a pipeline
+    # could run to completion, print RELEASE-BLOCKED, and still report success to
+    # its caller -- so CI, a shell `&&` chain or run_all.sh would all treat a
+    # blocked release as a good run (post-revision audit).  The manifest is still
+    # written either way; only the status changes.
+    return 0 if manifest["release_verdict"] == "RELEASE-READY" else 1
 
 
 if __name__ == "__main__":

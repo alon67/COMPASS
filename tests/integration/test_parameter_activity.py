@@ -147,7 +147,14 @@ def test_n4_every_parameter_changes_the_model(activity, model_id):
     assert not dead, (
         f"{model_id}: scaling {dead} by 1/4 and 4x changed no observable "
         f"feature. An inactive, misaddressed or sign-cancelled parameter "
-        f"contributes only noise to the dependence geometry.")
+        f"contributes only noise to the dependence geometry -- and so does a "
+        f"FOURTH case this check cannot distinguish: a parameter whose effect on "
+        f"the membrane potential is real but smaller than the resolution of the "
+        f"feature set (spike_count is an integer, ap_halfwidth_ms is quantised). "
+        f"Check test_n4_parameter_writes_reach_the_intended_target first: if it "
+        f"passes, the value IS reaching NEURON and the cause is not addressing. "
+        f"Measured cases are recorded in "
+        f"data/provenance/parameter_identifiability.json.")
 
 
 @pytest.mark.parametrize("model_id", MODELS)

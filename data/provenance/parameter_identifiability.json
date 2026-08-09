@@ -1,0 +1,58 @@
+{
+ "_doc": [
+  "Per-model count of sampled parameters that are IDENTIFIABLE through the",
+  "frozen protocol and feature set, as opposed to merely sampled.",
+  "",
+  "Gate N4 (tests/integration/test_parameter_activity.py) scales every exposed",
+  "parameter by 1/4 and 4x and asks whether any extracted feature moves beyond",
+  "its tolerance. Two models have parameters that do not. Those parameters are",
+  "still drawn and still vary in every ensemble, but phenotype conditioning",
+  "cannot constrain a parameter it cannot observe, so they stay at full prior",
+  "width and contribute an unconstrained dimension to the parameter geometry on",
+  "which O-information and intrinsic dimension are computed.",
+  "",
+  "These are NOT plumbing bugs. test_n4_parameter_writes_reach_the_intended_",
+  "target PASSES for both models: the value reaches the intended NEURON",
+  "attribute with the intended magnitude. The N4 failure message lists three",
+  "candidate causes -- inactive, misaddressed, sign-cancelled -- and the measured",
+  "cause here is a fourth: the effect on the membrane potential is real but",
+  "smaller than the resolution of the extracted feature set.",
+  "",
+  "Measured for tomko_ca1/gkdr_soma on the step_hi protocol: scaling x1/4 and x4",
+  "shifts sum(v[::17]) from -72605.84 to -72567.27 and -72663.01 respectively --",
+  "about 0.07%, a real change -- while spike_count stays 19 and ap_halfwidth_ms",
+  "stays 0.80 ms. Spike count is an integer and half-width is quantised, so",
+  "neither can register it. The dendritic partner gkdr_dend, same mechanism and",
+  "attribute over 123 segments instead of 1, moves spike_count 19 -> 1 at x1/4.",
+  "tomko_ca1's soma is a SINGLE segment of 131, and its somatic K and Ca",
+  "conductances are swamped by the dendritic tree. gna_soma is also a single",
+  "segment and is NOT dead, because spike initiation is threshold-sensitive even",
+  "in one compartment.",
+  "",
+  "Reported rather than repaired: removing these parameters changes the sampled",
+  "space and would require regenerating every campaign that uses them. The",
+  "intrinsic-dimension evidence does not show the affected models as outliers",
+  "(bbp_l5pc sits at 0.889 ID per parameter, second LOWEST of eight), so the",
+  "distortion is not visible at the endpoint level. What is not defensible is",
+  "quoting n_parameters as if every one were identifiable."
+ ],
+ "measured_utc": "2026-08-09",
+ "source": "tests/integration/test_parameter_activity.py::test_n4_every_parameter_changes_the_model",
+ "models": {
+  "bbp_l5pc": {
+   "cohort": "discovery (PRIMARY)",
+   "n_parameters_sampled": 15,
+   "n_parameters_identifiable": 13,
+   "unidentifiable": ["gskv3_apical", "gcalva_apical"],
+   "note": "Both are APICAL conductances in a panel measured entirely at the soma. Corroborated independently by the Sobol total-order index: gskv3_apical ST = 0.00081 against 0.08-0.22 for active parameters (bbp base N = 64, so indicative only)."
+  },
+  "tomko_ca1": {
+   "cohort": "replication",
+   "n_parameters_sampled": 16,
+   "n_parameters_identifiable": 13,
+   "unidentifiable": ["gkdr_soma", "gcal_soma", "gcat_soma"],
+   "note": "All three address the single-segment soma of a 131-compartment cell. See the measured gkdr_soma vs gkdr_dend contrast in _doc above."
+  }
+ },
+ "all_other_registered_models": "no unidentifiable parameters; N4 passes"
+}

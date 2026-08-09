@@ -73,6 +73,23 @@ run_stage() {  # run_stage <name> <command...>
   echo "    ok in $(( $(date +%s) - t0 ))s -> $LOGS/$name.log"
 }
 
+run_stage_soft() {  # like run_stage, but returns the status instead of exiting
+  local name="$1"; shift
+  local idx; idx=$(index_of "$name")
+  if [ "$idx" -lt "$START" ] || [ "$idx" -gt "$STOP" ]; then
+    SKIPPED+=("$name"); return 0
+  fi
+  echo ""
+  echo "=== [$name] $* "
+  if [ "$DRY" = "1" ]; then return 0; fi
+  local t0; t0=$(date +%s)
+  local rc=0
+  "$@" > "$LOGS/$name.log" 2>&1 || rc=$?
+  tail -20 "$LOGS/$name.log"
+  echo "    stage '$name' exited $rc after $(( $(date +%s) - t0 ))s -> $LOGS/$name.log"
+  return "$rc"
+}
+
 echo "COMPASS full pipeline"
 echo "  workers=$WORKERS  logs=$LOGS"
 echo "  stages: ${STAGES[*]:$START:$((STOP-START+1))}"
@@ -96,12 +113,19 @@ run_stage analysis     bash -c "
   set -e
   python3 tools/run_analysis.py --experiment screening
   python3 tools/run_analysis.py --experiment screening --qc-policy strict
-  python3 tools/run_analysis.py --experiment screening_v2_replication || true"
-run_stage matched      python3 tools/run_matched.py --experiment screening
+  python3 tools/run_analysis.py --experiment screening_v2_replication
+  python3 tools/run_analysis.py --experiment screening_scramble2
+  python3 tools/run_analysis.py --experiment screening --suffix _dropfeat \
+      --drop-features step_abs_hi.adaptation_index"
+# The matched design pools the expansion campaign; without --pool it silently
+# reproduces the pre-expansion result and E7 stays below MIN_MATCH_N.
+run_stage matched      python3 tools/run_matched.py --experiment screening --pool screening_expand
 run_stage crossmodel   python3 tools/run_crossmodel.py --experiment screening
 run_stage perturb      bash -c "
   set -e
   python3 tools/run_perturbations.py --experiment screening --workers $WORKERS
+  python3 tools/run_perturbations.py --experiment screening --workers $WORKERS \
+      --dt-scale 0.5 --suffix _dt_half
   python3 tools/perturbation_inference.py"
 run_stage robustness   python3 tools/run_robustness.py
 run_stage benchmarks   python3 tools/run_benchmarks.py
@@ -110,13 +134,21 @@ run_stage gates        bash -c "
   set -e
   python3 tools/validate_campaign.py --all
   python3 tools/validate_replay.py --experiment screening --workers $WORKERS
+  python3 tools/validate_replay.py --experiment screening_v2_replication --workers $WORKERS
+  python3 tools/record_numerical_gates.py --slow
   python3 tools/build_model_audit.py"
 run_stage notebook     python3 tools/build_notebook.py
 run_stage report       bash -c "
   set -e
   python3 tools/summarise_results.py
   python3 tools/verify_report_numbers.py"
-run_stage inventory    python3 tools/build_release_manifest.py
+# The release manifest exits non-zero when the verdict is BLOCKED.  That is a
+# real signal that has to reach the caller, but it is not a pipeline crash: the
+# manifest was built correctly and simply reports that the release is not
+# releasable.  So capture the status rather than aborting here, print the
+# summary, and then exit with it.
+RELEASE_RC=0
+run_stage_soft inventory python3 tools/build_release_manifest.py || RELEASE_RC=$?
 
 echo ""
 echo "=== SUMMARY ==="
@@ -125,4 +157,9 @@ if [ ${#SKIPPED[@]} -gt 0 ]; then
 fi
 echo "logs: $LOGS"
 [ "$DRY" = "1" ] && echo "(dry run: nothing was executed)"
-exit 0
+if [ "$RELEASE_RC" -ne 0 ]; then
+  echo "RELEASE BLOCKED -- see the blockers above and in"
+  echo "results/validation/release_manifest.json. Exiting $RELEASE_RC so a"
+  echo "caller cannot mistake a blocked release for a successful one."
+fi
+exit "$RELEASE_RC"

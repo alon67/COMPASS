@@ -335,7 +335,12 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--experiment", default="pilot", choices=sorted(SAMPLE_SIZES))
     ap.add_argument("--models", nargs="*", default=None)
-    ap.add_argument("--regimes", nargs="*", default=["E1", "E2", "E6"])
+    ap.add_argument("--regimes", nargs="*", default=None,
+                    help="override the campaign's declared regimes. Defaults to "
+                         "the `regimes` list of the campaign itself; the old "
+                         "hard-coded default silently ran E1+E2+E6 for campaigns "
+                         "that declared fewer, so the configuration was not the "
+                         "design contract it claimed to be.")
     ap.add_argument("--replicates", type=int, default=1)
     ap.add_argument("--workers", type=int, default=max(1, mp.cpu_count() - 2))
     ap.add_argument("--dry-run", action="store_true",
@@ -351,7 +356,18 @@ def main() -> int:
             f"Add a NEW campaign to {CONFIG_PATH.name} rather than extending a "
             f"frozen one (audit 9.6 item 7).")
 
-    jobs = build_jobs(args.experiment, models, args.regimes, args.replicates)
+    # The campaign configuration is the design contract, so it -- not an
+    # argparse default -- decides which regimes run.  `build_jobs` previously
+    # received the CLI default [E1, E2, E6] and consulted only
+    # `regimes_by_model`, never the campaign's own top-level `regimes`; gate D1
+    # reads that key, so the two disagreed and screening_expand and
+    # screening_scramble2 each ran two undeclared regimes (post-revision audit).
+    regimes = args.regimes if args.regimes else list(cfg["regimes"])
+    if args.regimes:
+        print(f"regimes OVERRIDDEN on the command line: {regimes} "
+              f"(campaign declares {list(cfg['regimes'])})", flush=True)
+
+    jobs = build_jobs(args.experiment, models, regimes, args.replicates)
     todo, reused, stale = [], 0, []
     for j in jobs:
         shard, ident = Path(j[-2]), j[-1]

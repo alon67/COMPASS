@@ -30,7 +30,10 @@ thresholds, and `docs/RESULTS.md` for the findings.
 ## Headline result
 
 **Conclusion: mixed (H-M)**, on 7 implementations over 5 source lineages after
-three models were excluded by the numerical-convergence gate.
+**four** models were excluded by the numerical-convergence gate (`mainen_l5pc`,
+`miyasho_purkinje`, `ortner_snc_da`, `tzilivaki_fsbc` — the four entries of
+`cohorts.PRIMARY_EXCLUSIONS`, each failing N3). An earlier version of this line
+said three.
 
 Read [`docs/RESULTS.md` §0](docs/RESULTS.md) first: the third audit
 (2026-08-06) invalidated two published results — a biased intrinsic-dimension
