@@ -17,39 +17,39 @@
   {
    "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
    "supports": "H-G",
-   "value": 611.7235641863838,
+   "value": 673.0789870941667,
    "passed": true,
-   "detail": "sampling=0.049 geometry=0.012 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>612x), not a point estimate"
+   "detail": "sampling=0.054 geometry=0.013 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>673x), not a point estimate"
   },
   {
    "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
    "supports": "H-G",
-   "value": 0.7935373849120286,
+   "value": 0.8476424965400554,
    "passed": true,
    "detail": "n_folds=3; leave-one-lineage-out, so no relative of the held-out model stays in training"
   },
   {
    "criterion": "sampling regime predictable across unseen lineages",
    "supports": "H-G",
-   "value": 0.284981684981685,
+   "value": 0.30444444444444446,
    "passed": true,
-   "detail": "baseline=0.181, 11 classes, cv=leave_one_source_lineage_id_out"
+   "detail": "baseline=0.183, 11 classes, cv=leave_one_source_lineage_id_out"
   }
  ],
  "descriptive": [
   {
    "quantity": "within-campaign implementation identifiability (descriptive only)",
-   "value": 0.8015151515151515,
-   "detail": "baseline=0.456, 3 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
+   "value": 0.8545454545454547,
+   "detail": "baseline=0.447, 3 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
   },
   {
    "quantity": "adjusted ICC of model identity (mixed model, descriptive only)",
-   "value": 0.9212787618272936,
+   "value": 0.913999399625133,
    "detail": "not scored: the fixed covariates are the H-G hypothesis, so the residual between-family share is not a fair test of H-B"
   },
   {
    "quantity": "top-tuple Jaccard, Gaussian vs Gaussian-copula (descriptive only)",
-   "value": 0.8255390442890442,
+   "value": 0.8018648018648019,
    "detail": "8 models over 31 ensemble cells, min per-model 0.67. Withdrawn as an H-B criterion by the 2026-08-06 audit (M6): both rankings come from Gaussian estimators on the SAME samples -- the copula transform only removes marginal non-Gaussianity -- so agreement between them measures estimator similarity, not module stability. Stability across independent samples is what blueprint 19.3 asks for and what the campaign-scramble replicate now supplies."
   }
  ],
@@ -84,6 +84,86 @@
  "conclusion_label": "H-B not evaluable",
  "hg_fraction_passed": 1.0,
  "hb_fraction_passed": null,
+ "criterion_dependence": {
+  "criteria": [
+   {
+    "criterion": "conditioning effect direction agreement across LINEAGES",
+    "supports": "H-G",
+    "passed": true,
+    "table": "endpoints",
+    "endpoint": "synergy_area",
+    "unit": "source lineage",
+    "statistic": "sign agreement"
+   },
+   {
+    "criterion": "high-covariance subset effect direction agreement (lineages)",
+    "supports": "H-G",
+    "passed": true,
+    "table": "endpoints",
+    "endpoint": "synergy_area",
+    "unit": "source lineage",
+    "statistic": "sign agreement"
+   },
+   {
+    "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
+    "supports": "H-G",
+    "passed": true,
+    "table": "endpoints",
+    "endpoint": "synergy_area",
+    "unit": "ensemble row",
+    "statistic": "commonality R2 ratio"
+   },
+   {
+    "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
+    "supports": "H-G",
+    "passed": true,
+    "table": "endpoints",
+    "endpoint": "synergy_area",
+    "unit": "source lineage",
+    "statistic": "cross-validated R2"
+   },
+   {
+    "criterion": "sampling regime predictable across unseen lineages",
+    "supports": "H-G",
+    "passed": true,
+    "table": "endpoints",
+    "endpoint": "information summaries",
+    "unit": "source lineage",
+    "statistic": "classifier accuracy"
+   }
+  ],
+  "n_hg_criteria": 5,
+  "hg_criteria_by_source_table": {
+   "endpoints": 5
+  },
+  "hg_criteria_by_endpoint": {
+   "synergy_area": 4,
+   "information summaries": 1
+  },
+  "largest_shared_input_group": 4,
+  "independent_source_tables": 1,
+  "note": "criteria sharing an endpoint are computed from the same rows of the same table over the same lineages; they cannot fail independently, so the vote count overstates the number of distinct confirmations"
+ },
+ "interpretation": {
+  "status": "exploratory decision-framework outcome",
+  "label": "H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm",
+  "may_be_described_as": "the preregistered decision algorithm returns H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm on this arm",
+  "may_not_be_described_as": [
+   "a confirmatory general biological conclusion",
+   "five independent confirmations",
+   "evidence that the interaction structure is generally non-biological",
+   "evidence that biologically meaningful parameter modules are absent"
+  ],
+  "supportable_statement": "sampling, conditioning, covariance and model geometry materially influence the sign and magnitude of measured higher-order interactions across the tested models",
+  "h_b_status": "UNRESOLVED. Current data do not provide numerically repeatable, adequately powered evidence for H-B; they do not demonstrate that it is absent.",
+  "criterion_weaknesses": [
+   "conditioning effect direction agreement across LINEAGES: exact two-sided sign p = 0.25",
+   "high-covariance subset effect direction agreement (lineages): exact two-sided sign p = 0.25",
+   "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]: a lower bound created by flooring a near-zero denominator, not a point estimate",
+   "sampling regime predictable across unseen lineages: baseline=0.183, 11 classes, cv=leave_one_source_lineage_id_out"
+  ],
+  "source": "COMPASS_INDEPENDENT_POST_RESPONSE_2_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md, sections 6.2 and 6.3"
+ },
  "perturbation_coverage": {
   "models_in_endpoints": [
    "dougalis_vlpag_da",
@@ -108,9 +188,9 @@
   "tzilivaki_fsbc"
  ],
  "effective_sample": {
-  "n_rows_all": 128,
-  "n_rows_primary": 128,
-  "n_rows_primary_deduplicated": 114,
+  "n_rows_all": 126,
+  "n_rows_primary": 126,
+  "n_rows_primary_deduplicated": 112,
   "n_model_ids": 3,
   "n_model_ids_primary": 3,
   "n_source_lineages": 3,
@@ -145,32 +225,32 @@
  },
  "nested_variance_components": {
   "endpoint": "synergy_area",
-  "n": 57,
+  "n": 56,
   "n_lineages": 3,
   "n_implementations": 3,
   "lineage": {
-   "var_group": 0.10663495290208291,
-   "var_residual": 0.009111721525299252,
-   "var_fixed": 1.0010052599433756,
-   "icc_adjusted": 0.9212787618272712,
-   "vpc": 0.09548669639168092,
+   "var_group": 0.08054718729431037,
+   "var_residual": 0.007578896078768856,
+   "var_fixed": 0.9882321150706824,
+   "icc_adjusted": 0.9139993996251505,
+   "vpc": 0.07483306896418727,
    "n_groups": 3,
    "converged": true,
    "method": "REML",
-   "loglike": 31.722539094528827,
+   "loglike": 35.01090749243217,
    "quotable": true,
    "quotability_note": ""
   },
   "implementation": {
-   "var_group": 0.10663495290211422,
-   "var_residual": 0.009111721525299113,
-   "var_fixed": 1.001005259943365,
-   "icc_adjusted": 0.9212787618272936,
-   "vpc": 0.09548669639170719,
+   "var_group": 0.08054718729429297,
+   "var_residual": 0.007578896078768905,
+   "var_fixed": 0.9882321150706616,
+   "icc_adjusted": 0.913999399625133,
+   "vpc": 0.07483306896417376,
    "n_groups": 3,
    "converged": true,
    "method": "REML",
-   "loglike": 31.722539094528862,
+   "loglike": 35.010907492432224,
    "quotable": true,
    "quotability_note": ""
   }

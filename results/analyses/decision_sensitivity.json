@@ -27,21 +27,21 @@
   }
  },
  "duplicate_arms": {
-  "retain_partial_coverage": "primary",
+  "retain_partial_coverage": "n4_retained",
   "all_models": "retain_mainen",
-  "discovery_only": "primary"
+  "discovery_only": "n4_retained"
  },
  "duplicate_arms_note": "these arms select the same models as the arm they are mapped to, so their agreement with it is arithmetic rather than evidential. Count the distinct arms, not the entries.",
  "n_arms_declared": 9,
  "n_arms_independent": 6,
  "arms": {
   "all_models": {
-   "conclusion": "H-G",
+   "conclusion": "H-G 4/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
    "description": "every registered model, no gate exclusions at all",
-   "n_hg_passed": 3,
+   "n_hg_passed": 4,
    "n_hg_total": 5,
    "n_hb_passed": 0,
-   "n_hb_total": 2,
+   "n_hb_total": 0,
    "effective_sample": {
     "n_rows_all": 410,
     "n_rows_primary": 410,
@@ -153,20 +153,23 @@
      "pospischil_fs"
     ],
     "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
    },
    "duplicate_of": "retain_mainen",
    "independent_evidence": false,
    "error": null
   },
   "discovery_only": {
-   "conclusion": "H-G",
+   "conclusion": "H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
    "description": "the frozen discovery cohort alone, so the replication cohort can be evaluated against it rather than pooled with it before heterogeneity is assessed",
    "n_hg_passed": 5,
    "n_hg_total": 5,
    "n_hb_passed": 0,
-   "n_hb_total": 2,
+   "n_hb_total": 0,
    "effective_sample": {
     "n_rows_all": 370,
     "n_rows_primary": 370,
@@ -270,20 +273,23 @@
      "pospischil_fs"
     ],
     "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
    },
-   "duplicate_of": "primary",
+   "duplicate_of": "n4_retained",
    "independent_evidence": false,
    "error": null
   },
   "drop_failed_feature": {
-   "conclusion": "H-G",
+   "conclusion": "H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
    "description": "mainen_l5pc retained but step_abs_hi.adaptation_index -- the one feature that fails convergence -- removed from the conditioning phenotype for EVERY model, so the comparison stays like-for-like",
-   "n_hg_passed": 4,
+   "n_hg_passed": 5,
    "n_hg_total": 5,
    "n_hb_passed": 0,
-   "n_hb_total": 2,
+   "n_hb_total": 0,
    "effective_sample": {
     "n_rows_all": 410,
     "n_rows_primary": 410,
@@ -395,20 +401,248 @@
      "pospischil_fs"
     ],
     "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
    },
    "duplicate_of": null,
    "independent_evidence": true,
    "error": null
   },
-  "n4_projected": {
-   "conclusion": "H-G",
-   "description": "N4-failing implementations RETAINED but projected onto their identifiable dimensions: the parameters gate N4 measured as unobservable through the frozen protocol are dropped before ensembles, geometry and O-information are computed. Covers bbp_l5pc, the only N4-failing model in the DISCOVERY cohort; tomko_ca1 is a replication model and its projection lives in endpoints_screening_v2_replication_n4proj.parquet",
+  "n4_retained": {
+   "conclusion": "H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
+   "description": "the former primary rule: N4-failing implementations retained with their unidentifiable parameters intact. Kept as a sensitivity arm so the cost of the projection is measured, not asserted",
    "n_hg_passed": 5,
    "n_hg_total": 5,
    "n_hb_passed": 0,
-   "n_hb_total": 2,
+   "n_hb_total": 0,
+   "effective_sample": {
+    "n_rows_all": 370,
+    "n_rows_primary": 370,
+    "n_rows_primary_deduplicated": 332,
+    "n_model_ids": 7,
+    "n_model_ids_primary": 7,
+    "n_source_lineages": 5,
+    "n_source_lineages_primary": 5,
+    "n_neuron_classes": 6,
+    "n_classes_with_2plus_lineages": 0,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hay_2011": [
+      "bbp_l5pc"
+     ],
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {},
+    "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1",
+    "n4_failing_models_retained": [
+     "bbp_l5pc"
+    ],
+    "n4_unidentifiable_parameters": {
+     "bbp_l5pc": [
+      "gcalva_apical",
+      "gskv3_apical"
+     ]
+    },
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [],
+    "complete": true,
+    "caveat": ""
+   },
+   "perturbation_precondition": {
+    "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+    "preregistered": false,
+    "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+    "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+    "status": "ok",
+    "models_in_battery": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_tested": [
+     "bbp_l5pc",
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_untested": [],
+    "models_repeatable": [
+     "hh_cable",
+     "migliore_ca1",
+     "pospischil_rs"
+    ],
+    "models_not_repeatable": [
+     "bbp_l5pc",
+     "hh_point",
+     "khaliq_purkinje",
+     "pospischil_fs"
+    ],
+    "n_repeatable_lineages": 3,
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
+   },
+   "duplicate_of": null,
+   "independent_evidence": true,
+   "error": null
+  },
+  "n4_strict": {
+   "conclusion": "H-G 3/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
+   "description": "every N4-failing implementation excluded outright rather than projected. Note this is N1/N3/N4 enforcement, NOT 'full N1-N7': N2 is evaluable only for the six models with a sourceable published scalar (data/provenance/n2_source_targets.json)",
+   "n_hg_passed": 3,
+   "n_hg_total": 5,
+   "n_hb_passed": 0,
+   "n_hb_total": 0,
+   "effective_sample": {
+    "n_rows_all": 314,
+    "n_rows_primary": 314,
+    "n_rows_primary_deduplicated": 282,
+    "n_model_ids": 6,
+    "n_model_ids_primary": 6,
+    "n_source_lineages": 4,
+    "n_source_lineages_primary": 4,
+    "n_neuron_classes": 5,
+    "n_classes_with_2plus_lineages": 0,
+    "n_classes_with_3plus_lineages": 0,
+    "lineage_members": {
+     "hodgkin_huxley_1952": [
+      "hh_cable",
+      "hh_point"
+     ],
+     "khaliq_2003": [
+      "khaliq_purkinje"
+     ],
+     "migliore_1999": [
+      "migliore_ca1"
+     ],
+     "pospischil_2008": [
+      "pospischil_fs",
+      "pospischil_rs"
+     ]
+    },
+    "excluded_from_primary": {},
+    "cohort_label": "N1/N3/N4-enforced (N2 evaluable for the sourceable subset only)",
+    "n4_failing_models_retained": [],
+    "n4_unidentifiable_parameters": {},
+    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+   },
+   "perturbation_coverage": {
+    "models_in_endpoints": [
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_with_perturbation_data": [
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "missing_from_perturbation": [],
+    "complete": true,
+    "caveat": ""
+   },
+   "perturbation_precondition": {
+    "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+    "preregistered": false,
+    "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+    "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+    "status": "ok",
+    "models_in_battery": [
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_tested": [
+     "hh_cable",
+     "hh_point",
+     "khaliq_purkinje",
+     "migliore_ca1",
+     "pospischil_fs",
+     "pospischil_rs"
+    ],
+    "models_untested": [],
+    "models_repeatable": [
+     "hh_cable",
+     "migliore_ca1",
+     "pospischil_rs"
+    ],
+    "models_not_repeatable": [
+     "hh_point",
+     "khaliq_purkinje",
+     "pospischil_fs"
+    ],
+    "n_repeatable_lineages": 3,
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
+   },
+   "duplicate_of": null,
+   "independent_evidence": true,
+   "error": null
+  },
+  "primary": {
+   "conclusion": "H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
+   "description": "N3-passing models with every N4-unidentifiable parameter projected out before ensembles, geometry and O-information are computed; the headline analysis. Covers bbp_l5pc in the discovery cohort and tomko_ca1 in the replication cohort",
+   "n_hg_passed": 5,
+   "n_hg_total": 5,
+   "n_hb_passed": 0,
+   "n_hb_total": 0,
    "effective_sample": {
     "n_rows_all": 370,
     "n_rows_primary": 370,
@@ -512,227 +746,11 @@
      "pospischil_fs"
     ],
     "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
-   },
-   "duplicate_of": null,
-   "independent_evidence": true,
-   "error": null
-  },
-  "n4_strict": {
-   "conclusion": "H-G",
-   "description": "every N4-failing implementation excluded as well, so the headline can be read under full N1-N7 enforcement",
-   "n_hg_passed": 3,
-   "n_hg_total": 5,
-   "n_hb_passed": 0,
-   "n_hb_total": 2,
-   "effective_sample": {
-    "n_rows_all": 314,
-    "n_rows_primary": 314,
-    "n_rows_primary_deduplicated": 282,
-    "n_model_ids": 6,
-    "n_model_ids_primary": 6,
-    "n_source_lineages": 4,
-    "n_source_lineages_primary": 4,
-    "n_neuron_classes": 5,
-    "n_classes_with_2plus_lineages": 0,
-    "n_classes_with_3plus_lineages": 0,
-    "lineage_members": {
-     "hodgkin_huxley_1952": [
-      "hh_cable",
-      "hh_point"
-     ],
-     "khaliq_2003": [
-      "khaliq_purkinje"
-     ],
-     "migliore_1999": [
-      "migliore_ca1"
-     ],
-     "pospischil_2008": [
-      "pospischil_fs",
-      "pospischil_rs"
-     ]
-    },
-    "excluded_from_primary": {},
-    "cohort_label": "gate-passing (N3 and N4 enforced)",
-    "n4_failing_models_retained": [],
-    "n4_unidentifiable_parameters": {},
-    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
-   },
-   "perturbation_coverage": {
-    "models_in_endpoints": [
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "models_with_perturbation_data": [
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "missing_from_perturbation": [],
-    "complete": true,
-    "caveat": ""
-   },
-   "perturbation_precondition": {
-    "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
-    "preregistered": false,
-    "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
-    "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
-    "status": "ok",
-    "models_in_battery": [
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "models_tested": [
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "models_untested": [],
-    "models_repeatable": [
-     "hh_cable",
-     "migliore_ca1",
-     "pospischil_rs"
-    ],
-    "models_not_repeatable": [
-     "hh_point",
-     "khaliq_purkinje",
-     "pospischil_fs"
-    ],
-    "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
-   },
-   "duplicate_of": null,
-   "independent_evidence": true,
-   "error": null
-  },
-  "primary": {
-   "conclusion": "H-G",
-   "description": "N3-passing models; the headline analysis. Contains bbp_l5pc, which fails N4 -- see the n4_strict and n4_projected arms",
-   "n_hg_passed": 5,
-   "n_hg_total": 5,
-   "n_hb_passed": 0,
-   "n_hb_total": 2,
-   "effective_sample": {
-    "n_rows_all": 370,
-    "n_rows_primary": 370,
-    "n_rows_primary_deduplicated": 332,
-    "n_model_ids": 7,
-    "n_model_ids_primary": 7,
-    "n_source_lineages": 5,
-    "n_source_lineages_primary": 5,
-    "n_neuron_classes": 6,
-    "n_classes_with_2plus_lineages": 0,
-    "n_classes_with_3plus_lineages": 0,
-    "lineage_members": {
-     "hay_2011": [
-      "bbp_l5pc"
-     ],
-     "hodgkin_huxley_1952": [
-      "hh_cable",
-      "hh_point"
-     ],
-     "khaliq_2003": [
-      "khaliq_purkinje"
-     ],
-     "migliore_1999": [
-      "migliore_ca1"
-     ],
-     "pospischil_2008": [
-      "pospischil_fs",
-      "pospischil_rs"
-     ]
-    },
-    "excluded_from_primary": {},
-    "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1",
-    "n4_failing_models_retained": [
-     "bbp_l5pc"
-    ],
-    "n4_unidentifiable_parameters": {
-     "bbp_l5pc": [
-      "gcalva_apical",
-      "gskv3_apical"
-     ]
-    },
-    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
-   },
-   "perturbation_coverage": {
-    "models_in_endpoints": [
-     "bbp_l5pc",
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "models_with_perturbation_data": [
-     "bbp_l5pc",
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "missing_from_perturbation": [],
-    "complete": true,
-    "caveat": ""
-   },
-   "perturbation_precondition": {
-    "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
-    "preregistered": false,
-    "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
-    "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
-    "status": "ok",
-    "models_in_battery": [
-     "bbp_l5pc",
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "models_tested": [
-     "bbp_l5pc",
-     "hh_cable",
-     "hh_point",
-     "khaliq_purkinje",
-     "migliore_ca1",
-     "pospischil_fs",
-     "pospischil_rs"
-    ],
-    "models_untested": [],
-    "models_repeatable": [
-     "hh_cable",
-     "migliore_ca1",
-     "pospischil_rs"
-    ],
-    "models_not_repeatable": [
-     "bbp_l5pc",
-     "hh_point",
-     "khaliq_purkinje",
-     "pospischil_fs"
-    ],
-    "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
    },
    "duplicate_of": null,
    "independent_evidence": true,
@@ -746,9 +764,9 @@
    "n_hb_passed": 0,
    "n_hb_total": 0,
    "effective_sample": {
-    "n_rows_all": 128,
-    "n_rows_primary": 128,
-    "n_rows_primary_deduplicated": 114,
+    "n_rows_all": 126,
+    "n_rows_primary": 126,
+    "n_rows_primary_deduplicated": 112,
     "n_model_ids": 3,
     "n_model_ids_primary": 3,
     "n_source_lineages": 3,
@@ -816,12 +834,12 @@
    "error": null
   },
   "retain_mainen": {
-   "conclusion": "H-G",
+   "conclusion": "H-G 4/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
    "description": "mainen_l5pc retained despite its N3 failure, to show how much the exclusion moves the result",
-   "n_hg_passed": 3,
+   "n_hg_passed": 4,
    "n_hg_total": 5,
    "n_hb_passed": 0,
-   "n_hb_total": 2,
+   "n_hb_total": 0,
    "effective_sample": {
     "n_rows_all": 410,
     "n_rows_primary": 410,
@@ -933,20 +951,23 @@
      "pospischil_fs"
     ],
     "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
    },
    "duplicate_of": null,
    "independent_evidence": true,
    "error": null
   },
   "retain_partial_coverage": {
-   "conclusion": "H-G",
+   "conclusion": "H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
    "description": "ortner_snc_da retained despite partial protocol coverage",
    "n_hg_passed": 5,
    "n_hg_total": 5,
    "n_hb_passed": 0,
-   "n_hb_total": 2,
+   "n_hb_total": 0,
    "effective_sample": {
     "n_rows_all": 370,
     "n_rows_primary": 370,
@@ -1050,10 +1071,13 @@
      "pospischil_fs"
     ],
     "n_repeatable_lineages": 3,
-    "evaluable": true,
-    "reason": "3 repeatable implementations over 3 lineages"
+    "evaluable": false,
+    "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
+    "measurement_schema_now": "probe-3",
+    "measurement_schema_of_battery": "not recorded",
+    "battery_schema_current": false
    },
-   "duplicate_of": "primary",
+   "duplicate_of": "n4_retained",
    "independent_evidence": false,
    "error": null
   }

@@ -41,14 +41,39 @@ thresholds, and `docs/RESULTS.md` for the findings.
 Evaluated on 7 implementations over 5 source lineages, after **four** models were
 excluded by the numerical-convergence gate (`mainen_l5pc`, `miyasho_purkinje`,
 `ortner_snc_da`, `tzilivaki_fsbc` — the four entries of
-`cohorts.PRIMARY_EXCLUSIONS`, each failing N3). The cohort is **N3-passing with
-N4 unresolved**, not "gate-passing": `bbp_l5pc` is inside it and fails N4 on two
-apical conductances that move no observable feature. See
-[`docs/RESULTS.md` §5.0.3](docs/RESULTS.md).
+`cohorts.PRIMARY_EXCLUSIONS`, each failing N3). The cohort is **N3-passing,
+with every N4-unidentifiable parameter projected out of the sampled space before
+ensembles are built**. It is not "gate-passing" and no cohort here is: N1 fails
+for two replication models, N4 for two, and N2 is evaluable only for the six
+models with a sourceable published scalar. The retained-without-projection rule
+survives as the `n4_retained` sensitivity arm so the cost of the projection is
+measured. See [`docs/RESULTS.md` §5.0.3](docs/RESULTS.md).
 
-**Conclusion: generic (H-G)** — H-G 5/5, H-B 0/2, and the same in every
-evaluable arm of the sensitivity cascade. This **replaces H-M**, which was the
-conclusion for the previous two releases. The change is not a new measurement:
+**H-G 5/5. H-B NOT EVALUABLE. No overall label is asserted.**
+
+The five generality criteria all pass. The two biological criteria are
+**withheld, not failed**: the perturbation battery they are computed from was
+built on feature rows that the probe-3 measurement repair has since regenerated
+(see `docs/RESULTS.md` §0.0.1), so it probes points that no longer exist in the
+ensemble it claims to test. `run_crossmodel` refuses to score from it. Re-running
+the battery is ~16 h and is the first item of the next revision.
+
+The preregistered algorithm needs both sides evaluable to return H-G, H-B or
+H-M, so this release asserts none of them. The previous two releases concluded
+H-M; the release before this one concluded H-G.
+
+> **`H-G 5/5` is an exploratory decision-framework outcome, not five independent
+> confirmations.** Four of the five H-G criteria are computed from the same
+> endpoint table and four from the same endpoint, so they cannot fail
+> independently; both direction criteria are 4/5 lineages with exact two-sided
+> sign p = 0.375; the unique-R² ratio is a lower bound produced by flooring a
+> near-zero denominator, not a point estimate; and the transfer median hides one
+> severely negative fold. `decision.json` carries `criterion_dependence` and
+> `interpretation` blocks recording exactly this. The statement this panel
+> supports is that **sampling, conditioning, covariance and model geometry
+> materially influence the sign and magnitude of measured higher-order
+> interactions across the tested models** — not that the interaction structure is
+> generally non-biological. The change is not a new measurement:
 both H-B criteria are computed from perturbation non-additivity, and they are
 now scored only on the implementations whose non-additivity survives halving the
 time step. Three of seven do. On that subset the top-versus-control contrast is
@@ -57,10 +82,9 @@ and functional support is 0.444 against a 0.5 bar.
 
 > **This is a failure to demonstrate, not a demonstration of absence.** Three
 > lineages cannot separate "no enrichment" from "half a standard deviation of
-> enrichment", and the same subset's random-control contrast (3.25×, interval
-> excluding zero) would have passed had it been the scored one. H-G here means
-> the biological criteria are unsupported by evidence that survives its own
-> numerical check — not that the modules are spurious. See
+> enrichment", and the same subset's random-control contrast would have passed
+> had it been the scored one. **H-B is UNRESOLVED, not refuted** — and as of
+> this revision it is formally *not evaluable* rather than failing. See
 > [`docs/RESULTS.md` §12.0](docs/RESULTS.md).
 
 Read [`docs/RESULTS.md` §0](docs/RESULTS.md) first. The third audit (2026-08-06)
@@ -86,7 +110,7 @@ not passed the numerical-repeatability check that now gates it.
 |---|---|
 | cross-model agreement, conditioning → synergy | **4 / 5 source lineages** in the primary cohort (5/6 with Mainen retained); exact two-sided sign p = 0.375, or 0.219 with Mainen. Unanimous across implementations at the permissive tolerance. |
 | cross-model agreement, high-covariance → redundancy | **4 / 5 source lineages**; exact two-sided sign p = 0.375. **Fails when Mainen is retained** (4/6, p = 0.6875). Weakened from 5/5 (p = 0.0625) once E7 selection was made genuinely held out by cross-fitting: the earlier subset was ranked using axes partly fitted on the rows it then selected. |
-| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,800×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **12.8×** size-matched over 5 lineages, CI [2.6, 46.1], 100% of resamples above threshold |
+| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,650×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **16.5×** size-matched over 5 lineages, CI [3.4, 105.9], 100% of resamples above threshold |
 | effect exceeds each model's own conditional bootstrap noise | **5 / 8 implementations**, SNR 4–5 (a conditional bootstrap ratio, *not* a sigma significance — see below) |
 | effective inferential sample | **7 implementations / 5 source lineages** in the primary cohort; 14 implementations / 10 lineages registered |
 | same effect in a non-neuronal gene circuit | Ω 0.0000 → **−0.0018 … −0.183** (permissive → very strict) |

@@ -131,7 +131,8 @@ def d2_parameter_provenance(df, experiment, rc) -> list:
     for (m, r, rep), g in df.groupby(["model_id", "sampling_regime", "replicate"]):
         fails = []
         if m not in MODEL_REGISTRY:
-            records.append(gate_record("D2", f"{m}/{r}", [f"unknown model {m}"]))
+            records.append(gate_record("D2", f"{experiment}/{m}/{r}",
+                                       [f"unknown model {m}"]))
             continue
         specs = get_adapter(m).parameter_specs()
         pids = [s.parameter_id for s in specs]
@@ -157,7 +158,7 @@ def d2_parameter_provenance(df, experiment, rc) -> list:
                     fails.append(f"E1 design does not regenerate from seed {seed}: "
                                  f"{n_bad}/{len(x)} rows differ")
         records.append(gate_record(
-            "D2", f"{m}/{r}/r{rep}", fails,
+            "D2", f"{experiment}/{m}/{r}/r{rep}", fails,
             measurements={"n_rows": int(len(g)), "n_params": len(pids)},
             inputs={"seed": int(g["seed"].iloc[0])}))
     return records
@@ -227,6 +228,14 @@ def d3_row_invariants(df, experiment) -> list:
                     fails.append(f"{feat}: defined on {bad} rows with < {need} spikes")
 
     # Rheobase-normalised protocols must be unavailable when rheobase is not.
+    #
+    # "Not available" covers TWO cases, and the gate used to check only the
+    # first.  rheobase == 0 means the draw fires at zero injected current, so
+    # "1.5x rheobase" is a 0 nA step: the features are finite, they are just not
+    # measurements of the protocol whose name they carry.  The old check tested
+    # `~isfinite(rheo)` alone and passed 15,234 such rows (2026-08-09 audit,
+    # 4.1).  Whether the MODEL is spontaneously active is irrelevant here -- the
+    # draw's own rheobase decides.
     for pid in ("step_rheo_1p5x", "step_rheo_3p0x"):
         col = f"{pid}.spike_count"
         if col in df.columns:
@@ -234,6 +243,32 @@ def d3_row_invariants(df, experiment) -> list:
             bad = int((np.isfinite(f) & ~np.isfinite(rheo)).sum())
             if bad:
                 fails.append(f"{pid}: {bad} rows have features without a rheobase")
+            at_zero = int((np.isfinite(f) & np.isfinite(rheo) & (rheo == 0.0)).sum())
+            if at_zero:
+                fails.append(f"{pid}: {at_zero} rows have features at rheobase == 0 "
+                             f"(the protocol was applied at 0 nA)")
+
+    # A sample whose rheobase probe reported depolarisation block at the search
+    # ceiling must still have a rheobase: that is the whole point of the ladder.
+    if "rheobase_blocked_at_ceiling" in df.columns:
+        blk = df["rheobase_blocked_at_ceiling"].fillna(False).astype(bool).to_numpy()
+        bad = int((blk & ~np.isfinite(rheo)).sum())
+        if bad:
+            fails.append(f"{bad} rows blocked at the search ceiling but with no rheobase")
+
+    # A protocol that never ran cannot have raised a QC flag.
+    #
+    # Voiding the normalised feature columns for a sample with no usable
+    # rheobase left `qc_flags` still naming those protocols, on 15,143 rows --
+    # so a stored row was not what a re-run produces. The shard-equivalence
+    # check found it by re-simulating whole shards from scratch; this makes it
+    # cheap to detect on all 130,098 rows instead of on a sample of six.
+    undefined = ~np.isfinite(rheo) | (rheo == 0.0)
+    q = df["qc_flags"].fillna("").astype(str)
+    ghost = int((undefined & q.str.contains("step_rheo_", regex=False)).sum())
+    if ghost:
+        fails.append(f"{ghost} rows carry a step_rheo_* QC flag while the "
+                     f"rheobase-normalised family is undefined for them")
 
     err = df["simulation_status"] == "error"
     if "analysis_eligible" in df.columns:
@@ -451,7 +486,7 @@ def d5_population_diagnostics(df, experiment) -> list:
                     f"what enters the analysis and cannot be treated as a cache")
 
         records.append(gate_record(
-            "D5", f"{m}/{r}", fails,
+            "D5", f"{experiment}/{m}/{r}", fails,
             measurements={
                 "n": n, "error_fraction": round(err, 5),
                 "physiology_classes_recomputed": recomputed,

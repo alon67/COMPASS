@@ -29,8 +29,12 @@ ANALYSES = ROOT / "results" / "analyses"
     not (ANALYSES / "decision.json").exists(),
     reason="no analysis artefacts present; nothing to check the reports against")
 def test_reports_match_artefacts() -> None:
-    r = subprocess.run([sys.executable, str(TOOL)], cwd=ROOT,
-                       capture_output=True, text=True)
+    # `--no-write-manifest`: this is a READ-ONLY check. The verifier's default
+    # is to rewrite results/analyses/claim_manifest.json, so running the test
+    # suite modified a tracked scientific artifact -- an audit had to restore it
+    # by hand after an otherwise read-only review (2026-08-09 audit, 5.1).
+    r = subprocess.run([sys.executable, str(TOOL), "--no-write-manifest"],
+                       cwd=ROOT, capture_output=True, text=True)
     assert r.returncode == 0, (
         "reports disagree with the artefacts they were generated from:\n"
         + r.stdout + r.stderr)

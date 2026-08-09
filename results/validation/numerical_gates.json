@@ -1,10 +1,10 @@
 {
  "tool": "record_numerical_gates.py",
- "written_utc": "2026-08-09T09:02:06.927044+00:00",
+ "written_utc": "2026-08-09T16:21:10.153374+00:00",
  "slow_tests_included": true,
  "provenance": {
-  "git_revision": "9fe015be28c7ecf3358732eca24f593f7dec5966",
-  "git_tree": "9fe015be28c7ecf3358732eca24f593f7dec5966-dirty",
+  "git_revision": "c736e48f90783b6e72cb28ee4ddec81af165bbaa",
+  "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
   "command": [
    "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
    "-m",
@@ -18,7 +18,7 @@
   "pytest_version": "9.0.2",
   "pytest_exit_code": 1,
   "pytest_exit_meaning": "tests were collected and run, some failed",
-  "duration_s": 2467.7,
+  "duration_s": 2394.7,
   "collection_errors": [],
   "environment": {
    "python": "3.12.4",
@@ -34,7 +34,7 @@
    "SALib": "?"
   }
  },
- "note": "N2 has no automated test: strict reproduction of published traces is not implemented, and the canonical-bounds checks are explicitly unit-error detectors rather than goodness-of-fit tests. It is reported with n=0 so the release manifest treats it as missing evidence.",
+ "note": "N2 compares each model's canonical operating point against a SOURCED published scalar declared in data/provenance/n2_source_targets.json. It is NOT trace-level reproduction: the published stimulus, temperature and recording site are not distributed with these models. Models with no sourceable scalar are declared not evaluable with a reason and appear as `exempt` in validity_matrix, never as a pass; every claim requiring source-level reproduction is withdrawn for them.",
  "by_gate": {
   "N1": {
    "n": 84,
@@ -47,8 +47,8 @@
    ]
   },
   "N2": {
-   "n": 0,
-   "passed": 0,
+   "n": 7,
+   "passed": 7,
    "skipped": 0,
    "skipped_subjects": [],
    "failed_subjects": []
@@ -71,8 +71,8 @@
    ]
   },
   "N5": {
-   "n": 10,
-   "passed": 10,
+   "n": 19,
+   "passed": 19,
    "skipped": 0,
    "skipped_subjects": [],
    "failed_subjects": []
@@ -105,8 +105,8 @@
    "failed_subjects": []
   },
   "N2": {
-   "n": 0,
-   "passed": 0,
+   "n": 8,
+   "passed": 8,
    "skipped": 0,
    "skipped_subjects": [],
    "failed_subjects": []
@@ -163,6 +163,22 @@
    "pospischil_rs": "pass",
    "tomko_ca1": "pass",
    "tzilivaki_fsbc": "fail"
+  },
+  "N2": {
+   "bbp_l5pc": "exempt",
+   "dougalis_vlpag_da": "exempt",
+   "hh_cable": "pass",
+   "hh_point": "pass",
+   "khaliq_purkinje": "pass",
+   "mainen_l5pc": "exempt",
+   "migliore_ca1": "pass",
+   "miyasho_purkinje": "exempt",
+   "moubarak_snc_da": "exempt",
+   "ortner_snc_da": "exempt",
+   "pospischil_fs": "pass",
+   "pospischil_rs": "pass",
+   "tomko_ca1": "exempt",
+   "tzilivaki_fsbc": "exempt"
   },
   "N3": {
    "bbp_l5pc": "pass",
@@ -247,6 +263,32 @@
     "ortner_snc_da": [
      "input_resistance_sign"
     ]
+   },
+   "N2": {
+    "mainen_l5pc": [
+     "the recorded value is e_pas = v_init = -70 mV, an initialisation setting; the source publishes spike-initiation behaviour rather than a resting potential measured under a stated protocol"
+    ],
+    "tomko_ca1": [
+     "the recorded value is v_init = -65 mV from the distributed BluePyOpt configuration; the optimised active conductances settle the cell 7.5 mV below it, so v_init does not predict rest and is not an N2 target"
+    ],
+    "tzilivaki_fsbc": [
+     "the recorded value is e_pas = v_init = -70 mV; the model is not simulated (fails N1 and N3) and its rest is an initialisation setting, not a published measurement"
+    ],
+    "bbp_l5pc": [
+     "the recorded value is v_init = -80 mV with e_pas = -90 mV; under Ih the steady state is neither, so v_init is an initialisation setting rather than a published measurement of resting potential"
+    ],
+    "miyasho_purkinje": [
+     "the recorded justification for every bound is qualitative ('el_Leak = -80 mV with the full dendritic channel set', 'Purkinje high-frequency firing'); no published scalar with a matching measurement condition is recorded in this repository"
+    ],
+    "moubarak_snc_da": [
+     "the SNc pacemaking rate recorded here (1-10 Hz in vitro) is a species/preparation range, not a value the source publication reports for THIS reconstruction under a stated protocol; comparing a scalar against it would test the range, not the model"
+    ],
+    "dougalis_vlpag_da": [
+     "the model is voltage-clamp-constrained; the source reports conductance densities rather than a current-clamp scalar that the frozen COMPASS protocol measures"
+    ],
+    "ortner_snc_da": [
+     "not simulated (fails N3 and has partial protocol coverage); no N2 target is declared for a model that is excluded from the panel"
+    ]
    }
   },
   "_legend": {
@@ -255,5 +297,881 @@
    "exempt": "on this gate's documented known-failure list, so the decisive validity test was not parametrised for it. A recorded failure with a remediation note -- never a pass. Each such model is separately required to appear in compass.analysis.cohorts.PRIMARY_EXCLUSIONS, which the policy tests enforce.",
    "untested": "no validity test for this gate ran with this model"
   }
- }
+ },
+ "records": [
+  {
+   "gate": "N1",
+   "subject": "bbp_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "dougalis_vlpag_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "hh_cable",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "hh_point",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "khaliq_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "mainen_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "migliore_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "miyasho_purkinje",
+   "status": "FAIL",
+   "detail": "fail",
+   "failures": [
+    "N1 is fail for miyasho_purkinje"
+   ],
+   "measurements": {
+    "validity_state": "fail"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "moubarak_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "ortner_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "pospischil_fs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "pospischil_rs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "tomko_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N1",
+   "subject": "tzilivaki_fsbc",
+   "status": "FAIL",
+   "detail": "fail",
+   "failures": [
+    "N1 is fail for tzilivaki_fsbc"
+   ],
+   "measurements": {
+    "validity_state": "fail"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "bbp_l5pc",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for bbp_l5pc"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "dougalis_vlpag_da",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for dougalis_vlpag_da"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "hh_cable",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "hh_point",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "khaliq_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "mainen_l5pc",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for mainen_l5pc"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "migliore_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "miyasho_purkinje",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for miyasho_purkinje"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "moubarak_snc_da",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for moubarak_snc_da"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "ortner_snc_da",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for ortner_snc_da"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "pospischil_fs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "pospischil_rs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "tomko_ca1",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for tomko_ca1"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N2",
+   "subject": "tzilivaki_fsbc",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N2 is exempt for tzilivaki_fsbc"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "bbp_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "dougalis_vlpag_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "hh_cable",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "hh_point",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "khaliq_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "mainen_l5pc",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N3 is exempt for mainen_l5pc"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "migliore_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "miyasho_purkinje",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N3 is exempt for miyasho_purkinje"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "moubarak_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "ortner_snc_da",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N3 is exempt for ortner_snc_da"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "pospischil_fs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "pospischil_rs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "tomko_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N3",
+   "subject": "tzilivaki_fsbc",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N3 is exempt for tzilivaki_fsbc"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "bbp_l5pc",
+   "status": "FAIL",
+   "detail": "fail",
+   "failures": [
+    "N4 is fail for bbp_l5pc"
+   ],
+   "measurements": {
+    "validity_state": "fail"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "dougalis_vlpag_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "hh_cable",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "hh_point",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "khaliq_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "mainen_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "migliore_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "miyasho_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "moubarak_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "ortner_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "pospischil_fs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "pospischil_rs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "tomko_ca1",
+   "status": "FAIL",
+   "detail": "fail",
+   "failures": [
+    "N4 is fail for tomko_ca1"
+   ],
+   "measurements": {
+    "validity_state": "fail"
+   }
+  },
+  {
+   "gate": "N4",
+   "subject": "tzilivaki_fsbc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "bbp_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "dougalis_vlpag_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "hh_cable",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "hh_point",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "khaliq_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "mainen_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "migliore_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "miyasho_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "moubarak_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "ortner_snc_da",
+   "status": "FAIL",
+   "detail": "exempt",
+   "failures": [
+    "N6 is exempt for ortner_snc_da"
+   ],
+   "measurements": {
+    "validity_state": "exempt"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "pospischil_fs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "pospischil_rs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "tomko_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N6",
+   "subject": "tzilivaki_fsbc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "bbp_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "dougalis_vlpag_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "hh_cable",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "hh_point",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "khaliq_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "mainen_l5pc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "migliore_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "miyasho_purkinje",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "moubarak_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "ortner_snc_da",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "pospischil_fs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "pospischil_rs",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "tomko_ca1",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  },
+  {
+   "gate": "N7",
+   "subject": "tzilivaki_fsbc",
+   "status": "PASS",
+   "detail": "pass",
+   "failures": [],
+   "measurements": {
+    "validity_state": "pass"
+   }
+  }
+ ]
 }

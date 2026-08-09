@@ -183,3 +183,126 @@ def test_a_genuinely_silent_sample_is_eligible_and_classified_nonspiking():
     assert row["execution_valid"] is True
     assert row["physiology_class"] == "nonspiking"
     assert row["analysis_eligible"] is True
+
+
+# --------------------------------------------------------------------------- #
+# 2026-08-09 audit, 4.1: firing is not monotonic in current
+# --------------------------------------------------------------------------- #
+
+def test_depolarisation_block_at_the_ceiling_no_longer_reads_as_silent():
+    """The exact defect: fires from 0.15 nA, blocked from 0.60 nA, ceiling 1.0.
+
+    The old search probed 1.0 nA, saw no spike and returned ``None``, so the
+    sample was stored as non-spiking with a NaN rheobase and no normalised
+    protocols at all.
+    """
+    def behaviour(amp):
+        return "spike" if 0.15 <= amp < 0.60 else "silent"
+
+    a = probe(behaviour)
+    rheo = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200)
+    assert rheo is not None, "a cell blocked at the ceiling is not a silent cell"
+    assert abs(rheo - 0.15) <= a.manifest_rheobase_tol
+    assert a.last_rheobase_search["blocked_at_ceiling"] is True
+    assert a.last_rheobase_search["scan_hit_nA"] is not None
+
+
+def test_the_ladder_brackets_a_narrow_low_current_firing_window():
+    """khaliq_purkinje fires at 0.03 nA and is blocked long before its 1.0 ceiling.
+
+    A linear ladder would step straight over a window this narrow; the geometric
+    one reaches hi/256 = 0.0039 nA.
+    """
+    def behaviour(amp):
+        return "spike" if 0.020 <= amp < 0.045 else "silent"
+
+    a = probe(behaviour)
+    rheo = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200, tol_nA=0.001)
+    assert rheo is not None
+    assert abs(rheo - 0.020) <= 0.001
+
+
+def test_a_truly_silent_cell_still_returns_none_after_the_ladder():
+    a = probe(lambda amp: "silent")
+    assert a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200) is None
+    assert a.last_rheobase_search["blocked_at_ceiling"] is False
+    assert a.last_rheobase_search["scan_rungs"] == a.RHEOBASE_SCAN_RUNGS
+
+
+def test_the_ladder_costs_nothing_when_the_ceiling_spikes():
+    """The majority path must be bit-identical to probe-2, not merely similar."""
+    a = probe(lambda amp: "spike" if amp >= 0.37 else "silent")
+    a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200)
+    assert a.last_rheobase_search["scan_rungs"] == 0
+    assert a.last_rheobase_search["blocked_at_ceiling"] is False
+
+
+def test_a_failed_probe_inside_the_ladder_still_raises():
+    """A blow-up must not be absorbed by the new search path either."""
+    def behaviour(amp):
+        if amp >= 1.0:
+            return "silent"      # forces the ladder
+        return "empty"
+
+    a = probe(behaviour)
+    with pytest.raises(NeuronAdapter.RheobaseProbeFailure):
+        a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200)
+
+
+def test_a_plateau_at_the_ceiling_is_bracketed_not_reported_as_silent():
+    """Depolarisation block expressed as a plateau above 0 mV, the realistic form."""
+    def behaviour(amp):
+        if amp >= 0.5:
+            return "depolarised_plateau"
+        return "spike" if amp >= 0.1 else "silent"
+
+    a = probe(behaviour)
+    rheo = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200)
+    assert rheo is not None
+    assert abs(rheo - 0.1) <= a.manifest_rheobase_tol
+
+
+# --------------------------------------------------------------------------- #
+# draw-specific spontaneous activity
+# --------------------------------------------------------------------------- #
+
+def test_zero_rheobase_makes_the_normalised_family_undefined_for_every_model():
+    """Not only for models listed in SPONTANEOUSLY_ACTIVE (audit 4.1)."""
+    from compass.workflows.simulate import normalised_family_defined
+
+    assert normalised_family_defined(0.25) is True
+    assert normalised_family_defined(0.0) is False
+    assert normalised_family_defined(None) is False
+
+
+def test_a_draw_that_becomes_spontaneous_gets_nan_normalised_features():
+    from compass.registry.schema import ProtocolSpec
+    from compass.workflows.simulate import _feature_row
+
+    a = probe(lambda amp: "spike")
+    specs = [ProtocolSpec("step_rheo_1p5x", "step", amplitude_rheobase_mult=1.5,
+                          delay_ms=10, duration_ms=100, total_ms=200)]
+    row, _ = _feature_row(a, {"dt_ms": 0.025}, 0.0, specs)
+    assert row, "the columns must exist"
+    assert all(np.isnan(v) for v in row.values())
+    assert not a.calls, "no protocol may be run at 0 nA and labelled 1.5x rheobase"
+
+
+def test_classify_row_reports_normalised_validity_separately():
+    """A silent draw stays in the primary (absolute) cohort but not the normalised one."""
+    from compass.workflows.simulate import classify_row
+
+    silent = classify_row({"step_abs_hi.spike_count": 0.0}, [], None,
+                          spontaneous=False, error=None)
+    assert silent["analysis_eligible"] is True
+    assert silent["normalised_protocol_valid"] is False
+
+    spont = classify_row({"step_abs_hi.spike_count": 12.0}, [], 0.0,
+                         spontaneous=False, error=None)
+    assert spont["analysis_eligible"] is True
+    assert spont["normalised_protocol_valid"] is False
+
+    ok = classify_row({"step_abs_hi.spike_count": 12.0}, [], 0.25,
+                      spontaneous=False, error=None)
+    assert ok["analysis_eligible"] is True
+    assert ok["normalised_protocol_valid"] is True

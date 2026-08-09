@@ -1,0 +1,246 @@
+{
+ "tool": "retain_waveforms.py",
+ "written_utc": "2026-08-09T15:41:08.467359+00:00",
+ "experiment": "sobol",
+ "n_selected": 151,
+ "n_clean": 127,
+ "n_with_problems": 24,
+ "n_features_recomputed": 7335,
+ "n_features_mismatched": 0,
+ "features_recomputed_from": "the reloaded .npz archive, not the in-memory simulation",
+ "trace_precision": "float64",
+ "problems_by_kind": {
+  "voltage_range": 2,
+  "spike_shape": 34,
+  "baseline_stability": 18
+ },
+ "coverage": {
+  "models": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "mainen_l5pc",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "regimes": [
+   "SOBOL"
+  ],
+  "strata": [
+   "class_depolarisation_block",
+   "class_spontaneous",
+   "class_unstable",
+   "coverage",
+   "nonspiking",
+   "ordinary_random",
+   "prior_corner",
+   "qc_flagged",
+   "rate_max",
+   "rate_min"
+  ]
+ },
+ "declared_coverage": {
+  "policy": {
+   "every_model_in_the_campaign": 1,
+   "every_model_regime_cell": 1,
+   "every_absolute_protocol_per_model": 1,
+   "risk_strata_represented": 1
+  },
+  "n_models_required": 8,
+  "n_models_covered": 8,
+  "missing_models": [],
+  "n_model_regime_cells_required": 8,
+  "n_model_regime_cells_covered": 8,
+  "missing_model_regime_cells": [],
+  "strata_present": [
+   "class_depolarisation_block",
+   "class_spontaneous",
+   "class_unstable",
+   "coverage",
+   "nonspiking",
+   "ordinary_random",
+   "prior_corner",
+   "qc_flagged",
+   "rate_max",
+   "rate_min"
+  ],
+  "satisfied": true
+ },
+ "checks": [
+  "voltage_range",
+  "baseline_stability",
+  "spike_shape",
+  "spike_count_agreement",
+  "depolarisation_block",
+  "discontinuity",
+  "finite",
+  "feature_recomputation"
+ ],
+ "not_checked_here": "half-step agreement: a per-model property already measured by the convergence audits (gate N3) and the perturbation repeatability battery, not re-derived from a trace sample",
+ "traces_dir": "results/traces/retained",
+ "worst": [
+  {
+   "key": "sobol/khaliq_purkinje__SOBOL__r1__s1342",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-154.3, 21.9] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s555",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_lo: spike_shape: widest detected AP is 13.3 ms over 1 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 12 ms over 1 spikes measured on the trace",
+    "step_rheo_1p5x: spike_shape: widest detected AP is 12.3 ms over 1 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 11.1 ms over 1 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s1578",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.90 mV, 12% of the 16.4 mV excursion",
+    "step_abs_lo: spike_shape: widest detected AP is 23 ms over 2 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s1918",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.19 mV, 11% of the 20.3 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s1331",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 3.02 mV, 14% of the 21.0 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s162",
+   "stratum": "coverage",
+   "problems": [
+    "step_rheo_3p0x: spike_shape: widest detected AP is 389 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/pospischil_fs__SOBOL__r1__s2438",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 3.14 mV, 18% of the 17.1 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/pospischil_rs__SOBOL__r1__s1253",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.42 mV, 25% of the 9.6 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/pospischil_rs__SOBOL__r1__s1439",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.42 mV, 12% of the 19.7 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/pospischil_rs__SOBOL__r1__s1998",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 3.54 mV, 14% of the 25.9 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s1856",
+   "stratum": "class_spontaneous",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 19.43 mV, 21% of the 94.4 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 19.43 mV, 21% of the 93.2 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 19.43 mV, 21% of the 93.2 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s1368",
+   "stratum": "nonspiking",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 14.56 mV, 15% of the 96.2 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 14.56 mV, 15% of the 96.1 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 14.56 mV, 15% of the 96.1 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s2047",
+   "stratum": "prior_corner",
+   "problems": [
+    "step_abs_hi: spike_shape: widest detected AP is 16.3 ms over 1 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s288",
+   "stratum": "class_depolarisation_block",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.95 mV, 11% of the 18.4 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/khaliq_purkinje__SOBOL__r1__s2485",
+   "stratum": "class_unstable",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-182.4, 25.2] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "sobol/mainen_l5pc__SOBOL__r1__s350",
+   "stratum": "qc_flagged",
+   "problems": [
+    "rest: spike_shape: smallest detected AP is 7.68 mV over 30 spikes measured on the trace",
+    "step_abs_lo: spike_shape: smallest detected AP is 7.26 mV over 59 spikes measured on the trace",
+    "step_abs_lo: spike_shape: widest detected AP is 12.3 ms over 59 spikes measured on the trace",
+    "step_abs_hi: spike_shape: smallest detected AP is 6.73 mV over 55 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 15.1 ms over 55 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/mainen_l5pc__SOBOL__r1__s684",
+   "stratum": "class_spontaneous",
+   "problems": [
+    "rest: spike_shape: widest detected AP is 42.6 ms over 3 spikes measured on the trace",
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 24.40 mV, 19% of the 127.7 mV excursion",
+    "hyperpol_abs: spike_shape: widest detected AP is 42.3 ms over 3 spikes measured on the trace",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 24.40 mV, 20% of the 123.1 mV excursion",
+    "step_abs_lo: spike_shape: widest detected AP is 43.1 ms over 3 spikes measured on the trace",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 24.40 mV, 19% of the 127.0 mV excursion",
+    "step_abs_hi: spike_shape: widest detected AP is 43.8 ms over 6 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/mainen_l5pc__SOBOL__r1__s346",
+   "stratum": "rate_max",
+   "problems": [
+    "step_abs_hi: spike_shape: smallest detected AP is 9.84 mV over 87 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/pospischil_fs__SOBOL__r1__s1903",
+   "stratum": "class_depolarisation_block",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.93 mV, 17% of the 11.6 mV excursion",
+    "step_abs_hi: spike_shape: smallest detected AP is 2.81 mV over 8 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 386 ms over 8 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "sobol/pospischil_rs__SOBOL__r1__s3450",
+   "stratum": "class_depolarisation_block",
+   "problems": [
+    "step_rheo_1p5x: spike_shape: widest detected AP is 397 ms over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 418 ms over 2 spikes measured on the trace"
+   ]
+  }
+ ]
+}

@@ -19,13 +19,17 @@ complementary analyses are provided because no single one is decisive.
 
 from __future__ import annotations
 
+import json
+
 import numpy as np
 import pandas as pd
 
 __all__ = [
     "PREDICTOR_BLOCKS",
     "classification_test",
+    "FoldPipeline",
     "cluster_bootstrap",
+    "fold_distribution",
     "leave_one_lineage_out",
     "leave_one_model_out",
     "mixed_effects_components",
@@ -51,22 +55,83 @@ PREDICTOR_BLOCKS = {
 
 
 def _design(df: pd.DataFrame, cols: list[str]) -> np.ndarray:
-    """Numeric design matrix; categorical columns become dummies."""
-    parts = []
-    for c in cols:
-        if c not in df.columns:
-            continue
-        s = df[c]
-        if s.dtype == object or isinstance(s.dtype, pd.CategoricalDtype):
-            d = pd.get_dummies(s, prefix=c, drop_first=True).to_numpy(dtype=float)
-            if d.size:
-                parts.append(d)
-        else:
-            v = pd.to_numeric(s, errors="coerce").to_numpy(dtype=float)
-            v = np.where(np.isfinite(v), v, np.nanmedian(v[np.isfinite(v)]) if np.isfinite(v).any() else 0.0)
-            if np.nanstd(v) > 0:
-                parts.append(((v - v.mean()) / v.std())[:, None])
-    return np.hstack(parts) if parts else np.zeros((len(df), 0))
+    """Numeric design matrix; categorical columns become dummies.
+
+    For IN-SAMPLE fits only (variance partitioning).  Anything that scores a
+    held-out fold must use :class:`FoldPipeline`, which learns the same
+    transformations from the training rows alone.
+    """
+    p = FoldPipeline(cols).fit(df)
+    return p.transform(df)
+
+
+class FoldPipeline:
+    """Learned preprocessing fitted on ONE training fold and applied elsewhere.
+
+    Every step below is *estimated from data* and therefore has to be estimated
+    inside the fold (2026-08-09 audit, 4.2): the pooled version of this code
+    chose dummy levels, imputation medians, standardisation constants and the
+    zero-variance drop list from the full dataset, including the rows it was
+    about to predict.
+
+    Two of those leaks are inert for an OLS R2 and two are not, and the
+    distinction is worth stating precisely rather than claiming a blanket fix:
+
+    * centring and scaling a predictor is an affine change absorbed by the OLS
+      coefficients, so it leaves fitted values -- and R2 -- unchanged.  It does
+      change the reported RMSE, which is quoted in standardised units.
+    * median imputation is **not** affine.  A held-out lineage with missing
+      geometry received a median computed partly from itself.
+    * a predictor that is constant within the training fold but varies in the
+      held-out fold used to survive the pooled variance filter, entering the fit
+      perfectly collinear with the intercept and leaving an arbitrary
+      coefficient to multiply a nonzero test value.
+    * ``pd.get_dummies(..., drop_first=True)`` on the pooled frame creates a
+      column for a level that occurs *only* in the held-out fold.  It is
+      identically zero in training and one in test, so the prediction is shifted
+      by a coefficient no training row could constrain.
+
+    Levels unseen in training map to the all-zero (reference) row, which is the
+    only defensible encoding for a category the model has never observed.
+    """
+
+    def __init__(self, cols: list[str]):
+        self.cols = list(cols)
+        self.plan: list[tuple] = []
+
+    def fit(self, train: pd.DataFrame) -> FoldPipeline:
+        self.plan = []
+        for c in self.cols:
+            if c not in train.columns:
+                continue
+            s = train[c]
+            if s.dtype == object or isinstance(s.dtype, pd.CategoricalDtype):
+                levels = sorted(pd.Series(s).dropna().unique().tolist())
+                if len(levels) > 1:                     # drop_first: [0] is the reference
+                    self.plan.append(("cat", c, levels[1:]))
+            else:
+                v = pd.to_numeric(s, errors="coerce").to_numpy(dtype=float)
+                ok = np.isfinite(v)
+                med = float(np.median(v[ok])) if ok.any() else 0.0
+                filled = np.where(ok, v, med)
+                sd = float(filled.std())
+                if sd > 0:
+                    self.plan.append(("num", c, (med, float(filled.mean()), sd)))
+        return self
+
+    def transform(self, df: pd.DataFrame) -> np.ndarray:
+        parts = []
+        for kind, c, spec in self.plan:
+            if kind == "cat":
+                s = df[c].astype(object)
+                parts.append(np.column_stack([(s == lv).to_numpy(dtype=float)
+                                              for lv in spec]))
+            else:
+                med, mu, sd = spec
+                v = pd.to_numeric(df[c], errors="coerce").to_numpy(dtype=float)
+                v = np.where(np.isfinite(v), v, med)
+                parts.append(((v - mu) / sd)[:, None])
+        return np.hstack(parts) if parts else np.zeros((len(df), 0))
 
 
 def _r2(y: np.ndarray, X: np.ndarray) -> float:
@@ -343,31 +408,71 @@ def leave_one_model_out(df: pd.DataFrame, endpoint: str,
             f"defect this argument exists to prevent.")
     rows = []
     groups = sorted(d[group_col].unique())
+    raw = d[endpoint].to_numpy(dtype=float)
     for name, cols in predictor_sets.items():
-        # build the design once on the pooled frame so dummy columns align
-        X = _design(d, cols)
-        y = d[endpoint].to_numpy(dtype=float)
-        y = (y - y.mean()) / (y.std() or 1.0)
         for held in groups:
             te = (d[group_col] == held).to_numpy()
             tr = ~te
-            if tr.sum() < 20 or te.sum() < 2 or X.shape[1] == 0:
+            if tr.sum() < 20 or te.sum() < 2:
                 continue
-            A = np.hstack([np.ones((tr.sum(), 1)), X[tr]])
-            beta, *_ = np.linalg.lstsq(A, y[tr], rcond=None)
-            pred = np.hstack([np.ones((te.sum(), 1)), X[te]]) @ beta
-            ss_res = float(np.sum((y[te] - pred) ** 2))
-            ss_tot = float(np.sum((y[te] - y[tr].mean()) ** 2))
+            # EVERY learned transformation is fitted on the training rows only:
+            # dummy levels, imputation medians, standardisation constants, the
+            # zero-variance drop list, and the endpoint's own centring and
+            # scaling (2026-08-09 audit, 4.2).
+            pipe = FoldPipeline(cols).fit(d[tr])
+            Xtr, Xte = pipe.transform(d[tr]), pipe.transform(d[te])
+            if Xtr.shape[1] == 0:
+                continue
+            mu, sd = float(raw[tr].mean()), float(raw[tr].std() or 1.0)
+            ytr, yte = (raw[tr] - mu) / sd, (raw[te] - mu) / sd
+            A = np.hstack([np.ones((tr.sum(), 1)), Xtr])
+            beta, *_ = np.linalg.lstsq(A, ytr, rcond=None)
+            pred = np.hstack([np.ones((te.sum(), 1)), Xte]) @ beta
+            ss_res = float(np.sum((yte - pred) ** 2))
+            ss_tot = float(np.sum((yte - ytr.mean()) ** 2))
             rows.append({
                 "endpoint": endpoint, "predictors": name,
                 # the unit actually held out, and what kind of unit it is, so a
                 # stored fold can never again be described as something it isn't
                 "held_out_group": held, "group_col": group_col,
                 "n_train": int(tr.sum()), "n_test": int(te.sum()),
+                "n_predictor_columns": int(Xtr.shape[1]),
+                "preprocessing": "fold_local",
                 "rmse": float(np.sqrt(ss_res / te.sum())),
                 "r2_out_of_sample": float(1.0 - ss_res / ss_tot) if ss_tot > 0 else np.nan,
             })
     return pd.DataFrame(rows)
+
+
+def fold_distribution(lomo: pd.DataFrame, predictors: str,
+                      metric: str = "r2_out_of_sample") -> dict:
+    """Summarise a cross-validation as its whole fold distribution.
+
+    A median over five folds is not evidence of reliable transfer, and quoting
+    one hides the fold that matters: the ``migliore_1999`` lineage scores about
+    -3.8 while the median is about 0.56 (2026-08-09 audit, 4.2).  Every fold, the
+    worst fold, and the fraction of folds that beat the intercept-only null are
+    reported together so the spread cannot be dropped in transcription.
+    """
+    sub = lomo[lomo["predictors"] == predictors] if "predictors" in lomo else lomo
+    v = pd.to_numeric(sub[metric], errors="coerce").to_numpy(dtype=float)
+    v = v[np.isfinite(v)]
+    if v.size == 0:
+        return {"n_folds": 0}
+    folds = {str(g): (None if not np.isfinite(x) else float(x))
+             for g, x in zip(sub["held_out_group"], sub[metric], strict=True)}
+    return {
+        "n_folds": int(v.size),
+        "median": float(np.median(v)),
+        "mean": float(np.mean(v)),
+        "min": float(v.min()),
+        "max": float(v.max()),
+        "iqr": [float(np.percentile(v, 25)), float(np.percentile(v, 75))],
+        "range": [float(v.min()), float(v.max())],
+        "n_folds_beating_null": int((v > 0).sum()),
+        "worst_fold": min(folds, key=lambda k: folds[k]),
+        "folds": folds,
+    }
 
 
 def classification_test(df: pd.DataFrame, feature_cols: list[str],
@@ -394,29 +499,42 @@ def classification_test(df: pd.DataFrame, feature_cols: list[str],
             f"classification_test: grouping column {group_col!r} is not in the "
             f"frame; refusing to fall back to 'model_id'.")
     cols = [c for c in feature_cols if c in d.columns]
-    X = d[cols].apply(pd.to_numeric, errors="coerce")
-    X = X.fillna(X.median()).to_numpy(dtype=float)
+    raw = d[cols].apply(pd.to_numeric, errors="coerce").to_numpy(dtype=float)
+
+    def fold_local(tr: np.ndarray, te: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        """Impute from the TRAINING rows only (2026-08-09 audit, 4.2)."""
+        med = np.nanmedian(np.where(np.isfinite(raw[tr]), raw[tr], np.nan), axis=0)
+        med = np.where(np.isfinite(med), med, 0.0)
+        fill = lambda M: np.where(np.isfinite(M), M, med)      # noqa: E731
+        return fill(raw[tr]), fill(raw[te])
+
     rows = []
 
     # (a) regime, leave-one-lineage-out (or whatever group_col names)
     y = d["regime"].to_numpy()
     groups = d[group_col].to_numpy()
-    accs, base = [], []
+    accs, base, per_fold = [], [], {}
     for held in sorted(set(groups)):
         te = groups == held
         tr = ~te
         if tr.sum() < 30 or te.sum() < 3 or len(set(y[tr])) < 2:
             continue
+        Xtr, Xte = fold_local(tr, te)
         clf = RandomForestClassifier(n_estimators=400, random_state=seed, n_jobs=-1)
-        clf.fit(X[tr], y[tr])
-        accs.append(float((clf.predict(X[te]) == y[te]).mean()))
+        clf.fit(Xtr, y[tr])
+        acc = float((clf.predict(Xte) == y[te]).mean())
+        accs.append(acc)
         vals, cnt = np.unique(y[tr], return_counts=True)
         base.append(float((y[te] == vals[cnt.argmax()]).mean()))
+        per_fold[str(held)] = round(acc, 4)
     if accs:
         rows.append({"task": "sampling_regime",
                      "cv": f"leave_one_{group_col}_out", "group_col": group_col,
                      "accuracy": float(np.mean(accs)), "accuracy_sd": float(np.std(accs)),
                      "baseline": float(np.mean(base)), "n_folds": len(accs),
+                     "accuracy_min": float(np.min(accs)), "accuracy_max": float(np.max(accs)),
+                     "per_fold_accuracy": json.dumps(per_fold),
+                     "preprocessing": "fold_local",
                      "n_classes": int(len(set(y)))})
 
     # (b) model identity, stratified CV
@@ -424,14 +542,20 @@ def classification_test(df: pd.DataFrame, feature_cols: list[str],
     if len(set(y2)) > 1:
         skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
         accs2, base2 = [], []
-        for tr, te in skf.split(X, y2):
+        for tr_i, te_i in skf.split(raw, y2):
+            tr = np.zeros(len(d), dtype=bool)
+            te = np.zeros(len(d), dtype=bool)
+            tr[tr_i], te[te_i] = True, True
+            Xtr, Xte = fold_local(tr, te)
             clf = RandomForestClassifier(n_estimators=400, random_state=seed, n_jobs=-1)
-            clf.fit(X[tr], y2[tr])
-            accs2.append(float((clf.predict(X[te]) == y2[te]).mean()))
-            vals, cnt = np.unique(y2[tr], return_counts=True)
-            base2.append(float((y2[te] == vals[cnt.argmax()]).mean()))
+            clf.fit(Xtr, y2[tr_i])
+            accs2.append(float((clf.predict(Xte) == y2[te_i]).mean()))
+            vals, cnt = np.unique(y2[tr_i], return_counts=True)
+            base2.append(float((y2[te_i] == vals[cnt.argmax()]).mean()))
         rows.append({"task": "model_identity", "cv": "stratified_5fold",
                      "accuracy": float(np.mean(accs2)), "accuracy_sd": float(np.std(accs2)),
                      "baseline": float(np.mean(base2)), "n_folds": 5,
+                     "accuracy_min": float(np.min(accs2)), "accuracy_max": float(np.max(accs2)),
+                     "preprocessing": "fold_local",
                      "n_classes": int(len(set(y2)))})
     return pd.DataFrame(rows)

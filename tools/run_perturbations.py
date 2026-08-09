@@ -57,6 +57,7 @@ Design decisions forced by the 2026-08-06 audit (section 4)
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import multiprocessing as mp
 import os
@@ -88,6 +89,11 @@ N_TOP = 6             # most-synergistic tuples per model
 N_CONTROL = 6         # median-|Omega| control tuples per model
 N_RANDOM = 6          # uniformly random control tuples per model
 SEED = 20260805
+
+# Bumped whenever the battery's own construction changes in a way that makes an
+# older cached slice incomparable: the displacement, the number or selection of
+# backgrounds, the candidate-tuple rule, or the measured feature panel.
+PERTURBATION_BATTERY_VERSION = "battery-1"
 
 # Features evaluated at every perturbation point.  All are read from the same
 # simulation, so the panel is free.  The first is the primary endpoint.
@@ -288,6 +294,99 @@ def load_backgrounds(experiment: str, model_id: str, param_ids: list[str],
     return bg, sd
 
 
+# --------------------------------------------------------------------------- #
+# Cache identity (2026-08-09 audit, 4.3)
+# --------------------------------------------------------------------------- #
+def slice_identity(model_id: str, experiment: str, jobs: list[dict],
+                   dt_override, dt_scale) -> dict:
+    """Everything that must match before a cached perturbation slice is reused.
+
+    The cache used to be keyed on ``{model}{suffix}_{kind}.parquet`` and nothing
+    else, so ``--resume`` would happily merge a slice simulated by different
+    code, at a different time step, from a different candidate-tuple selection
+    or a different background set -- and the aggregate summary then relabelled
+    its time step from the *current* command line, which is how a historical
+    simulation acquires a present-day provenance claim (2026-08-09 audit, 4.3).
+
+    Effective solver settings are part of the identity AND are stored, so a
+    resumed run reads them back rather than re-deriving them.
+    """
+    import importlib.util as iu
+
+    spec = iu.spec_from_file_location("_rc", ROOT / "tools" / "run_campaign.py")
+    rc = iu.module_from_spec(spec)
+    spec.loader.exec_module(rc)
+
+    from compass.adapters.base import MEASUREMENT_SCHEMA_VERSION
+    from compass.features.extract import FEATURE_SCHEMA_VERSION
+    from compass.workflows.simulate import solver_kwargs
+
+    kw = solver_kwargs(model_id)
+    if dt_override is not None:
+        kw = dict(kw, dt_ms=float(dt_override))
+    elif dt_scale is not None:
+        kw = dict(kw, dt_ms=float(kw["dt_ms"]) * float(dt_scale))
+    payload = json.dumps([sorted(j["tuple_idx"]) for j in jobs] +
+                         [j["kind"] for j in jobs], sort_keys=True)
+    return {
+        "model_id": model_id,
+        "experiment": experiment,
+        "battery_version": PERTURBATION_BATTERY_VERSION,
+        "delta_log10": DELTA,
+        "n_backgrounds": N_BACKGROUNDS,
+        "background_seed": SEED,
+        "pert_features": ",".join([*PERT_FEATURES, "spike_count"]),
+        "candidate_tuples_hash": hashlib.blake2b(payload.encode(),
+                                                 digest_size=8).hexdigest(),
+        "n_candidate_tuples": len(jobs),
+        # the settings the rows were ACTUALLY integrated at
+        "solver": json.dumps(kw, sort_keys=True),
+        "effective_dt_ms": kw.get("dt_ms"),
+        "dt_override": dt_override,
+        "dt_scale": dt_scale,
+        "asset_hash": rc.asset_hash(model_id),
+        "mechanism_hash": rc.mechanism_hash(model_id),
+        "protocol_hash": rc.protocol_hash(model_id),
+        "env_hash": rc.env_hash(),
+        "feature_schema": FEATURE_SCHEMA_VERSION,
+        "measurement_schema": MEASUREMENT_SCHEMA_VERSION,
+        "sim_code_hash": rc.sim_code_hash(),
+    }
+
+
+def slice_sidecar(path: Path) -> Path:
+    return path.with_suffix(".identity.json")
+
+
+def write_slice_identity(path: Path, identity: dict, n_rows: int) -> Path:
+    rec = dict(identity)
+    rec["n_rows"] = int(n_rows)
+    rec["sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    rec["written_utc"] = datetime.now(UTC).isoformat()
+    side = slice_sidecar(path)
+    side.write_text(json.dumps(rec, indent=1, sort_keys=True, default=str))
+    return side
+
+
+def slice_is_reusable(path: Path, identity: dict) -> tuple[bool, str, dict]:
+    """May a cached slice be merged into this aggregate?  Fails closed."""
+    if not path.exists():
+        return False, "absent", {}
+    side = slice_sidecar(path)
+    if not side.exists():
+        return False, "identity_unknown", {}
+    try:
+        rec = json.loads(side.read_text())
+    except Exception:                                             # noqa: BLE001
+        return False, "identity_unreadable", {}
+    if rec.get("sha256") != hashlib.sha256(path.read_bytes()).hexdigest():
+        return False, "checksum_mismatch", rec
+    mismatched = [k for k, v in identity.items() if str(rec.get(k)) != str(v)]
+    if mismatched:
+        return False, "identity_mismatch:" + ",".join(sorted(mismatched)), rec
+    return True, "match", rec
+
+
 def reanalyse(suffix: str) -> int:
     """Rewrite a stored battery's summary from its stored rows.
 
@@ -378,20 +477,46 @@ def main() -> int:
     # slice for this suffix that is not being re-executed, independent of
     # `--models`.  Without `--resume` the aggregate is the executed models only,
     # which is explicit and unchanged.
+    #
+    # Discovery is not enough on its own: a cached slice is only admissible if
+    # its stored identity matches what THIS invocation would produce for that
+    # model (2026-08-09 audit, 4.3).  A slice that does not match is neither
+    # merged nor silently re-run under a resume flag -- it is reported and the
+    # model is put back into the execution set.
     resumed: list[str] = []
+    slice_identities: dict[str, dict] = {}
+    rejected: dict[str, str] = {}
     if args.resume:
         tag = args.suffix or "_main"
-        cached = {p.name.split(tag)[0]
-                  for p in (OUT / "_perturbation_cache").glob(f"*{tag}_raw.parquet")}
-        skipped = sorted(set(models) & cached)
-        models = [m for m in models if m not in cached]
-        resumed = sorted(cached - set(models))
+        cdir = OUT / "_perturbation_cache"
+        cached = {p.name.split(tag)[0] for p in cdir.glob(f"*{tag}_raw.parquet")}
+        admissible = set()
+        for m in sorted(cached):
+            if m not in picks:
+                rejected[m] = "not a candidate model in this experiment"
+                continue
+            want = slice_identity(m, args.experiment, picks[m], args.dt, args.dt_scale)
+            ok_r, why_r, rec = slice_is_reusable(cdir / f"{m}{tag}_raw.parquet", want)
+            ok_s, why_s, _ = slice_is_reusable(cdir / f"{m}{tag}_summary.parquet", want)
+            if ok_r and ok_s:
+                admissible.add(m)
+                slice_identities[m] = rec
+            else:
+                rejected[m] = why_r if not ok_r else why_s
+        skipped = sorted(set(models) & admissible)
+        models = [m for m in models if m not in admissible]
+        resumed = sorted(admissible - set(models))
         if skipped:
-            print(f"resuming: {len(skipped)} requested model(s) already cached, "
-                  f"not re-simulating {skipped}", flush=True)
+            print(f"resuming: {len(skipped)} requested model(s) already cached "
+                  f"with a matching identity, not re-simulating {skipped}", flush=True)
         if resumed:
             print(f"aggregate will also include cached slices for {resumed}",
                   flush=True)
+        if rejected:
+            print("REJECTED cached slices (identity does not match this run):",
+                  flush=True)
+            for m, why in sorted(rejected.items()):
+                print(f"  {m}: {why}", flush=True)
     tasks, feature_sd, pid_map, meta = [], {}, {}, {}
     for mid in models:
         if mid not in picks:
@@ -460,11 +585,16 @@ def main() -> int:
             # Write this model's slice immediately.
             mine = [r for r in rows if r["model_id"] == mid]
             mine_raw = [r for r in raw_rows if r["model_id"] == mid]
-            pd.DataFrame(mine).to_parquet(cache_path(mid, "summary"), index=False)
-            pd.DataFrame(mine_raw).to_parquet(cache_path(mid, "raw"), index=False)
+            ident = slice_identity(mid, args.experiment, picks[mid],
+                                   args.dt, args.dt_scale)
+            slice_identities[mid] = dict(ident)
+            for kind, payload in (("summary", mine), ("raw", mine_raw)):
+                p = cache_path(mid, kind)
+                pd.DataFrame(payload).to_parquet(p, index=False)
+                write_slice_identity(p, ident, n_rows=len(payload))
             print(f"  {mid} done ({(time.time()-t0)/60:.1f} min) "
-                  f"-> cached {len(mine)} summary / {len(mine_raw)} raw rows",
-                  flush=True)
+                  f"-> cached {len(mine)} summary / {len(mine_raw)} raw rows "
+                  f"(dt={ident['effective_dt_ms']} ms)", flush=True)
 
     OUT.mkdir(parents=True, exist_ok=True)
     sfx = args.suffix
@@ -489,27 +619,23 @@ def main() -> int:
     raw.to_parquet(OUT / f"perturbations_raw{sfx}.parquet", index=False)
     summary = analyse(df)
     summary["models_resumed_from_cache"] = resumed
+    summary["rejected_cache_slices"] = rejected
     summary["solver_dt_override_ms"] = args.dt
     summary["solver_dt_scale"] = args.dt_scale
-    # The step each model actually integrated at.  A repeatability claim must be
-    # checkable against the steps it was really computed from, rather than
-    # against an assumption that one flag meant the same thing for every model.
-    from compass.workflows.simulate import solver_kwargs as _sk
-
-    def _effective_dt(mid: str):
-        if args.dt is not None:
-            return float(args.dt)
-        base = _sk(mid).get("dt_ms")
-        if base is None:
-            return None
-        return float(base) * args.dt_scale if args.dt_scale is not None else float(base)
-
-    # Reported for every model in the aggregate, not only the ones this
-    # invocation simulated -- a resumed run must still say what step each of its
-    # rows was integrated at.
+    # The step each model actually integrated at, taken from the IMMUTABLE
+    # per-slice identity written when the rows were produced.  Re-deriving it
+    # from the current command line is how a cached slice acquires a time step
+    # it was never run at (2026-08-09 audit, 4.3); a model with no stored
+    # identity is reported as unknown rather than guessed.
     summary["effective_dt_ms"] = {
-        mid: _effective_dt(mid)
+        mid: (slice_identities.get(mid) or {}).get("effective_dt_ms", "unknown")
         for mid in sorted(set(meta) | set(df["model_id"].unique() if len(df) else []))}
+    summary["effective_dt_source"] = "per-slice cache identity (immutable)"
+    summary["slice_identity"] = {
+        mid: {k: rec.get(k) for k in ("solver", "sim_code_hash", "mechanism_hash",
+                                      "candidate_tuples_hash", "battery_version",
+                                      "measurement_schema", "feature_schema")}
+        for mid, rec in sorted(slice_identities.items())}
     summary["quantisation_arithmetic"] = background_grid_note(N_BACKGROUNDS)
     summary["withdrawn"] = (
         "The 2.5 Hz 'measurement floor' analysis and its '4/8 models "

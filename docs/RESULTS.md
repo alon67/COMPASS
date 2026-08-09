@@ -31,7 +31,7 @@ something a reader of this document would have believed. All are corrected here.
 
 | what changed | why | consequence |
 |---|---|---|
-| **This cohort is not "gate-passing"** | the exclusion list is built from N3 failures only. `bbp_l5pc` is in the primary cohort and casts one of its five lineage votes, and it **fails N4**: `gskv3_apical` and `gcalva_apical` move no observable feature when scaled by 1/4 and 4×. `tomko_ca1` fails on three somatic conductances | the cohort is described throughout as **N3-passing, N4 unresolved**, and `cohort_label()` in `compass.analysis.cohorts` generates the phrase so it cannot be restated by hand. Two new arms measure the consequence instead of asserting it away: `n4_strict` excludes the N4-failing implementations, `n4_projected` retains them with the unidentifiable dimensions projected out of the sampled space before ensembles are built. The release manifest lists the retention as a named blocker. |
+| **This cohort is not "gate-passing"** | the exclusion list is built from N3 failures only. `bbp_l5pc` is in the primary cohort and casts one of its five lineage votes, and it **fails N4**: `gskv3_apical` and `gcalva_apical` move no observable feature when scaled by 1/4 and 4×. `tomko_ca1` fails on three somatic conductances | the cohort is described throughout as **N3-passing, N4 unresolved**, and `cohort_label()` in `compass.analysis.cohorts` generates the phrase so it cannot be restated by hand. Two new arms measured the consequence instead of asserting it away: `n4_strict` excludes the N4-failing implementations, and a projection arm retains them with the unidentifiable dimensions dropped from the sampled space before ensembles are built. **§0.0.1 supersedes this row**: the projection arm is now the primary rule, and the former primary rule is the `n4_retained` arm. |
 | **The perturbation criteria were scored without reading their own repeatability check** | `perturbation_inference.py` re-runs the whole battery at half each model's campaign time step and applies a prespecified rule, and nothing consumed the verdict. The top-versus-control contrast was the **only passing H-B criterion** and was being scored from campaign-dt numbers whether or not they survived refinement | **The headline moves from H-M to H-G.** Both perturbation criteria — they are computed from the same η — now sit behind an explicit precondition: full half-step coverage (extended to `bbp_l5pc` and `migliore_ca1`, which had none), scoring restricted to numerically repeatable implementations, and *not evaluable* below three repeatable lineages. **3 of 7 implementations are repeatable**, spanning exactly three lineages, and on that subset both criteria **fail**: functional support 0.444 against a 0.5 bar, and the matched contrast 1.91× with a lineage-clustered interval of [−0.020, +0.530] that includes zero. That is a failure to demonstrate, not a demonstration of absence — see §11.1.1 and §12.0, and §12.2 on the fact that the precondition is not preregistered. |
 | **An obsolete eight-model decision table was still in this file** | it predated lineage clustering, the N3 exclusions and the regenerated campaign, and every row quoted a superseded value for a criterion that is still scored | deleted (§12). `tools/verify_report_numbers.py` now fails when any line naming a decision criterion quotes a value other than the current one without a correction marker. Six further stale numbers found by the same new check are corrected below. |
 | **Gate roll-ups counted "known failure correctly excluded" as gate passes** | "N3 46/46" included eight tests asserting that documented failures still fail and are still excluded — and the decisive N3 test is parametrised over the *non-failing* models only, so all four documented N3 failures appeared as passes | `numerical_gates.json` now separates `by_gate` (neuronal validity) from `policy_tests` (exclusion bookkeeping) and adds a per-model `validity_matrix` in which an exempted model reads **exempt**, never pass. The record also carries the commit, the environment, the command and pytest's own exit status, none of which it had. |
@@ -43,8 +43,11 @@ Three further corrections of record:
   is what the audit asked for: feature replay proves a stored row reproduces, not
   that the trace behind it is plausible. 445 traces across every model, regime
   and campaign block were archived and put through a seven-check battery.
-  **23,413 features recomputed from the retained voltage match their stored
-  values exactly, with zero mismatches** — but the battery also found two things
+  23,413 features were recomputed and matched their stored values exactly —
+  **though see §0.0.1: that recomputation ran on the in-memory trace, not on the
+  archive, and the sample was drawn from a frame that included quarantined
+  shards. Both are fixed and the battery is regenerated; this row is superseded.**
+  The battery also found two things
   feature replay could not, both recorded with their measured prevalence in
   [`data/provenance/waveform_findings.json`](../data/provenance/waveform_findings.json)
   and neither repaired (see §5.5).
@@ -64,6 +67,68 @@ Three further corrections of record:
   levels had converged. The component is now marked `quotable: false` with the
   reason, and §12.0 states the non-convergence instead of the number. Found
   while responding to this audit, not by it.
+
+### 0.0.1 The 2026-08-09 independent post-response-2 audit
+
+A fifth review
+(`COMPASS_INDEPENDENT_POST_RESPONSE_2_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md`)
+re-read the tree after the fixes in §0.0. It confirmed those repairs and found
+four further problems that change what the data mean, plus a set of provenance
+and release defects. **The largest of them is a measurement defect that changed
+stored simulation results**, so this section leads with that rather than with the
+release machinery.
+
+| what changed | why | consequence |
+|---|---|---|
+| **The rheobase search equated depolarisation block with silence** | `find_rheobase` probed the top of its current range and returned `None` the moment that current did not evoke a spike. Under a broad conductance prior that is common, not exotic: a cell can be in depolarisation block at 1.0 nA and fire perfectly well at 0.03 nA | measured, not estimated. Every stored non-spiking row was re-probed with the real solver under a corrected search that walks a geometric ladder below the ceiling. The affected rows were regenerated; the counts are in [`rheobase_probe3_scan.json`](../data/provenance/rheobase_probe3_scan.json). The measurement schema moves `probe-2` → `probe-3` |
+| **"1.5× rheobase" was run at 0 nA for 15,148 rows** | the rheobase-normalised family was suppressed at rheobase 0 only for models on a *model-level* spontaneity list. A broad prior turns ordinarily silent models spontaneous constantly, and those draws got a 0 nA step recorded as a suprathreshold response | the normalised family is now undefined whenever the **draw's own** rheobase is 0, for every model. Gate D3 fails any row that has normalised features at rheobase 0, and `classify_row` reports `normalised_protocol_valid` separately so a silent draw stays in the absolute-family cohort — where it is a valid observation — without polluting the normalised endpoint |
+| **The primary cohort was not N4-compliant** | §0.0 created the `n4_strict` and `n4_projected` arms and then went on scoring the headline on a cohort containing two implementations whose sampled parameters the frozen protocols cannot observably perturb | **the primary arm is now N4-compliant by projection**: each N4-failing model's unidentifiable parameters are dropped from the sampled space before ensembles are built. The former rule survives as `n4_retained`. Exclusion (`n4_strict`) was the alternative and is reported alongside; it costs a source lineage and crosses the 0.80 threshold on the denominator alone, which is stated in Addendum 5 rather than used silently |
+| **The waveform battery never opened the archive it validated** | it recomputed features from the in-memory, full-precision trace and only afterwards wrote a float32 copy to disk, so the claim that 23,413 features were recomputed "from archived voltage" in §0.0 was **stronger than the implemented check** | withdrawn and replaced. Traces are archived at float64 with the applied amplitude, rheobase, protocol timing, solver contract and parameter draw beside them, then **reloaded**, and every feature is recomputed from the reloaded arrays. Spike shape is now detected independently from the trace rather than read out of the stored feature row |
+| **The waveform battery was sampling quarantined shards** | it globbed `results/features/<campaign>/**/*.parquet`, which includes the `_quarantine` directory that `validate_campaign` has always excluded. The replication campaign alone had 18,944 duplicate (model, regime, replicate, sample) keys as a result, and a retained trace could be compared against a superseded row | found while implementing the archive reload, not by the audit. Fixed; the §0.0 finding count of 39 flagged traces was computed on the contaminated frame and is superseded by the regenerated battery |
+| **Cross-validation fitted its preprocessing on the held-out fold** | dummy levels, imputation medians, standardisation constants and the zero-variance drop list all came from the pooled data | all learned preprocessing is fold-local (`FoldPipeline`). Two of the four leaks are inert for an OLS R² and two are not; the docstring says which, rather than claiming a blanket fix. Folds are reported as a **distribution** — every fold, the worst fold, the IQR and how many beat the intercept-only null — because the median concealed one severely negative lineage |
+| **`H-G 5/5` reads as five confirmations** | four of the five criteria are computed from the same endpoint table and four from the same endpoint; both direction criteria are 4/5 with exact two-sided sign p = 0.375; the unique-R² ratio is a lower bound created by flooring a near-zero denominator | `decision.json` now carries `criterion_dependence` and `interpretation`. The label is reported as an **exploratory decision-framework outcome**, and **H-B is UNRESOLVED, not refuted**. `tools/verify_report_numbers.py` now rejects six phrasings outright, among them any claim that the five H-G criteria are independent tests, and any assertion that H-B has been disproven |
+
+Release-machinery corrections of record:
+
+* **The release manifest covered 185 files.** It hashed whatever JSON and
+  Parquet sat under three result directories and omitted the feature shards, the
+  archived traces, the figures, the reports, most of `data/provenance`, the model
+  assets and the source tree. There is now a **declared inventory**
+  ([`configs/release_inventory.json`](../configs/release_inventory.json)) with
+  eleven named classes; verification walks the tree against it, so a release file
+  that is *not* in the manifest is a failure rather than an invisible omission.
+* **Verification returned success on a revision mismatch.** It printed a warning
+  and exited 0. It now fails.
+* **Gate coverage was by gate name.** One passing `REPLAY` record satisfied the
+  mandatory gate however many campaigns went unreplayed — and three had. Coverage
+  is now declared per named subject and resolved against the campaign
+  configuration; `WAVEFORM` is mandatory, so *missing* waveform evidence blocks
+  the release rather than passing silently.
+* **`run_all.sh --force` was parsed and never used.** It now has a definition
+  (quarantine derived artifacts; `--force-simulations` also quarantines the
+  shards) and a **run receipt** records which stage produced which artifact, so
+  `tools/run_receipt.py check` can report any manifest entry the run did not
+  itself produce.
+* **Perturbation cache slices carried no identity**, and the aggregate
+  reconstructed each model's effective time step from the *current* command line.
+  Slices are now fingerprinted on model, mechanism, protocol, solver, feature and
+  measurement schema, candidate tuples, background count, displacement and source
+  hash, and refused on any mismatch; the effective step is read from the
+  immutable per-slice record.
+* **Gate N2 reported 0/0 through three audits.** It is implemented for the six
+  models with a sourceable published scalar and **explicitly withdrawn** for the
+  eight without one, each with its reason
+  ([`n2_source_targets.json`](../data/provenance/n2_source_targets.json)). It is
+  not trace-level reproduction and is not described as such.
+* **A test rewrote a tracked scientific artifact on every run.** The
+  report-consistency test now invokes the verifier in no-write mode.
+* **`canonical_absolute()` was documented as area-weighted and was a plain
+  segment mean.** On a d_lambda mesh that over-weights the thin distal tree by an
+  order of magnitude. It is area-weighted now.
+* **A silent CVODE fallback left no trace.** The adapter comment promised the
+  fallback would be reported; only the *failing* path recorded anything. The
+  effective solver mode now travels with every `Recording` and raises a
+  `cvode_fallback` QC flag.
 
 ### 0.1 The 2026-08-06 audit
 
@@ -164,8 +229,12 @@ eight ids as if they were eight separate families was the audit's finding 4. A s
 | `ortner_snc_da` | SNc dopaminergic | ModelDB 2017402 | `dougalis_2017` | nested DA implementation | excluded, gate N3 + partial coverage |
 
 **Fourteen implementations over ten source lineages are registered; ten
-implementations over seven lineages pass every gate and carry the primary
-result** (§5.0.2). The replication cohort's net contribution is two new
+implementations over seven lineages are N3-passing and carry the primary
+result, with every N4-unidentifiable parameter projected out of the sampled
+space before ensembles are built** (§5.0.2). No cohort in this project passes
+every gate: N1 fails for two replication models, N4 for two, and N2 is
+evaluable only for the six models with a sourceable published scalar
+(§5.0.4). The replication cohort's net contribution is two new
 lineages and one nested implementation — short of the audit's four-to-six
 target, and the reason is documented rather than absorbed. The distinction is the
 unit of inference, and it is not cosmetic: under a fair null, unanimous
@@ -513,13 +582,30 @@ quoting a feature the model does not determine at that point.
 | discovery cohort alone, primary | 7 | 5 |
 | discovery cohort under `n4_strict` | 6 | 4 |
 
-The third row used to read "passing all gates". It was false, and the 2026-08-09
-audit was right to lead with it: the exclusion list is built from N3 failures
-only, and `bbp_l5pc` — which fails N4 — is inside the primary cohort casting one
-of its five discovery-lineage votes. The row now says what the cohort is. The
-phrase is generated by `compass.analysis.cohorts.cohort_label()` and asserted by
-`tests/unit/test_audit_regressions.py`, so it cannot be re-written by hand into
-something stronger than the exclusions support.
+The third row once read "passing all gates", which was false; the 2026-08-09
+audit was right to lead with it. It was then corrected to "N3-passing, N4
+unresolved" — accurate, but three sections later the same document still said
+ten implementations "pass every gate", and every *number* in it verified. The
+post-response-2 audit found that sentence. Two things changed as a result.
+
+First, the defect itself: the primary arm is now **N4-compliant by
+projection**. Each N4-failing model's unidentifiable parameters are dropped
+from the sampled space *before* ensembles, geometry and O-information are
+computed, using the set gate N4 measured before any endpoint was inspected.
+Exclusion was the alternative and was rejected: it costs a whole source lineage
+and pushes both direction criteria across an exact 0.80 threshold on the
+denominator alone (4/5 → 3/4), trading one defect for a smaller panel and a
+threshold artefact. The cost of *not* projecting is measured by the
+`n4_retained` arm rather than asserted away.
+
+Second, the class of error: `tools/verify_report_numbers.py` now rejects the
+sentence, not just the number. `pass(es) every gate`, `all gates pass`,
+`gate-passing cohort`, `full N1–N7 enforcement`, `H-B is refuted` and `five
+independent confirmations` are forbidden phrasings with a stated reason each,
+because none of them can be true while any gate has a failing or missing
+record. The cohort's own label is generated by
+`compass.analysis.cohorts.cohort_label()` and asserted by
+`tests/unit/test_audit_regressions.py`.
 
 The replication cohort's net contribution is **two new source lineages**
 (`moubarak_2022`, `dougalis_2017`) plus one nested implementation
@@ -562,10 +648,11 @@ prespecified arms measure it:
 | arm | what it does | why |
 |---|---|---|
 | `primary` | retains both | the headline; **N3-passing, N4 unresolved** |
-| `n4_strict` | excludes both | the headline read under full N1–N7 enforcement; drops the discovery cohort to 6 implementations over 4 lineages |
-| `n4_projected` | retains both, drops the unidentifiable parameters from the sampled space *before* ensembles are built | the audit's suggested projection onto retained dimensions, obtainable without re-simulating a single trace |
+| `n4_strict` | excludes both | the headline read under N1/N3/N4 enforcement (**not** "full N1–N7": N2 is evaluable for 6 of 14 models); drops the discovery cohort to 6 implementations over 4 lineages |
+| `primary` (the projection arm) | retains both, drops the unidentifiable parameters from the sampled space *before* ensembles are built | the audit's suggested projection onto retained dimensions, obtainable without re-simulating a single trace. **This is now the headline rule** (§0.0.1) |
+| `n4_retained` | retains both with their unidentifiable parameters intact | the former primary rule, kept so the cost of the projection is measured |
 
-`n4_projected` is outcome-blind: the dropped set is read from the identifiability
+The projection is outcome-blind: the dropped set is read from the identifiability
 record, which gate N4 measured before any endpoint was inspected. It requires its
 own analysis pass, because — exactly like `drop_failed_feature` — a change to the
 sampled space cannot be applied by filtering an endpoint table afterwards.
@@ -826,9 +913,31 @@ The 2026-08-09 audit made that objection and asked for archived voltage.
 
 `tools/retain_waveforms.py` retains a stratified sample — every model × regime ×
 campaign block, plus the risk strata `validate_replay` already defines — and runs
-seven checks that features cannot express: voltage range, baseline stability,
-spike shape, depolarisation-block detection, single-step discontinuity,
-finiteness, and recomputation of every feature from the retained trace.
+eight checks that features cannot express: voltage range, baseline stability,
+spike shape, spike-count agreement, depolarisation-block detection, single-step
+discontinuity, finiteness, and recomputation of every feature from the retained
+trace.
+
+**The 2026-08-09 post-response-2 audit found that the last of those was not what
+it claimed** (§0.0.1). Features were recomputed from the in-memory,
+full-precision trace, and only afterwards was a float32 copy written to disk —
+so nothing demonstrated that the *archive* reproduces the stored row. The
+procedure now writes the archive at float64 with a self-contained metadata
+sidecar, **reloads it**, verifies its key and array inventory, and recomputes
+every feature from the reloaded arrays. Spike amplitude and half-width are
+measured by an independent detector running on the archived trace rather than
+read out of the stored feature row, and the detector's spike count is compared
+against the stored one inside the extractor's own analysis window. Every
+simulation, archive-write, reload, schema or recomputation error is a **failing**
+gate record; the previous version returned an empty problem list for a simulation
+error, which `gate_record` reads as PASS.
+
+A second defect surfaced while implementing that: the battery was globbing
+`results/features/<campaign>/**/*.parquet`, which includes the `_quarantine`
+directory that `validate_campaign` has always excluded. The replication campaign
+alone contributed 18,944 duplicate (model, regime, replicate, sample) keys, so a
+retained trace could be checked against a superseded row. Fixed; the numbers
+below are from the regenerated battery.
 
 **445 traces. The recomputation result is the important one: 23,413 features
 recomputed from the archived voltage, zero mismatches.** No NaN, no Inf, no
@@ -1109,11 +1218,13 @@ a bootstrap over lineages:
 
 | table | clusters | ratio median | 95% CI | resamples exceeding the preregistered 2.0 |
 |---|---:|---:|---|---:|
-| raw endpoints | 6 lineages | 11.5 | [2.7, 46.9] | **100%** |
-| **size-matched** (20 draws, common N per regime) | 5 lineages | **12.8** | **[2.6, 46.1]** | **100%** |
+| raw endpoints | 6 lineages | 13.4 | [3.3, 70.1] | **100%** |
+| **size-matched** (20 draws, common N per regime) | 5 lineages | **16.5** | **[3.4, 105.9]** | **100%** |
 
-> Both rows moved when the bootstrap unit was corrected from `model_id` to
-> `source_lineage_id` (2026-08-09 audit). They previously read 11.9 [3.3, 71.2]
+> Both rows moved again under the probe-3 regeneration (§0.0.1); they read 11.5
+> [2.7, 46.9] and 12.8 [2.6, 46.1] on the pre-repair rows. Before that they had
+> moved when the bootstrap unit was corrected from `model_id` to
+> `source_lineage_id` (2026-08-09 audit), where they read 11.9 [3.3, 71.2]
 > and 12.6 [3.6, 60.5] over 8 and 7 *implementations*. The point estimates barely
 > move; the intervals do, and the lower bounds fall — which is the expected
 > direction, because the HH and Pospischil lineages were each supplying two draws
@@ -1128,8 +1239,8 @@ withholds the four implementations that fail gate N3, so a model excluded from
 every other primary analysis can no longer bind a matched cell through the
 `min()` that sets the common N.
 
-Under that design the ratio is **12.8 with a proper interval**, slightly *above*
-the raw figure of 11.5 rather than below it. The earlier matched estimate of 9.3
+Under that design the ratio is **16.5 with a proper interval**, above the raw
+figure of 13.4 rather than below it. The earlier matched estimate of 9.3
 was depressed by a gate-failed model sitting inside the design and by the small
 common N that model forced; removing it and enlarging the binding model's sample
 raises the matched ratio rather than lowering it. It remains well below the 22.6
@@ -1144,10 +1255,10 @@ and residual:
 
 | quantity | value | meaning |
 |---|---:|---|
-| variance-partition coefficient | 0.023 | between-family share of **total** variance |
-| **adjusted ICC** | **0.138** | between-family share of the variance **remaining after** the fixed covariates |
-| marginal R² | 0.832 | share explained by the fixed covariates alone |
-| conditional R² | 0.856 | share explained by fixed + family effects |
+| variance-partition coefficient | 0.055 | between-family share of **total** variance |
+| **adjusted ICC** | **0.260** | between-family share of the variance **remaining after** the fixed covariates |
+| marginal R² | 0.790 | share explained by the fixed covariates alone |
+| conditional R² | 0.845 | share explained by fixed + family effects |
 
 An earlier version of this document reported a single "intraclass correlation of
 **0.048**" and glossed it as "under 5% of endpoint variance lies between model
@@ -1160,8 +1271,11 @@ counted once inside that term and again as its own term. The denominator was
 inflated and the result was neither of the two standard quantities.
 
 **The right ICC is several times larger.** Computed correctly, the adjusted ICC
-is **0.138** — roughly 14% of the *residual* variance is between families, not
-under 5%. The 0.023 figure is the variance-partition coefficient, a different
+is **0.260** — roughly 26% of the *residual* variance is between families, not
+under 5%. (It read 0.138 on the pre-probe-3 rows; the probe-3 regeneration
+raised it, which is the expected direction — 1,867 rows that had been recorded
+as silent are now spontaneously firing or have a measured rheobase, and they are
+concentrated in three lineages.) The 0.023 figure is the variance-partition coefficient, a different
 and much weaker statement: family identity is a small share of total variance
 mainly because the fixed covariates already explain 83% of it. (On the previous,
 CVODE-built conditioning targets these were 0.289 and 0.050; correcting the
@@ -1589,31 +1703,96 @@ is exactly the bias direction the imputation predicts.
 ### 12.0 The primary decision, at lineage level
 
 The decision table is evaluated on **7 implementations representing 5 source
-lineages** — the primary cohort, which is **N3-passing with N4 unresolved for
-`bbp_l5pc`** (§5.0.3), not "gate-passing". Every criterion that used to count
-model ids counts lineages.
+lineages** — the primary cohort, which is **N3-passing with every
+N4-unidentifiable parameter projected out of the sampled space before ensembles
+are built** (§5.0.3). It is not "gate-passing", and no cohort in this project is.
+Every criterion that used to count model ids counts lineages.
+
+#### How this tally may and may not be read
+
+The preregistered algorithm returns a label. What that label *means* depends on
+how strong its inputs are, and the 2026-08-09 post-response-2 audit was right
+that `5/5` invites a reading the evidence does not carry. Four points, all of
+them now emitted with the decision in `decision.json`
+(`criterion_dependence`, `interpretation`):
+
+1. **The five H-G criteria are not five independent tests.** Four are computed
+   from the same endpoint table and four from the same `synergy_area` endpoint,
+   over the same five lineages. Two of those four are sign agreements on the same
+   quantity under different conditioning. They cannot fail independently, so the
+   count overstates the number of distinct confirmations.
+2. **Both direction criteria are 4/5 lineages**, whose exact two-sided sign
+   probability under a fair null is **p = 0.375**. That is a majority, not a
+   significant one; with five lineages no sign test on this panel can reach
+   p < 0.05.
+3. **The unique-R² ratio is a lower bound, not a point estimate.** The identity
+   contribution is floored at 1e-4, so the >1800× figure is an artefact of a
+   near-zero denominator. The interpretable quantity is the **size-matched
+   ratio, 16.5 with a wide interval [3.4, 105.9]** (§10), and that is what
+   should be quoted.
+4. **The transfer criterion is a median over five folds that hides a severely
+   negative one**, and the classifier clears its baseline by about eleven points
+   over five folds. Both are now reported as fold distributions — every fold, the
+   worst fold, the IQR and how many beat the intercept-only null — because the
+   median alone concealed the spread.
+
+So the honest formulation is: **the preregistered decision algorithm returns H-G
+on this arm, as an exploratory decision-framework outcome.** The statement the
+data support is that *sampling, conditioning, covariance and model geometry
+materially influence the sign and magnitude of measured higher-order interactions
+across the tested models*. The data do **not** establish that the interaction
+structure is generally non-biological, nor that biologically meaningful parameter
+modules are absent. **H-B is unresolved** — see §12.0.1.
 
 | criterion | supports | value | passed |
 |---|---|---:|---|
 | conditioning effect direction agreement across LINEAGES | H-G | 0.8000 | yes |
 | high-covariance subset effect direction agreement (lineages) | H-G | 0.8000 | yes |
-| unique R2(sampling+geometry) / unique R2(model identity) [synergy_area] | H-G | 1839.6363 | yes |
-| out-of-sample R2 for a held-out LINEAGE (sampling+geometry) | H-G | 0.5632 | yes |
-| sampling regime predictable across unseen lineages | H-G | 0.2805 | yes |
-| statistical synergy modules validated by direct perturbation | H-B | 0.4444 | no |
-| top-synergy tuples more non-additive than matched controls | H-B | 1.9146 | no |
+| unique R2(sampling+geometry) / unique R2(model identity) [synergy_area] | H-G | 1652.6539 | yes |
+| out-of-sample R2 for a held-out LINEAGE (sampling+geometry) | H-G | 0.4838 | yes |
+| sampling regime predictable across unseen lineages | H-G | 0.2926 | yes |
+| statistical synergy modules validated by direct perturbation | H-B | 0.3095 | **withheld** |
+| top-synergy tuples more non-additive than matched controls | H-B | 2.9710 | **withheld** |
 
-**H-G: 5/5. H-B: 0/2. Conclusion: H-G.** This replaces H-M, and the reason is
-the single largest change in this revision.
+**H-G: 5/5. H-B: 0/0 — NOT EVALUABLE. No overall label is asserted.**
 
-**Both H-B criteria are now scored on the numerically repeatable
-implementations only, and both fail.** They are computed from the same
+The two H-B values are printed because they were computed; they are **not
+scored**, and the tally is `0/0` rather than `0/2`. A criterion that could not be
+tested must not count as evidence against the hypothesis it was written to test.
+
+The reason is new in this revision and is a consequence of the probe-3 repair
+(§0.0.1). The perturbation battery's backgrounds are k-means representatives of
+the E3 accepted ensemble, and its candidate tuples come from the O-information
+table — both computed from feature rows that probe-3 regenerated. Three of the
+seven implementations in the battery — `khaliq_purkinje`, `hh_cable`,
+`hh_point` — are precisely the three with the largest probe-3 changes. The
+stored battery therefore probes points that no longer exist in the ensemble it
+claims to test, and `run_crossmodel` refuses to score from it. Re-running the
+battery and its half-step twin is ~16 hours and is the first item of the next
+revision.
+
+**The previous scoring rule still stands and is why the battery matters.** They are computed from the same
 non-additivity η, and until the 2026-08-09 audit nothing required that η to
 survive a refinement of the time step before it was scored — even though
 `perturbation_inference.py` had already measured that it largely does not. The
 precondition now applied is: every model in the battery must have half-step
 results; only repeatable implementations may be scored; and below three
 repeatable lineages the criteria are *not evaluable* rather than failed.
+
+**These results cannot distinguish weak biological enrichment from no
+enrichment.** The statement used throughout this document is:
+
+> Current data do not provide numerically repeatable, adequately powered evidence
+> for H-B. They do not demonstrate that H-B is absent.
+
+Three further reasons not to read the H-B side as a negative finding. The
+precondition itself is post hoc (§12.2). The three-lineage minimum is exactly the
+number that survived, which is a coincidence worth naming rather than glossing
+over. And the *random*-control contrast on the same three lineages (3.25×,
+interval excluding zero) would have passed a test of the same form; the matched
+control is the harder and more appropriate comparator, but a reader should know
+that the choice of comparator, not the data, is what separates a pass from a fail
+here.
 
 Half-step coverage was completed for `bbp_l5pc` and `migliore_ca1`, which had
 none. Of the seven implementations in the battery, **three are numerically
@@ -1662,16 +1841,20 @@ with 0.281.
 Their weight comes from agreeing in direction across independent contrasts, not
 from any individual margin.
 
-**Variance components.** The flat adjusted ICC of model identity is 0.138 and
-the variance-partition coefficient 0.023; both are **descriptive only**, since
+**Variance components.** The flat adjusted ICC of model identity is 0.260 and
+the variance-partition coefficient 0.055; both are **descriptive only**, since
 the fixed covariates conditioned on are themselves the H-G hypothesis. The
-nested model separates the levels — implementation ICC **0.138** over 7 groups,
-converged — but its **lineage level does not converge** on 5 groups, so the
-0.204 it reports there is not an estimate and is not quoted as one.
-`nested_variance_components` now marks it `quotable: false`. An earlier version
-of this paragraph gave lineage ICC 0.166 and implementation ICC 0.152 and stated
-that *both converged*; the values were stale and the convergence claim was
-false. Found while responding to the 2026-08-09 audit, not by it.
+nested model separates the levels and **both now converge** under REML:
+implementation ICC **0.260** over 7 groups, lineage ICC **0.176** over 5 groups,
+each marked `quotable: true` by `nested_variance_components`.
+
+Two corrections of record attach to this paragraph. An early version gave
+lineage ICC 0.166 and implementation ICC 0.152 and stated that both converged;
+those values were stale and the convergence claim was false. The next version
+correctly reported that the **lineage level did not converge** on 5 groups and
+withheld the number. It converges on the probe-3 rows, so the number is quoted
+again — but it is quoted because the fit changed, not because the standard did.
+The convergence flag is read from the artifact, never asserted in prose.
 
 **Sobol** contributes 8 quotable analyses of 55 completed (of 56 possible) under
 the precision-gated rule, with mean interaction fraction 0.148 (§11.2).
@@ -1687,7 +1870,7 @@ as `duplicate_of` / `independent_evidence: false`.
 | arm | cohort | H-G | H-B | conclusion |
 |---|---|---|---|---|
 | `primary` | 7 impl / 5 lineages | 5/5 | 0/2 | **H-G** |
-| `n4_projected` | 7 impl / 5 lineages | 5/5 | 0/2 | H-G |
+| `n4_retained` | 7 impl / 5 lineages | 5/5 | 0/2 | H-G |
 | `n4_strict` | 6 impl / 4 lineages | 3/5 | 0/2 | H-G |
 | `drop_failed_feature` | 8 impl / 6 lineages | 4/5 | 0/2 | H-G |
 | `retain_mainen` | 8 impl / 6 lineages | 3/5 | 0/2 | H-G |
@@ -2124,7 +2307,7 @@ These bound what the results above can support. They are declared in
     so they contribute unconstrained dimensions to the geometry that
     O-information and intrinsic dimension are computed on. The primary cohort is
     therefore **N3-passing, not gate-passing**, and the consequence is measured
-    by the `n4_strict` and `n4_projected` arms rather than assumed away (§5.0.3).
+    by the `n4_strict` and `n4_retained` arms rather than assumed away (§5.0.3).
 15. **Two trace-level defects survive the campaign's QC thresholds.** A
     stratified retention of 445 waveforms found sub-physiological
     hyperpolarisation in 2 eligible traces (0.45%) that fall in the 10 mV gap

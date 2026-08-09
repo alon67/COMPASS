@@ -1,0 +1,246 @@
+{
+ "_doc": [
+  "THE declared scientific release inventory (2026-08-09 post-response-2 audit, 3.1).",
+  "",
+  "The release manifest used to hash whatever JSON and Parquet files happened to",
+  "sit under three result directories -- 185 files. That covered the analysis",
+  "summaries and left out the things a reader would actually need to reproduce or",
+  "audit them: the 10,928 feature shards the analyses are computed from, the 459",
+  "archived voltage traces the waveform gate inspects, every figure, every report,",
+  "most of data/provenance, the model source assets, the compiled mechanism",
+  "record, and the source tree itself.",
+  "",
+  "This file names each class of release content explicitly. Verification fails",
+  "when a class is under-populated, when a listed file has changed, when a file",
+  "matching an included pattern is NOT in the manifest, or when the manifest was",
+  "built from a different revision than the one checked out. Adding release",
+  "content therefore requires adding it here, which is the point: an inventory",
+  "that is inferred from whatever is on disk cannot detect an omission."
+ ],
+ "inventory_version": "release-inventory-1",
+ "classes": {
+  "feature_shards": {
+   "what": "every simulated feature row and its identity sidecar",
+   "include": [
+    "results/features/**/*.parquet",
+    "results/features/**/*.identity.json"
+   ],
+   "exclude": [
+    "**/_quarantine/**",
+    "**/*.tmp.parquet"
+   ],
+   "min_files": 8000,
+   "count_rows": false
+  },
+  "trace_archives": {
+   "what": "archived voltage traces retained for waveform inspection, with metadata",
+   "include": [
+    "results/traces/**/*.npz",
+    "results/traces/**/*.json"
+   ],
+   "exclude": [],
+   "min_files": 100,
+   "count_rows": false
+  },
+  "analyses": {
+   "what": "derived analysis tables and summaries",
+   "include": [
+    "results/analyses/**/*.parquet",
+    "results/analyses/**/*.json"
+   ],
+   "exclude": [
+    "**/_withdrawn*/**",
+    "**/_perturbation_cache/**"
+   ],
+   "min_files": 20,
+   "count_rows": true
+  },
+  "campaign_manifests": {
+   "what": "per-campaign and per-model canonical manifests",
+   "include": [
+    "results/manifests/**/*.json"
+   ],
+   "exclude": [
+    "**/_superseded/**"
+   ],
+   "min_files": 10,
+   "count_rows": false
+  },
+  "validation": {
+   "what": "every gate record file",
+   "include": [
+    "results/validation/**/*.json",
+    "results/validation/**/*.parquet"
+   ],
+   "exclude": [
+    "**/_replay_tmp/**",
+    "**/release_manifest.json"
+   ],
+   "min_files": 8,
+   "count_rows": false
+  },
+  "figures": {
+   "what": "every published figure, in both raster and vector form",
+   "include": [
+    "results/figures/**/*.png",
+    "results/figures/**/*.pdf",
+    "results/figures/**/*.svg"
+   ],
+   "exclude": [],
+   "min_files": 6,
+   "count_rows": false
+  },
+  "reports": {
+   "what": "the human-readable scientific record",
+   "include": [
+    "README.md",
+    "docs/RESULTS.md",
+    "docs/preregistration.md",
+    "docs/*.md",
+    "notebooks/*.ipynb",
+    "results/reports/**/*"
+   ],
+   "exclude": [],
+   "min_files": 4,
+   "count_rows": false
+  },
+  "provenance": {
+   "what": "downloads, mechanism builds, calibrations, audits, gate evidence inputs",
+   "include": [
+    "data/provenance/**/*.json",
+    "data/provenance/**/*.csv"
+   ],
+   "exclude": [],
+   "min_files": 15,
+   "count_rows": false
+  },
+  "model_assets": {
+   "what": "downloaded published model sources -- morphologies and mechanism code",
+   "include": [
+    "data/models/**/*.hoc",
+    "data/models/**/*.mod",
+    "data/models/**/*.asc",
+    "data/models/**/*.swc",
+    "data/models/**/*.ses",
+    "data/models/**/*.inc",
+    "data/models/**/*.nrn",
+    "data/models/**/*.dat"
+   ],
+   "exclude": [
+    "**/x86_64/**",
+    "**/arm64/**",
+    "**/*.o",
+    "**/*.c"
+   ],
+   "min_files": 30,
+   "count_rows": false
+  },
+  "configuration": {
+   "what": "every frozen configuration the campaign and analysis read",
+   "include": [
+    "configs/**/*.json",
+    "configs/**/*.yaml"
+   ],
+   "exclude": [],
+   "min_files": 3,
+   "count_rows": false
+  },
+  "source": {
+   "what": "the code that produced everything above",
+   "include": [
+    "src/**/*.py",
+    "tools/**/*.py",
+    "tools/*.sh",
+    "tests/**/*.py",
+    "pyproject.toml"
+   ],
+   "exclude": [
+    "**/__pycache__/**"
+   ],
+   "min_files": 40,
+   "count_rows": false
+  }
+ },
+ "gate_coverage": {
+  "_doc": [
+   "Gate roll-ups are keyed by gate NAME, so one passing REPLAY record satisfied",
+   "the mandatory REPLAY gate no matter which campaign it came from. Coverage is",
+   "declared here as named SUBJECTS, resolved against the campaign configuration",
+   "and the model registry at build time, and every one of them must be matched",
+   "by a passing record.",
+   "primary_models = every model with feature shards MINUS PRIMARY_EXCLUSIONS: the implementations that actually cast a vote. A model excluded on a gate failure is blocked by its own line in `blockers`, not by coverage.",
+   "N5 is deliberately absent from this list: it tests rheobase-probe SEMANTICS on a synthetic adapter (tri-state outcome, failure propagation, the non-monotonic ladder), which is model-independent by construction. A per-model coverage requirement for it would demand NEURON runs that duplicate N1 without testing anything N5 is about."
+  ],
+  "D1": {
+   "subjects_from": "campaigns_with_shards",
+   "match": "exact"
+  },
+  "D3": {
+   "subjects_from": "campaigns_with_shards",
+   "match": "exact"
+  },
+  "D5": {
+   "subjects_from": "campaign_model_regime",
+   "match": "prefix"
+  },
+  "REPLAY": {
+   "subjects_from": "campaigns_with_shards",
+   "match": "exact"
+  },
+  "WAVEFORM": {
+   "subjects_from": "waveform_campaign_model_pairs",
+   "match": "prefix"
+  },
+  "N1": {
+   "subjects_from": "primary_models",
+   "match": "exact"
+  },
+  "N3": {
+   "subjects_from": "primary_models",
+   "match": "exact"
+  },
+  "N4": {
+   "subjects_from": "primary_models",
+   "match": "exact"
+  },
+  "N6": {
+   "subjects_from": "primary_models",
+   "match": "exact"
+  }
+ },
+ "mandatory_gates": [
+  "D1",
+  "D2",
+  "D3",
+  "D4",
+  "D5",
+  "REPLAY",
+  "WAVEFORM",
+  "N1",
+  "N2",
+  "N3",
+  "N4",
+  "N5",
+  "N6",
+  "N7"
+ ],
+ "waveform_campaigns": {
+  "_doc": [
+   "Every campaign whose rows enter a reported analysis must have retained,",
+   "reloaded and independently checked voltage traces (2026-08-09 audit, 3.3).",
+   "`pilot` is excluded and the reason is stated rather than left implicit:",
+   "it is a 50-row cost-measurement run for one model, it feeds no endpoint",
+   "table, and gate D1 describes it as such."
+  ],
+  "included": [
+   "screening",
+   "screening_expand",
+   "screening_scramble2",
+   "screening_v2_replication",
+   "sobol"
+  ],
+  "excluded": {
+   "pilot": "50-row cost-measurement run; feeds no endpoint table"
+  }
+ }
+}

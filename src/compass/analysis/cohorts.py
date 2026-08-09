@@ -78,9 +78,10 @@ def _load_unidentifiable() -> dict[str, list[str]]:
 
 UNIDENTIFIABLE_PARAMETERS: dict[str, list[str]] = _load_unidentifiable()
 
-# Models that FAIL gate N4.  They are not excluded from the primary cohort --
-# see the `n4_strict` and `n4_projected` arms below for why, and for what is
-# reported instead -- but nothing in this project may describe a cohort
+# Models that FAIL gate N4.  The PRIMARY arm now retains them with their
+# unidentifiable parameters projected out of the sampled space; `n4_strict`
+# excludes them outright and `n4_retained` keeps them intact, so both
+# directions are measured.  Nothing in this project may describe any cohort
 # containing them as "gate-passing" or "passing all gates".
 N4_FAILING_MODELS: frozenset[str] = frozenset(UNIDENTIFIABLE_PARAMETERS)
 
@@ -144,49 +145,60 @@ PRIMARY_EXCLUSIONS: dict[str, dict] = {
 # cross-model analysis under a stated deviation from the primary rule, so the
 # consequence of every exclusion is measured rather than asserted.
 SENSITIVITY_ARMS: dict[str, dict] = {
+    # THE PRIMARY ARM IS N4-COMPLIANT BY PROJECTION (2026-08-09 audit, 3.2).
+    #
+    # It was not.  Until this revision the headline analysis retained bbp_l5pc
+    # and tomko_ca1 with their N4-failing parameters intact, so the inferential
+    # panel included sampled dimensions the frozen protocols cannot observably
+    # perturb -- which weakens exactly the conclusions the study is about, since
+    # an unobservable parameter contributes geometry and O-information that no
+    # measurement constrains.  The audit allowed two dispositions: exclude the
+    # failing implementations, or project the failed dimensions out
+    # prospectively.  Projection is chosen because exclusion costs a whole
+    # source lineage and pushes the direction criteria across an exact 0.80
+    # threshold on the denominator alone (4/5 -> 3/4), which would replace one
+    # defect with a smaller panel and a threshold artefact.
+    #
+    # The dropped set is read from data/provenance/parameter_identifiability
+    # .json, measured by gate N4 BEFORE any endpoint was inspected, so the
+    # projection is outcome-blind.  The consequence of NOT projecting is
+    # measured by the `n4_retained` arm rather than asserted away.
     "primary": {
-        # NOT "gate-passing".  The exclusion list above is built from N3
-        # failures only, and `bbp_l5pc` -- which is in this arm and casts one of
-        # its five lineage votes -- fails N4 on two apical conductances.  The
-        # post-response audit is right that calling this cohort "gate-passing"
-        # or "passing all gates" is false.  The N4 consequence is measured by
-        # the two arms below rather than asserted away.
-        "description": ("N3-passing models; the headline analysis. Contains "
-                        "bbp_l5pc, which fails N4 -- see the n4_strict and "
-                        "n4_projected arms"),
+        "description": ("N3-passing models with every N4-unidentifiable "
+                        "parameter projected out before ensembles, geometry and "
+                        "O-information are computed; the headline analysis. "
+                        "Covers bbp_l5pc in the discovery cohort and tomko_ca1 "
+                        "in the replication cohort"),
         "exclude": sorted(PRIMARY_EXCLUSIONS),
         "drop_features": [],
-    },
-    "n4_strict": {
-        "description": ("every N4-failing implementation excluded as well, so "
-                        "the headline can be read under full N1-N7 enforcement"),
-        "exclude": sorted(set(PRIMARY_EXCLUSIONS) | N4_FAILING_MODELS),
-        "drop_features": [],
-    },
-    "n4_projected": {
-        "description": ("N4-failing implementations RETAINED but projected onto "
-                        "their identifiable dimensions: the parameters gate N4 "
-                        "measured as unobservable through the frozen protocol "
-                        "are dropped before ensembles, geometry and "
-                        "O-information are computed. Covers bbp_l5pc, the only "
-                        "N4-failing model in the DISCOVERY cohort; tomko_ca1 is "
-                        "a replication model and its projection lives in "
-                        "endpoints_screening_v2_replication_n4proj.parquet"),
-        "exclude": sorted(PRIMARY_EXCLUSIONS),
-        "drop_features": [],
-        # Dropping a parameter changes the sampled space the ensembles are built
-        # on, so -- exactly like `drop_features` -- it cannot be applied by
-        # filtering an endpoint table afterwards.  The arm needs its own pass:
+        # Dropping a PARAMETER changes the sampled space the ensembles are
+        # built on, so -- exactly like `drop_features` -- it cannot be applied
+        # by filtering an endpoint table afterwards.  The arm needs its own
+        # analysis pass:
         #   python tools/run_analysis.py --experiment screening \
         #          --drop-unidentifiable-parameters --suffix _n4proj
         #   python tools/run_analysis.py --experiment screening_v2_replication \
         #          --drop-unidentifiable-parameters --suffix _n4proj
-        # (the second pass is what covers tomko_ca1: it is a replication-cohort
-        # model and has no rows in the discovery table at all)
-        # The dropped set is read from data/provenance/parameter_identifiability
-        # .json, which was measured by gate N4 before any endpoint was inspected,
-        # so the projection is outcome-blind.
+        # (the second covers tomko_ca1, a replication model with no rows in the
+        # discovery table at all)
         "source_experiment": "screening_n4proj",
+    },
+    "n4_retained": {
+        "description": ("the former primary rule: N4-failing implementations "
+                        "retained with their unidentifiable parameters intact. "
+                        "Kept as a sensitivity arm so the cost of the projection "
+                        "is measured, not asserted"),
+        "exclude": sorted(PRIMARY_EXCLUSIONS),
+        "drop_features": [],
+    },
+    "n4_strict": {
+        "description": ("every N4-failing implementation excluded outright "
+                        "rather than projected. Note this is N1/N3/N4 "
+                        "enforcement, NOT 'full N1-N7': N2 is evaluable only for "
+                        "the six models with a sourceable published scalar "
+                        "(data/provenance/n2_source_targets.json)"),
+        "exclude": sorted(set(PRIMARY_EXCLUSIONS) | N4_FAILING_MODELS),
+        "drop_features": [],
     },
     "retain_mainen": {
         "description": ("mainen_l5pc retained despite its N3 failure, to show "
@@ -309,8 +321,11 @@ def cohort_label(arm: str = "primary") -> str:
     excluded = set(spec["exclude"])
     unresolved = sorted(N4_FAILING_MODELS - excluded)
     if not unresolved:
-        return "gate-passing (N3 and N4 enforced)"
-    if arm == "n4_projected":
+        # Still not "all gates pass": N2 is evaluable for six of fourteen models
+        # and N1 fails for two of the replication models.  The label names the
+        # gates it actually enforces, which is the whole point of this function.
+        return "N1/N3/N4-enforced (N2 evaluable for the sourceable subset only)"
+    if spec.get("source_experiment", "").endswith("_n4proj"):
         return ("N3-passing, with N4-unidentifiable dimensions projected out of "
                 f"{', '.join(unresolved)}")
     return f"N3-passing; N4 unresolved for {', '.join(unresolved)}"

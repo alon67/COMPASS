@@ -250,7 +250,9 @@ read with the weight of a rule fixed in advance.
 2. **The N4 failures are handled by arms, not by exclusion.** The primary cohort
    retains both and is relabelled **N3-passing, N4 unresolved** wherever it is
    described. Two arms are added: `n4_strict` (both excluded — the headline
-   under full N1–N7 enforcement) and `n4_projected` (both retained with their
+   under N1/N3/N4 enforcement — not "full N1–N7", since N2 is evaluable
+   only for the six models with a sourceable published scalar) and the primary
+   arm itself, which now retains both with their
    unidentifiable parameters projected out of the sampled space before ensembles
    are built). The projection is outcome-blind in the sense that the dropped set
    comes from a gate-N4 measurement made before any endpoint was inspected; the
@@ -282,3 +284,75 @@ read with the weight of a rule fixed in advance.
 
 6. **`preregistered: false` is recorded in the artifacts** for item 3, so the
    distinction survives being read out of the JSON rather than out of this file.
+
+---
+
+## Addendum 5 — 2026-08-09 post-response-2 audit response (POST HOC; not preregistered)
+
+The second independent post-response audit
+(`COMPASS_INDEPENDENT_POST_RESPONSE_2_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md`)
+found that the fixes registered in Addendum 4 were real and that four further
+problems changed what the data mean. The resulting deviations are recorded here
+**after the outcome of the previous round was known**, which is the strongest
+reason to state them plainly rather than fold them into the frozen text above.
+
+1. **The primary arm is now N4-compliant by projection.** Addendum 4 created
+   `n4_strict` and `n4_projected` as sensitivity arms while the headline
+   continued to be scored on a cohort containing two implementations whose
+   sampled parameters the frozen protocols cannot observably perturb. The audit
+   called that a primary scientific blocker and allowed two dispositions:
+   exclude the failing implementations, or project the failed dimensions out
+   before ensemble construction. **Projection is now the primary rule**, and the
+   former primary rule survives as the `n4_retained` arm so the cost of the
+   change is measured rather than asserted.
+
+   *Why projection and not exclusion.* Exclusion removes a whole source lineage
+   and moves both direction criteria across an exact 0.80 threshold on the
+   denominator alone (4/5 → 3/4). Choosing between two dispositions **after**
+   seeing that one of them flips two criteria is exactly the situation
+   preregistration exists to prevent, so the reasoning is stated in full: the
+   projection is preferred because it preserves the inferential unit count and
+   because the dropped set was measured by gate N4 before any endpoint was
+   inspected, not because of which way the criteria fall. Both arms are reported
+   side by side in every summary, and a reader who prefers exclusion can read
+   `n4_strict` directly.
+
+2. **The rheobase measurement procedure changed, and campaign rows changed with
+   it (`probe-2` → `probe-3`).** The search returned "does not spike" whenever
+   the ceiling current failed to evoke a spike, which equates depolarisation
+   block at high current with silence; and the rheobase-normalised protocol
+   family was suppressed at rheobase 0 only for models on a *model-level*
+   spontaneity list, so a draw that became spontaneous in an ordinarily silent
+   model ran "1.5× rheobase" at 0 nA. Both are measurement defects rather than
+   analysis choices, so the affected rows were regenerated. The affected set is
+   enumerable by construction and was enumerated by re-probing every stored
+   non-spiking row with the real solver; the numbers are in
+   `data/provenance/rheobase_probe3_scan.json` and
+   `data/provenance/rheobase_probe3_repair.json`.
+
+3. **Gate N2 is implemented for the subset with a sourceable published scalar.**
+   It reported `0/0` through three audits. It now compares each model's canonical
+   operating point against a published value declared in
+   `data/provenance/n2_source_targets.json`, and **explicitly withdraws any claim
+   of source-level reproduction** for the eight models where no such scalar
+   exists. This is not trace-level reproduction and is not described as such.
+
+4. **All learned cross-validation preprocessing moved inside the training
+   fold.** Dummy levels, imputation medians, standardisation constants, the
+   zero-variance drop list and the endpoint's own centring were previously fitted
+   on the pooled data before the held-out lineage was separated. Two of those
+   leaks are inert for an OLS R² and two are not; the distinction is documented
+   in `compass.analysis.hierarchical.FoldPipeline` rather than glossed as a
+   blanket fix.
+
+5. **Cross-validation is reported as a fold distribution, not a median.** The
+   median lineage-transfer R² concealed one severely negative fold. Every fold,
+   the worst fold, the interquartile range and the number of folds beating the
+   intercept-only null are reported together.
+
+6. **The label `H-G` is reported as an exploratory decision-framework outcome.**
+   The five H-G criteria are correlated derivatives of one small panel — four are
+   computed from the same endpoint table and four from the same endpoint — so the
+   vote count is not five independent confirmations. `decision.json` now carries
+   `criterion_dependence` and `interpretation` blocks stating what the label may
+   and may not be described as. **H-B is recorded as UNRESOLVED**, not refuted.

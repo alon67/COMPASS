@@ -53,7 +53,28 @@ os.environ.setdefault("NEURON_MODULE_OPTIONS", "-nogui")
 #          so an already-depolarised trace was recorded as spiking at 0 nA and
 #          got rheobase = 0.0 plus rheobase-normalised features evaluated at
 #          0 nA (2026-08-06 audit, section 5.4).
-MEASUREMENT_SCHEMA_VERSION = "probe-2"
+# probe-3: `find_rheobase` no longer assumes firing is monotonic in current. A
+#          cell in depolarisation block at the search ceiling used to be
+#          reported as non-spiking; it is now bracketed by a geometric downward
+#          ladder and its true rheobase is measured (2026-08-09 audit, 4.1).
+#          `_feature_row` also treats rheobase == 0 as undefined for the
+#          rheobase-normalised family for EVERY model, not only for the ones
+#          listed as spontaneously active, so a draw that becomes spontaneous in
+#          an ordinarily silent model no longer runs "1.5x rheobase" at 0 nA.
+MEASUREMENT_SCHEMA_VERSION = "probe-3"
+
+# probe-3 differs from probe-2 on a strictly enumerable set of samples, which is
+# what makes a targeted regeneration defensible rather than a shortcut:
+#   * the ladder runs ONLY when the ceiling probe does not spike, so any sample
+#     that spikes at the ceiling takes a bit-identical code path;
+#   * when the ladder finds nothing, the function still returns None;
+#   * the normalised-family change touches only rows with rheobase == 0.
+# Every other row is unchanged by construction.  tools/repair_rheobase.py
+# regenerates the enumerated rows and verifies the invariant on a random sample.
+PROBE3_CHANGES_ROWS_WHERE = (
+    "rheobase probe does not spike at the ceiling but does spike below it, "
+    "or rheobase == 0 on a model not listed in SPONTANEOUSLY_ACTIVE"
+)
 
 _LOADED_MECH_DIRS: set[str] = set()
 
@@ -203,9 +224,33 @@ class NeuronAdapter(ABC):
     # Parameter injection
     # ------------------------------------------------------------------ #
     def canonical_absolute(self, parameter_id: str) -> float:
-        """Area-weighted mean canonical value, for the audit table."""
+        """Membrane-area-weighted mean canonical value, for the audit table.
+
+        The docstring said "area-weighted" and the body was ``np.mean`` over
+        segments (2026-08-09 audit, 5.3).  That is not a harmless simplification
+        on a reconstructed morphology: a d_lambda mesh puts many short segments
+        in thin distal dendrites and few long ones in thick proximal sections,
+        so a plain segment mean over-weights the distal tree by an order of
+        magnitude.  ``bbp_l5pc`` has 642 segments spanning about three decades of
+        area.
+
+        Weighting is by each segment's membrane area.  Where an area cannot be
+        obtained -- a synthetic adapter in a unit test, or a mechanism attached
+        to something that is not a segment -- the weight falls back to 1 and the
+        result degrades to the old segment mean rather than raising.
+        """
         entries = self._canonical[parameter_id]
-        return float(np.mean([v for _, _, v in entries]))
+        vals = np.array([v for _, _, v in entries], dtype=float)
+        areas = []
+        for seg, _attr, _v in entries:
+            try:
+                areas.append(float(seg.area()))
+            except Exception:                                     # noqa: BLE001
+                areas.append(1.0)
+        w = np.asarray(areas, dtype=float)
+        if not np.isfinite(w).all() or w.sum() <= 0:
+            return float(np.mean(vals))
+        return float(np.sum(w * vals) / np.sum(w))
 
     def apply(self, scales: dict[str, float]) -> None:
         """Set every listed parameter to ``canonical * scale``."""
@@ -314,6 +359,15 @@ class NeuronAdapter(ABC):
         return Recording(
             t=t, v=v, stim_start_ms=delay_ms, stim_end_ms=delay_ms + duration_ms,
             amplitude_nA=amplitude_nA, protocol_id=protocol_id,
+            # The comment above promises the CVODE fallback will be "reported so
+            # the QC audit records it", and until now only the FAILING path
+            # carried anything: a successful Recording said nothing about which
+            # solver actually integrated it, so a silent fallback from adaptive
+            # to fixed step left no trace at all (2026-08-09 audit, 5.2).  The
+            # effective mode now travels with every trace.
+            extra={"cvode_requested": bool(cvode), "cvode_used": bool(cvode_used),
+                   "cvode_fallback": bool(cvode and not cvode_used),
+                   "dt_ms": float(dt_ms)},
         )
 
     # ------------------------------------------------------------------ #
@@ -376,6 +430,12 @@ class NeuronAdapter(ABC):
         crossings = int(np.count_nonzero((~above[:-1]) & above[1:]))
         return self.SPIKING if crossings > 0 else self.NONSPIKING
 
+    # How many geometric rungs to try below the ceiling before concluding that a
+    # cell that does not spike at the ceiling does not spike at all.  Eight rungs
+    # span hi/256 .. hi/2, i.e. more than two decades of current, and the finest
+    # rung is at or below `manifest_rheobase_tol` for every model in the panel.
+    RHEOBASE_SCAN_RUNGS = 8
+
     def find_rheobase(
         self,
         lo_nA: float = 0.0,
@@ -386,25 +446,50 @@ class NeuronAdapter(ABC):
         total_ms: float = 1400.0,
         dt_ms: float = 0.025,
         max_iter: int = 24,
+        scan_rungs: int | None = None,
         **sim_kwargs,
     ) -> float | None:
-        """Bisection search for the smallest step current that evokes a spike.
+        """Search for the smallest step current that evokes a spike.
 
-        Returns ``None`` when the cell genuinely does not spike at ``hi_nA``
-        (the sample is then classified as non-spiking, not dropped), and raises
-        :class:`RheobaseProbeFailure` when any probe could not be evaluated, so
-        a numerical failure fails the parent sample instead of masquerading as
-        silence.
+        Returns ``None`` only when no probe anywhere in ``[lo_nA, hi_nA]``
+        spikes, and raises :class:`RheobaseProbeFailure` when any probe could not
+        be evaluated, so a numerical failure fails the parent sample instead of
+        masquerading as silence.
+
+        **Firing is not assumed to be monotonic in current.**  The search used to
+        probe the ceiling and return ``None`` the moment it did not spike, which
+        silently equated "in depolarisation block at ``hi_nA``" with "silent".
+        Under a broad conductance prior that is common, not exotic: 2,327 stored
+        rows labelled non-spiking fire at an absolute step amplitude *below*
+        their own search ceiling (2026-08-09 audit, 4.1).  When the ceiling does
+        not spike, the search therefore walks a geometric ladder upward from
+        ``hi/2**rungs`` and brackets the lowest rung that does, which is the
+        rung nearest the true rheobase; bisection is only ever applied to an
+        interval whose upper end is known to spike and whose lower end is known
+        not to.
 
         ``sim_kwargs`` (notably ``cvode``) is forwarded to every probe.  Passing
         the model's chosen solver settings here matters a great deal: the search
-        costs ~11 simulations per sample and dominates the campaign budget.
+        costs ~11 simulations per sample and dominates the campaign budget.  The
+        ladder only runs for samples that fail at the ceiling, so it costs
+        nothing on the majority path.
+
+        The diagnosis is recorded on ``self.last_rheobase_search`` so a caller
+        can tell a genuinely silent cell from one that is blocked at the ceiling
+        without re-running the probes.
         """
         lo = lo_nA
-        hi = self.manifest_rheobase_hi if hi_nA is None else hi_nA
+        ceiling = self.manifest_rheobase_hi if hi_nA is None else hi_nA
+        hi = ceiling
         tol = self.manifest_rheobase_tol if tol_nA is None else tol_nA
+        rungs = self.RHEOBASE_SCAN_RUNGS if scan_rungs is None else scan_rungs
+        diag: dict = {"ceiling_nA": float(ceiling), "scan_rungs": 0,
+                      "scan_hit_nA": None, "blocked_at_ceiling": False,
+                      "n_probes": 0}
+        self.last_rheobase_search = diag
 
         def state(amp: float) -> str:
+            diag["n_probes"] += 1
             s = self.probe_spiking(amp, delay_ms, duration_ms, total_ms, dt_ms,
                                    **sim_kwargs)
             if s == self.FAILED:
@@ -413,8 +498,23 @@ class NeuronAdapter(ABC):
                     f"produced no usable trace")
             return s
 
-        if state(hi) != self.SPIKING:
-            return None
+        if state(ceiling) != self.SPIKING:
+            hit = None
+            for k in range(rungs, 0, -1):
+                amp = ceiling * 2.0 ** (-k)
+                if amp <= lo:
+                    continue
+                diag["scan_rungs"] += 1
+                if state(amp) == self.SPIKING:
+                    hit = amp
+                    break
+            if hit is None:
+                return None          # silent everywhere the ladder looked
+            # The cell spikes below the ceiling but not at it: depolarisation
+            # block (or any other non-monotonicity) at the top of the range.
+            diag["scan_hit_nA"] = float(hit)
+            diag["blocked_at_ceiling"] = True
+            hi = hit
         if state(lo) == self.SPIKING:
             return lo
         for _ in range(max_iter):
@@ -427,6 +527,9 @@ class NeuronAdapter(ABC):
                 break
         return hi
 
+    # Diagnosis of the most recent `find_rheobase` call; see that method.
+    last_rheobase_search: dict | None = None
+
     # Per-model search envelope; overridden by subclasses with different sizes.
     manifest_rheobase_hi: float = 2.0
     manifest_rheobase_tol: float = 0.002
@@ -438,8 +541,13 @@ class NeuronAdapter(ABC):
     def qc_flags(rec: Recording) -> list[str]:
         """Detect solver failures, nonphysical voltages and unstable rest."""
         flags: list[str] = []
+        # A silent fall back from the requested adaptive solver to fixed step
+        # changes what was integrated and must reach the audit table, not just
+        # the Recording's metadata (2026-08-09 audit, 5.2).
+        if rec.extra.get("cvode_fallback"):
+            flags.append("cvode_fallback")
         if rec.v.size == 0:
-            return ["solver_failure"]
+            return [*flags, "solver_failure"]
         v = rec.v
         if not np.all(np.isfinite(v)):
             flags.append("nonfinite_voltage")

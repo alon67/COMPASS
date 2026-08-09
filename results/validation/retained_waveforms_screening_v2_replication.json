@@ -1,0 +1,250 @@
+{
+ "tool": "retain_waveforms.py",
+ "written_utc": "2026-08-09T15:35:46.596873+00:00",
+ "experiment": "screening_v2_replication",
+ "n_selected": 94,
+ "n_clean": 61,
+ "n_with_problems": 33,
+ "n_features_recomputed": 4909,
+ "n_features_mismatched": 0,
+ "features_recomputed_from": "the reloaded .npz archive, not the in-memory simulation",
+ "trace_precision": "float64",
+ "problems_by_kind": {
+  "spike_shape": 34,
+  "voltage_range": 6,
+  "baseline_stability": 40
+ },
+ "coverage": {
+  "models": [
+   "dougalis_vlpag_da",
+   "moubarak_snc_da",
+   "tomko_ca1"
+  ],
+  "regimes": [
+   "E1",
+   "E2",
+   "E6"
+  ],
+  "strata": [
+   "class_depolarisation_block",
+   "class_spontaneous",
+   "class_unstable",
+   "coverage",
+   "nonspiking",
+   "ordinary_random",
+   "prior_corner",
+   "qc_flagged",
+   "rate_max",
+   "rate_min"
+  ]
+ },
+ "declared_coverage": {
+  "policy": {
+   "every_model_in_the_campaign": 1,
+   "every_model_regime_cell": 1,
+   "every_absolute_protocol_per_model": 1,
+   "risk_strata_represented": 1
+  },
+  "n_models_required": 3,
+  "n_models_covered": 3,
+  "missing_models": [],
+  "n_model_regime_cells_required": 7,
+  "n_model_regime_cells_covered": 7,
+  "missing_model_regime_cells": [],
+  "strata_present": [
+   "class_depolarisation_block",
+   "class_spontaneous",
+   "class_unstable",
+   "coverage",
+   "nonspiking",
+   "ordinary_random",
+   "prior_corner",
+   "qc_flagged",
+   "rate_max",
+   "rate_min"
+  ],
+  "satisfied": true
+ },
+ "checks": [
+  "voltage_range",
+  "baseline_stability",
+  "spike_shape",
+  "spike_count_agreement",
+  "depolarisation_block",
+  "discontinuity",
+  "finite",
+  "feature_recomputation"
+ ],
+ "not_checked_here": "half-step agreement: a per-model property already measured by the convergence audits (gate N3) and the perturbation repeatability battery, not re-derived from a trace sample",
+ "traces_dir": "results/traces/retained",
+ "worst": [
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s2134",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_hi: spike_shape: widest detected AP is 114 ms over 3 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 257 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s2636",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-153.6, 26.6] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s3650",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-156.3, 1.2] mV outside [-150.0, 80.0]",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 8.30 mV, 11% of the 77.5 mV excursion"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s528",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 6.59 mV, 14% of the 48.4 mV excursion"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1000",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 8.04 mV, 35% of the 23.3 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 8.04 mV, 14% of the 57.0 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 8.04 mV, 10% of the 77.0 mV excursion",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1239",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-187.9, 3.2] mV outside [-150.0, 80.0]",
+    "step_abs_hi: spike_shape: widest detected AP is 399 ms over 2 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1640",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_hi: spike_shape: smallest detected AP is 3.88 mV over 3 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 19 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1919",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 10.46 mV, 11% of the 96.2 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 10.46 mV, 14% of the 76.7 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 10.46 mV, 12% of the 85.2 mV excursion"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s488",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_hi: spike_shape: widest detected AP is 49.3 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s131",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_lo: spike_shape: widest detected AP is 421 ms over 3 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 395 ms over 3 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 327 ms over 4 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1159",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_lo: spike_shape: widest detected AP is 421 ms over 3 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 394 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s661",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 8.40 mV, 11% of the 77.4 mV excursion",
+    "step_rheo_3p0x: spike_shape: smallest detected AP is 5.56 mV over 4 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 49.6 ms over 4 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1613",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 6.26 mV, 16% of the 38.4 mV excursion",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 196 ms over 1 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s3094",
+   "stratum": "nonspiking",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 20.89 mV, 17% of the 119.7 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 20.89 mV, 34% of the 60.7 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 20.89 mV, 27% of the 78.4 mV excursion"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s686",
+   "stratum": "class_depolarisation_block",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 10.19 mV, 13% of the 81.4 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 10.19 mV, 13% of the 80.2 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 10.19 mV, 11% of the 89.5 mV excursion",
+    "step_rheo_1p5x: baseline_stability: pre-stimulus mean moved 10.19 mV, 15% of the 67.3 mV excursion",
+    "step_rheo_3p0x: baseline_stability: pre-stimulus mean moved 10.19 mV, 13% of the 81.1 mV excursion"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s742",
+   "stratum": "class_unstable",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-168.0, 3.4] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s43",
+   "stratum": "rate_min",
+   "problems": [
+    "step_rheo_1p5x: spike_shape: widest detected AP is 16.5 ms over 3 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 169 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s285",
+   "stratum": "nonspiking",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 17.19 mV, 17% of the 101.9 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 17.19 mV, 25% of the 68.4 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 17.19 mV, 21% of the 81.6 mV excursion",
+    "step_abs_hi: spike_shape: widest detected AP is 377 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1039",
+   "stratum": "class_depolarisation_block",
+   "problems": [
+    "step_abs_hi: spike_shape: smallest detected AP is 6.71 mV over 3 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 16.9 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s611",
+   "stratum": "class_spontaneous",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 9.41 mV, 11% of the 82.2 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 9.41 mV, 12% of the 80.8 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 9.41 mV, 12% of the 80.8 mV excursion"
+   ]
+  }
+ ]
+}

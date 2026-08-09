@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-08T10:08:51.232718+00:00",
- "git_tree": "1695d044961468959c609ca4d70a030ff7c0df3d-dirty",
+ "written_utc": "2026-08-09T14:44:50.633897+00:00",
+ "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -37,9 +37,9 @@
     "drift_note": "derived labels and documented schema drift are reported separately: they are not reproduction failures, and gate D5 validates them by exact recomputation",
     "n_rows_total": 76288,
     "n_shards": 3057,
-    "n_replayed": 3339,
-    "n_planned": 3339,
-    "n_match": 3339,
+    "n_replayed": 3338,
+    "n_planned": 3338,
+    "n_match": 3338,
     "n_mismatch": 0,
     "n_replay_error": 0,
     "invalid_shards": [],
@@ -186,7 +186,6 @@
      "hh_cable:E1:1:10",
      "hh_cable:E1:1:1009",
      "hh_cable:E1:1:1030",
-     "hh_cable:E1:1:1031",
      "hh_cable:E1:1:1054",
      "hh_cable:E1:1:1085",
      "hh_cable:E1:1:1110",
@@ -259,6 +258,7 @@
      "hh_cable:E1:1:2505",
      "hh_cable:E1:1:2528",
      "hh_cable:E1:1:2550",
+     "hh_cable:E1:1:2573",
      "hh_cable:E1:1:2587",
      "hh_cable:E1:1:2618",
      "hh_cable:E1:1:2648",
@@ -275,13 +275,12 @@
      "hh_cable:E1:1:2892",
      "hh_cable:E1:1:2902",
      "hh_cable:E1:1:292",
-     "hh_cable:E1:1:2923",
      "hh_cable:E1:1:2938",
      "hh_cable:E1:1:2960",
-     "hh_cable:E1:1:298",
      "hh_cable:E1:1:2989",
      "hh_cable:E1:1:3002",
      "hh_cable:E1:1:3026",
+     "hh_cable:E1:1:306",
      "hh_cable:E1:1:3072",
      "hh_cable:E1:1:309",
      "hh_cable:E1:1:3096",
@@ -299,9 +298,9 @@
      "hh_cable:E1:1:3388",
      "hh_cable:E1:1:34",
      "hh_cable:E1:1:3415",
+     "hh_cable:E1:1:3431",
      "hh_cable:E1:1:344",
      "hh_cable:E1:1:3441",
-     "hh_cable:E1:1:3455",
      "hh_cable:E1:1:3460",
      "hh_cable:E1:1:3497",
      "hh_cable:E1:1:3521",
@@ -429,7 +428,7 @@
      "hh_cable:E1:1:6268",
      "hh_cable:E1:1:6282",
      "hh_cable:E1:1:6318",
-     "hh_cable:E1:1:6331",
+     "hh_cable:E1:1:6339",
      "hh_cable:E1:1:6346",
      "hh_cable:E1:1:6356",
      "hh_cable:E1:1:6396",
@@ -521,6 +520,7 @@
      "hh_cable:E1:1:846",
      "hh_cable:E1:1:869",
      "hh_cable:E1:1:879",
+     "hh_cable:E1:1:893",
      "hh_cable:E1:1:906",
      "hh_cable:E1:1:947",
      "hh_cable:E1:1:955",
@@ -560,7 +560,7 @@
      "hh_cable:E2:1:1636"
     ]
    },
-   "git_tree": "1695d044961468959c609ca4d70a030ff7c0df3d-dirty",
+   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -574,7 +574,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-08T10:08:51.232618+00:00",
+   "recorded_utc": "2026-08-09T14:44:50.633789+00:00",
    "passed": true
   }
  ]

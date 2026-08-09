@@ -166,8 +166,32 @@ def perturbation_precondition(perturb, inference: dict | None) -> dict:
         lin = len(out["models_repeatable"])
     out["n_repeatable_lineages"] = int(lin)
 
+    # MEASUREMENT-SCHEMA STALENESS.
+    #
+    # The battery's backgrounds are k-means representatives of the E3 accepted
+    # ensemble, and its candidate tuples come from the O-information table --
+    # both computed from the feature shards.  When the MEASUREMENT procedure
+    # changes, those shards change, and a stored battery is then a set of
+    # perturbations around points that no longer exist in the ensemble it claims
+    # to probe.  probe-2 -> probe-3 moved 1,846 rheobase values and voided
+    # 15,148 rows of normalised features, so the H-B criteria must be withheld
+    # until the battery is re-run rather than scored from stale eta.
+    from compass.adapters.base import MEASUREMENT_SCHEMA_VERSION
+
+    stored_schema = (inference.get("measurement_schema")
+                     or rep.get("measurement_schema"))
+    out["measurement_schema_now"] = MEASUREMENT_SCHEMA_VERSION
+    out["measurement_schema_of_battery"] = stored_schema or "not recorded"
+    out["battery_schema_current"] = stored_schema == MEASUREMENT_SCHEMA_VERSION
+
     need = THRESHOLDS["perturbation_min_repeatable_lineages"]
     reasons = []
+    if not out["battery_schema_current"]:
+        reasons.append(
+            f"the stored battery was produced under measurement schema "
+            f"{out['measurement_schema_of_battery']}, the campaign is now "
+            f"{MEASUREMENT_SCHEMA_VERSION}; its backgrounds and candidate tuples "
+            f"are derived from feature rows that have since been regenerated")
     if out["models_untested"]:
         reasons.append(f"{out['models_untested']} have no half-step results")
     if lin < need:
@@ -518,6 +542,11 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability,
                                     if ev["n_hg_total"] else None)
         ev["hb_fraction_passed"] = (ev["n_hb_passed"] / ev["n_hb_total"]
                                     if ev["n_hb_total"] else None)
+        # The dependence and interpretation blocks belong to EVERY decision, not
+        # only to a complete one: an arm that could not evaluate H-B still emits
+        # an H-G tally, and that tally needs the same qualification.
+        ev["criterion_dependence"] = criterion_dependence(ev)
+        ev["interpretation"] = interpretation(ev)
         return ev
 
     hg_frac = ev["n_hg_passed"] / ev["n_hg_total"]
@@ -533,7 +562,121 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability,
     ev["conclusion_label"] = ev["conclusion"]
     ev["hg_fraction_passed"] = hg_frac
     ev["hb_fraction_passed"] = hb_frac
+    ev["criterion_dependence"] = criterion_dependence(ev)
+    ev["interpretation"] = interpretation(ev)
     return ev
+
+
+# Which inputs each preregistered criterion is computed from.  Two criteria that
+# share a table, a model panel and an endpoint are not two independent tests of
+# the same hypothesis, however differently they are phrased.
+CRITERION_INPUTS = {
+    "conditioning effect direction agreement across LINEAGES":
+        {"table": "endpoints", "endpoint": "synergy_area",
+         "unit": "source lineage", "statistic": "sign agreement"},
+    "high-covariance subset effect direction agreement (lineages)":
+        {"table": "endpoints", "endpoint": "synergy_area",
+         "unit": "source lineage", "statistic": "sign agreement"},
+    "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]":
+        {"table": "endpoints", "endpoint": "synergy_area",
+         "unit": "ensemble row", "statistic": "commonality R2 ratio"},
+    "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)":
+        {"table": "endpoints", "endpoint": "synergy_area",
+         "unit": "source lineage", "statistic": "cross-validated R2"},
+    "sampling regime predictable across unseen lineages":
+        {"table": "endpoints", "endpoint": "information summaries",
+         "unit": "source lineage", "statistic": "classifier accuracy"},
+    "statistical synergy modules validated by direct perturbation":
+        {"table": "perturbations", "endpoint": "nonadditivity",
+         "unit": "tuple", "statistic": "support fraction"},
+    "top-synergy tuples more non-additive than matched controls":
+        {"table": "perturbations", "endpoint": "nonadditivity",
+         "unit": "source lineage", "statistic": "paired difference"},
+}
+
+
+def criterion_dependence(ev: dict) -> dict:
+    """How much of the H-G vote is independent evidence (2026-08-09 audit, 6.2).
+
+    ``H-G 5/5`` reads as five confirmations.  It is not: four of the five
+    criteria are computed from the same endpoint table, four from the same
+    ``synergy_area`` endpoint, and two of those are sign agreements over the same
+    five lineages.  A vote over correlated derivatives of one small panel is a
+    decision-framework outcome, not five independent tests, and the difference
+    matters for how the manuscript may phrase it.  The dependence is emitted with
+    the decision so no reader has to reconstruct it.
+    """
+    from collections import Counter
+
+    rows = []
+    for c in ev["criteria"]:
+        spec = CRITERION_INPUTS.get(c["criterion"], {})
+        rows.append({"criterion": c["criterion"], "supports": c["supports"],
+                     "passed": c["passed"], **spec})
+    hg = [r for r in rows if r["supports"] == "H-G"]
+    by_table = Counter(r.get("table") for r in hg)
+    by_endpoint = Counter(r.get("endpoint") for r in hg)
+    return {
+        "criteria": rows,
+        "n_hg_criteria": len(hg),
+        "hg_criteria_by_source_table": dict(by_table),
+        "hg_criteria_by_endpoint": dict(by_endpoint),
+        "largest_shared_input_group": max(by_endpoint.values(), default=0),
+        "independent_source_tables": len([t for t in by_table if t]),
+        "note": ("criteria sharing an endpoint are computed from the same rows "
+                 "of the same table over the same lineages; they cannot fail "
+                 "independently, so the vote count overstates the number of "
+                 "distinct confirmations"),
+    }
+
+
+def interpretation(ev: dict) -> dict:
+    """The strength qualification that must travel with the label.
+
+    The formal algorithm returns a label.  What the label MEANS depends on how
+    strong its inputs are, and the 2026-08-09 audit found each of them weak in a
+    different way: both direction criteria are 4/5 with exact two-sided
+    p = 0.375, the unique-R2 ratio is a lower bound created by flooring a
+    near-zero denominator, the transfer median hides one severely negative fold,
+    and the classifier clears its baseline by about eleven points over five
+    folds.  Emitting the label without these is how an exploratory outcome
+    becomes a confirmatory claim in transcription.
+    """
+    weak = []
+    for c in ev["criteria"]:
+        d = str(c.get("detail", ""))
+        if "sign p=" in d:
+            p = d.split("sign p=")[1].split()[0].rstrip(".,;")
+            weak.append(f"{c['criterion']}: exact two-sided sign p = {p}")
+        if "LOWER BOUND" in d or "resolution floor" in d:
+            weak.append(f"{c['criterion']}: a lower bound created by flooring a "
+                        f"near-zero denominator, not a point estimate")
+        if "baseline=" in d:
+            weak.append(f"{c['criterion']}: {d}")
+    return {
+        "status": "exploratory decision-framework outcome",
+        "label": ev.get("conclusion"),
+        "may_be_described_as": (
+            "the preregistered decision algorithm returns "
+            f"{ev.get('conclusion')} on this arm"),
+        "may_not_be_described_as": [
+            "a confirmatory general biological conclusion",
+            "five independent confirmations",
+            "evidence that the interaction structure is generally non-biological",
+            "evidence that biologically meaningful parameter modules are absent",
+        ],
+        "supportable_statement": (
+            "sampling, conditioning, covariance and model geometry materially "
+            "influence the sign and magnitude of measured higher-order "
+            "interactions across the tested models"),
+        "h_b_status": (
+            "UNRESOLVED. Current data do not provide numerically repeatable, "
+            "adequately powered evidence for H-B; they do not demonstrate that "
+            "it is absent."),
+        "criterion_weaknesses": weak,
+        "source": ("COMPASS_INDEPENDENT_POST_RESPONSE_2_TECHNICAL_SCIENTIFIC_"
+                   "AUDIT_2026-08-09.md, sections 6.2 and 6.3"),
+    }
 
 
 def _sign_p(k: int, n: int) -> float:
@@ -726,6 +869,16 @@ def main() -> int:
         if src:
             path = OUT / f"endpoints_{src}.parquet"
             if not path.exists():
+                # Skipping is right for a SENSITIVITY arm and catastrophic for
+                # the primary one: the headline arm now reads the N4-projected
+                # table, so a missing source would silently produce no
+                # decision.json at all rather than a wrong one.  Fail loudly.
+                if arm == "primary":
+                    raise SystemExit(
+                        f"the PRIMARY arm reads {path.name}, which is absent. "
+                        f"Run: python3 tools/run_analysis.py --experiment "
+                        f"{args.experiment} --suffix _n4proj "
+                        f"--drop-unidentifiable-parameters")
                 print(f"\n### arm {arm}: source table {path.name} is absent; "
                       f"arm skipped rather than silently evaluated on "
                       f"{args.experiment}")

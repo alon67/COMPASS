@@ -15,13 +15,15 @@ by FILE for the one gate whose tests predate the convention (N5).  A gate with n
 evidence is reported with ``n=0``, which the manifest treats as missing -- and a
 missing gate is a failure, not a pass.
 
-**N2 is deliberately absent.**  Strict reproduction of published traces is not
-implemented as a test: ``compass.validation.bounds`` says so explicitly -- its
-intervals are "unit-error and dead-channel detectors, not goodness-of-fit
-tests", and true source reproduction "needs the matching published stimulus,
-temperature and recording site".  Recording N2 as absent is the honest state and
-keeps the release blocked until someone implements it, rather than letting a
-descriptive model audit stand in for a gate.
+**N2 is implemented for the sourceable subset.**  It reported ``0/0`` through
+three audits; ``tests/integration/test_n2_source_reproduction.py`` now compares
+each model's canonical operating point against a published scalar declared in
+``data/provenance/n2_source_targets.json``.  It is NOT trace-level reproduction
+-- the published stimulus, temperature and recording site are not distributed
+with these models -- and the models with no sourceable scalar are declared not
+evaluable with a reason, appearing as ``exempt`` in the validity matrix rather
+than as passes.  Every claim requiring source-level reproduction is withdrawn
+for those models.
 
     python tools/record_numerical_gates.py            # runs the fast tests
     python tools/record_numerical_gates.py --slow     # includes slow panel tests
@@ -127,6 +129,29 @@ class _Collector:
             self.collect_errors.append(str(report.nodeid))
 
 
+def _subject_records(matrix: dict[str, dict[str, str]]) -> list[dict]:
+    """Flatten the validity matrix into one gate record per (gate, model).
+
+    ``untested`` and ``exempt`` are recorded as FAIL, not as absent evidence:
+    a release must be able to say, per model, that a gate was satisfied, and
+    "we never ran it here" is the answer the coverage check exists to catch.
+    """
+    out = []
+    for gate, row in sorted(matrix.items()):
+        if gate.startswith("_"):
+            continue
+        for model, state in sorted(row.items()):
+            out.append({
+                "gate": gate,
+                "subject": model,
+                "status": "PASS" if state == "pass" else "FAIL",
+                "detail": state,
+                "failures": [] if state == "pass" else [f"{gate} is {state} for {model}"],
+                "measurements": {"validity_state": state},
+            })
+    return out
+
+
 def _validity_matrix(rows: list[dict]) -> dict[str, dict[str, str]]:
     """gate -> model_id -> pass | fail | exempt | untested.
 
@@ -150,6 +175,15 @@ def _validity_matrix(rows: list[dict]) -> dict[str, dict[str, str]]:
     exempt: dict[str, dict[str, list[str]]] = {
         "N3": {m: ["all N3 acceptance checks"] for m in N3_KNOWN_FAILURES},
         "N6": {},
+        # N2 is evaluable only where a published scalar exists to compare
+        # against; the rest are DECLARED not evaluable, with a reason, in
+        # data/provenance/n2_source_targets.json. Declared-and-explained is not
+        # the same as passing, so they are exempt, not pass.
+        "N2": {m: [v.get("reason", "declared not evaluable")]
+               for m, v in json.loads(
+                   (ROOT / "data" / "provenance" / "n2_source_targets.json"
+                    ).read_text())["models"].items()
+               if not v.get("evaluable")},
     }
     for m, check in N6_KNOWN_FAILURES:
         exempt["N6"].setdefault(m, []).append(check)
@@ -262,11 +296,15 @@ def main() -> int:
             "collection_errors": coll.collect_errors,
             "environment": environment_record(),
         },
-        "note": ("N2 has no automated test: strict reproduction of published "
-                 "traces is not implemented, and the canonical-bounds checks are "
-                 "explicitly unit-error detectors rather than goodness-of-fit "
-                 "tests. It is reported with n=0 so the release manifest treats "
-                 "it as missing evidence."),
+        "note": ("N2 compares each model's canonical operating point against a "
+                 "SOURCED published scalar declared in "
+                 "data/provenance/n2_source_targets.json. It is NOT trace-level "
+                 "reproduction: the published stimulus, temperature and "
+                 "recording site are not distributed with these models. Models "
+                 "with no sourceable scalar are declared not evaluable with a "
+                 "reason and appear as `exempt` in validity_matrix, never as a "
+                 "pass; every claim requiring source-level reproduction is "
+                 "withdrawn for them."),
         "by_gate": by_gate,
         "by_gate_semantics": (
             "by_gate counts NEURONAL-VALIDITY tests only. Tests that police the "
@@ -280,6 +318,11 @@ def main() -> int:
             "model passes'."),
         "policy_tests": policy,
         "validity_matrix": _validity_matrix(coll.rows),
+        # Per-MODEL gate records in the same shape every other gate file uses.
+        # The roll-up alone is keyed by gate name, so the release manifest could
+        # only ever ask "did N4 run?", never "did N4 run for tomko_ca1?"
+        # (2026-08-09 audit, 3.1: "require named gate subjects").
+        "records": _subject_records(_validity_matrix(coll.rows)),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(record, indent=1))

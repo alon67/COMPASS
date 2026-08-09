@@ -1,0 +1,202 @@
+{
+ "_doc": [
+  "GATE N2: quantitative agreement with SOURCED published values.",
+  "",
+  "N2 was reported as 0/0 through three audits -- 'strict reproduction of",
+  "published traces is not implemented' -- and a gate with no evidence blocks the",
+  "release but tells a reader nothing. The 2026-08-09 post-response-2 audit gave",
+  "two acceptable dispositions: implement N2 with model-specific sourced targets,",
+  "or withdraw every claim that requires source-level reproduction. This file",
+  "does the first for the subset where a published quantity is actually",
+  "available, and does the second, explicitly, for the rest.",
+  "",
+  "WHAT THIS IS NOT. It is not trace-level reproduction. Reproducing a published",
+  "figure requires the published stimulus waveform, temperature and recording",
+  "site, and for most of these models those exist only inside figures in the",
+  "source papers; the distributed archives contain mechanisms and morphology, not",
+  "the validation protocol. Every target below is therefore a SCALAR published",
+  "quantity compared against the COMPASS canonical measurement, with the",
+  "protocol-match status stated per target.",
+  "",
+  "SOURCING RULE. Every target must name a source and the place in this",
+  "repository where that source statement is recorded, so a reviewer can trace it",
+  "without leaving the tree. Targets whose recorded justification is a",
+  "qualitative statement rather than a published number are NOT targets: those",
+  "models are declared not evaluable, with the reason, and count as missing N2",
+  "evidence rather than as passes.",
+  "",
+  "TOLERANCES. Wide, and deliberately so. A published input resistance is",
+  "measured at a temperature, a holding potential and a step amplitude that the",
+  "frozen COMPASS protocol does not match; the tolerance has to absorb that or",
+  "the gate would be testing protocol mismatch rather than the model. N2 is a",
+  "'did this implementation land near its published operating point' test, which",
+  "is a strictly stronger claim than N1's unit-error interval and a strictly",
+  "weaker one than trace reproduction."
+ ],
+ "gate": "N2",
+ "version": "n2-1",
+ "measurement_source": "results/manifests/canonical_<model_id>.json, produced by tools/canonical_audit.py under the model's production solver contract",
+ "models": {
+  "hh_point": {
+   "evaluable": true,
+   "targets": [
+    {
+     "feature": "resting_potential_mV",
+     "published": -65.0,
+     "tolerance_abs": 6.0,
+     "units": "mV",
+     "source": "Hodgkin & Huxley 1952 J Physiol 117:500 -- squid axon rest ~ -65 mV at 6.3 C",
+     "source_recorded_in": "src/compass/validation/bounds.py::CANONICAL_BOUNDS['hh_point']['resting_potential_mV']",
+     "protocol_matched": true,
+     "protocol_note": "rest is a zero-current measurement; no stimulus to match"
+    }
+   ]
+  },
+  "hh_cable": {
+   "evaluable": true,
+   "targets": [
+    {
+     "feature": "resting_potential_mV",
+     "published": -65.0,
+     "tolerance_abs": 6.0,
+     "units": "mV",
+     "source": "Hodgkin & Huxley 1952 J Physiol 117:500 -- same channel set as hh_point",
+     "source_recorded_in": "src/compass/validation/bounds.py::CANONICAL_BOUNDS['hh_cable']['resting_potential_mV']",
+     "protocol_matched": true,
+     "protocol_note": "rest is a zero-current measurement; no stimulus to match"
+    }
+   ]
+  },
+  "pospischil_rs": {
+   "evaluable": true,
+   "targets": [
+    {
+     "feature": "input_resistance_Mohm",
+     "published": 34.0,
+     "tolerance_frac": 0.4,
+     "units": "Mohm",
+     "source": "Pospischil et al. 2008 Biol Cybern 99:427, ModelDB 123623 -- the distributed RS template states Rin = 34 MOhm",
+     "source_recorded_in": "src/compass/validation/bounds.py::CANONICAL_BOUNDS['pospischil_rs']['input_resistance_Mohm']",
+     "protocol_matched": false,
+     "protocol_note": "COMPASS measures Rin from a -0.2 nA, 400 ms step at 36 C; the template value is not stated with its measuring step, hence the 40% tolerance"
+    },
+    {
+     "feature": "resting_potential_mV",
+     "published": -70.0,
+     "tolerance_abs": 6.0,
+     "units": "mV",
+     "source": "Pospischil et al. 2008: e_pas = -70 mV in the distributed template",
+     "source_recorded_in": "src/compass/validation/bounds.py::CANONICAL_BOUNDS['pospischil_rs']['resting_potential_mV']",
+     "protocol_matched": true,
+     "protocol_note": "zero-current rest"
+    }
+   ]
+  },
+  "pospischil_fs": {
+   "evaluable": true,
+   "targets": [
+    {
+     "feature": "input_resistance_Mohm",
+     "published": 48.0,
+     "tolerance_frac": 0.4,
+     "units": "Mohm",
+     "source": "Pospischil et al. 2008 Biol Cybern 99:427, ModelDB 123623 -- the distributed FS template states Rin = 48 MOhm",
+     "source_recorded_in": "src/compass/validation/bounds.py::CANONICAL_BOUNDS['pospischil_fs']['input_resistance_Mohm']",
+     "protocol_matched": false,
+     "protocol_note": "as pospischil_rs, measured from a -0.15 nA step"
+    },
+    {
+     "feature": "resting_potential_mV",
+     "published": -70.0,
+     "tolerance_abs": 6.0,
+     "units": "mV",
+     "source": "Pospischil et al. 2008: e_pas = -70 mV in the distributed template",
+     "source_recorded_in": "src/compass/validation/bounds.py::CANONICAL_BOUNDS['pospischil_fs']['resting_potential_mV']",
+     "protocol_matched": true,
+     "protocol_note": "zero-current rest"
+    }
+   ]
+  },
+  "khaliq_purkinje": {
+   "evaluable": true,
+   "targets": [
+    {
+     "feature": "spontaneous_rate_Hz",
+     "published_range": [
+      30.0,
+      50.0
+     ],
+     "tolerance_frac": 0.2,
+     "units": "Hz",
+     "source": "Khaliq et al. 2003 J Neurosci 23:4899 -- spontaneous firing 30-50 Hz at 22 C",
+     "source_recorded_in": "src/compass/validation/bounds.py::CANONICAL_BOUNDS['khaliq_purkinje']['spontaneous_rate_Hz']",
+     "protocol_matched": true,
+     "protocol_note": "spontaneous rate is measured with no injected current in both"
+    }
+   ]
+  },
+  "mainen_l5pc": {
+   "evaluable": false,
+   "reason": "the recorded value is e_pas = v_init = -70 mV, an initialisation setting; the source publishes spike-initiation behaviour rather than a resting potential measured under a stated protocol",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model",
+   "observed_resting_potential_mV": -70.382,
+   "observation_note": "recorded so the measurement is not lost: it is inside the N1 interval, which is the claim that IS made for this model"
+  },
+  "migliore_ca1": {
+   "evaluable": true,
+   "targets": [
+    {
+     "feature": "resting_potential_mV",
+     "published": -65.0,
+     "tolerance_abs": 5.0,
+     "units": "mV",
+     "source": "Migliore et al. 1999 J Comput Neurosci 7:5 -- V_rest pinned to -65 mV by the published e_pas(x) initialisation procedure",
+     "source_recorded_in": "docs/model_audit.md, deviation 3; src/compass/validation/bounds.py::CANONICAL_BOUNDS['migliore_ca1']['resting_potential_mV']",
+     "protocol_matched": true,
+     "protocol_note": "the published initialisation is reproduced exactly by MiglioreCA1._post_finitialize; without it the cell rests near -75 mV, so this target also tests that the reproduction is active"
+    }
+   ]
+  },
+  "tomko_ca1": {
+   "evaluable": false,
+   "reason": "the recorded value is v_init = -65 mV from the distributed BluePyOpt configuration; the optimised active conductances settle the cell 7.5 mV below it, so v_init does not predict rest and is not an N2 target",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model",
+   "observed_resting_potential_mV": -72.548,
+   "observation_note": "recorded so the measurement is not lost: it is inside the N1 interval, which is the claim that IS made for this model"
+  },
+  "tzilivaki_fsbc": {
+   "evaluable": false,
+   "reason": "the recorded value is e_pas = v_init = -70 mV; the model is not simulated (fails N1 and N3) and its rest is an initialisation setting, not a published measurement",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model",
+   "observed_resting_potential_mV": -70.549,
+   "observation_note": "recorded so the measurement is not lost: it is inside the N1 interval, which is the claim that IS made for this model"
+  },
+  "bbp_l5pc": {
+   "evaluable": false,
+   "reason": "the recorded value is v_init = -80 mV with e_pas = -90 mV; under Ih the steady state is neither, so v_init is an initialisation setting rather than a published measurement of resting potential",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model",
+   "observed_resting_potential_mV": -77.127,
+   "observation_note": "recorded so the measurement is not lost: it is inside the N1 interval, which is the claim that IS made for this model"
+  },
+  "miyasho_purkinje": {
+   "evaluable": false,
+   "reason": "the recorded justification for every bound is qualitative ('el_Leak = -80 mV with the full dendritic channel set', 'Purkinje high-frequency firing'); no published scalar with a matching measurement condition is recorded in this repository",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model"
+  },
+  "moubarak_snc_da": {
+   "evaluable": false,
+   "reason": "the SNc pacemaking rate recorded here (1-10 Hz in vitro) is a species/preparation range, not a value the source publication reports for THIS reconstruction under a stated protocol; comparing a scalar against it would test the range, not the model",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model"
+  },
+  "dougalis_vlpag_da": {
+   "evaluable": false,
+   "reason": "the model is voltage-clamp-constrained; the source reports conductance densities rather than a current-clamp scalar that the frozen COMPASS protocol measures",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model"
+  },
+  "ortner_snc_da": {
+   "evaluable": false,
+   "reason": "not simulated (fails N3 and has partial protocol coverage); no N2 target is declared for a model that is excluded from the panel",
+   "claims_withdrawn": "no source-level reproduction is claimed for this model"
+  }
+ }
+}

@@ -1,0 +1,79 @@
+{
+ "generated_utc": "2026-08-09T14:02:53.859681+00:00",
+ "measurement_schema": "probe-3",
+ "validator_version": "row-validity-3",
+ "shards": 4656,
+ "shards_rewritten": 4656,
+ "rows_rheobase_recovered": 2392,
+ "rows_normalised_voided": 0,
+ "rows_qc_flags_stripped": 15143,
+ "absolute_family_mismatches": [],
+ "by_model": {
+  "bbp_l5pc": {
+   "recovered": 0,
+   "voided": 0,
+   "shards": 138,
+   "qc_flags_stripped": 86
+  },
+  "hh_cable": {
+   "recovered": 540,
+   "voided": 0,
+   "shards": 892,
+   "qc_flags_stripped": 7160
+  },
+  "hh_point": {
+   "recovered": 174,
+   "voided": 0,
+   "shards": 876,
+   "qc_flags_stripped": 6564
+  },
+  "khaliq_purkinje": {
+   "recovered": 1648,
+   "voided": 0,
+   "shards": 455,
+   "qc_flags_stripped": 0
+  },
+  "mainen_l5pc": {
+   "recovered": 0,
+   "voided": 0,
+   "shards": 22,
+   "qc_flags_stripped": 17
+  },
+  "migliore_ca1": {
+   "recovered": 0,
+   "voided": 0,
+   "shards": 65,
+   "qc_flags_stripped": 0
+  },
+  "pospischil_fs": {
+   "recovered": 0,
+   "voided": 0,
+   "shards": 884,
+   "qc_flags_stripped": 4
+  },
+  "pospischil_rs": {
+   "recovered": 0,
+   "voided": 0,
+   "shards": 892,
+   "qc_flags_stripped": 1
+  },
+  "dougalis_vlpag_da": {
+   "recovered": 2,
+   "voided": 0,
+   "shards": 328,
+   "qc_flags_stripped": 1311
+  },
+  "moubarak_snc_da": {
+   "recovered": 6,
+   "voided": 0,
+   "shards": 21,
+   "qc_flags_stripped": 0
+  },
+  "tomko_ca1": {
+   "recovered": 22,
+   "voided": 0,
+   "shards": 83,
+   "qc_flags_stripped": 0
+  }
+ }
+}

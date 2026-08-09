@@ -1,0 +1,96 @@
+{
+ "tool": "retain_waveforms.py",
+ "written_utc": "2026-08-09T15:31:27.139968+00:00",
+ "experiment": "screening_expand",
+ "n_selected": 21,
+ "n_clean": 18,
+ "n_with_problems": 3,
+ "n_features_recomputed": 1094,
+ "n_features_mismatched": 0,
+ "features_recomputed_from": "the reloaded .npz archive, not the in-memory simulation",
+ "trace_precision": "float64",
+ "problems_by_kind": {
+  "spike_shape": 6
+ },
+ "coverage": {
+  "models": [
+   "migliore_ca1"
+  ],
+  "regimes": [
+   "E1",
+   "E2",
+   "E6"
+  ],
+  "strata": [
+   "class_depolarisation_block",
+   "coverage",
+   "nonspiking",
+   "ordinary_random",
+   "prior_corner",
+   "rate_max",
+   "rate_min"
+  ]
+ },
+ "declared_coverage": {
+  "policy": {
+   "every_model_in_the_campaign": 1,
+   "every_model_regime_cell": 1,
+   "every_absolute_protocol_per_model": 1,
+   "risk_strata_represented": 1
+  },
+  "n_models_required": 1,
+  "n_models_covered": 1,
+  "missing_models": [],
+  "n_model_regime_cells_required": 3,
+  "n_model_regime_cells_covered": 3,
+  "missing_model_regime_cells": [],
+  "strata_present": [
+   "class_depolarisation_block",
+   "coverage",
+   "nonspiking",
+   "ordinary_random",
+   "prior_corner",
+   "rate_max",
+   "rate_min"
+  ],
+  "satisfied": true
+ },
+ "checks": [
+  "voltage_range",
+  "baseline_stability",
+  "spike_shape",
+  "spike_count_agreement",
+  "depolarisation_block",
+  "discontinuity",
+  "finite",
+  "feature_recomputation"
+ ],
+ "not_checked_here": "half-step agreement: a per-model property already measured by the convergence audits (gate N3) and the perturbation repeatability battery, not re-derived from a trace sample",
+ "traces_dir": "results/traces/retained",
+ "worst": [
+  {
+   "key": "screening_expand/migliore_ca1__E1__r1__s162",
+   "stratum": "coverage",
+   "problems": [
+    "step_rheo_3p0x: spike_shape: smallest detected AP is 7.04 mV over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 381 ms over 2 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_expand/migliore_ca1__E1__r1__s354",
+   "stratum": "class_depolarisation_block",
+   "problems": [
+    "step_rheo_1p5x: spike_shape: widest detected AP is 389 ms over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_expand/migliore_ca1__E2__r1__s6",
+   "stratum": "rate_min",
+   "problems": [
+    "step_rheo_3p0x: spike_shape: smallest detected AP is 9.31 mV over 4 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 386 ms over 4 spikes measured on the trace"
+   ]
+  }
+ ]
+}

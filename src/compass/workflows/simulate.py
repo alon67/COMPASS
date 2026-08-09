@@ -127,7 +127,24 @@ def solver_kwargs(model_id: str) -> dict:
     )
 
 
-def _feature_row(adapter, kw, rheobase, protocols, spontaneous: bool) -> tuple[dict, list[str]]:
+def normalised_family_defined(rheobase) -> bool:
+    """Can a rheobase-normalised protocol be applied to this sample at all?
+
+    ``rheobase = 0`` means the draw fires with no injected current, so "1.5x
+    rheobase" is 0 nA -- the same measurement as rest, relabelled as a
+    suprathreshold step.  This used to be suppressed only when the *model* was
+    listed in ``SPONTANEOUSLY_ACTIVE``, which is a property of the canonical
+    parameters, not of the draw.  A broad prior turns ordinarily silent models
+    spontaneous all the time: 15,234 stored rows across hh_cable, hh_point,
+    bbp_l5pc, mainen_l5pc, pospischil_* and dougalis_vlpag_da carry
+    "step_rheo_1p5x" and "step_rheo_3p0x" features that were measured at 0 nA
+    (2026-08-09 audit, 4.1).  Draw-level rheobase decides this, not a model-level
+    list.
+    """
+    return rheobase is not None and float(rheobase) != 0.0
+
+
+def _feature_row(adapter, kw, rheobase, protocols) -> tuple[dict, list[str]]:
     """Run the common-core protocol suite for one already-applied parameter set."""
     from compass.features.extract import extract, extract_rest
 
@@ -142,9 +159,9 @@ def _feature_row(adapter, kw, rheobase, protocols, spontaneous: bool) -> tuple[d
         else:
             if spec.amplitude_nA is not None:
                 amp = spec.amplitude_nA
-            elif rheobase is None or (spontaneous and rheobase == 0.0):
-                # rheobase-normalised protocols are undefined for a
-                # spontaneously active or non-spiking sample
+            elif not normalised_family_defined(rheobase):
+                # rheobase-normalised protocols are undefined for a sample that
+                # never spikes (no rheobase) or that spikes at zero current
                 for k in ("spike_count", "mean_firing_rate_Hz", "first_isi_ms",
                           "adaptation_index", "ap_amplitude_mV", "ap_halfwidth_ms",
                           "ahp_depth_mV", "first_spike_latency_ms", "cv_isi",
@@ -168,7 +185,8 @@ def _feature_row(adapter, kw, rheobase, protocols, spontaneous: bool) -> tuple[d
 
 # Bumped whenever the row-level validity classification changes, so a stored row
 # always says which validator produced its verdict (audit 6.4.2).
-VALIDATOR_VERSION = "row-validity-2"   # v2: spontaneity precedes depolarised_rest
+# v3: `normalised_protocol_valid` is reported separately from `protocol_valid`.
+VALIDATOR_VERSION = "row-validity-3"
 
 
 def classify_row(row: dict, flags: list[str], rheobase, spontaneous: bool,
@@ -186,9 +204,18 @@ def classify_row(row: dict, flags: list[str], rheobase, spontaneous: bool,
     numerical = {"solver_failure", "nonfinite_voltage", "nonphysical_voltage"}
     bare = {f.split(":")[-1] for f in flags}
     execution_valid = error is None and not (bare & numerical)
-    # The protocol is applied as intended unless a rheobase-normalised family
-    # was requested for a sample that has no usable rheobase.
+    # `protocol_valid` is scoped to the ABSOLUTE family, which is the primary
+    # endpoint and is applied as intended for every executed sample: a fixed
+    # current in nA does not depend on what the draw does to excitability.
+    #
+    # The rheobase-normalised family is a different question and is now reported
+    # as its own field.  The comment here used to assert that `protocol_valid`
+    # already accounted for an unusable rheobase; it did not, and 24,000+ rows
+    # were counted as "protocol applied as intended" while their normalised
+    # protocols were undefined or run at 0 nA (2026-08-09 audit, 4.1).
     protocol_valid = execution_valid
+    normalised_protocol_valid = bool(execution_valid
+                                     and normalised_family_defined(rheobase))
     feature_valid = execution_valid and any(
         np.isfinite(v) for k, v in row.items()
         if k.startswith("step_abs_hi.") and isinstance(v, float))
@@ -222,6 +249,12 @@ def classify_row(row: dict, flags: list[str], rheobase, spontaneous: bool,
     return {
         "execution_valid": bool(execution_valid),
         "protocol_valid": bool(protocol_valid),
+        # Eligibility for the rheobase-normalised endpoint specifically.  Kept
+        # out of `analysis_eligible` on purpose: a silent or spontaneous draw is
+        # a perfectly valid observation on the absolute family, which is the
+        # primary endpoint, and dropping it there would bias the cohort towards
+        # canonical-looking cells.
+        "normalised_protocol_valid": normalised_protocol_valid,
         "feature_valid": bool(feature_valid),
         "physiology_class": physiology,
         # The preregistered inclusion rule for the primary analysis: the run
@@ -282,11 +315,17 @@ def run_block(
             rheo = adapter.find_rheobase(delay_ms=P.RHEO_DELAY_MS,
                                          duration_ms=P.RHEO_DURATION_MS,
                                          total_ms=P.RHEO_TOTAL_MS, **rheo_kw)
-            feats, flags = _feature_row(adapter, kw, rheo, protocols, spontaneous)
+            search = dict(adapter.last_rheobase_search or {})
+            feats, flags = _feature_row(adapter, kw, rheo, protocols)
             rec_meta["simulation_status"] = "ok"
             rec_meta["qc_flags"] = ";".join(sorted(set(flags)))
             rec_meta["rheobase_nA"] = np.nan if rheo is None else float(rheo)
             rec_meta["non_spiking"] = bool(rheo is None)
+            # Distinguishes "silent" from "in depolarisation block at the top of
+            # the search range but firing below it" -- two states the probe used
+            # to report identically (2026-08-09 audit, 4.1).
+            rec_meta["rheobase_blocked_at_ceiling"] = bool(
+                search.get("blocked_at_ceiling", False))
             rec_meta.update(feats)
         except adapter.RheobaseProbeFailure as exc:
             # A probe that could not be evaluated fails the whole sample.  It is
@@ -297,6 +336,7 @@ def run_block(
             rec_meta["error"] = error
             rec_meta["rheobase_nA"] = np.nan
             rec_meta["non_spiking"] = False   # unknown, not False-as-silence
+            rec_meta["rheobase_blocked_at_ceiling"] = False
         except Exception as exc:  # noqa: BLE001
             error = f"{type(exc).__name__}: {exc}"
             rec_meta["simulation_status"] = "error"
@@ -304,6 +344,7 @@ def run_block(
             rec_meta["error"] = f"{exc}\n{traceback.format_exc()[-400:]}"
             rec_meta["rheobase_nA"] = np.nan
             rec_meta["non_spiking"] = False
+            rec_meta["rheobase_blocked_at_ceiling"] = False
         rec_meta.update(classify_row(rec_meta, flags, rheo, spontaneous, error))
         rows.append(rec_meta)
 

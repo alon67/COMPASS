@@ -1,0 +1,93 @@
+{
+ "generated_utc": "2026-08-09T13:56:17.342953+00:00",
+ "question": "does a from-scratch probe-3 re-run of a repaired shard reproduce the repaired shard exactly?",
+ "n_shards": 6,
+ "n_rows": 189,
+ "n_columns_with_differences": 2,
+ "verdict": "NOT equivalent",
+ "shards": [
+  {
+   "shard": "features/screening/khaliq_purkinje/E1_r1_001875.parquet",
+   "model_id": "khaliq_purkinje",
+   "n_rows": 25,
+   "n_columns_compared": 133,
+   "wall_s": 40.6,
+   "differences": []
+  },
+  {
+   "shard": "features/screening/mainen_l5pc/E1_r1_000100.parquet",
+   "model_id": "mainen_l5pc",
+   "n_rows": 25,
+   "n_columns_compared": 133,
+   "wall_s": 8778.3,
+   "differences": [
+    {
+     "column": "qc_flags",
+     "n_rows": 1,
+     "example_stored": "hyperpol_abs:depolarised_rest;hyperpol_abs:unstable_baseline;step_abs_hi:depolarised_rest;step_abs_hi:unstable_baseline;step_abs_lo:depolarised_rest;step_abs_lo:unstable_baseline;step_rheo_1p5x:depolarised_rest;step_rheo_1p5x:unstable_baseline;step_rheo_3p0x:depolarised_rest;step_rheo_3p0x:unstable_baseline",
+     "example_fresh": "hyperpol_abs:depolarised_rest;hyperpol_abs:unstable_baseline;step_abs_hi:depolarised_rest;step_abs_hi:unstable_baseline;step_abs_lo:depolarised_rest;step_abs_lo:unstable_baseline"
+    }
+   ]
+  },
+  {
+   "shard": "features/screening_scramble2/bbp_l5pc/E1_r1_000100.parquet",
+   "model_id": "bbp_l5pc",
+   "n_rows": 25,
+   "n_columns_compared": 138,
+   "wall_s": 828.5,
+   "differences": []
+  },
+  {
+   "shard": "features/screening_v2_replication/dougalis_vlpag_da/E1_r1_003925.parquet",
+   "model_id": "dougalis_vlpag_da",
+   "n_rows": 25,
+   "n_columns_compared": 134,
+   "wall_s": 15.1,
+   "differences": [
+    {
+     "column": "qc_flags",
+     "n_rows": 8,
+     "example_stored": "hyperpol_abs:unstable_baseline;step_abs_hi:unstable_baseline;step_abs_lo:unstable_baseline;step_rheo_1p5x:unstable_baseline;step_rheo_3p0x:unstable_baseline",
+     "example_fresh": "hyperpol_abs:unstable_baseline;step_abs_hi:unstable_baseline;step_abs_lo:unstable_baseline"
+    }
+   ]
+  },
+  {
+   "shard": "features/screening_v2_replication/moubarak_snc_da/E1_r1_000200.parquet",
+   "model_id": "moubarak_snc_da",
+   "n_rows": 25,
+   "n_columns_compared": 137,
+   "wall_s": 1305.5,
+   "differences": []
+  },
+  {
+   "shard": "features/sobol/pospischil_rs/S_000704.parquet",
+   "model_id": "pospischil_rs",
+   "n_rows": 64,
+   "n_columns_compared": 131,
+   "wall_s": 8.9,
+   "differences": []
+  }
+ ],
+ "resolution": {
+  "resolved_utc": "2026-08-09T14:06:14.879624+00:00",
+  "finding": "2 of 6 re-simulated shards differed from the repaired shards in `qc_flags` only: the stored rows still named step_rheo_1p5x and step_rheo_3p0x protocols that probe-3 does not run for a sample with no usable rheobase",
+  "cause": "the repair voided the normalised FEATURE columns but not the QC flags those protocols had raised",
+  "scope_measured": {
+   "rows_affected": 15143,
+   "of_total_rows": 130098,
+   "rows_where_a_flag_KIND_disappears": 0
+  },
+  "why_no_classification_changes": "classify_row reads the SET of flag kinds, not the per-protocol strings; every kind appearing on a normalised protocol also appears on an absolute one in all 15,143 rows, measured with 0 exceptions",
+  "fix": "tools/repair_rheobase.py strips step_rheo_*: flags wherever the normalised family is undefined (rheobase NaN or 0). Two bugs in the first attempt at that fix are recorded in the source: QC flags are namespaced with a colon while feature columns use a dot, and the mask must cover rheobase = NaN as well as rheobase = 0",
+  "deterministic_check_added": "gate D3 now fails any row carrying a step_rheo_* QC flag while its normalised family is undefined -- checked on all 130,098 rows every run, rather than on a sample of six shards",
+  "ghost_flags_remaining": 0,
+  "targeted_reverification": {
+   "shard": "features/screening_v2_replication/dougalis_vlpag_da/E1_r1_003925.parquet",
+   "n_rows": 25,
+   "n_columns_compared": 134,
+   "verdict": "equivalent",
+   "note": "the other differing shard (mainen_l5pc) has the same single-row defect from the same cause and costs 2.4 h to re-simulate; the all-rows D3 invariant supersedes it"
+  }
+ }
+}

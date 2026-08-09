@@ -65,6 +65,10 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(ROOT / "tools"))
 
+from compass.adapters.base import (  # noqa: E402
+    MEASUREMENT_SCHEMA_VERSION as _MEASUREMENT_SCHEMA_VERSION,
+)
+
 OUT = ROOT / "results" / "analyses"
 SEED = 20260806
 N_BOOT = 10000
@@ -336,6 +340,13 @@ def main() -> int:
                 if len(counts) else {}),
         },
         "numerical_repeatability": repeat,
+        # The measurement schema the battery's inputs were produced under.
+        # run_crossmodel refuses to score the perturbation-derived H-B criteria
+        # when this does not match the current campaign schema: the battery's
+        # backgrounds and candidate tuples are derived from feature rows, so a
+        # measurement change makes stored eta a probe of points that no longer
+        # exist in the ensemble it claims to test (2026-08-09 audit, 4.1).
+        "measurement_schema": _MEASUREMENT_SCHEMA_VERSION,
     }
     (OUT / "perturbation_inference.json").write_text(
         json.dumps(payload, indent=1, default=float))

@@ -14,7 +14,8 @@
 #   ./tools/run_all.sh --only gates         # one stage
 #   ./tools/run_all.sh --dry-run            # print the plan and exit
 #   ./tools/run_all.sh --analysis-only      # alias for --from analysis
-#   ./tools/run_all.sh --force              # ignore stored artifacts
+#   ./tools/run_all.sh --force              # quarantine derived artifacts first
+#   ./tools/run_all.sh --force-simulations  # also quarantine feature shards
 #
 # Fails closed: `set -euo pipefail`, every stage logged, and the run ends with
 # the release gates, the report-number check and an artifact inventory.  A
@@ -46,7 +47,7 @@ STAGES=(assets mechanisms calibrate convergence canonical campaign sobol
         analysis matched perturb crossmodel robustness benchmarks reliability
         gates waveforms numerical notebook report inventory)
 
-FROM=""; UNTIL=""; ONLY=""; DRY=0; FORCE=0
+FROM=""; UNTIL=""; ONLY=""; DRY=0; FORCE=0; FORCE_SIM=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --from) FROM="$2"; shift 2 ;;
@@ -55,6 +56,7 @@ while [ $# -gt 0 ]; do
     --analysis-only) FROM="analysis"; shift ;;
     --dry-run) DRY=1; shift ;;
     --force) FORCE=1; shift ;;
+    --force-simulations) FORCE=1; FORCE_SIM=1; shift ;;
     --workers) WORKERS="$2"; shift 2 ;;
     -h|--help) sed -n '2,20p' "$0"; exit 0 ;;
     *) echo "unknown option $1" >&2; exit 2 ;;
@@ -67,7 +69,38 @@ if [ -n "$FROM" ];  then START=$(index_of "$FROM");  [ "$START" -lt 0 ] && { ech
 if [ -n "$UNTIL" ]; then STOP=$(index_of "$UNTIL");  [ "$STOP" -lt 0 ] && { echo "unknown stage $UNTIL" >&2; exit 2; }; fi
 if [ -n "$ONLY" ];  then START=$(index_of "$ONLY"); STOP=$START; [ "$START" -lt 0 ] && { echo "unknown stage $ONLY" >&2; exit 2; }; fi
 
+# CLEAN-RUN SEMANTICS (2026-08-09 audit, 4.4).
+#
+# `--force` used to be parsed and never read, so the only thing it did was let a
+# caller believe the run had ignored stored artifacts.  It now has a definition:
+#
+#   --force              quarantine every DERIVED artifact (analyses, validation
+#                        records, figures, generated reports) before starting, so
+#                        no stage can consume a previous run's output.  Feature
+#                        shards survive: their reuse is already identity-gated,
+#                        and discarding 1.1 GB of correct simulation is not a
+#                        reproducibility improvement.
+#   --force-simulations  additionally quarantine the feature shards and the
+#                        perturbation cache: a genuine from-zero reconstruction.
+#
+# Both are recorded in the run receipt, and `tools/run_receipt.py check` reports
+# any manifest artifact the run did not itself produce.
+quarantine_derived() {
+  local dest="$ROOT/results/_superseded_run_$(date -u +%Y%m%dT%H%M%SZ)"
+  mkdir -p "$dest"
+  for d in analyses validation figures reports; do
+    [ -d "$ROOT/results/$d" ] && mv "$ROOT/results/$d" "$dest/$d"
+  done
+  if [ "$FORCE_SIM" = "1" ]; then
+    [ -d "$ROOT/results/features" ] && mv "$ROOT/results/features" "$dest/features"
+    [ -d "$ROOT/results/traces" ] && mv "$ROOT/results/traces" "$dest/traces"
+  fi
+  echo "  --force: derived artifacts moved to ${dest#"$ROOT"/}"
+}
+
 SKIPPED=()
+receipt() { [ "$DRY" = "1" ] && return 0; python3 tools/run_receipt.py "$@" >/dev/null 2>&1 || true; }
+
 run_stage() {  # run_stage <name> <command...>
   local name="$1"; shift
   local idx; idx=$(index_of "$name")
@@ -79,10 +112,12 @@ run_stage() {  # run_stage <name> <command...>
   if [ "$DRY" = "1" ]; then return 0; fi
   local t0; t0=$(date +%s)
   if ! "$@" > "$LOGS/$name.log" 2>&1; then
+    receipt stage "$name" 1 "$(( $(date +%s) - t0 ))"
     echo "!!! stage '$name' FAILED after $(( $(date +%s) - t0 ))s; see $LOGS/$name.log"
     tail -40 "$LOGS/$name.log"
     exit 1
   fi
+  receipt stage "$name" 0 "$(( $(date +%s) - t0 ))"
   echo "    ok in $(( $(date +%s) - t0 ))s -> $LOGS/$name.log"
 }
 
@@ -98,6 +133,7 @@ run_stage_soft() {  # like run_stage, but returns the status instead of exiting
   local t0; t0=$(date +%s)
   local rc=0
   "$@" > "$LOGS/$name.log" 2>&1 || rc=$?
+  receipt stage "$name" "$rc" "$(( $(date +%s) - t0 ))"
   tail -20 "$LOGS/$name.log"
   echo "    stage '$name' exited $rc after $(( $(date +%s) - t0 ))s -> $LOGS/$name.log"
   return "$rc"
@@ -106,6 +142,8 @@ run_stage_soft() {  # like run_stage, but returns the status instead of exiting
 echo "COMPASS full pipeline"
 echo "  workers=$WORKERS  logs=$LOGS"
 echo "  stages: ${STAGES[*]:$START:$((STOP-START+1))}"
+if [ "$FORCE" = "1" ] && [ "$DRY" = "0" ]; then quarantine_derived; fi
+receipt begin --stages "${STAGES[@]:$START:$((STOP-START+1))}" $( [ "$FORCE" = "1" ] && echo --force )
 
 run_stage assets       python3 tools/fetch_models.py
 run_stage mechanisms   python3 tools/build_mechanisms.py
@@ -155,20 +193,39 @@ run_stage crossmodel   python3 tools/run_crossmodel.py --experiment screening
 run_stage robustness   python3 tools/run_robustness.py
 run_stage benchmarks   python3 tools/run_benchmarks.py
 run_stage reliability  python3 tools/estimator_reliability.py
+# REPLAY MUST COVER EVERY CAMPAIGN WITH SHARDS.
+#
+# It covered screening and the replication cohort only, so the scramble
+# controls, the expansion campaign and the whole Sobol design were release
+# artifacts with no determinism evidence at all -- and because the release
+# manifest aggregated by gate NAME, one passing REPLAY record satisfied the
+# mandatory gate for all of them (2026-08-09 audit, 3.1 and 5.7). The manifest
+# now requires a passing record per named campaign, so an omission here fails
+# the release instead of disappearing into the roll-up.
 run_stage gates        bash -c "
   set -e
   python3 tools/validate_campaign.py --all
-  python3 tools/validate_replay.py --experiment screening --workers $WORKERS
-  python3 tools/validate_replay.py --experiment screening_v2_replication --workers $WORKERS
+  for exp in screening screening_expand screening_scramble2 \
+             screening_v2_replication sobol pilot; do
+    python3 tools/validate_replay.py --experiment \$exp --workers $WORKERS
+  done
   python3 tools/build_model_audit.py"
 # Replay checks that a stored FEATURE ROW reproduces. It cannot see whether the
 # voltage behind it is plausible, because a trace that is wrong the same way
 # twice reproduces perfectly. This retains a stratified waveform sample and runs
 # the trace-level battery on it. Soft, for the same reason as `numerical`: a
 # flagged trace is a recorded finding, and the manifest is what blocks.
+# Coverage extends to the REPLICATION campaign, which had no retained waveforms
+# at all (2026-08-09 audit, 3.3), and the declared stratification policy is
+# itself a gate subject.
 WAVE_RC=0
-run_stage_soft waveforms python3 tools/retain_waveforms.py \
-    --experiment screening --workers "$WORKERS" || WAVE_RC=$?
+run_stage_soft waveforms bash -c "
+  rc=0
+  for exp in screening screening_expand screening_scramble2 \
+             screening_v2_replication sobol; do
+    python3 tools/retain_waveforms.py --experiment \$exp --workers $WORKERS || rc=\$?
+  done
+  exit \$rc" || WAVE_RC=$?
 # The neuronal-validity gates are EVIDENCE-PRODUCING, and this release is known
 # to fail N1, N2 and N4.  Under the hard runner that non-zero exit aborted the
 # pipeline before the model audit, notebook, report and release manifest -- so
@@ -194,6 +251,11 @@ run_stage report       bash -c "
 # summary, and then exit with it.
 RELEASE_RC=0
 run_stage_soft inventory python3 tools/build_release_manifest.py || RELEASE_RC=$?
+receipt finish
+if [ "$DRY" = "0" ]; then
+  echo ""; echo "=== [clean-build check] which artifacts did THIS run produce?"
+  python3 tools/run_receipt.py check || true
+fi
 
 echo ""
 echo "=== SUMMARY ==="

@@ -1,0 +1,93 @@
+{
+ "written_utc": "2026-08-09T15:21:59.800753+00:00",
+ "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+ "environment": {
+  "python": "3.12.4",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "neuron": "8.2.6-1-gb6e6a5fad+",
+  "efel": "5.7.29",
+  "numpy": "1.26.4",
+  "scipy": "1.14.0",
+  "pandas": "2.2.3",
+  "sklearn": "1.5.2",
+  "statsmodels": "0.14.6",
+  "SALib": "?"
+ },
+ "n_records": 1,
+ "n_passed": 1,
+ "all_passed": true,
+ "by_gate": {
+  "REPLAY": {
+   "n": 1,
+   "passed": 1,
+   "failed_subjects": []
+  }
+ },
+ "records": [
+  {
+   "gate": "REPLAY",
+   "subject": "pilot",
+   "status": "PASS",
+   "detail": "one deterministic row per shard plus every risky stratum",
+   "failures": [],
+   "measurements": {
+    "n_derived_label_drift_rows": 0,
+    "n_schema_drift_rows": 0,
+    "drift_note": "derived labels and documented schema drift are reported separately: they are not reproduction failures, and gate D5 validates them by exact recomputation",
+    "n_rows_total": 50,
+    "n_shards": 2,
+    "n_replayed": 12,
+    "n_planned": 12,
+    "n_match": 12,
+    "n_mismatch": 0,
+    "n_replay_error": 0,
+    "invalid_shards": [],
+    "escalated_shards_if_clustered": 0,
+    "detection_power": {
+     "0.001": 2995,
+     "0.005": 598,
+     "0.01": 299
+    }
+   },
+   "tolerances": {
+    "rheobase_nA": 1e-09,
+    "_default_abs": 1e-06,
+    "_default_rel": 1e-09
+   },
+   "inputs": {
+    "selection_rule": "blake2b-shard-v1",
+    "replayed_run_ids": [
+     "migliore_ca1:E1:1:14",
+     "migliore_ca1:E1:1:17",
+     "migliore_ca1:E1:1:2",
+     "migliore_ca1:E1:1:24",
+     "migliore_ca1:E1:1:3",
+     "migliore_ca1:E1:1:32",
+     "migliore_ca1:E1:1:34",
+     "migliore_ca1:E1:1:36",
+     "migliore_ca1:E1:1:41",
+     "migliore_ca1:E1:1:44",
+     "migliore_ca1:E1:1:6",
+     "migliore_ca1:E1:1:8"
+    ]
+   },
+   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-09T15:21:59.800714+00:00",
+   "passed": true
+  }
+ ]
+}
