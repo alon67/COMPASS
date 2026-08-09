@@ -25,7 +25,9 @@
    "n_groups": 6,
    "converged": true,
    "method": "REML",
-   "loglike": -94.82310360681373
+   "loglike": -94.82310360681373,
+   "quotable": true,
+   "quotability_note": ""
   },
   "implementation": {
    "var_group": 0.020438572142223246,
@@ -36,7 +38,9 @@
    "n_groups": 8,
    "converged": true,
    "method": "REML",
-   "loglike": -96.25120383199902
+   "loglike": -96.25120383199902,
+   "quotable": true,
+   "quotability_note": ""
   }
  }
 }

@@ -38,16 +38,16 @@
   {
    "criterion": "statistical synergy modules validated by direct perturbation",
    "supports": "H-B",
-   "value": 0.30952380952380953,
+   "value": 0.4444444444444444,
    "passed": false,
-   "detail": "n_top=42, n_control=42; supported 0.310 vs control 0.071"
+   "detail": "n_top=18, n_control=18; supported 0.444 vs control 0.167; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs)"
   },
   {
    "criterion": "top-synergy tuples more non-additive than matched controls",
    "supports": "H-B",
-   "value": 2.9708770496886325,
-   "passed": true,
-   "detail": "top=0.306 SD vs control=0.103 SD (ratio 2.97x); paired difference +0.203 SD, lineage-clustered 95% CI [+0.018, +0.439] over 5 lineages. Scored on the lineage-clustered paired interval, not on the point ratio."
+   "value": 1.9145698995703115,
+   "passed": false,
+   "detail": "top=0.382 SD vs control=0.199 SD (ratio 1.91x); paired difference +0.182 SD, lineage-clustered 95% CI [-0.020, +0.530] over 3 lineages; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs). Scored on the lineage-clustered paired interval, not on the point ratio."
   }
  ],
  "descriptive": [
@@ -68,8 +68,8 @@
   },
   {
    "quantity": "top vs random control point ratio (descriptive only)",
-   "value": 4.743843797949135,
-   "detail": "top=0.306 SD vs control=0.065 SD (ratio 4.74x); paired difference +0.242 SD, lineage-clustered 95% CI [+0.046, +0.515] over 5 lineages. Not scored: same measurement as the criterion above with a different denominator."
+   "value": 3.2473859658967674,
+   "detail": "top=0.382 SD vs control=0.118 SD (ratio 3.25x); paired difference +0.264 SD, lineage-clustered 95% CI [+0.022, +0.677] over 3 lineages; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs). Not scored: same measurement as the criterion above with a different denominator."
   }
  ],
  "thresholds": {
@@ -77,15 +77,57 @@
   "sampling_geometry_over_identity_ratio": 2.0,
   "module_selection_probability": 0.8,
   "perturbation_effect_sd": 0.25,
-  "lomo_r2_floor": 0.0
+  "lomo_r2_floor": 0.0,
+  "perturbation_min_repeatable_lineages": 3
+ },
+ "perturbation_precondition": {
+  "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+  "preregistered": false,
+  "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+  "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+  "status": "ok",
+  "models_in_battery": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "models_tested": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "models_untested": [],
+  "models_repeatable": [
+   "hh_cable",
+   "migliore_ca1",
+   "pospischil_rs"
+  ],
+  "models_not_repeatable": [
+   "bbp_l5pc",
+   "hh_point",
+   "khaliq_purkinje",
+   "pospischil_fs"
+  ],
+  "n_repeatable_lineages": 3,
+  "evaluable": true,
+  "reason": "3 repeatable implementations over 3 lineages"
  },
  "n_hg_passed": 4,
  "n_hg_total": 5,
- "n_hb_passed": 1,
+ "n_hb_passed": 0,
  "n_hb_total": 2,
- "conclusion": "H-M",
+ "conclusion": "H-G",
+ "conclusion_label": "H-G",
  "hg_fraction_passed": 0.8,
- "hb_fraction_passed": 0.5,
+ "hb_fraction_passed": 0.0,
  "perturbation_coverage": {
   "models_in_endpoints": [
    "bbp_l5pc",
@@ -155,6 +197,16 @@
   "excluded_from_primary": {
    "mainen_l5pc": "production dt=0.0125 ms / 2304 segments fails step_abs_hi.adaptation_index at 1 of 7 audit points; the other 12 conditioning features reproduce on all 7"
   },
+  "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1",
+  "n4_failing_models_retained": [
+   "bbp_l5pc"
+  ],
+  "n4_unidentifiable_parameters": {
+   "bbp_l5pc": [
+    "gcalva_apical",
+    "gskv3_apical"
+   ]
+  },
   "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
  },
  "nested_variance_components": {
@@ -171,7 +223,9 @@
    "n_groups": 6,
    "converged": true,
    "method": "REML",
-   "loglike": -94.82100862379292
+   "loglike": -94.82100862379292,
+   "quotable": true,
+   "quotability_note": ""
   },
   "implementation": {
    "var_group": 0.022377342463155328,
@@ -182,7 +236,9 @@
    "n_groups": 8,
    "converged": true,
    "method": "REML",
-   "loglike": -96.11589033020078
+   "loglike": -96.11589033020078,
+   "quotable": true,
+   "quotability_note": ""
   }
  }
 }

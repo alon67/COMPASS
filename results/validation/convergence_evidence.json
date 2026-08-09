@@ -1,0 +1,195 @@
+{
+ "tool": "verify_convergence_evidence.py",
+ "written_utc": "2026-08-09T06:43:09.486087+00:00",
+ "git_revision": "9fe015be28c7ecf3358732eca24f593f7dec5966",
+ "regenerated": false,
+ "regeneration_note": "the convergence audits themselves were NOT re-run. Each costs hours on one model and the panel costs days, and tools/convergence_audit.py supersedes rather than overwrites its evidence. This stage verifies the stored record against the solver contract; it does not reproduce it. To regenerate: python tools/convergence_audit.py <model_id>.",
+ "n_models": 14,
+ "n_verified": 10,
+ "n_documented_n3_failures": 4,
+ "problems": [],
+ "per_model": {
+  "bbp_l5pc": {
+   "file": "convergence_audit_bbp_l5pc.json",
+   "chosen": "dt0.025_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "reference_dt_ms": 0.00625,
+   "n_points": 6,
+   "written_utc": "2026-08-08T12:53:53.548092+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "dougalis_vlpag_da": {
+   "file": "convergence_audit_dougalis_vlpag_da.json",
+   "chosen": "dt0.0125_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.0125
+   },
+   "reference_dt_ms": 0.0015625,
+   "n_points": 7,
+   "written_utc": "2026-08-08T11:40:55.950401+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "hh_cable": {
+   "file": "convergence_audit_hh_cable.json",
+   "chosen": "dt0.05_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.05
+   },
+   "reference_dt_ms": 0.00625,
+   "n_points": 6,
+   "written_utc": "2026-08-08T11:40:32.319564+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "hh_point": {
+   "file": "convergence_audit_hh_point.json",
+   "chosen": "dt0.025_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "reference_dt_ms": 0.003125,
+   "n_points": 6,
+   "written_utc": "2026-08-08T11:40:19.478902+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "khaliq_purkinje": {
+   "file": "convergence_audit_khaliq_purkinje.json",
+   "chosen": "dt0.00625_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.00625
+   },
+   "reference_dt_ms": 0.0015625,
+   "n_points": 6,
+   "written_utc": "2026-08-08T11:41:53.114139+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "mainen_l5pc": {
+   "file": "convergence_audit_mainen_l5pc.json",
+   "chosen": null,
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.0125
+   },
+   "reference_dt_ms": 0.00625,
+   "n_points": 7,
+   "written_utc": "2026-08-08T14:54:45.790638+00:00",
+   "known_n3_failure": true,
+   "status": "no-converged-setting (documented N3 failure)"
+  },
+  "migliore_ca1": {
+   "file": "convergence_audit_migliore_ca1.json",
+   "chosen": "dt0.025_mesh1.0x",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "reference_dt_ms": 0.00625,
+   "n_points": 7,
+   "written_utc": "2026-08-08T11:37:31.072224+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "miyasho_purkinje": {
+   "file": "convergence_audit_miyasho_purkinje.json",
+   "chosen": null,
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.00625
+   },
+   "reference_dt_ms": 0.003125,
+   "n_points": 5,
+   "written_utc": "2026-08-08T13:26:47.114240+00:00",
+   "known_n3_failure": true,
+   "status": "no-converged-setting (documented N3 failure)"
+  },
+  "moubarak_snc_da": {
+   "file": "convergence_audit_moubarak_snc_da.json",
+   "chosen": "dt0.00625_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.003125
+   },
+   "reference_dt_ms": 0.0015625,
+   "n_points": 7,
+   "written_utc": "2026-08-08T11:59:45.627201+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "ortner_snc_da": {
+   "file": "convergence_audit_ortner_snc_da.json",
+   "chosen": null,
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.00625
+   },
+   "reference_dt_ms": 0.0015625,
+   "n_points": 7,
+   "written_utc": "2026-08-08T11:41:24.726820+00:00",
+   "known_n3_failure": true,
+   "status": "no-converged-setting (documented N3 failure)"
+  },
+  "pospischil_fs": {
+   "file": "convergence_audit_pospischil_fs.json",
+   "chosen": "dt0.05_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "reference_dt_ms": 0.00625,
+   "n_points": 6,
+   "written_utc": "2026-08-08T11:40:09.173530+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "pospischil_rs": {
+   "file": "convergence_audit_pospischil_rs.json",
+   "chosen": "dt0.05_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.05
+   },
+   "reference_dt_ms": 0.00625,
+   "n_points": 6,
+   "written_utc": "2026-08-08T11:40:00.983295+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "tomko_ca1": {
+   "file": "convergence_audit_tomko_ca1.json",
+   "chosen": "dt0.025_meshas_built",
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "reference_dt_ms": 0.00625,
+   "n_points": 7,
+   "written_utc": "2026-08-08T11:51:25.895524+00:00",
+   "known_n3_failure": false,
+   "status": "verified"
+  },
+  "tzilivaki_fsbc": {
+   "file": "convergence_audit_tzilivaki_fsbc.json",
+   "chosen": null,
+   "campaign_solver": {
+    "cvode": false,
+    "dt_ms": 0.025
+   },
+   "reference_dt_ms": 0.0125,
+   "n_points": 4,
+   "written_utc": "2026-08-08T13:48:29.701829+00:00",
+   "known_n3_failure": true,
+   "status": "no-converged-setting (documented N3 failure)"
+  }
+ }
+}

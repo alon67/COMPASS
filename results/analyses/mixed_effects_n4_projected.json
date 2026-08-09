@@ -1,0 +1,46 @@
+{
+ "flat": {
+  "endpoint": "synergy_area",
+  "var_fixed_effects": 0.836971868608584,
+  "var_model_identity_random": 0.02144934990781905,
+  "var_residual": 0.14731240174034896,
+  "icc_adjusted": 0.12709840765658995,
+  "vpc_model_identity": 0.021327068595303877,
+  "r2_marginal": 0.8322003478365523,
+  "r2_conditional": 0.8535274164318563,
+  "n": 166,
+  "n_models": 7
+ },
+ "nested": {
+  "endpoint": "synergy_area",
+  "n": 166,
+  "n_lineages": 5,
+  "n_implementations": 7,
+  "lineage": {
+   "var_group": 0.038347583289544254,
+   "var_residual": 0.14537186439243655,
+   "var_fixed": 0.846811856895419,
+   "icc_adjusted": 0.2087290364377978,
+   "vpc": 0.03721146860770991,
+   "n_groups": 5,
+   "converged": false,
+   "method": "REML",
+   "loglike": -86.40228002374334,
+   "quotable": false,
+   "quotability_note": "the lineage-level mixed model did NOT converge on 5 groups; icc_adjusted and vpc are reported for completeness and must not be quoted as estimates"
+  },
+  "implementation": {
+   "var_group": 0.02144934990781905,
+   "var_residual": 0.14731240174034896,
+   "var_fixed": 0.836971868608584,
+   "icc_adjusted": 0.12709840765658995,
+   "vpc": 0.021327068595303877,
+   "n_groups": 7,
+   "converged": true,
+   "method": "REML",
+   "loglike": -87.67763958668854,
+   "quotable": true,
+   "quotability_note": ""
+  }
+ }
+}

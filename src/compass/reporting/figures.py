@@ -722,7 +722,10 @@ def fig_decision(decision: dict) -> plt.Figure:
     ax.text(0.735, n + 0.75, "supports", fontsize=8.5, fontweight="bold", color=INK2)
     ax.text(0.80, n + 0.75, "value", fontsize=8.5, fontweight="bold", color=INK2)
     ax.text(0.875, n + 0.75, "outcome", fontsize=8.5, fontweight="bold", color=INK2)
-    concl = decision["conclusion"]
+    # Use the SHORT label. The full `conclusion` is a sentence explaining why a
+    # side could not be evaluated, and an axis that truncates it would show the
+    # reader a bare label without the qualification that is the point of it.
+    concl = decision.get("conclusion_label") or decision["conclusion"]
     ax.text(0.045, n + 1.35,
             f"H-G criteria passed: {decision['n_hg_passed']}/{decision['n_hg_total']}      "
             f"H-B criteria passed: {decision['n_hb_passed']}/{decision['n_hb_total']}      "

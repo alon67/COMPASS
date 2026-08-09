@@ -140,39 +140,82 @@
    "pospischil_rs": 0.0656
   }
  },
+ "per_lineage_mean_abs_eta": {
+  "control_middle": {
+   "hay_2011": 0.0077,
+   "hodgkin_huxley_1952": 0.1674,
+   "khaliq_2003": 0.0124,
+   "migliore_1999": 0.3144,
+   "pospischil_2008": 0.0261
+  },
+  "control_random": {
+   "hay_2011": 0.0108,
+   "hodgkin_huxley_1952": 0.0836,
+   "khaliq_2003": 0.0229,
+   "migliore_1999": 0.1997,
+   "pospischil_2008": 0.0257
+  },
+  "top_synergy": {
+   "hay_2011": 0.1587,
+   "hodgkin_huxley_1952": 0.7472,
+   "khaliq_2003": 0.0286,
+   "migliore_1999": 0.2941,
+   "pospischil_2008": 0.0839
+  }
+ },
+ "bootstrap_unit": "source_lineage_id",
+ "lineage_members": {
+  "hay_2011": [
+   "bbp_l5pc"
+  ],
+  "hodgkin_huxley_1952": [
+   "hh_cable",
+   "hh_point"
+  ],
+  "khaliq_2003": [
+   "khaliq_purkinje"
+  ],
+  "migliore_1999": [
+   "migliore_ca1"
+  ],
+  "pospischil_2008": [
+   "pospischil_fs",
+   "pospischil_rs"
+  ]
+ },
  "top_vs_control_middle": {
-  "n_models": 7,
-  "mean_top": 0.30624770836736287,
-  "mean_control": 0.10308326573106066,
-  "ratio_point": 2.970877049688633,
+  "n_models": 5,
+  "mean_top": 0.2625122378885982,
+  "mean_control": 0.10560944337495681,
+  "ratio_point": 2.4856890586627953,
   "ratio_ci95": [
-   1.3510495900698163,
-   7.7102236500185874
+   1.0729362221365049,
+   6.912504725339532
   ],
   "difference_ci95": [
-   0.03550934300491289,
-   0.40355922785305237
+   0.009915457050239829,
+   0.3740250213990334
   ],
-  "wilcoxon_p": 0.046875,
-  "n_models_top_greater": 6,
+  "wilcoxon_p": 0.1875,
+  "n_models_top_greater": 4,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
  },
  "top_vs_control_random": {
-  "n_models": 7,
-  "mean_top": 0.30624770836736287,
-  "mean_control": 0.0645568702114012,
-  "ratio_point": 4.743843797949135,
+  "n_models": 5,
+  "mean_top": 0.2625122378885982,
+  "mean_control": 0.06853269164605821,
+  "ratio_point": 3.830467351907913,
   "ratio_ci95": [
-   1.9020147819718705,
-   9.647767906807328
+   1.5485737939506354,
+   9.018162661080435
   ],
   "difference_ci95": [
-   0.05879999233054574,
-   0.4775704141472606
+   0.0444592522368846,
+   0.43593402383778196
   ],
-  "wilcoxon_p": 0.015625,
-  "n_models_top_greater": 7,
+  "wilcoxon_p": 0.0625,
+  "n_models_top_greater": 5,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
  },
@@ -183,5 +226,7 @@
   "mean_over_backgrounds_grid_Hz": 0.3125,
   "note": "a deterministic grid is not a stochastic detection limit; use background-level uncertainty for inferential precision and a finer-dt rerun for numerical repeatability"
  },
- "withdrawn": "The 2.5 Hz 'measurement floor' analysis and its '4/8 models unresolvable' conclusion were withdrawn by the 2026-08-06 audit (section 4). They compared a median of eight-background means against one unaveraged single-observation quantum. See results/analyses/perturbation_inference.json for the replacement."
+ "withdrawn": "The 2.5 Hz 'measurement floor' analysis and its '4/8 models unresolvable' conclusion were withdrawn by the 2026-08-06 audit (section 4). They compared a median of eight-background means against one unaveraged single-observation quantum. See results/analyses/perturbation_inference.json for the replacement.",
+ "reanalysed_utc": "2026-08-09T07:33:28.215616+00:00",
+ "reanalysed_note": "statistics recomputed from perturbations.parquet without re-simulating; the per-row eta is unchanged"
 }

@@ -601,7 +601,9 @@
     "n_groups": 5,
     "converged": false,
     "method": "REML",
-    "loglike": -85.67066632088125
+    "loglike": -85.67066632088125,
+    "quotable": false,
+    "quotability_note": "the lineage-level mixed model did NOT converge on 5 groups; icc_adjusted and vpc are reported for completeness and must not be quoted as estimates"
    },
    "implementation": {
     "var_group": 0.023225740824549167,
@@ -612,7 +614,9 @@
     "n_groups": 7,
     "converged": true,
     "method": "REML",
-    "loglike": -86.96436574084612
+    "loglike": -86.96436574084612,
+    "quotable": true,
+    "quotability_note": ""
    }
   }
  },
@@ -635,57 +639,57 @@
   {
    "endpoint": "frac_synergy_o3",
    "predictors": "sampling+geometry",
-   "r2_out_of_sample": 0.6575
+   "r2_out_of_sample": 0.2975
   },
   {
    "endpoint": "frac_synergy_o3",
    "predictors": "sampling_only",
-   "r2_out_of_sample": 0.6621
+   "r2_out_of_sample": 0.6405
   },
   {
    "endpoint": "net_o_information",
    "predictors": "all_but_identity",
-   "r2_out_of_sample": -4.2456
+   "r2_out_of_sample": -7.8
   },
   {
    "endpoint": "net_o_information",
    "predictors": "architecture_only",
-   "r2_out_of_sample": -0.531
+   "r2_out_of_sample": -1.0114
   },
   {
    "endpoint": "net_o_information",
    "predictors": "geometry_only",
-   "r2_out_of_sample": 0.0519
+   "r2_out_of_sample": -0.2063
   },
   {
    "endpoint": "net_o_information",
    "predictors": "sampling+geometry",
-   "r2_out_of_sample": -0.1264
+   "r2_out_of_sample": -0.5443
   },
   {
    "endpoint": "net_o_information",
    "predictors": "sampling_only",
-   "r2_out_of_sample": 0.3587
+   "r2_out_of_sample": 0.2335
   },
   {
    "endpoint": "redundancy_area",
    "predictors": "all_but_identity",
-   "r2_out_of_sample": -1.5262
+   "r2_out_of_sample": -1.6559
   },
   {
    "endpoint": "redundancy_area",
    "predictors": "architecture_only",
-   "r2_out_of_sample": -1.5464
+   "r2_out_of_sample": -2.88
   },
   {
    "endpoint": "redundancy_area",
    "predictors": "geometry_only",
-   "r2_out_of_sample": 0.5535
+   "r2_out_of_sample": 0.5646
   },
   {
    "endpoint": "redundancy_area",
    "predictors": "sampling+geometry",
-   "r2_out_of_sample": 0.2256
+   "r2_out_of_sample": -0.2677
   },
   {
    "endpoint": "redundancy_area",
@@ -695,12 +699,12 @@
   {
    "endpoint": "synergy_area",
    "predictors": "all_but_identity",
-   "r2_out_of_sample": -0.1818
+   "r2_out_of_sample": -0.8968
   },
   {
    "endpoint": "synergy_area",
    "predictors": "architecture_only",
-   "r2_out_of_sample": -0.5029
+   "r2_out_of_sample": -0.8899
   },
   {
    "endpoint": "synergy_area",
@@ -710,12 +714,115 @@
   {
    "endpoint": "synergy_area",
    "predictors": "sampling+geometry",
-   "r2_out_of_sample": 0.6436
+   "r2_out_of_sample": 0.5632
   },
   {
    "endpoint": "synergy_area",
    "predictors": "sampling_only",
-   "r2_out_of_sample": 0.7091
+   "r2_out_of_sample": 0.6553
+  }
+ ],
+ "lomo_fold_level": "source_lineage_id",
+ "lomo_by_model_id_diagnostic": [
+  {
+   "endpoint": "frac_synergy_o3",
+   "predictors": "all_but_identity",
+   "r2_out_of_sample": 0.6381
+  },
+  {
+   "endpoint": "frac_synergy_o3",
+   "predictors": "architecture_only",
+   "r2_out_of_sample": 0.0326
+  },
+  {
+   "endpoint": "frac_synergy_o3",
+   "predictors": "geometry_only",
+   "r2_out_of_sample": -0.0446
+  },
+  {
+   "endpoint": "frac_synergy_o3",
+   "predictors": "sampling+geometry",
+   "r2_out_of_sample": 0.6759
+  },
+  {
+   "endpoint": "frac_synergy_o3",
+   "predictors": "sampling_only",
+   "r2_out_of_sample": 0.6685
+  },
+  {
+   "endpoint": "net_o_information",
+   "predictors": "all_but_identity",
+   "r2_out_of_sample": -0.6912
+  },
+  {
+   "endpoint": "net_o_information",
+   "predictors": "architecture_only",
+   "r2_out_of_sample": -0.0319
+  },
+  {
+   "endpoint": "net_o_information",
+   "predictors": "geometry_only",
+   "r2_out_of_sample": 0.1436
+  },
+  {
+   "endpoint": "net_o_information",
+   "predictors": "sampling+geometry",
+   "r2_out_of_sample": 0.2528
+  },
+  {
+   "endpoint": "net_o_information",
+   "predictors": "sampling_only",
+   "r2_out_of_sample": 0.4839
+  },
+  {
+   "endpoint": "redundancy_area",
+   "predictors": "all_but_identity",
+   "r2_out_of_sample": -1.3964
+  },
+  {
+   "endpoint": "redundancy_area",
+   "predictors": "architecture_only",
+   "r2_out_of_sample": -0.2127
+  },
+  {
+   "endpoint": "redundancy_area",
+   "predictors": "geometry_only",
+   "r2_out_of_sample": 0.5425
+  },
+  {
+   "endpoint": "redundancy_area",
+   "predictors": "sampling+geometry",
+   "r2_out_of_sample": 0.5111
+  },
+  {
+   "endpoint": "redundancy_area",
+   "predictors": "sampling_only",
+   "r2_out_of_sample": 0.3955
+  },
+  {
+   "endpoint": "synergy_area",
+   "predictors": "all_but_identity",
+   "r2_out_of_sample": 0.5332
+  },
+  {
+   "endpoint": "synergy_area",
+   "predictors": "architecture_only",
+   "r2_out_of_sample": -0.1159
+  },
+  {
+   "endpoint": "synergy_area",
+   "predictors": "geometry_only",
+   "r2_out_of_sample": 0.6221
+  },
+  {
+   "endpoint": "synergy_area",
+   "predictors": "sampling+geometry",
+   "r2_out_of_sample": 0.7484
+  },
+  {
+   "endpoint": "synergy_area",
+   "predictors": "sampling_only",
+   "r2_out_of_sample": 0.763
   }
  ],
  "classification": [
@@ -1395,16 +1502,16 @@
    {
     "criterion": "statistical synergy modules validated by direct perturbation",
     "supports": "H-B",
-    "value": 0.30952380952380953,
+    "value": 0.4444444444444444,
     "passed": false,
-    "detail": "n_top=42, n_control=42; supported 0.310 vs control 0.071"
+    "detail": "n_top=18, n_control=18; supported 0.444 vs control 0.167; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs)"
    },
    {
     "criterion": "top-synergy tuples more non-additive than matched controls",
     "supports": "H-B",
-    "value": 2.9708770496886325,
-    "passed": true,
-    "detail": "top=0.306 SD vs control=0.103 SD (ratio 2.97x); paired difference +0.203 SD, lineage-clustered 95% CI [+0.018, +0.439] over 5 lineages. Scored on the lineage-clustered paired interval, not on the point ratio."
+    "value": 1.9145698995703115,
+    "passed": false,
+    "detail": "top=0.382 SD vs control=0.199 SD (ratio 1.91x); paired difference +0.182 SD, lineage-clustered 95% CI [-0.020, +0.530] over 3 lineages; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs). Scored on the lineage-clustered paired interval, not on the point ratio."
    }
   ],
   "descriptive": [
@@ -1425,8 +1532,8 @@
    },
    {
     "quantity": "top vs random control point ratio (descriptive only)",
-    "value": 4.743843797949135,
-    "detail": "top=0.306 SD vs control=0.065 SD (ratio 4.74x); paired difference +0.242 SD, lineage-clustered 95% CI [+0.046, +0.515] over 5 lineages. Not scored: same measurement as the criterion above with a different denominator."
+    "value": 3.2473859658967674,
+    "detail": "top=0.382 SD vs control=0.118 SD (ratio 3.25x); paired difference +0.264 SD, lineage-clustered 95% CI [+0.022, +0.677] over 3 lineages; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs). Not scored: same measurement as the criterion above with a different denominator."
    }
   ],
   "thresholds": {
@@ -1434,15 +1541,57 @@
    "sampling_geometry_over_identity_ratio": 2.0,
    "module_selection_probability": 0.8,
    "perturbation_effect_sd": 0.25,
-   "lomo_r2_floor": 0.0
+   "lomo_r2_floor": 0.0,
+   "perturbation_min_repeatable_lineages": 3
+  },
+  "perturbation_precondition": {
+   "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+   "preregistered": false,
+   "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+   "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+   "status": "ok",
+   "models_in_battery": [
+    "bbp_l5pc",
+    "hh_cable",
+    "hh_point",
+    "khaliq_purkinje",
+    "migliore_ca1",
+    "pospischil_fs",
+    "pospischil_rs"
+   ],
+   "models_tested": [
+    "bbp_l5pc",
+    "hh_cable",
+    "hh_point",
+    "khaliq_purkinje",
+    "migliore_ca1",
+    "pospischil_fs",
+    "pospischil_rs"
+   ],
+   "models_untested": [],
+   "models_repeatable": [
+    "hh_cable",
+    "migliore_ca1",
+    "pospischil_rs"
+   ],
+   "models_not_repeatable": [
+    "bbp_l5pc",
+    "hh_point",
+    "khaliq_purkinje",
+    "pospischil_fs"
+   ],
+   "n_repeatable_lineages": 3,
+   "evaluable": true,
+   "reason": "3 repeatable implementations over 3 lineages"
   },
   "n_hg_passed": 5,
   "n_hg_total": 5,
-  "n_hb_passed": 1,
+  "n_hb_passed": 0,
   "n_hb_total": 2,
-  "conclusion": "H-M",
+  "conclusion": "H-G",
+  "conclusion_label": "H-G",
   "hg_fraction_passed": 1.0,
-  "hb_fraction_passed": 0.5,
+  "hb_fraction_passed": 0.0,
   "perturbation_coverage": {
    "models_in_endpoints": [
     "bbp_l5pc",
@@ -1467,7 +1616,7 @@
    "caveat": ""
   },
   "arm": "primary",
-  "arm_description": "gate-passing models only; the headline analysis",
+  "arm_description": "N3-passing models; the headline analysis. Contains bbp_l5pc, which fails N4 -- see the n4_strict and n4_projected arms",
   "excluded_models": [
    "mainen_l5pc",
    "miyasho_purkinje",
@@ -1505,6 +1654,16 @@
     ]
    },
    "excluded_from_primary": {},
+   "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1",
+   "n4_failing_models_retained": [
+    "bbp_l5pc"
+   ],
+   "n4_unidentifiable_parameters": {
+    "bbp_l5pc": [
+     "gcalva_apical",
+     "gskv3_apical"
+    ]
+   },
    "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
   },
   "nested_variance_components": {
@@ -1521,7 +1680,9 @@
     "n_groups": 5,
     "converged": false,
     "method": "REML",
-    "loglike": -85.67066632088125
+    "loglike": -85.67066632088125,
+    "quotable": false,
+    "quotability_note": "the lineage-level mixed model did NOT converge on 5 groups; icc_adjusted and vpc are reported for completeness and must not be quoted as estimates"
    },
    "implementation": {
     "var_group": 0.023225740824549167,
@@ -1532,7 +1693,9 @@
     "n_groups": 7,
     "converged": true,
     "method": "REML",
-    "loglike": -86.96436574084612
+    "loglike": -86.96436574084612,
+    "quotable": true,
+    "quotability_note": ""
    }
   }
  }

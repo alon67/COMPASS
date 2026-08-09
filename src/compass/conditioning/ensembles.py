@@ -22,8 +22,15 @@ import pandas as pd
 from ..sampling.priors import gaussian_copula_control, shuffle_control
 from .distances import TOLERANCES, ConditioningResult, condition
 
-__all__ = ["Ensemble", "CONDITIONING_FEATURES", "QC_POLICY", "build_ensembles",
-           "high_covariance_subset", "marginal_imbalance", "validity_mask"]
+__all__ = ["BALANCE_TOL_SD", "Ensemble", "CONDITIONING_FEATURES", "QC_POLICY",
+           "build_ensembles", "high_covariance_subset", "marginal_imbalance",
+           "validity_mask"]
+
+# E7's marginal-balance constraint: no parameter's subset mean may sit more than
+# this many parent SDs from the parent mean.  A module constant rather than a
+# default buried in one signature, because the endpoint table now records
+# whether each E7 cell met it and the two must be the same number.
+BALANCE_TOL_SD = 0.10
 
 # --------------------------------------------------------------------------- #
 # Scientific-validity policy for QC flags (blueprint 14.5, 26)
@@ -188,7 +195,7 @@ def marginal_imbalance(params: np.ndarray, idx: np.ndarray) -> dict:
 def high_covariance_subset(params: np.ndarray, distance: np.ndarray,
                            n_target: int, seed: int = 0,
                            n_candidates: int = 400,
-                           balance_tol_sd: float = 0.10,
+                           balance_tol_sd: float = BALANCE_TOL_SD,
                            construction_fraction: float = 0.5,
                            ) -> np.ndarray:
     """E7: a size-matched, marginally balanced, high-covariance subset.
@@ -364,7 +371,15 @@ def build_ensembles(df: pd.DataFrame, model_id: str, param_ids: list[str],
                                         acc_x[idx], param_ids, tolerance=tol_name,
                                         metric=metric, source_regime="E3",
                                         meta={"protocol_family": protocol_family,
-                                              "matched_n": int(len(idx)), **bal}))
+                                              "matched_n": int(len(idx)),
+                                              "balance_tol_sd": BALANCE_TOL_SD,
+                                              # False when the search found no
+                                              # candidate inside the tolerance and
+                                              # returned the least-imbalanced one.
+                                              "balance_satisfied": bool(
+                                                  bal["max_mean_shift_sd"]
+                                                  <= BALANCE_TOL_SD),
+                                              **bal}))
                     # size-matched random subset: the correct comparator for E7
                     rng = np.random.default_rng(seed + 5)
                     rnd = rng.choice(len(acc_x), size=len(idx), replace=False)

@@ -17,9 +17,57 @@ never asserted.
 
 ---
 
-## 0. Corrections and withdrawn claims (2026-08-06 audit)
+## 0. Corrections and withdrawn claims
 
-Read this before anything else. The third external audit
+Read this before anything else.
+
+### 0.0 The 2026-08-09 independent post-response audit
+
+A fourth review
+(`COMPASS_INDEPENDENT_POST_RESPONSE_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md`)
+re-read the code and results after the previous round of fixes. It confirmed the
+repairs were real and then found seven further problems, five of which changed
+something a reader of this document would have believed. All are corrected here.
+
+| what changed | why | consequence |
+|---|---|---|
+| **This cohort is not "gate-passing"** | the exclusion list is built from N3 failures only. `bbp_l5pc` is in the primary cohort and casts one of its five lineage votes, and it **fails N4**: `gskv3_apical` and `gcalva_apical` move no observable feature when scaled by 1/4 and 4×. `tomko_ca1` fails on three somatic conductances | the cohort is described throughout as **N3-passing, N4 unresolved**, and `cohort_label()` in `compass.analysis.cohorts` generates the phrase so it cannot be restated by hand. Two new arms measure the consequence instead of asserting it away: `n4_strict` excludes the N4-failing implementations, `n4_projected` retains them with the unidentifiable dimensions projected out of the sampled space before ensembles are built. The release manifest lists the retention as a named blocker. |
+| **The perturbation criteria were scored without reading their own repeatability check** | `perturbation_inference.py` re-runs the whole battery at half each model's campaign time step and applies a prespecified rule, and nothing consumed the verdict. The top-versus-control contrast was the **only passing H-B criterion** and was being scored from campaign-dt numbers whether or not they survived refinement | **The headline moves from H-M to H-G.** Both perturbation criteria — they are computed from the same η — now sit behind an explicit precondition: full half-step coverage (extended to `bbp_l5pc` and `migliore_ca1`, which had none), scoring restricted to numerically repeatable implementations, and *not evaluable* below three repeatable lineages. **3 of 7 implementations are repeatable**, spanning exactly three lineages, and on that subset both criteria **fail**: functional support 0.444 against a 0.5 bar, and the matched contrast 1.91× with a lineage-clustered interval of [−0.020, +0.530] that includes zero. That is a failure to demonstrate, not a demonstration of absence — see §11.1.1 and §12.0, and §12.2 on the fact that the precondition is not preregistered. |
+| **An obsolete eight-model decision table was still in this file** | it predated lineage clustering, the N3 exclusions and the regenerated campaign, and every row quoted a superseded value for a criterion that is still scored | deleted (§12). `tools/verify_report_numbers.py` now fails when any line naming a decision criterion quotes a value other than the current one without a correction marker. Six further stale numbers found by the same new check are corrected below. |
+| **Gate roll-ups counted "known failure correctly excluded" as gate passes** | "N3 46/46" included eight tests asserting that documented failures still fail and are still excluded — and the decisive N3 test is parametrised over the *non-failing* models only, so all four documented N3 failures appeared as passes | `numerical_gates.json` now separates `by_gate` (neuronal validity) from `policy_tests` (exclusion bookkeeping) and adds a per-model `validity_matrix` in which an exempted model reads **exempt**, never pass. The record also carries the commit, the environment, the command and pytest's own exit status, none of which it had. |
+| **Some "lineage-aware" statistics still resampled implementations** | `run_robustness.py` bootstrapped `model_id`, giving the HH and Pospischil lineages two draws each; and the lineage-clustered bootstrap pooled rows across drawn clusters, so a two-implementation lineage carried double weight in the point estimate and in every replicate | the robustness bootstrap clusters on `source_lineage_id` and refuses to fall back; `cluster_bootstrap` now averages *cluster means* rather than pooled rows. Both are regression-tested. |
+
+Three further corrections of record:
+
+* **A stratified set of voltage waveforms is now retained and inspected**, which
+  is what the audit asked for: feature replay proves a stored row reproduces, not
+  that the trace behind it is plausible. 445 traces across every model, regime
+  and campaign block were archived and put through a seven-check battery.
+  **23,413 features recomputed from the retained voltage match their stored
+  values exactly, with zero mismatches** — but the battery also found two things
+  feature replay could not, both recorded with their measured prevalence in
+  [`data/provenance/waveform_findings.json`](../data/provenance/waveform_findings.json)
+  and neither repaired (see §5.5).
+* **`run_all.sh` computed the cross-model decision before regenerating the
+  perturbations it scores**, and its gate stage aborted the pipeline on the
+  N1/N2/N4 failures this release is known to have — so the special handling for a
+  blocked release, three stages later, was unreachable. Both are fixed and both
+  are regression-tested.
+* **The convergence "stage" only printed instructions** while reporting `ok`. It
+  now runs `tools/verify_convergence_evidence.py`, which checks the stored
+  evidence against the solver contract and records `regenerated: false` with the
+  reason.
+* **A variance component from a mixed model that did not converge was being
+  quoted as a number.** The nested model's *lineage* level does not converge on
+  five groups, `nested_variance_components` recorded `converged: false`, nothing
+  acted on it, and §12.0 printed its ICC beside a sentence asserting that both
+  levels had converged. The component is now marked `quotable: false` with the
+  reason, and §12.0 states the non-convergence instead of the number. Found
+  while responding to this audit, not by it.
+
+### 0.1 The 2026-08-06 audit
+
+The third external audit
 (`COMPASS_POST_REVISION_TECHNICAL_SCIENTIFIC_AUDIT.md`) found two invalid
 results, one unaccepted model and a systematically overstated inferential
 sample. All four are corrected here, and the affected claims are withdrawn
@@ -66,12 +114,20 @@ sensitivity and perturbation analysis → preregistered decision.
 | Simulated feature shards | `results/features/screening/<model>/*.parquet` |
 | Derived analysis tables | `results/analyses/*.parquet` |
 | Model audit | [`docs/model_audits/model_audit.md`](model_audits/model_audit.md) |
+| Convergence evidence, verified not regenerated | `results/validation/convergence_evidence.json` |
+| Neuronal-gate roll-up with commit, environment and pytest status | `results/validation/numerical_gates.json` |
+| Retained voltage waveforms and their trace-level battery | `results/traces/retained/*.npz`, `results/validation/retained_waveforms_screening.json` |
+| Parameter identifiability (gate N4) | `data/provenance/parameter_identifiability.json` |
+| Trace-level findings the campaign QC does not flag | `data/provenance/waveform_findings.json` |
 
 Verification: `pytest -m "not slow"` for the fast suite, `pytest -m slow` for
 the per-model NEURON gates N1-N7. The exact counts are checked against the
-documents by `tools/verify_report_numbers.py`, which now also asserts repository
-facts (test count, lint command, staleness of the model audit) that no
-number-matching can express.
+documents by `tools/verify_report_numbers.py`, which asserts repository facts
+(test count, lint command, staleness of the model audit) that no number-matching
+can express, and — since the 2026-08-09 audit — that no line naming a decision
+criterion quotes a value other than the current one without a correction marker.
+That last check is what catches a stale *table*, which string equality against a
+single expected occurrence cannot.
 
 ---
 
@@ -417,8 +473,16 @@ gate, not by inspection, and each cost something to fix:
    conventions disagree at the window edges. Recorded with the measured
    difference, so a *change* in the gap fails the test even though the gap
    itself is understood.
-5. **Three models fail gate N3 and are excluded from primary inference**
+5. **Four models fail gate N3 and are excluded from primary inference**
    (§5.0.1).
+6. **Five sampled parameters across two models change nothing observable.**
+   Gate N4 scales every exposed parameter by 1/4 and 4× and asks whether any
+   extracted feature moves. `bbp_l5pc`'s `gskv3_apical` and `gcalva_apical` and
+   `tomko_ca1`'s `gkdr_soma`, `gcal_soma` and `gcat_soma` do not. These are not
+   plumbing bugs — the paired write test passes, so the value reaches the
+   intended NEURON attribute with the intended magnitude — they are parameters
+   the frozen protocol cannot observe. Both models remain in their cohorts and
+   both are **failing N4**; §5.0.3 says what that costs.
 
 ### 5.0.1 Models excluded by gate N3
 
@@ -444,8 +508,18 @@ quoting a feature the model does not determine at that point.
 |---|---:|---:|
 | registered and adapted | 14 | 10 |
 | simulated | 11 | 8 |
-| **passing all gates (primary cohort)** | **10** | **7** |
+| **primary cohort — N3-passing, N4 unresolved** | **10** | **7** |
+| ...of which fail N4 and are retained | 2 | 2 |
 | discovery cohort alone, primary | 7 | 5 |
+| discovery cohort under `n4_strict` | 6 | 4 |
+
+The third row used to read "passing all gates". It was false, and the 2026-08-09
+audit was right to lead with it: the exclusion list is built from N3 failures
+only, and `bbp_l5pc` — which fails N4 — is inside the primary cohort casting one
+of its five discovery-lineage votes. The row now says what the cohort is. The
+phrase is generated by `compass.analysis.cohorts.cohort_label()` and asserted by
+`tests/unit/test_audit_regressions.py`, so it cannot be re-written by hand into
+something stronger than the exclusions support.
 
 The replication cohort's net contribution is **two new source lineages**
 (`moubarak_2022`, `dougalis_2017`) plus one nested implementation
@@ -454,6 +528,53 @@ lineages, and for three lineages in each class used for a class-specific claim.
 Neither target is met: **no neuron class in the primary cohort has three
 independent lineages**, so no class-specific claim is supportable, exactly as
 before.
+
+### 5.0.3 Models that fail gate N4 and are *not* excluded
+
+Two implementations sample parameters the frozen protocol cannot observe:
+
+| model | cohort | sampled | identifiable | unidentifiable |
+|---|---|---:|---:|---|
+| `bbp_l5pc` | discovery (**primary**) | 15 | 13 | `gskv3_apical`, `gcalva_apical` |
+| `tomko_ca1` | replication | 16 | 13 | `gkdr_soma`, `gcal_soma`, `gcat_soma` |
+
+The measurements are in
+[`data/provenance/parameter_identifiability.json`](../data/provenance/parameter_identifiability.json).
+Neither is an addressing bug: `test_n4_parameter_writes_reach_the_intended_target`
+passes for both, so the value lands on the intended NEURON attribute with the
+intended magnitude. For `tomko_ca1/gkdr_soma` the measured cause is a fourth
+possibility the gate's failure message does not name — the effect on membrane
+potential is real but below the resolution of the feature set. Scaling it by 1/4
+and 4× moves `sum(v[::17])` from −72605.84 to −72567.27 and −72663.01, about
+0.07%, while `spike_count` stays at 19 and `ap_halfwidth_ms` at 0.80 ms. Its
+dendritic partner `gkdr_dend` — same mechanism, same attribute, 123 segments
+instead of 1 — moves `spike_count` from 19 to 1. `bbp_l5pc`'s two are apical
+conductances in a panel measured entirely at the soma, corroborated by a Sobol
+total-order index of 0.00081 against 0.08–0.22 for active parameters.
+
+**Why they are retained, and what is reported instead.** An unidentifiable
+parameter is still drawn and still varies, so it contributes an unconstrained
+dimension to the geometry that O-information and intrinsic dimension are computed
+on. Removing it changes the sampled space and would require regenerating every
+campaign that used it. Rather than assert that this does not matter, three
+prespecified arms measure it:
+
+| arm | what it does | why |
+|---|---|---|
+| `primary` | retains both | the headline; **N3-passing, N4 unresolved** |
+| `n4_strict` | excludes both | the headline read under full N1–N7 enforcement; drops the discovery cohort to 6 implementations over 4 lineages |
+| `n4_projected` | retains both, drops the unidentifiable parameters from the sampled space *before* ensembles are built | the audit's suggested projection onto retained dimensions, obtainable without re-simulating a single trace |
+
+`n4_projected` is outcome-blind: the dropped set is read from the identifiability
+record, which gate N4 measured before any endpoint was inspected. It requires its
+own analysis pass, because — exactly like `drop_failed_feature` — a change to the
+sampled space cannot be applied by filtering an endpoint table afterwards.
+
+One prediction made during the previous round of this work was **wrong and is
+withdrawn**: retained inert parameters were expected to inflate the affected
+models' intrinsic dimension. They do not. `bbp_l5pc` sits at 0.889 intrinsic
+dimensions per parameter, the second *lowest* of eight, so whatever the inert
+dimensions do, they are not visible as an outlier at the endpoint level.
 
 **This is the gate working, and it is expensive.** Two of the exclusions are
 models that were fetched, adapted, had their mechanisms compiled, their f-I
@@ -696,6 +817,67 @@ then reproduced their previous interaction fractions to three decimals, while
 `bbp_l5pc` moved from 0.482 to 0.538 — so the verification saved re-running 208
 valid blocks without hiding a real change.
 
+### 5.5 Retained waveforms: what feature replay could not see
+
+Deterministic replay re-simulates a stored sample and compares the extracted
+features. It is a strong check of determinism and it cannot detect an implausible
+trace, because a trace that is wrong in the same way twice reproduces perfectly.
+The 2026-08-09 audit made that objection and asked for archived voltage.
+
+`tools/retain_waveforms.py` retains a stratified sample — every model × regime ×
+campaign block, plus the risk strata `validate_replay` already defines — and runs
+seven checks that features cannot express: voltage range, baseline stability,
+spike shape, depolarisation-block detection, single-step discontinuity,
+finiteness, and recomputation of every feature from the retained trace.
+
+**445 traces. The recomputation result is the important one: 23,413 features
+recomputed from the archived voltage, zero mismatches.** No NaN, no Inf, no
+implausible spike, no undetected block, no discontinuity larger than the
+integrator can produce in one step. The archived trace really does regenerate the
+stored row.
+
+Two things the battery found that the campaign's own QC does not flag. Both are
+recorded with their measured prevalence in
+[`data/provenance/waveform_findings.json`](../data/provenance/waveform_findings.json),
+and **neither is repaired** — the QC thresholds are frozen properties of the
+campaign, and moving one after seeing which samples it admits is an
+outcome-driven change that would also invalidate every stored shard.
+
+**1. Sub-physiological hyperpolarisation (8/445, 1.8%).** All eight are
+`khaliq_purkinje` on the hyperpolarising step, which is Ohm's law rather than a
+numerical failure: this model's input resistance has a median of 593 MΩ and a
+99th percentile of 2,361 MΩ, against a median of 23–49 MΩ everywhere else, and
+the step is a fixed −0.05 nA. The QC flag `nonphysical_voltage` fires outside
+[−160, +120] mV; the battery's band is [−150, +80]. Six of the eight already
+carry the flag and are ineligible. **Two sit in the 10 mV gap and are
+analysis-eligible**: E1 sample 500 at −158.2 mV and E2 sample 58 at −152.8 mV,
+i.e. 2/445 = 0.45% of retained traces. A campaign-wide count is not available —
+the trace minimum is not a stored column, and a steady-state estimate from stored
+input resistance predicts 204 eligible khaliq rows below −150 mV of which *all*
+carry the QC flag, so the estimate misses precisely the marginal transient cases
+these two are. The affected quantities are the hyperpolarisation-derived features
+(input resistance, sag, membrane tau); the `step_abs_hi` spike features that
+carry most of the conditioning phenotype are untouched.
+
+**2. Slow baseline settling drift (31/445, 7.0%).** The pre-stimulus mean is
+still moving when the step arrives: the mean over the last 50 ms before onset
+differs from the earlier pre-stimulus mean by more than 10% of the trace's total
+excursion. This is a *different* defect from the one QC catches — the
+`unstable_baseline` flag tests the peak-to-peak range of the second half of the
+pre-stimulus window against 2.0 mV, which is a ripple detector, and a membrane
+settling smoothly has small ripple while its mean is still moving. 28 of the 43
+flagged protocol-instances carry no `unstable_baseline` flag and their samples are
+eligible. It is the same failure mode already documented for `ortner_snc_da` under
+gate N6, where an unsettled baseline plus an Ih sag produced a *negative* input
+resistance. Distributed across five models: `pospischil_rs` 13, `pospischil_fs`
+10, `bbp_l5pc` 6, `khaliq_purkinje` 1, `mainen_l5pc` 1.
+
+Both point at the same design decision rather than at a coding error: a **fixed
+absolute stimulus amplitude and a fixed pre-stimulus delay**, applied unchanged
+across a prior wide enough to move input resistance by two orders of magnitude.
+The next campaign should set the hyperpolarising amplitude and the settling
+period per model from measured passive properties instead.
+
 ---
 
 ## 6. Result 1 — conditioning manufactures dependence
@@ -868,6 +1050,39 @@ one where every model has the samples to resolve its own sign.
 Net O-information varies **1.8×** more within one model across regimes
 (SD 0.0052) than within one regime across models (SD 0.0029).
 
+**E7's marginal balance, per cell.** The high-covariance subset is constructed
+under a constraint — no parameter's subset mean may sit more than 0.10 parent SD
+from the parent mean — and the search **relaxes that constraint when no candidate
+satisfies it**, returning the least-imbalanced selection instead. Until the
+2026-08-09 audit the endpoint table carried no trace of which of those two had
+happened for any given cell, so a reader could not tell a matched E7 from a
+relaxed one. Every endpoint row now carries the achieved balance and a boolean:
+
+| | E7 cells | max mean shift |
+|---|---:|---|
+| constraint satisfied | **13 / 15** | ≤ 0.0998 SD |
+| constraint relaxed | 2 / 15 | `migliore_ca1` absolute **0.1310 SD**, `mainen_l5pc` absolute **0.1208 SD** |
+
+The audit identified the Migliore cell from the outside and was right about the
+value. Both relaxed cells are *absolute*-family; both models' normalised cells
+satisfy the constraint. Filter on `e7_balance_satisfied` to exclude them.
+
+The separate balance audit in `tools/run_robustness.py` was **auditing a
+different E7 than the one that was published**: it rebuilt the ensembles with
+`seed=1` while `tools/run_analysis.py` builds them with `20260804`, so it could
+not have detected an imbalance in the stored selection. It now uses the analysis
+seed and the primary QC policy, and reports, over 72 parameters:
+mean KS distance 0.064, max 0.183, 15.3% of parameters KS-significant at
+p < 0.05, SD ratio in [0.79, 1.28].
+
+**Two different numbers are in play and they are not comparable.** The
+constraint (0.10 SD, satisfied by 13/15 cells above) measures E7 against its
+**parent accepted set**. The audit's `max_abs_mean_shift_sd` of **0.264**
+measures E7 against **E3m**, the size-matched *random* subset that is its
+comparator — two subsets of the same parent, so their difference can be roughly
+twice either one's shift from the parent. Quoting one as if it violated the
+other's threshold would be wrong in both directions.
+
 ### 8.1 Mean correlation does not determine the balance
 
 | regime | mean \|r\| | net O-information | order-5 tuples significantly… |
@@ -889,13 +1104,21 @@ point ratio of **18.6** for sampling+geometry versus model identity on
 `synergy_area` (unique R² 0.176 + 0.013 versus 0.010). That single number
 understates the uncertainty: the ~200 endpoint rows are not independent
 experiments, because E3/E4/E7/E8/E9 are all *derived* from the same E1 campaign.
-The inferential unit is the **model**, so the ratio is re-estimated with a
-bootstrap over models:
+The inferential unit is the **source lineage**, so the ratio is re-estimated with
+a bootstrap over lineages:
 
-| table | ratio median | 95% CI | resamples exceeding the preregistered 2.0 |
-|---|---:|---|---:|
-| raw endpoints | 11.9 | [3.3, 71.2] | **100%** |
-| **size-matched** (20 draws, common N per regime) | **12.6** | **[3.6, 60.5]** | **100%** |
+| table | clusters | ratio median | 95% CI | resamples exceeding the preregistered 2.0 |
+|---|---:|---:|---|---:|
+| raw endpoints | 6 lineages | 11.5 | [2.7, 46.9] | **100%** |
+| **size-matched** (20 draws, common N per regime) | 5 lineages | **12.8** | **[2.6, 46.1]** | **100%** |
+
+> Both rows moved when the bootstrap unit was corrected from `model_id` to
+> `source_lineage_id` (2026-08-09 audit). They previously read 11.9 [3.3, 71.2]
+> and 12.6 [3.6, 60.5] over 8 and 7 *implementations*. The point estimates barely
+> move; the intervals do, and the lower bounds fall — which is the expected
+> direction, because the HH and Pospischil lineages were each supplying two draws
+> that are not independent. The preregistered threshold of 2.0 is still exceeded
+> in every resample.
 
 The size-matched table is the one that answers the review's F4: every model is
 subsampled to a common N per regime and the endpoints recomputed 20 times, so
@@ -905,8 +1128,8 @@ withholds the four implementations that fail gate N3, so a model excluded from
 every other primary analysis can no longer bind a matched cell through the
 `min()` that sets the common N.
 
-Under that design the ratio is **12.6 with a proper interval**, slightly *above*
-the raw figure of 11.9 rather than below it. The earlier matched estimate of 9.3
+Under that design the ratio is **12.8 with a proper interval**, slightly *above*
+the raw figure of 11.5 rather than below it. The earlier matched estimate of 9.3
 was depressed by a gate-failed model sitting inside the design and by the small
 common N that model forced; removing it and enlarging the binding model's sample
 raises the matched ratio rather than lowering it. It remains well below the 22.6
@@ -996,7 +1219,14 @@ respond to conditioning in opposite directions.
 
 ---
 
-## 11. Result 6 — statistical synergy DOES identify functionally interacting parameters
+## 11. Result 6 — statistical synergy points at functionally interacting parameters, but the inference is unresolved
+
+> **This heading used to read "statistical synergy DOES identify functionally
+> interacting parameters".** It was written when the paired tests appeared to
+> separate from unity over seven implementations. At the lineage level they do
+> not, and the criteria are now withheld from the decision pending a numerical
+> repeatability check (§11.1.1, §12.0). The measurement in this section stands;
+> the inference it was being used to support does not.
 
 This section reverses the conclusion of the first release. The original
 perturbation experiment had three design faults, all identified by review:
@@ -1022,61 +1252,79 @@ Primary feature (mean firing rate), 7 models × 18 tuples × 8 backgrounds:
 | median \|η\| | 0.100 | 0.022 | 0.023 |
 | meeting the functional-support bar | **31.0%** | 7.1% | 2.4% |
 
-| comparison | ratio | 95% CI (model bootstrap) | Wilcoxon p | models with top > control |
+| comparison | ratio | 95% CI (lineage bootstrap) | Wilcoxon p | lineages with top > control |
 |---|---:|---|---:|---:|
-| top vs **random** | 4.74× | [1.90, 9.65] | **0.016** | 7 / 7 |
-| top vs **middle-Ω** | 2.97× | [1.35, 7.71] | **0.047** | 6 / 7 |
+| top vs **random** | 3.83× | [1.55, 9.02] | 0.063 | 5 / 5 |
+| top vs **middle-Ω** | 2.49× | [1.07, 6.91] | 0.188 | 4 / 5 |
 
-**Both comparisons now separate from unity, but the intervals stay wide.** The
-battery is run on the seven models with a usable accepted ensemble; `mainen_l5pc`
-is absent, so this arm carries the partial-coverage caveat the decision table
-prints. Every model shows top > random, six of seven show top > middle-Ω, and
-both paired tests fall below 0.05 — where the previous release reported 2.77×
-(p = 0.078) and 1.87× (p = 0.195) with the matched-control interval grazing 1.03.
+> **These replace model-level figures of 4.74× (p = 0.016) and 2.97×
+> (p = 0.047).** The bootstrap unit was `model_id`, so the HH and Pospischil
+> lineages each supplied two of seven supposedly independent units. Averaging
+> implementations within lineage first — which is what "clusters on
+> `source_lineage_id`" was always supposed to mean — gives the row above. This
+> document previously said both paired tests had fallen below 0.05; **that claim
+> is withdrawn**. Found by the 2026-08-09 audit.
 
-The lower bounds are 1.90 and 1.35, so the direction is no longer in doubt, but
-the upper bounds (9.65 and 7.71) are far from the point estimates: seven models
-is a small bootstrap unit. The scored H-B criterion is judged on the
-lineage-clustered paired difference (+0.203 SD, 95% CI [+0.018, +0.439] over
-five lineages), not on the point ratio.
+**The direction survives; the significance does not.** The battery runs on the
+seven models with a usable accepted ensemble — five lineages; `mainen_l5pc` is
+absent, so this arm carries the partial-coverage caveat the decision table
+prints. Every lineage shows top > random and four of five show top > middle-Ω,
+but neither paired test reaches 0.05, and with five lineages the smallest
+attainable two-sided Wilcoxon p is 0.0625, so the random comparison is at its
+floor rather than merely close to it.
 
-The continuous relationship survives: across the 144 primary-readout tuples,
-more synergistic tuples are more non-additive, **r = −0.401**. But it too is
-weaker than the −0.452 reported before the correction.
+The lower bounds are 1.55 and 1.07, so the direction is not in doubt, but the
+upper bounds (9.02 and 6.91) are far from the point estimates: five lineages is
+a small bootstrap unit. When the H-B criterion is evaluable at all it is judged
+on the lineage-clustered paired difference — with equal weight per lineage,
+**+0.157 SD, 95% CI [+0.011, +0.376] over five lineages** — not on the point
+ratio. Equal lineage weighting narrowed the point estimate from +0.203 SD and
+moved the interval's lower bound from +0.018 to +0.011.
+As of this revision it is **not** evaluable: see §12.0.
+
+The continuous relationship survives: across the 126 primary-readout tuples,
+more synergistic tuples are more non-additive, **r = −0.515**.
 
 **What can be said.** Statistically synergistic tuples are enriched for
-functional non-additivity by a point estimate of roughly 2–3×, in the same
-direction in 5–6 of 8 models, with intervals that exclude no-enrichment only
-barely. What cannot be said is that this is established: two non-significant
-paired tests with intervals spanning an order of magnitude do not validate a
-module claim; the "unresolvable in half the panel" companion claim is withdrawn (§11.1).
+functional non-additivity by a point estimate of roughly 2.5–4×, in the same
+direction in 4–5 of 5 lineages, with intervals whose lower bounds sit just above
+no-enrichment. What cannot be said is that this is established: two
+non-significant paired tests with intervals spanning an order of magnitude do
+not validate a module claim, the enrichment is absent for waveform readouts, and
+the η it is computed from has not passed the half-step repeatability check that
+now gates it. The "unresolvable in half the panel" companion claim is withdrawn
+as invalid (§11.1).
 
 For the record, the *original* pre-audit numbers (1.40×, 12.5% supported vs
 14.6% for controls, r = −0.064) were an artefact of a flawed design and remain
 withdrawn; the correction of that design was real. It is the strength of the
-replacement claim that has since been revised downward twice.
+replacement claim that has since been revised downward **three times**: once by
+the corrected battery, once by counting lineages instead of implementations, and
+once by requiring the underlying η to be numerically repeatable.
 
 **But that correlation exists only for spike-timing readouts.** Computed
 separately on each of the four features measured from the *same* simulations:
 
 | readout | kind of quantity | r(Ω, \|η\|) |
 |---|---|---:|
-| mean firing rate | spike **count** in a window | **−0.401** |
-| first ISI | spike **time** difference | **−0.278** |
-| AP amplitude | continuous voltage shape | −0.091 |
-| AP half-width | continuous voltage shape | **+0.063** |
+| mean firing rate | spike **count** in a window | **−0.515** |
+| first ISI | spike **time** difference | **−0.318** |
+| AP amplitude | continuous voltage shape | −0.163 |
+| AP half-width | continuous voltage shape | **−0.006** |
 
 The link between statistical synergy and functional non-additivity is present
-for the two readouts derived from spike timing and **absent, with one of them
-weakly positive**, for the two derived from waveform shape. The same split
-appears in the group means. Enrichment over the matched middle-Ω control, by
-readout: **3.14×** for first ISI and **1.87×** for firing rate, against
-**1.02×** for AP amplitude and **0.77×** for AP half-width — the waveform
-readouts show no separation at all, and half-width runs slightly the wrong way.
+for the two readouts derived from spike timing and **essentially absent** for
+the two derived from waveform shape — AP half-width is −0.006, indistinguishable
+from no relationship. The same split appears in the group means. Pooled
+enrichment over the matched middle-Ω control, by readout: **2.97×** for firing
+rate and **2.79×** for first ISI, against **1.32×** for AP amplitude and
+**0.85×** for AP half-width — the waveform readouts show little or no
+separation, and half-width runs slightly the wrong way.
 
-This survived the target correction essentially unchanged (it was −0.452,
-−0.332, −0.003, −0.032 before), which makes it the most robust finding in this
-section: the enrichment ratios moved by 30–40%, the readout split did not.
+The split has survived every correction this project has made to the battery —
+the target correction, the regeneration, the change of bootstrap unit — while
+the enrichment ratios have moved substantially each time. That makes it the most
+robust finding in this section.
 
 This is the central methodological finding of the project, and §14 develops it:
 the tuples are the same, the simulations are the same, and the parameter
@@ -1152,9 +1400,9 @@ be re-examined without re-simulating.
 **What survives.** The defensible perturbation summary is unchanged by the
 withdrawal and is no more positive for it: top tuples have a larger point mean
 absolute non-additivity than either control family, the paired lineage-clustered
-tests are inconclusive, and 20.8% of top tuples meet the preregistered
-functional-support rule. Removing an invalid negative claim does not create a
-positive one.
+tests are inconclusive, and 31.0% of top tuples meet the preregistered
+functional-support rule against 7.1% of controls. Removing an invalid negative
+claim does not create a positive one.
 
 
 ### 11.1.1 What the replacement analysis actually found
@@ -1163,57 +1411,86 @@ Raw per-background outcomes now exist (5040 rows, one per model x tuple x
 background x feature), so the two questions the withdrawn floor analysis
 conflated can finally be answered separately.
 
-**Enrichment over controls.** Pooled over the 7 models with a
-regenerated battery, top-synergy tuples show mean \\|η\\| of
-0.203 SD against 0.094 SD for matched
-middle-Ω controls (**2.17×**, CI
-[1.25, 7.20], paired
-p = 0.078, 5/7
-models) and 0.061 SD for random controls
-(**3.35×**, CI [1.57,
-7.78], p = 0.047,
-6/7). The random-control test now
-crosses 0.05 where it did not before, but the sample is **7 models rather than
-8** because `mainen_l5pc`'s battery was not regenerated; that is a change of
-sample, not evidence of a stronger effect, and only one of the two comparisons
-is scored (§12).
+**Enrichment over controls, at the lineage level.** The 7 models with a
+regenerated battery are **5 source lineages** (`hodgkin_huxley_1952` and
+`pospischil_2008` contribute two implementations each). Averaging
+implementations within lineage and then comparing lineages, top-synergy tuples
+show mean \|η\| of **0.263 SD** against **0.106 SD** for matched middle-Ω
+controls (**2.49×**, CI [1.07, 6.91], paired p = 0.188, 4/5 lineages) and
+**0.069 SD** for random controls (**3.83×**, CI [1.55, 9.02], p = 0.063, 5/5
+lineages). Only one of the two comparisons is scored (§12).
 
-**Inferential precision.** 16/42
-top tuples are distinguishable from zero. 16 of
-42 top-synergy tuples have a bootstrap interval over
-their eight backgrounds that excludes zero. Per model:
+> **These numbers replace model-level ones, and the change is not cosmetic.**
+> The same simulations analysed over 7 *implementations* gave 2.97× (p = 0.047)
+> and 4.74× (p = 0.016), and this document previously reported that both paired
+> tests had crossed 0.05. They had not: the HH and Pospischil lineages were each
+> contributing two of the seven supposedly independent units. Neither test is
+> below 0.05 at the lineage level, and **the significance claim is withdrawn**.
+> Note also that with 5 lineages the smallest attainable two-sided Wilcoxon p is
+> 0.0625, so the random-control comparison sits at its floor and this panel
+> cannot produce a significant paired result at the lineage level at any effect
+> size. Found by the 2026-08-09 audit.
+
+**Inferential precision.** **16/42** top-synergy tuples have a bootstrap interval
+over their eight backgrounds that excludes zero. Per model:
 
 | model | median \|mean η\| (SD) | median SEM | CI excludes 0 | median sign-flip p |
 |---|---:|---:|---:|---:|
 | `bbp_l5pc` | 0.0231 | 0.0477 | 0/6 | 0.875 |
-| `hh_cable` | 0.2540 | 0.0483 | 6/6 | 0.0117 |
-| `hh_point` | 0.7168 | 0.4347 | 4/6 | 0.0859 |
-| `khaliq_purkinje` | 0.0228 | 0.0135 | 0/6 | 0.3438 |
+| `hh_cable` | 0.8569 | 0.5613 | 5/6 | 0.0234 |
+| `hh_point` | 0.9115 | 0.5168 | 5/6 | 0.0742 |
+| `khaliq_purkinje` | 0.0315 | 0.0191 | 2/6 | 0.25 |
 | `migliore_ca1` | 0.3717 | 0.2951 | 2/6 | 0.2188 |
 | `pospischil_fs` | 0.0488 | 0.0577 | 1/6 | 0.4141 |
 | `pospischil_rs` | 0.0369 | 0.102 | 1/6 | 0.875 |
 
-**Counts analysed as counts.** All 126 count-space η values are
-integers, as they must be. Under exact enumeration of all 2⁸ = 256 background
-sign flips — no Monte-Carlo error — 9 reach p < 0.05.
-Mean \|η\| in spikes: **top-synergy 2.11**,
-matched control 1.00,
-random control 0.78. Stating
-the effect as "about two spikes of non-additivity against about one" is more
-honest than any SD-normalised ratio, and it is the scale on which the readout
-is actually quantised.
+Read down the "CI excludes 0" column: the enrichment is carried by the two HH
+implementations, which are **one lineage**. Three of the five lineages have at
+most 2 of 6 top tuples distinguishable from zero.
 
-**Numerical repeatability: the gate FAILS, 0/5 models.**
-Re-running the battery at half the campaign time step and comparing
-per-background η, no model meets the prespecified rule (median \|Δη\| ≤ 0.05 SD
-**and** ≥ 80% of tuple means keeping their sign). The verdict is not rescored.
-But where the instability sits is itself informative:
+**Counts analysed as counts.** All 126 count-space η values are integers, as
+they must be. Under exact enumeration of all 2⁸ = 256 background sign flips — no
+Monte-Carlo error — 9 reach p < 0.05. Mean \|η\| in spikes: **top-synergy 2.77**,
+matched control 1.02, random control 0.72. Stating the effect as "under three
+spikes of non-additivity against about one" is more honest than any
+SD-normalised ratio, and it is the scale on which the readout is actually
+quantised.
 
-| base effect size | tuples | sign flips at half dt |
-|---|---:|---:|
-| 0.0-0.02 SD | 38 | 22 (58%) |
-| 0.02-0.1 SD | 32 | 5 (16%) |
-| >=0.1 SD | 20 | 0 (0%) |
+**Numerical repeatability: 3 of 7 implementations pass.**
+Re-running the battery at half each model's **own** campaign time step and
+comparing per-background η, **3 of 7 implementations** meet the prespecified
+rule — median \|Δη\| ≤ 0.05 SD *and* ≥ 80% of tuple means keeping their sign:
+
+| implementation | median \|Δη\| (SD) | tuple-mean sign agreement | repeatable |
+|---|---:|---:|---|
+| `hh_cable` | 0.0000 | 1.000 | **yes** |
+| `migliore_ca1` | 0.0000 | 0.944 | **yes** |
+| `pospischil_rs` | 0.0000 | 0.889 | **yes** |
+| `bbp_l5pc` | 0.0000 | 0.778 | no |
+| `hh_point` | 0.0000 | 0.722 | no |
+| `pospischil_fs` | 0.0434 | 0.722 | no |
+| `khaliq_purkinje` | 0.0000 | 0.611 | no |
+
+The three that pass are three *different* lineages (`hodgkin_huxley_1952`,
+`migliore_1999`, `pospischil_2008`), which is exactly the minimum at which the
+H-B criteria become evaluable at all (§12.0). Every failure is a sign-agreement
+failure, not a magnitude failure: the median paired change is **zero** for six
+of seven models, so the numbers themselves barely move — what moves is the sign
+of the small ones.
+
+> An earlier version of this section reported **0/5 models** and said the gate
+> failed outright. Two things changed: `bbp_l5pc` and `migliore_ca1` had no
+> half-step data at all and now do, and the half-step run scales each model's
+> *own* campaign step rather than applying one absolute dt across a panel whose
+> accepted steps span 0.05–0.003125 ms.
+
+Where the instability sits is the informative part:
+
+| base effect size | tuples | sign flips at half dt | median \|Δη\| |
+|---|---:|---:|---:|
+| 0.0–0.02 SD | 48 | 22 (45.8%) | 0.0092 |
+| 0.02–0.1 SD | 36 | 2 (5.6%) | 0.0163 |
+| ≥ 0.1 SD | 42 | **0 (0.0%)** | 0.0222 |
 
 Every sign flip is confined to tuples whose effect is already indistinguishable
 from zero. **No effect at or above 0.10 SD flips**, and the preregistered
@@ -1221,14 +1498,16 @@ functional-support threshold is 0.25 SD. So the correct caution is not that the
 readout has an irreducible floor — that claim was invalid — but that
 **tuple-level non-additivity below ~0.02 SD is not numerically reliable in
 sign**, which is a statement about the solver and is measured rather than
-asserted.
+asserted. This breakdown is a diagnostic and the prespecified verdict is **not**
+rescored on it.
 
-**Coverage limitation.** The battery was regenerated for the seven
-primary-cohort models. `mainen_l5pc` was not: it is excluded from primary
-inference by gate N3, and its battery costs ~16 h. Every sensitivity arm that
-retains Mainen therefore computes its perturbation criteria **without** Mainen,
-and `decision_sensitivity.json` records that explicitly so an arm's conclusion
-is never compared against one with different coverage.
+**Coverage limitation.** The battery covers the seven primary-cohort models at
+both time steps. `mainen_l5pc` is absent from it: it is excluded from primary
+inference by gate N3, and its battery costs ~16 h at the campaign step and
+roughly twice that halved. Every sensitivity arm that retains Mainen therefore
+computes its perturbation criteria **without** Mainen, and
+`decision_sensitivity.json` records that explicitly so an arm's conclusion is
+never compared against one with different coverage.
 
 ### 11.2 Sobol: interactions are pervasive, but the headline feature was an artefact
 
@@ -1309,71 +1588,156 @@ is exactly the bias direction the imputation predicts.
 
 ### 12.0 The primary decision, at lineage level
 
-The decision table is now evaluated on **7 implementations
-representing 5 source lineages** (the primary,
-gate-passing cohort), and every criterion that used to count model ids now counts
-lineages.
+The decision table is evaluated on **7 implementations representing 5 source
+lineages** — the primary cohort, which is **N3-passing with N4 unresolved for
+`bbp_l5pc`** (§5.0.3), not "gate-passing". Every criterion that used to count
+model ids counts lineages.
 
 | criterion | supports | value | passed |
 |---|---|---:|---|
 | conditioning effect direction agreement across LINEAGES | H-G | 0.8000 | yes |
-| high-covariance subset effect direction agreement (lineages) | H-G | 1.0000 | yes |
-| unique R2(sampling+geometry) / unique R2(model identity) [synergy_area] | H-G | 1843.5497 | yes |
-| out-of-sample R2 for a held-out LINEAGE (sampling+geometry) | H-G | 0.7310 | yes |
-| sampling regime predictable across unseen lineages | H-G | 0.4352 | yes |
-| statistical synergy modules validated by direct perturbation | H-B | 0.2381 | no |
-| top-synergy tuples more non-additive than matched controls | H-B | 2.1250 | yes |
+| high-covariance subset effect direction agreement (lineages) | H-G | 0.8000 | yes |
+| unique R2(sampling+geometry) / unique R2(model identity) [synergy_area] | H-G | 1839.6363 | yes |
+| out-of-sample R2 for a held-out LINEAGE (sampling+geometry) | H-G | 0.5632 | yes |
+| sampling regime predictable across unseen lineages | H-G | 0.2805 | yes |
+| statistical synergy modules validated by direct perturbation | H-B | 0.4444 | no |
+| top-synergy tuples more non-additive than matched controls | H-B | 1.9146 | no |
 
-**H-G 5/5, H-B 1/2 → H-M.**
+**H-G: 5/5. H-B: 0/2. Conclusion: H-G.** This replaces H-M, and the reason is
+the single largest change in this revision.
 
-Conditioning moves the endpoint toward synergy in 0.800 of lineages
-(toward synergy; 4/5 lineages (7 implementations); exact two-sided sign p=0.375). The exact two-sided sign probability is what changed most:
-under the old model-id counting, unanimity across 8 units read as p = 0.0078;
-across the lineages those ids represent it is an order of magnitude weaker.
+**Both H-B criteria are now scored on the numerically repeatable
+implementations only, and both fail.** They are computed from the same
+non-additivity η, and until the 2026-08-09 audit nothing required that η to
+survive a refinement of the time step before it was scored — even though
+`perturbation_inference.py` had already measured that it largely does not. The
+precondition now applied is: every model in the battery must have half-step
+results; only repeatable implementations may be scored; and below three
+repeatable lineages the criteria are *not evaluable* rather than failed.
 
-The adjusted ICC of model identity is 0.152 and the
-variance-partition coefficient 0.025; both are
-**descriptive only**, since the fixed covariates conditioned on are themselves
-the H-G hypothesis. The nested model separates them by level: lineage ICC
-0.166 over 5 groups,
-implementation ICC 0.152 over
-7, both converged.
+Half-step coverage was completed for `bbp_l5pc` and `migliore_ca1`, which had
+none. Of the seven implementations in the battery, **three are numerically
+repeatable** — `hh_cable`, `migliore_ca1`, `pospischil_rs` — spanning three
+lineages, exactly the minimum, so the criteria are evaluable. On that subset:
 
-Sobol contributes 7 quotable analyses of 42 under the
-precision-gated rule, with mean interaction fraction
-0.157.
+* functional support **0.444** against 0.167 for controls, below the 0.5 bar;
+* the top-versus-matched contrast is **1.91×**, paired difference +0.182 SD with
+  a lineage-clustered 95% CI of **[−0.020, +0.530]** — which includes zero.
 
-The full sensitivity cascade is in
-[`results/analyses/decision_sensitivity.json`](../results/analyses/decision_sensitivity.json).
+**Read that as a failure to demonstrate, not a demonstration of absence.** The
+interval is consistent with no enrichment *and* with enrichment of half a
+standard deviation, because it rests on three lineages. The random-control
+contrast on the same subset is 3.25× with CI [+0.022, …], i.e. it would have
+passed; it is not scored, because it is the same measurement with a different
+denominator (§12.1). What the table now says is that the causal-module claim is
+**not supported by evidence that survives its own numerical check** — not that
+the modules have been shown to be spurious.
+
+**The H-G label is produced by H-B failing, and that is a weaker thing than it
+sounds.** The decision rule returns H-G when the generic side passes and the
+biological side does not; it does not distinguish "the biological criteria were
+tested on an adequate sample and failed" from "they were tested on three
+lineages and could not resolve anything". This case is the second. Nothing about
+H-G's own five criteria got stronger — they are the same four narrow passes and
+one lower bound described below. The audit's formulation is more accurate than
+the label: sampling and conditioning materially influence the estimated
+interaction structure; cross-lineage sign generalisation is encouraging but not
+confirmatory; and whether statistically selected tuples are numerically robust
+causal modules is **unresolved**.
+
+The precondition is **not preregistered**; it was written after the
+repeatability outcome was known. See §12.2 and `preregistration.md` Addendum 4.
+
+**The four H-G criteria that remain, read honestly.** Conditioning moves the
+endpoint toward synergy in 4 of 5 lineages, exact two-sided sign p = 0.375 —
+and 0.0625 is the *smallest* p a five-unit panel can produce, so no
+configuration of these lineages could have reached significance. The
+high-covariance contrast is likewise 4/5 at p = 0.375. The unique-R² ratio of
+1,840× is a **lower bound**, not a point estimate: identity variance falls below
+the 1e-4 resolution floor. Only the size-matched version (12.8×, CI [2.6, 46.1])
+is a bounded measurement. The lineage-transfer median of 0.563 conceals a
+`migliore_1999` fold at **−3.783**. The classifier clears its 0.172 baseline
+with 0.281.
+
+Their weight comes from agreeing in direction across independent contrasts, not
+from any individual margin.
+
+**Variance components.** The flat adjusted ICC of model identity is 0.138 and
+the variance-partition coefficient 0.023; both are **descriptive only**, since
+the fixed covariates conditioned on are themselves the H-G hypothesis. The
+nested model separates the levels — implementation ICC **0.138** over 7 groups,
+converged — but its **lineage level does not converge** on 5 groups, so the
+0.204 it reports there is not an estimate and is not quoted as one.
+`nested_variance_components` now marks it `quotable: false`. An earlier version
+of this paragraph gave lineage ICC 0.166 and implementation ICC 0.152 and stated
+that *both converged*; the values were stale and the convergence claim was
+false. Found while responding to the 2026-08-09 audit, not by it.
+
+**Sobol** contributes 8 quotable analyses of 55 completed (of 56 possible) under
+the precision-gated rule, with mean interaction fraction 0.148 (§11.2).
+
+**The sensitivity cascade has 9 declared arms but only 6 substantively distinct
+ones.** `retain_partial_coverage` and `discovery_only` select exactly the same
+models as `primary`, and `all_models` the same as `retain_mainen`; their
+agreement with those arms is arithmetic, not evidential. This is detected from
+the data and recorded in
+[`decision_sensitivity.json`](../results/analyses/decision_sensitivity.json)
+as `duplicate_of` / `independent_evidence: false`.
+
+| arm | cohort | H-G | H-B | conclusion |
+|---|---|---|---|---|
+| `primary` | 7 impl / 5 lineages | 5/5 | 0/2 | **H-G** |
+| `n4_projected` | 7 impl / 5 lineages | 5/5 | 0/2 | H-G |
+| `n4_strict` | 6 impl / 4 lineages | 3/5 | 0/2 | H-G |
+| `drop_failed_feature` | 8 impl / 6 lineages | 4/5 | 0/2 | H-G |
+| `retain_mainen` | 8 impl / 6 lineages | 3/5 | 0/2 | H-G |
+| `replication_only` | 3 impl / 3 lineages | 5/5 | — | H-B not evaluable (no perturbation data) |
+
+**Every evaluable arm now returns H-G.** That is a real improvement in
+stability: the H-M this replaces varied across the cascade, passing in the
+primary arm and failing when Mainen was retained, which §12.1 flagged as a sign
+that the label was tracking the criterion set rather than the data. It should
+not be over-read either — H-B is 0/2 everywhere because the same three-lineage
+subset fails the same two criteria in every arm, so the arms are not
+independent confirmations of that half.
+
+`n4_strict` loses both direction criteria on the **denominator**, not on a change
+of behaviour: 4/5 = 0.800 meets the 0.80 threshold exactly, and 3/4 = 0.750 does
+not. At four lineages only 4/4 can pass. That is a property of a fixed proportion
+threshold on a tiny panel, and an argument for §14.2 rather than a result about
+`bbp_l5pc`.
 
 ## 12. The preregistered decision
 
-| criterion | supports | value | outcome |
-|---|---|---:|---|
-| conditioning direction agreement (8 models) | H-G | 0.875 | **PASS** |
-| high-covariance direction agreement (8 models) | H-G | 1.000 | **PASS** |
-| unique R²(sampling+geometry) ÷ unique R²(identity) | H-G | 18.6 | **PASS** |
-| out-of-sample R², held-out family (median) | H-G | 0.818 | **PASS** |
-| regime classified across unseen families | H-G | 0.447 vs 0.155 | **PASS** |
-| model identity classified from information summaries | H-B | 0.585 vs 0.146 | **PASS** |
-| top-tuple module stability (per-model Jaccard) | H-B | 0.819 | **PASS** |
-| synergy modules validated by perturbation | H-B | 0.208 | not met |
-| top-synergy more non-additive than middle-Ω controls | H-B | 1.87× | **PASS** |
-| top-synergy more non-additive than random controls | H-B | 2.77× | **PASS** |
-| *adjusted ICC of model identity* | *descriptive* | *0.165* | *not scored (§12.1)* |
+> **A superseded eight-model decision table stood here.** It was written when the
+> panel was counted as eight independent model ids, before lineage clustering,
+> before the N3 exclusions, and before the regenerated campaign. Every row of it
+> named a real criterion and quoted a number that is no longer the value of that
+> criterion — an eight-model direction agreement of 0.875, a unique-R² ratio of
+> 18.6, a held-out R² of 0.818, a middle-Ω ratio of 1.87×. The 2026-08-09
+> independent audit found it still sitting below the current table and correctly
+> called it a contradiction. It has been **deleted**, not corrected: there is one
+> decision table in this document, §12.0, and it is generated from
+> [`decision.json`](../results/analyses/decision.json).
+>
+> `tools/verify_report_numbers.py` now fails when any line naming a decision
+> criterion quotes a value other than the current one without a correction
+> marker, which is the check that would have caught this table rather than
+> leaving it for a reviewer.
 
-**The direction-agreement criterion is contaminated by tiny accepted cells.**
-It fell from 1.000 to 0.875 not because a model changed behaviour but because it
+The one analytic point from that table that survives its deletion, because it is
+about the criterion rather than about a superseded number:
+
+**The direction-agreement criterion is contaminated by tiny accepted cells.** It
 averages Δ net O-information across *all* tolerances, giving a 66-sample
-very-strict ensemble the same weight as a 6,642-sample permissive one.
-`pospischil_fs`'s mean turns positive (+0.0017) entirely on the strength of its
-very-strict value, which §6.1 shows is a 2.0σ fluctuation. **At the permissive
-tolerance alone, agreement is still 8/8.** The criterion is left as
-preregistered — rescoring it now, having seen which value moved it, is the
-failure mode of §12.1 — but the 0.875 should be read as "7/8 after averaging in
-measurements that cannot be made", not as a model dissenting.
-
-**H-G: 5/5. H-B: 1/2. Conclusion: H-M.** (primary arm; the sensitivity cascade in `decision_sensitivity.json` gives H-G when `mainen_l5pc` is retained, because retaining it widens the lineage-clustered paired perturbation interval to include zero.)
+very-strict ensemble the same weight as a 6,642-sample permissive one. A model
+whose mean turns positive on the strength of its very-strict value alone is
+recording a fluctuation that §6.1 shows is about 2σ, not a dissent. At the
+permissive tolerance alone, agreement has been unanimous in every version of
+this analysis. The criterion is left exactly as preregistered — rescoring it now,
+having seen which value moved it, is the failure mode described in §12.1 — but a
+disagreeing unit should be read as "disagrees after averaging in measurements
+that cannot be made", not as a neuron behaving differently.
 
 ### 12.1 The tally is unstable under changes to the criterion set
 
@@ -1396,9 +1760,29 @@ seen, and a rule with 5 criteria per side has no resolution finer than 0.2.
 
 **The verdict label should therefore be read as a summary of the table, not as a
 result in its own right.** What is load-bearing is the individual rows and their
-effect sizes; H-G's five criteria pass by wide margins and would survive any
-reasonable reweighting, whereas the H-M label specifically depends on the
-functional-validation rows, whose limitations §11.1 sets out.
+effect sizes.
+
+An earlier version of this paragraph said H-G's five criteria "pass by wide
+margins and would survive any reasonable reweighting". The 2026-08-09 audit
+contradicted that directly, and it was right. Three of the five pass narrowly:
+
+* both direction-agreement criteria are **4/5 lineages, exact two-sided sign
+  p = 0.375** — the smallest p an outcome this size can produce with five units
+  is 0.0625, so no configuration of five lineages could have reached
+  significance;
+* the regime classifier clears its threshold at **0.281 against a 0.172
+  baseline**, a margin small relative to its fold-to-fold variability; and
+* the lineage-transfer median of **0.563** conceals a `migliore_1999` fold at
+  **−3.783** — transfer is heterogeneous and fails badly for one lineage.
+
+The fourth, the unique-R² ratio, is a **lower bound** created by identity
+variance falling below a numerical floor, not a point estimate of 1,840×. Only
+the size-matched version (12.8×, CI [2.6, 46.1]) is a bounded measurement.
+
+The honest statement is that the H-G rows agree in *direction* across every
+version of this analysis while being individually weak, and that their weight
+comes from consistency across independent contrasts rather than from any one
+margin.
 
 Blueprint §19.3 defines H-M as requiring that
 
@@ -1412,34 +1796,74 @@ effect exceeding conditional bootstrap noise by 4-5x in the five implementations
 modules are stable across estimators (per-model Jaccard 0.82, minimum 0.67).
 
 **The second clause — *functional validation* — is not met on the evidence, and
-the decision table's two passes overstate it.** Three things have to be read
+until the 2026-08-09 audit the decision table's two H-B rows overstated it.**
+Both are now withheld as not evaluable (§12.0). Four things have to be read
 together:
 
-* The ratios that pass (1.87× and 2.77×) do so against a fixed 1.5× threshold,
-  but **neither paired test is significant** (p = 0.195 and p = 0.078) and the
-  matched-control interval starts at **1.03**. The analysis code calls both
-  comparisons inconclusive.
-* Its **precision is limited by background variability**, not by a
-  quantisation floor: the per-tuple bootstrap intervals over the eight
-  backgrounds mostly include zero (§11.1). The earlier "below the measurement
-  floor in four of eight models" claim is withdrawn.
+* Its **precision is limited by background variability**: the per-tuple
+  bootstrap intervals over the eight backgrounds mostly include zero (§11.1).
+  The earlier "below the measurement floor in four of eight models" claim is
+  withdrawn — it was invalid — but the imprecision it was gesturing at is real
+  and is now measured properly.
 * It is **absent for waveform readouts** on the same simulations (§11), so
   whatever is being validated is a property of a spike-timing measurement rather
   than of the parameters alone.
+* Since the 2026-08-09 audit it is **gated on its own numerical repeatability**,
+  which it never was. Both perturbation criteria are computed from the same η,
+  and η at the campaign time step had never been required to survive refinement
+  before being scored (§11.1.1, §12.0).
 
-A criterion that clears a fixed threshold on a panel mean, while being
-statistically inconclusive, imprecise at the level of individual tuples, and
-dependent on which quantity is measured, does not establish that statistical
-modules are functionally real.
+A criterion that clears a threshold on a panel mean, while being imprecise at
+the level of individual tuples, dependent on which quantity is measured, and
+resting on non-additivity that has to pass a separate numerical test before it
+means anything, does not establish that statistical modules are functionally
+real.
+
+An earlier version of this list opened with "the ratios that pass (1.87× and
+2.77×) do so against a fixed 1.5× threshold, but neither paired test is
+significant (p = 0.195 and p = 0.078) and the matched-control interval starts at
+1.03". Every number in that sentence was superseded by the regenerated battery
+and it should have been removed then; the current values are in §11 and §12.0.
 
 The first release argued for overriding the rule toward H-G on the grounds that
 "statistical modules frequently fail direct perturbation validation". **That
 specific claim was wrong** — it rested on the perturbation design faults
 documented in §11, and the corrected battery does show enrichment in the right
-direction. But the replacement claim has now been revised downward twice, and on
-the current evidence the honest position is that functional validation is
-**unresolved**, not established. H-M is what the decision table returns; §13
-states what the data support.
+direction. But the replacement claim has now been revised downward three times,
+and on the current evidence the honest position is that functional validation is
+**unresolved**, not established. The decision table no longer returns H-M; it
+returns "H-B not evaluable", which is the same statement in the framework's own
+vocabulary.
+
+### 12.2 The numerical precondition is post hoc, and we are not hiding it
+
+The rule that withholds both H-B criteria (§12.0) was written on 9 August 2026,
+in response to the independent audit, **with the 2/5 repeatability outcome
+already known**. A rule added after seeing the data it will act on cannot carry
+the weight of one fixed in advance, and §12.1 is about exactly this failure
+mode, so the qualification belongs here rather than in a footnote.
+
+Three things bound how much room it leaves:
+
+* The **repeatability rule it consumes was prespecified.** Median |Δη| ≤ 0.05
+  feature SD *and* ≥ 80% of tuple means keeping their sign was fixed in
+  `tools/perturbation_inference.py` before the half-step battery was run, and is
+  used here unchanged. The threshold was not chosen to produce this answer.
+* The only genuinely new number is the **minimum lineage count**, set to 3. Its
+  justification is a property of the estimator, not of the outcome: the
+  criterion is scored on a lineage-clustered bootstrap interval, and an interval
+  over two clusters is a statement about two numbers. Below 3 the criterion
+  would be scored on something that cannot be estimated; above 3 it would be
+  unreachable for this panel.
+* The rule **withholds our own only passing H-B criterion.** It moves the result
+  away from a positive claim, not toward one.
+
+`decision.json` records `perturbation_precondition.preregistered: false` and its
+provenance, so the distinction survives being read out of the artifact rather
+than out of this document. `preregistration.md` Addendum 4 records it alongside
+the other post-hoc changes of this round, including one — the non-enforcement of
+the registered N4 inclusion gate for `tomko_ca1` — that is a departure from a
+registered rule rather than an addition to one.
 
 ---
 
@@ -1449,36 +1873,49 @@ The **sign** of higher-order structure — whether an ensemble looks synergistic
 redundant — is a property of how the ensemble was built, not of which neuron it
 came from. It appears in a gene circuit with no neurons in it; it is set
 identically across models spanning 1 to 2,304 compartments; sampling and geometry
-explain ~9.5× more unique endpoint variance than model identity even after size
+explain ~12.8× more unique endpoint variance than model identity even after size
 matching; and a shuffled null reproduces 45% of the naive effect.
 
 The **identity** of the parameters involved is not arbitrary. The extreme tuples
-are reproducible across estimators (per-model Jaccard 0.82) and model identity
-is decodable from information summaries at 0.585 against a 0.146 baseline. Those
-tuples are also 1.9–2.8× more non-additive under direct perturbation than
-matched or random controls — but that comparison is statistically inconclusive
-(p = 0.195 and 0.078), so it is suggestive rather than established.
+are reproducible across estimators (per-model Jaccard 0.83) and model identity
+is decodable from information summaries at 0.590 against a 0.151 baseline —
+both descriptive only, for the reasons given in §12.0. Those tuples are also
+2.5–3.8× more non-additive under direct perturbation than matched or random
+controls, but neither paired test reaches significance at the lineage level
+(p = 0.188 and 0.063), and on the three implementations whose non-additivity is
+numerically repeatable the matched contrast falls to 1.91× with an interval that
+includes zero. The preregistered decision therefore returns **H-G**, not H-M.
 
-That combination is what the decision table calls H-M: a generic statistical
-phenomenon carrying a biologically non-arbitrary signal. Interpreting the *sign*
-of O-information as a biological property remains unsupported. Interpreting
-*which parameters* appear in extreme tuples as mechanistically meaningful is
-**suggested but not established**, and three qualifications belong in the same
-sentence as the claim, not in a footnote:
+Interpreting the *sign* of O-information as a biological property remains
+unsupported. Interpreting *which parameters* appear in extreme tuples as
+mechanistically meaningful is **unresolved** — not established, and not refuted
+either. Five qualifications belong in the same sentence as the claim, not in a
+footnote:
 
-1. The support is **readout-specific**. Enrichment over matched controls is
-   3.14× for first ISI and 1.87× for firing rate, but 1.02× for AP amplitude and
-   0.77× for AP half-width — measured on the same simulations, same tuples, same
-   perturbations (§11). "These parameters form a module" is not a complete
-   statement; the complete statement names the readout.
+1. The support is **readout-specific**. Pooled enrichment over matched controls
+   is 2.79× for first ISI and 2.97× for firing rate, but 1.32× for AP amplitude
+   and **0.85× for AP half-width** — measured on the same simulations, same
+   tuples, same perturbations (§11). "These parameters form a module" is not a
+   complete statement; the complete statement names the readout.
 2. The support is **imprecise per tuple**. Bootstrap intervals over the eight
-   backgrounds mostly include zero, so most individual tuples are not
-   distinguishable from no interaction (§11.1). The earlier claim that four of
-   eight models were "unresolvable" against a spike-count floor is withdrawn as
-   invalid, not merely restated.
-3. It is **statistically inconclusive**: p = 0.195 against matched controls and
-   p = 0.078 against random ones, with the matched interval starting at 1.03.
-4. The conditioning dose-response is monotone wherever it is resolvable, but
+   backgrounds mostly include zero: 16 of 42 top tuples exclude it, and 10 of
+   those 16 come from the two HH implementations, which are one lineage (§11.1).
+   The earlier claim that four of eight models were "unresolvable" against a
+   spike-count floor is withdrawn as invalid, not merely restated.
+3. It is **not significant at the inferential unit**: p = 0.188 against matched
+   controls and 0.063 against random ones over five lineages. An earlier version
+   of this paragraph quoted p = 0.195 and 0.078, and a later one quoted 0.047
+   and 0.016 over seven implementations and called them significant. The first
+   pair was superseded by the regenerated battery; the second counted
+   implementations as independent units and is withdrawn.
+4. Since the 2026-08-09 audit it is **conditional on a numerical repeatability
+   check** the non-additivity had never been required to pass — and on the
+   3 of 7 implementations that pass it, the matched contrast is 1.91× with a
+   lineage-clustered interval of [−0.020, +0.530] and **does not clear zero**
+   (§11.1.1, §12.0). Three lineages cannot distinguish no enrichment from
+   substantial enrichment, so this is a failure to demonstrate rather than a
+   demonstration of absence.
+5. The conditioning dose-response is monotone wherever it is resolvable, but
    **resolvable coverage collapses 5 → 6 → 2 → 1** across tolerances, so the
    panel-level curve is not estimable (§6.1).
 
@@ -1514,8 +1951,13 @@ and the last of those has turned out to matter as much as any of the others.
    spike count over a fixed window cannot resolve below one spike; a tolerance
    below that is unsatisfiable at any mesh and turns threshold-adjacent spikes
    into permanent convergence failures.
-7. **Bootstrap over models, not rows**, when endpoints are derived from a shared
-   campaign.
+7. **Bootstrap over independent sources, not over rows and not over
+   implementations**, when endpoints are derived from a shared campaign. Two
+   things have to be right and only the first is obvious: the resampling *unit*
+   must be the independent source, and the statistic must **weight each source
+   equally**. Resampling lineages while pooling their implementations' rows
+   still gives a two-implementation lineage double weight, and it cost this
+   project a published significance claim (§11).
 8. **Name the readout in the claim.** "Parameters X, Y, Z form a functional
    module" is incomplete. On identical simulations and identical perturbations,
    r(Ω, |η|) is −0.45 for a spike-count readout and −0.00 for a waveform
@@ -1534,6 +1976,22 @@ and the last of those has turned out to matter as much as any of the others.
     criterion after seeing the data, and removing one that was computed wrongly,
     each moved this project's tally without changing any measurement (§12.1).
     Report the criteria and their effect sizes; treat the label as a summary.
+11. **Make a criterion consume its own validity check.** This project measured
+    that its perturbation non-additivity mostly does not survive halving the
+    time step, wrote the result to a file, and went on scoring the criterion
+    built from that non-additivity for two revisions, because nothing read the
+    file (§12.0). A validity check that no consumer is required to read is
+    documentation, not a gate.
+12. **Distinguish "not evaluable" from "failed" in the decision itself.** A
+    criterion that could not be tested is not evidence against the hypothesis it
+    was written to test. Scoring it zero and scoring it absent lead to opposite
+    conclusions from the same ignorance.
+13. **Replay the waveform, not only the feature row.** Deterministic feature
+    replay proves that a computation is reproducible; a trace that is wrong the
+    same way twice reproduces perfectly. A stratified sample of retained
+    voltage, checked for range, baseline stability, spike shape, block,
+    discontinuity and finiteness, found two defect classes here that 3,339
+    exact feature replays could not (§5.5).
 
 ### 14.1 The experiment this project should run next
 
@@ -1554,6 +2012,54 @@ rate — as a third arm. If representation is doing the work, the graded rate
 readout behaves like the counted one. If counting is doing the work, it behaves
 like the waveform readouts. Either outcome is publishable and the current design
 cannot distinguish them.
+
+### 14.2 What a confirmatory panel would require
+
+The 2026-08-09 audit answered "are more models needed?" with a distinction worth
+adopting verbatim. **For the present exploratory conclusion, no**: adding models
+repairs none of the open problems — missing N2, the N4 failures, perturbation
+repeatability, pipeline ordering, documentation drift — and those should be
+settled first. Increasing samples *within* existing models would sharpen the
+estimators without adding a single independent lineage, which is the quantity
+that actually bounds the claim.
+
+**For a confirmatory cross-neuron or class-general claim, yes.** The headline
+runs on 7 implementations over 5 lineages; enforcing N4 (`n4_strict`) takes the
+discovery cohort to 6 implementations over 4 lineages. Its planning targets:
+
+* add **4–6 genuinely independent, gate-passing source lineages**;
+* reach roughly **12–16 valid lineages overall**; and
+* require **≥3 independent lineages per neuron class** before any
+  class-specific claim.
+
+These are design targets, not a power calculation; a lineage-level
+simulation-based power analysis should fix the final number. Its inclusion
+procedure, which this project would follow rather than improvise:
+
+1. register lineage, implementation, class, accession, license, protocol
+   coverage and expected mechanisms **before** looking at any scientific outcome;
+2. use a new immutable campaign namespace — do not extend the frozen discovery
+   campaign;
+3. run N1–N7 outcome-blind, **including a genuine N2 source reproduction**,
+   before inclusion;
+4. reject or remediate models with inactive parameters *before* their dimensions
+   enter the geometry — which is precisely what was not done for `bbp_l5pc` and
+   `tomko_ca1` here;
+5. size campaigns from an accepted-ensemble precision target (≥256–512 accepted
+   samples in important cells), not from raw simulation count;
+6. keep the current discovery result frozen and treat new lineages as
+   replication, assessing heterogeneity before pooling;
+7. aggregate implementations within lineage and give each lineage equal weight;
+8. re-run estimator reliability, E7, matched, perturbation and Sobol under the
+   new cohort; and
+9. record gates, revision, environment, seeds, raw logs and artifact hashes in
+   one immutable manifest.
+
+Two design changes this project's own retained-waveform battery argues for
+(§5.5): set the **hyperpolarising amplitude per model from measured input
+resistance** rather than as a fixed absolute current, and set the
+**pre-stimulus settling period per model from a measured settling time** rather
+than a fixed delay.
 
 ## 15. Limitations
 
@@ -1600,15 +2106,33 @@ These bound what the results above can support. They are declared in
    conditioned high-covariance contrast.
 9. **One morphology per model.** Morphology swaps within a model family
    (blueprint §13.3) are represented only by the `hh_point` / `hh_cable` pair.
-10. **Functional module validation is readout-bound and floor-limited.** The
-    enrichment holds for spike-timing readouts and vanishes for waveform
-    readouts (§11), it is statistically inconclusive (p = 0.195 and 0.078), and
-    and most individual tuples have bootstrap intervals over backgrounds that
-    include zero (§11.1). Whether the readout dependence reflects representation
-    or the nonlinearity of counting is **not decidable from this design**;
-    §14.1 states the experiment that would decide it. (An earlier version of
-    this point invoked a spike-count "measurement floor"; that argument was
-    invalid and is withdrawn.)
+10. **Functional module validation is readout-bound and numerically
+    unresolved.** The enrichment holds for spike-timing readouts and vanishes
+    for waveform readouts (§11), and most individual tuples have bootstrap
+    intervals over backgrounds that include zero (§11.1). Whether the readout
+    dependence reflects representation or the nonlinearity of counting is **not
+    decidable from this design**; §14.1 states the experiment that would decide
+    it. Since the 2026-08-09 audit the perturbation criteria are additionally
+    gated on their own half-step repeatability check, which they had never been
+    (§11.1.1, §12.0). (An earlier version of this point invoked a spike-count
+    "measurement floor"; that argument was invalid and is withdrawn. An earlier
+    version also quoted paired p = 0.195 and 0.078, which were superseded by the
+    regenerated battery.)
+14. **Five sampled parameters are not identifiable through the frozen
+    protocol**, in two models that are *not* excluded: `bbp_l5pc` (primary
+    cohort) and `tomko_ca1` (replication). They are still drawn and still vary,
+    so they contribute unconstrained dimensions to the geometry that
+    O-information and intrinsic dimension are computed on. The primary cohort is
+    therefore **N3-passing, not gate-passing**, and the consequence is measured
+    by the `n4_strict` and `n4_projected` arms rather than assumed away (§5.0.3).
+15. **Two trace-level defects survive the campaign's QC thresholds.** A
+    stratified retention of 445 waveforms found sub-physiological
+    hyperpolarisation in 2 eligible traces (0.45%) that fall in the 10 mV gap
+    between the QC bound of −160 mV and a −150 mV plausibility band, and slow
+    baseline settling drift in 31 traces (7.0%) that the ripple-based
+    `unstable_baseline` flag cannot see. Both affect features measured against
+    the pre-stimulus baseline; neither is repaired, because both thresholds are
+    frozen campaign properties (§5.5).
 11. **The conditioning dose-response is not estimable.** Tolerance coverage
     falls 8 → 8 → 6 → 3 models and *resolvable* coverage falls 5 → 6 → 2 → 1
     (§6.1). The direction of the effect is established, with conditional bootstrap SNR 4-5
@@ -1629,6 +2153,25 @@ These bound what the results above can support. They are declared in
 
 ## 16. Reproducing this
 
+One command rebuilds everything, in dependency order, with per-stage logs:
+
+```bash
+./tools/run_all.sh
+```
+
+The stage list is `assets mechanisms calibrate convergence canonical campaign
+sobol analysis matched perturb crossmodel robustness benchmarks reliability
+gates waveforms numerical notebook report inventory`. Two orderings in it are
+load-bearing and are asserted by
+`tests/unit/test_audit_regressions.py`: **`perturb` precedes `crossmodel`**,
+because the cross-model decision scores two H-B criteria from the perturbation
+artifacts and reads their repeatability verdict; and the **`numerical` and
+`waveforms` stages are soft**, because this release is known to fail N1, N2 and
+N4 and a hard failure there would abort the pipeline before the report and the
+release manifest whose whole job is to describe that failure.
+
+The individual steps, if you want them separately:
+
 ```bash
 pip install -e .
 python tools/fetch_modeldb_index.py
@@ -1636,9 +2179,9 @@ python tools/fetch_models.py
 python tools/build_mechanisms.py
 python tools/numerical_qc.py --spatial          # first-pass QC (historical record)
 python tools/convergence_audit.py mainen_l5pc   # per-model, per-feature convergence
+python tools/verify_convergence_evidence.py     # check the stored evidence, do not re-run it
 python tools/canonical_audit.py                 # manifests, under CAMPAIGN_SOLVER
 python tools/run_campaign.py --experiment screening
-bash  tools/run_pipeline.sh
 python tools/build_notebook.py
 jupyter nbconvert --execute --to notebook --inplace notebooks/COMPASS_results.ipynb
 pytest
@@ -1675,14 +2218,19 @@ hash and the solver settings that produced it.
 | **Observed** | the metrics reported above take these values in these declared ensembles | established |
 | **Statistical** | these ensembles are synergy- or redundancy-dominated under the stated estimators | established |
 | **Functional** | the measured non-additivity η takes these values for the tested tuples | established as a measurement |
-| **Functional (inferential)** | statistical synergy *selects* functionally interacting tuples | **not established** — 1.87×/2.77× with p = 0.195/0.078, readout-dependent, and imprecise per tuple (most background bootstrap intervals include zero) |
+| **Functional (inferential)** | statistical synergy *selects* functionally interacting tuples | **not established** — 2.49×/3.83× at the lineage level with p = 0.188/0.063, readout-dependent (0.85× for AP half-width), imprecise per tuple, and now withheld from the decision as not evaluable pending numerical repeatability |
 | **Biological** | the same interactions occur in real neurons | **not established, not claimed** |
 
 The functional level is split because the two statements have very different
 support. That the perturbations produce the η values reported is a measurement
 and stands. That those η values *validate* the tuples statistical synergy picked
-out is an inference, and on the current evidence it is suggestive rather than
-established (§11, §11.1).
+out is an inference, and on the current evidence it is **unresolved** rather than
+suggestive: the comparison is not significant at the inferential unit, and the
+η it rests on has not passed the half-step repeatability check that now gates it
+(§11, §11.1, §12.0). An earlier version of this row quoted 1.87×/2.77× with
+p = 0.195/0.078, and a later one 2.97×/4.74× with p = 0.047/0.016 described as
+significant; the first pair was superseded by the regenerated battery and the
+second counted implementations as independent units.
 
 The last line requires paired molecular and physiological measurements that no
 computational study of this kind can supply.

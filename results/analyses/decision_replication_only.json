@@ -58,13 +58,30 @@
   "sampling_geometry_over_identity_ratio": 2.0,
   "module_selection_probability": 0.8,
   "perturbation_effect_sd": 0.25,
-  "lomo_r2_floor": 0.0
+  "lomo_r2_floor": 0.0,
+  "perturbation_min_repeatable_lineages": 3
+ },
+ "perturbation_precondition": {
+  "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+  "preregistered": false,
+  "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+  "definition": null,
+  "status": "no_inference_record",
+  "models_in_battery": [],
+  "models_tested": [],
+  "models_untested": [],
+  "models_repeatable": [],
+  "models_not_repeatable": [],
+  "n_repeatable_lineages": 0,
+  "evaluable": false,
+  "reason": "no perturbation table"
  },
  "n_hg_passed": 5,
  "n_hg_total": 5,
  "n_hb_passed": 0,
  "n_hb_total": 0,
- "conclusion": "not evaluable: H-B has no computable criterion in this arm",
+ "conclusion": "H-G 5/5; H-B NOT EVALUABLE -- no computable criterion in this arm",
+ "conclusion_label": "H-B not evaluable",
  "hg_fraction_passed": 1.0,
  "hb_fraction_passed": null,
  "perturbation_coverage": {
@@ -113,6 +130,17 @@
    ]
   },
   "excluded_from_primary": {},
+  "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1",
+  "n4_failing_models_retained": [
+   "tomko_ca1"
+  ],
+  "n4_unidentifiable_parameters": {
+   "tomko_ca1": [
+    "gcal_soma",
+    "gcat_soma",
+    "gkdr_soma"
+   ]
+  },
   "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
  },
  "nested_variance_components": {
@@ -129,7 +157,9 @@
    "n_groups": 3,
    "converged": true,
    "method": "REML",
-   "loglike": 31.722539094528827
+   "loglike": 31.722539094528827,
+   "quotable": true,
+   "quotability_note": ""
   },
   "implementation": {
    "var_group": 0.10663495290211422,
@@ -140,7 +170,9 @@
    "n_groups": 3,
    "converged": true,
    "method": "REML",
-   "loglike": 31.722539094528862
+   "loglike": 31.722539094528862,
+   "quotable": true,
+   "quotability_note": ""
   }
  }
 }

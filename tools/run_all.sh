@@ -29,9 +29,22 @@ WORKERS="${COMPASS_WORKERS:-$(( $(sysctl -n hw.ncpu 2>/dev/null || nproc) - 2 ))
 [ "$WORKERS" -lt 1 ] && WORKERS=1
 
 # Ordered stage list.  Each stage depends only on stages before it.
+#
+# `perturb` MUST precede `crossmodel`.  It did not, and the consequence was not
+# cosmetic: run_crossmodel scores two H-B criteria from perturbations.parquet
+# and now also reads the numerical-repeatability verdict in
+# perturbation_inference.json, so on a clean tree the decision was computed from
+# perturbation artifacts that did not exist yet, and on a dirty one from
+# whatever the previous run had left behind (post-response audit, section 3.3).
+#
+# `numerical` is separated from `gates` because the two fail for different
+# reasons.  A campaign-integrity or replay failure is a broken pipeline and must
+# stop it; a failing N1/N2/N4 gate is the expected, recorded state of this
+# release and must NOT stop it, or the pipeline can never reach the report and
+# release-manifest stages whose whole job is to describe that state.
 STAGES=(assets mechanisms calibrate convergence canonical campaign sobol
-        analysis matched crossmodel perturb robustness benchmarks reliability
-        gates notebook report inventory)
+        analysis matched perturb crossmodel robustness benchmarks reliability
+        gates waveforms numerical notebook report inventory)
 
 FROM=""; UNTIL=""; ONLY=""; DRY=0; FORCE=0
 while [ $# -gt 0 ]; do
@@ -98,8 +111,12 @@ run_stage assets       python3 tools/fetch_models.py
 run_stage mechanisms   python3 tools/build_mechanisms.py
 run_stage calibrate    python3 tools/calibrate_amplitudes.py --workers "$WORKERS"
 # Convergence is evidence, not a step to re-run casually: it supersedes rather
-# than overwrites, and every audit costs hours. Run it explicitly per model.
-run_stage convergence  bash -c 'echo "convergence audits are run per model: tools/convergence_audit.py <model>"'
+# than overwrites, and every audit costs hours (the panel costs days). This
+# stage therefore VERIFIES the stored evidence against the solver contract and
+# records `regenerated: false` with the reason -- instead of printing a sentence
+# and reporting "ok", which is what it used to do. Regenerate explicitly, per
+# model: python3 tools/convergence_audit.py <model_id>
+run_stage convergence  python3 tools/verify_convergence_evidence.py
 run_stage canonical    python3 tools/canonical_audit.py
 run_stage campaign     bash -c "
   set -e
@@ -116,17 +133,25 @@ run_stage analysis     bash -c "
   python3 tools/run_analysis.py --experiment screening_v2_replication
   python3 tools/run_analysis.py --experiment screening_scramble2
   python3 tools/run_analysis.py --experiment screening --suffix _dropfeat \
-      --drop-features step_abs_hi.adaptation_index"
+      --drop-features step_abs_hi.adaptation_index
+  python3 tools/run_analysis.py --experiment screening --suffix _n4proj \
+      --drop-unidentifiable-parameters
+  python3 tools/run_analysis.py --experiment screening_v2_replication \
+      --suffix _n4proj --drop-unidentifiable-parameters"
 # The matched design pools the expansion campaign; without --pool it silently
 # reproduces the pre-expansion result and E7 stays below MIN_MATCH_N.
 run_stage matched      python3 tools/run_matched.py --experiment screening --pool screening_expand
-run_stage crossmodel   python3 tools/run_crossmodel.py --experiment screening
+# Perturbations BEFORE cross-model scoring: run_crossmodel reads both
+# perturbations.parquet and the repeatability verdict in
+# perturbation_inference.json, and withholds its two H-B criteria when the
+# verdict is absent.
 run_stage perturb      bash -c "
   set -e
   python3 tools/run_perturbations.py --experiment screening --workers $WORKERS
   python3 tools/run_perturbations.py --experiment screening --workers $WORKERS \
       --dt-scale 0.5 --suffix _dt_half
   python3 tools/perturbation_inference.py"
+run_stage crossmodel   python3 tools/run_crossmodel.py --experiment screening
 run_stage robustness   python3 tools/run_robustness.py
 run_stage benchmarks   python3 tools/run_benchmarks.py
 run_stage reliability  python3 tools/estimator_reliability.py
@@ -135,8 +160,28 @@ run_stage gates        bash -c "
   python3 tools/validate_campaign.py --all
   python3 tools/validate_replay.py --experiment screening --workers $WORKERS
   python3 tools/validate_replay.py --experiment screening_v2_replication --workers $WORKERS
-  python3 tools/record_numerical_gates.py --slow
   python3 tools/build_model_audit.py"
+# Replay checks that a stored FEATURE ROW reproduces. It cannot see whether the
+# voltage behind it is plausible, because a trace that is wrong the same way
+# twice reproduces perfectly. This retains a stratified waveform sample and runs
+# the trace-level battery on it. Soft, for the same reason as `numerical`: a
+# flagged trace is a recorded finding, and the manifest is what blocks.
+WAVE_RC=0
+run_stage_soft waveforms python3 tools/retain_waveforms.py \
+    --experiment screening --workers "$WORKERS" || WAVE_RC=$?
+# The neuronal-validity gates are EVIDENCE-PRODUCING, and this release is known
+# to fail N1, N2 and N4.  Under the hard runner that non-zero exit aborted the
+# pipeline before the model audit, notebook, report and release manifest -- so
+# the special handling for a blocked release, three stages later, was
+# unreachable and the release could never be described (post-response audit,
+# section 3.3).  The status is captured and reported; the manifest is what
+# blocks the release.
+GATES_RC=0
+run_stage_soft numerical python3 tools/record_numerical_gates.py --slow || GATES_RC=$?
+if [ "$GATES_RC" -ne 0 ]; then
+  echo "    (numerical gates reported failures; recorded and carried forward to"
+  echo "     the release manifest, which is what fails the release)"
+fi
 run_stage notebook     python3 tools/build_notebook.py
 run_stage report       bash -c "
   set -e
@@ -157,6 +202,16 @@ if [ ${#SKIPPED[@]} -gt 0 ]; then
 fi
 echo "logs: $LOGS"
 [ "$DRY" = "1" ] && echo "(dry run: nothing was executed)"
+if [ "$GATES_RC" -ne 0 ]; then
+  echo "numerical gates: FAILURES RECORDED (exit $GATES_RC) -- see"
+  echo "results/validation/numerical_gates.json. The pipeline continued so the"
+  echo "release manifest could describe the failure; it did not pass."
+fi
+if [ "$WAVE_RC" -ne 0 ]; then
+  echo "retained waveforms: FINDINGS RECORDED (exit $WAVE_RC) -- see"
+  echo "results/validation/retained_waveforms_screening.json and"
+  echo "data/provenance/waveform_findings.json."
+fi
 if [ "$RELEASE_RC" -ne 0 ]; then
   echo "RELEASE BLOCKED -- see the blockers above and in"
   echo "results/validation/release_manifest.json. Exiting $RELEASE_RC so a"

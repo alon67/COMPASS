@@ -1,0 +1,46 @@
+{
+ "flat": {
+  "endpoint": "synergy_area",
+  "var_fixed_effects": 0.8492026943895222,
+  "var_model_identity_random": 0.026301132136370566,
+  "var_residual": 0.13588712030203823,
+  "icc_adjusted": 0.16216422423293855,
+  "vpc_model_identity": 0.02600491157139575,
+  "r2_marginal": 0.8396384178174753,
+  "r2_conditional": 0.865643329388871,
+  "n": 141,
+  "n_models": 6
+ },
+ "nested": {
+  "endpoint": "synergy_area",
+  "n": 141,
+  "n_lineages": 4,
+  "n_implementations": 6,
+  "lineage": {
+   "var_group": 0.02162524435374982,
+   "var_residual": 0.1362798578190713,
+   "var_fixed": 0.8580510272974083,
+   "icc_adjusted": 0.13695089047902845,
+   "vpc": 0.021285608429791457,
+   "n_groups": 4,
+   "converged": true,
+   "method": "REML",
+   "loglike": -68.00454340957884,
+   "quotable": true,
+   "quotability_note": ""
+  },
+  "implementation": {
+   "var_group": 0.026301132136370566,
+   "var_residual": 0.13588712030203823,
+   "var_fixed": 0.8492026943895222,
+   "icc_adjusted": 0.16216422423293855,
+   "vpc": 0.02600491157139575,
+   "n_groups": 6,
+   "converged": true,
+   "method": "REML",
+   "loglike": -69.13691932443186,
+   "quotable": true,
+   "quotability_note": ""
+  }
+ }
+}

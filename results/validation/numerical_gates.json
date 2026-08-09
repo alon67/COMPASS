@@ -1,7 +1,39 @@
 {
  "tool": "record_numerical_gates.py",
- "written_utc": "2026-08-08T20:25:54.531880+00:00",
+ "written_utc": "2026-08-09T09:02:06.927044+00:00",
  "slow_tests_included": true,
+ "provenance": {
+  "git_revision": "9fe015be28c7ecf3358732eca24f593f7dec5966",
+  "git_tree": "9fe015be28c7ecf3358732eca24f593f7dec5966-dirty",
+  "command": [
+   "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
+   "-m",
+   "pytest",
+   "-q",
+   "--no-header",
+   "-p",
+   "no:cacheprovider",
+   "/Users/alon/Python/COMPASS/compass/tests"
+  ],
+  "pytest_version": "9.0.2",
+  "pytest_exit_code": 1,
+  "pytest_exit_meaning": "tests were collected and run, some failed",
+  "duration_s": 2467.7,
+  "collection_errors": [],
+  "environment": {
+   "python": "3.12.4",
+   "platform": "macOS-26.5.2-arm64-arm-64bit",
+   "machine": "arm64",
+   "neuron": "8.2.6-1-gb6e6a5fad+",
+   "efel": "5.7.29",
+   "numpy": "1.26.4",
+   "scipy": "1.14.0",
+   "pandas": "2.2.3",
+   "sklearn": "1.5.2",
+   "statsmodels": "0.14.6",
+   "SALib": "?"
+  }
+ },
  "note": "N2 has no automated test: strict reproduction of published traces is not implemented, and the canonical-bounds checks are explicitly unit-error detectors rather than goodness-of-fit tests. It is reported with n=0 so the release manifest treats it as missing evidence.",
  "by_gate": {
   "N1": {
@@ -22,8 +54,8 @@
    "failed_subjects": []
   },
   "N3": {
-   "n": 46,
-   "passed": 46,
+   "n": 38,
+   "passed": 38,
    "skipped": 0,
    "skipped_subjects": [],
    "failed_subjects": []
@@ -46,8 +78,8 @@
    "failed_subjects": []
   },
   "N6": {
-   "n": 97,
-   "passed": 97,
+   "n": 95,
+   "passed": 95,
    "skipped": 2,
    "skipped_subjects": [
     "tests/integration/test_real_trace_features.py::test_n6_undefined_features_are_nan_not_zero[khaliq_purkinje]",
@@ -61,6 +93,167 @@
    "skipped": 0,
    "skipped_subjects": [],
    "failed_subjects": []
+  }
+ },
+ "by_gate_semantics": "by_gate counts NEURONAL-VALIDITY tests only. Tests that police the known-failure bookkeeping -- 'this documented failure still fails' and 'this documented failure is excluded from primary inference' -- are counted in policy_tests instead, because a pass there means the exclusion is intact, not that a model is valid. Models exempted from a gate's validity test are listed per model in validity_matrix; `passed == n` for a gate therefore means 'every model that was TESTED passed', which is not the same as 'every model passes'.",
+ "policy_tests": {
+  "N1": {
+   "n": 0,
+   "passed": 0,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N2": {
+   "n": 0,
+   "passed": 0,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N3": {
+   "n": 8,
+   "passed": 8,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N4": {
+   "n": 0,
+   "passed": 0,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N5": {
+   "n": 0,
+   "passed": 0,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N6": {
+   "n": 2,
+   "passed": 2,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  },
+  "N7": {
+   "n": 0,
+   "passed": 0,
+   "skipped": 0,
+   "skipped_subjects": [],
+   "failed_subjects": []
+  }
+ },
+ "validity_matrix": {
+  "N1": {
+   "bbp_l5pc": "pass",
+   "dougalis_vlpag_da": "pass",
+   "hh_cable": "pass",
+   "hh_point": "pass",
+   "khaliq_purkinje": "pass",
+   "mainen_l5pc": "pass",
+   "migliore_ca1": "pass",
+   "miyasho_purkinje": "fail",
+   "moubarak_snc_da": "pass",
+   "ortner_snc_da": "pass",
+   "pospischil_fs": "pass",
+   "pospischil_rs": "pass",
+   "tomko_ca1": "pass",
+   "tzilivaki_fsbc": "fail"
+  },
+  "N3": {
+   "bbp_l5pc": "pass",
+   "dougalis_vlpag_da": "pass",
+   "hh_cable": "pass",
+   "hh_point": "pass",
+   "khaliq_purkinje": "pass",
+   "mainen_l5pc": "exempt",
+   "migliore_ca1": "pass",
+   "miyasho_purkinje": "exempt",
+   "moubarak_snc_da": "pass",
+   "ortner_snc_da": "exempt",
+   "pospischil_fs": "pass",
+   "pospischil_rs": "pass",
+   "tomko_ca1": "pass",
+   "tzilivaki_fsbc": "exempt"
+  },
+  "N4": {
+   "bbp_l5pc": "fail",
+   "dougalis_vlpag_da": "pass",
+   "hh_cable": "pass",
+   "hh_point": "pass",
+   "khaliq_purkinje": "pass",
+   "mainen_l5pc": "pass",
+   "migliore_ca1": "pass",
+   "miyasho_purkinje": "pass",
+   "moubarak_snc_da": "pass",
+   "ortner_snc_da": "pass",
+   "pospischil_fs": "pass",
+   "pospischil_rs": "pass",
+   "tomko_ca1": "fail",
+   "tzilivaki_fsbc": "pass"
+  },
+  "N6": {
+   "bbp_l5pc": "pass",
+   "dougalis_vlpag_da": "pass",
+   "hh_cable": "pass",
+   "hh_point": "pass",
+   "khaliq_purkinje": "pass",
+   "mainen_l5pc": "pass",
+   "migliore_ca1": "pass",
+   "miyasho_purkinje": "pass",
+   "moubarak_snc_da": "pass",
+   "ortner_snc_da": "exempt",
+   "pospischil_fs": "pass",
+   "pospischil_rs": "pass",
+   "tomko_ca1": "pass",
+   "tzilivaki_fsbc": "pass"
+  },
+  "N7": {
+   "bbp_l5pc": "pass",
+   "dougalis_vlpag_da": "pass",
+   "hh_cable": "pass",
+   "hh_point": "pass",
+   "khaliq_purkinje": "pass",
+   "mainen_l5pc": "pass",
+   "migliore_ca1": "pass",
+   "miyasho_purkinje": "pass",
+   "moubarak_snc_da": "pass",
+   "ortner_snc_da": "pass",
+   "pospischil_fs": "pass",
+   "pospischil_rs": "pass",
+   "tomko_ca1": "pass",
+   "tzilivaki_fsbc": "pass"
+  },
+  "_exemptions": {
+   "N3": {
+    "mainen_l5pc": [
+     "all N3 acceptance checks"
+    ],
+    "miyasho_purkinje": [
+     "all N3 acceptance checks"
+    ],
+    "tzilivaki_fsbc": [
+     "all N3 acceptance checks"
+    ],
+    "ortner_snc_da": [
+     "all N3 acceptance checks"
+    ]
+   },
+   "N6": {
+    "ortner_snc_da": [
+     "input_resistance_sign"
+    ]
+   }
+  },
+  "_legend": {
+   "pass": "every validity test that ran for this model passed",
+   "fail": "at least one validity test failed",
+   "exempt": "on this gate's documented known-failure list, so the decisive validity test was not parametrised for it. A recorded failure with a remediation note -- never a pass. Each such model is separately required to appear in compass.analysis.cohorts.PRIMARY_EXCLUSIONS, which the policy tests enforce.",
+   "untested": "no validity test for this gate ran with this model"
   }
  }
 }

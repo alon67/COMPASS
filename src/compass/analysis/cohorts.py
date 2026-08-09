@@ -33,18 +33,56 @@ fold, bootstrap and random effect must group on
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
 __all__ = [
+    "N4_FAILING_MODELS",
     "PRIMARY_EXCLUSIONS",
     "SENSITIVITY_ARMS",
+    "UNIDENTIFIABLE_PARAMETERS",
     "annotate_lineage",
+    "cohort_label",
     "drop_duplicate_scientific_rows",
+    "duplicate_arms",
     "effective_sample_summary",
     "lineage_column",
     "primary_mask",
 ]
+
+_IDENTIFIABILITY = (Path(__file__).resolve().parents[3] / "data" / "provenance"
+                    / "parameter_identifiability.json")
+
+
+def _load_unidentifiable() -> dict[str, list[str]]:
+    """model_id -> parameters that gate N4 measured as unidentifiable.
+
+    Read from the provenance record rather than restated here, so the cohort
+    logic and the published measurement cannot drift apart.  A missing file is
+    an error and not an empty dict: silently reporting "no unidentifiable
+    parameters" is precisely the false all-clear the post-response audit found
+    in the cohort labelling.
+    """
+    if not _IDENTIFIABILITY.exists():
+        raise FileNotFoundError(
+            f"{_IDENTIFIABILITY} is missing. Gate N4's measured parameter "
+            f"identifiability is a precondition for defining the cohort; "
+            f"refusing to assume every parameter is identifiable.")
+    rec = json.loads(_IDENTIFIABILITY.read_text())
+    return {m: sorted(v["unidentifiable"])
+            for m, v in rec.get("models", {}).items() if v.get("unidentifiable")}
+
+
+UNIDENTIFIABLE_PARAMETERS: dict[str, list[str]] = _load_unidentifiable()
+
+# Models that FAIL gate N4.  They are not excluded from the primary cohort --
+# see the `n4_strict` and `n4_projected` arms below for why, and for what is
+# reported instead -- but nothing in this project may describe a cohort
+# containing them as "gate-passing" or "passing all gates".
+N4_FAILING_MODELS: frozenset[str] = frozenset(UNIDENTIFIABLE_PARAMETERS)
 
 # model_id -> why it is out of the primary cohort.  Every entry is a gate
 # failure, never a result the analyst disliked.
@@ -107,9 +145,48 @@ PRIMARY_EXCLUSIONS: dict[str, dict] = {
 # consequence of every exclusion is measured rather than asserted.
 SENSITIVITY_ARMS: dict[str, dict] = {
     "primary": {
-        "description": "gate-passing models only; the headline analysis",
+        # NOT "gate-passing".  The exclusion list above is built from N3
+        # failures only, and `bbp_l5pc` -- which is in this arm and casts one of
+        # its five lineage votes -- fails N4 on two apical conductances.  The
+        # post-response audit is right that calling this cohort "gate-passing"
+        # or "passing all gates" is false.  The N4 consequence is measured by
+        # the two arms below rather than asserted away.
+        "description": ("N3-passing models; the headline analysis. Contains "
+                        "bbp_l5pc, which fails N4 -- see the n4_strict and "
+                        "n4_projected arms"),
         "exclude": sorted(PRIMARY_EXCLUSIONS),
         "drop_features": [],
+    },
+    "n4_strict": {
+        "description": ("every N4-failing implementation excluded as well, so "
+                        "the headline can be read under full N1-N7 enforcement"),
+        "exclude": sorted(set(PRIMARY_EXCLUSIONS) | N4_FAILING_MODELS),
+        "drop_features": [],
+    },
+    "n4_projected": {
+        "description": ("N4-failing implementations RETAINED but projected onto "
+                        "their identifiable dimensions: the parameters gate N4 "
+                        "measured as unobservable through the frozen protocol "
+                        "are dropped before ensembles, geometry and "
+                        "O-information are computed. Covers bbp_l5pc, the only "
+                        "N4-failing model in the DISCOVERY cohort; tomko_ca1 is "
+                        "a replication model and its projection lives in "
+                        "endpoints_screening_v2_replication_n4proj.parquet"),
+        "exclude": sorted(PRIMARY_EXCLUSIONS),
+        "drop_features": [],
+        # Dropping a parameter changes the sampled space the ensembles are built
+        # on, so -- exactly like `drop_features` -- it cannot be applied by
+        # filtering an endpoint table afterwards.  The arm needs its own pass:
+        #   python tools/run_analysis.py --experiment screening \
+        #          --drop-unidentifiable-parameters --suffix _n4proj
+        #   python tools/run_analysis.py --experiment screening_v2_replication \
+        #          --drop-unidentifiable-parameters --suffix _n4proj
+        # (the second pass is what covers tomko_ca1: it is a replication-cohort
+        # model and has no rows in the discovery table at all)
+        # The dropped set is read from data/provenance/parameter_identifiability
+        # .json, which was measured by gate N4 before any endpoint was inspected,
+        # so the projection is outcome-blind.
+        "source_experiment": "screening_n4proj",
     },
     "retain_mainen": {
         "description": ("mainen_l5pc retained despite its N3 failure, to show "
@@ -221,6 +298,55 @@ def primary_mask(df: pd.DataFrame, arm: str = "primary") -> np.ndarray:
     return mask
 
 
+def cohort_label(arm: str = "primary") -> str:
+    """The honest one-line name of a cohort, for prose and figure captions.
+
+    Exists so that "gate-passing" cannot be reintroduced by hand.  A cohort is
+    only called gate-passing when it actually excludes every model that fails a
+    gate; otherwise the label names the gates it does enforce.
+    """
+    spec = SENSITIVITY_ARMS[arm]
+    excluded = set(spec["exclude"])
+    unresolved = sorted(N4_FAILING_MODELS - excluded)
+    if not unresolved:
+        return "gate-passing (N3 and N4 enforced)"
+    if arm == "n4_projected":
+        return ("N3-passing, with N4-unidentifiable dimensions projected out of "
+                f"{', '.join(unresolved)}")
+    return f"N3-passing; N4 unresolved for {', '.join(unresolved)}"
+
+
+def duplicate_arms(df: pd.DataFrame) -> dict[str, str]:
+    """Arms whose admissible rows are identical to an earlier arm's.
+
+    An arm that selects exactly the rows another arm already selected is not an
+    independent robustness demonstration, however differently it is described.
+    Three of the seven arms were in that position -- ``retain_partial_coverage``
+    because the model it retains has no screening data at all, and ``all_models``
+    because the only models it adds back are ones no other arm removed -- and
+    each was being counted and reported as though it had confirmed something
+    (post-response audit, section 4).
+
+    Detected from the data rather than hard-coded, because whether two arms
+    coincide depends on which models have rows in the table being analysed.
+    Arms drawing on a different ``source_experiment`` are never duplicates:
+    their rows come from another table entirely.
+    """
+    seen: dict[frozenset, str] = {}
+    dup: dict[str, str] = {}
+    for arm in SENSITIVITY_ARMS:
+        if SENSITIVITY_ARMS[arm].get("source_experiment"):
+            continue
+        rows = df[primary_mask(df, arm)]
+        key = frozenset(map(tuple, rows[["model_id"]].drop_duplicates().to_numpy())) \
+            if len(rows) else frozenset()
+        if key in seen:
+            dup[arm] = seen[key]
+        else:
+            seen[key] = arm
+    return dup
+
+
 def drop_duplicate_scientific_rows(df: pd.DataFrame) -> pd.DataFrame:
     """Collapse endpoint rows that are the same ensemble under two labels.
 
@@ -265,6 +391,15 @@ def effective_sample_summary(df: pd.DataFrame, arm: str = "primary") -> dict:
         "excluded_from_primary": {
             m: PRIMARY_EXCLUSIONS[m]["reason"]
             for m in sorted(set(ann["model_id"]) & set(PRIMARY_EXCLUSIONS))},
+        # Stated on every artifact that carries an effective sample, so no
+        # downstream document can describe this cohort as gate-passing without
+        # contradicting the record it was generated from.
+        "cohort_label": cohort_label(arm),
+        "n4_failing_models_retained": sorted(
+            set(prim["model_id"]) & N4_FAILING_MODELS),
+        "n4_unidentifiable_parameters": {
+            m: UNIDENTIFIABLE_PARAMETERS[m]
+            for m in sorted(set(prim["model_id"]) & N4_FAILING_MODELS)},
         "note": ("clustering, folds and bootstraps use source_lineage_id, not "
                  "model_id; the two differ and the difference is the whole point "
                  "of the 2026-08-06 audit's finding 4"),

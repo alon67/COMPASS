@@ -227,3 +227,58 @@ decision log, because they change what the preregistered criteria *mean*.
    (gate N3), and common protocol coverage defined with explicit missingness.
    Three candidates failed these gates and were excluded; two of them after their
    mechanisms had been compiled and their convergence audited.
+
+---
+
+## Addendum 4 — 2026-08-09 independent audit response (POST HOC; not preregistered)
+
+Everything below was decided **after** the results it acts on were known. It is
+recorded separately from Addendum 3 for that reason, and nothing here should be
+read with the weight of a rule fixed in advance.
+
+1. **Item 7 of Addendum 3 was not enforced as written.** It lists "all sampled
+   parameters active (gate N4)" among the inclusion gates frozen before any
+   information endpoint was computed for a replication candidate. `tomko_ca1`
+   was admitted to the replication cohort and **fails N4** on `gkdr_soma`,
+   `gcal_soma` and `gcat_soma`. `bbp_l5pc`, a discovery-cohort model that
+   predates that gate, fails it on `gskv3_apical` and `gcalva_apical`. Neither
+   was excluded. This is a departure from a registered inclusion rule, it was
+   found by an external reviewer rather than by us, and it is not repaired by
+   relabelling: the correct action under Addendum 3 item 2's own logic would
+   have been exclusion. What is done instead is stated in item 2.
+
+2. **The N4 failures are handled by arms, not by exclusion.** The primary cohort
+   retains both and is relabelled **N3-passing, N4 unresolved** wherever it is
+   described. Two arms are added: `n4_strict` (both excluded — the headline
+   under full N1–N7 enforcement) and `n4_projected` (both retained with their
+   unidentifiable parameters projected out of the sampled space before ensembles
+   are built). The projection is outcome-blind in the sense that the dropped set
+   comes from a gate-N4 measurement made before any endpoint was inspected; the
+   *decision to run it* is not.
+
+3. **Both perturbation-derived H-B criteria acquire a numerical precondition.**
+   They are scored only on implementations whose per-background η is repeatable
+   at half the campaign time step, and are **not evaluable** — reported, casting
+   no vote — if the repeatable subset spans fewer than three lineages. The
+   repeatability rule itself (median |Δη| ≤ 0.05 SD and ≥ 80% sign agreement)
+   *was* prespecified, in `tools/perturbation_inference.py`, before the
+   half-step run. The minimum lineage count is new, and 3 is chosen because the
+   criterion is scored on a lineage-clustered bootstrap interval that cannot be
+   estimated from two clusters.
+
+4. **Cluster bootstraps weight lineages equally.** Resampling lineages while
+   pooling their implementations' rows gave two-implementation lineages double
+   weight. Statistics are now formed within lineage and then averaged across
+   lineages. This changed a published significance claim: the paired
+   perturbation tests move from p = 0.047 and 0.016 over seven implementations
+   to p = 0.188 and 0.063 over five lineages, and **the claim that both are
+   below 0.05 is withdrawn**. With five lineages the smallest attainable
+   two-sided Wilcoxon p is 0.0625, so this panel cannot produce a significant
+   paired result at the lineage level at any effect size.
+
+5. **An arm that selects the same rows as another arm is not independent
+   evidence.** Duplicate arms are detected from the data and labelled; the
+   cascade reports how many arms are substantively distinct.
+
+6. **`preregistered: false` is recorded in the artifacts** for item 3, so the
+   distinction survives being read out of the JSON rather than out of this file.

@@ -33,6 +33,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from compass.adapters.models import MODEL_REGISTRY, get_adapter  # noqa: E402
+from compass.analysis.cohorts import annotate_lineage  # noqa: E402
 from compass.analysis.hierarchical import variance_partition  # noqa: E402
 from compass.conditioning.ensembles import (  # noqa: E402
     CONDITIONING_FEATURES,
@@ -42,6 +43,10 @@ from compass.conditioning.ensembles import (  # noqa: E402
 OUT = ROOT / "results" / "analyses"
 N_BOOT = 2000
 SEED = 20260805
+# The seed tools/run_analysis.py builds its ensembles with.  Anything here that
+# RECONSTRUCTS an ensemble in order to audit the stored result must use it, or
+# it audits a different ensemble than the one that was published.
+ANALYSIS_SEED = 20260804
 
 SAMPLING = ["regime", "tolerance", "metric", "protocol_family"]
 GEOMETRY = ["mean_abs_pearson", "effective_rank", "intrinsic_dimension",
@@ -49,24 +54,44 @@ GEOMETRY = ["mean_abs_pearson", "effective_rank", "intrinsic_dimension",
 
 
 def cluster_bootstrap_ratio(ep: pd.DataFrame, endpoint: str,
-                            n_boot: int = N_BOOT, seed: int = SEED) -> dict:
-    """Bootstrap the sampling+geometry vs identity variance ratio over MODELS.
+                            n_boot: int = N_BOOT, seed: int = SEED,
+                            cluster_col: str = "source_lineage_id") -> dict:
+    """Bootstrap the sampling+geometry vs identity variance ratio over LINEAGES.
 
-    Resampling models (not rows) respects the fact that all rows belonging to
-    one model share a single simulated campaign.
+    The resampling unit is the **source lineage**, not the implementation.
+    Resampling ``model_id`` gave the HH lineage two independent draws and the
+    Pospischil lineage two more, so a seven-implementation panel was treated as
+    seven independent units when it holds five -- and the README already claimed
+    every bootstrap clustered by lineage (post-response audit, section 4).
+
+    A drawn lineage brings ALL of its implementations with it, which is the
+    point: the within-lineage correlation stays in the resample instead of being
+    broken up by drawing implementations independently.  Both the cluster label
+    and ``model_id`` are suffixed per draw so that a lineage drawn twice forms
+    two distinct clusters rather than collapsing into one.
+
+    ``model_identity`` remains the *predictor block* under test; only the
+    resampling unit changes.
     """
-    models = sorted(ep["model_id"].unique())
+    if cluster_col not in ep.columns:
+        raise KeyError(
+            f"{cluster_col!r} is not in the endpoint frame, so the bootstrap "
+            f"cannot cluster on it. Refusing to fall back to 'model_id': that "
+            f"silently inflates the number of independent units. Annotate the "
+            f"frame with compass.analysis.cohorts.annotate_lineage first.")
+    clusters = sorted(ep[cluster_col].unique())
     rng = np.random.default_rng(seed)
     ratios, samp_u, geo_u, id_u = [], [], [], []
     for _ in range(n_boot):
-        pick = rng.choice(models, size=len(models), replace=True)
-        # need >= 2 distinct models for identity to be estimable
+        pick = rng.choice(clusters, size=len(clusters), replace=True)
+        # need >= 2 distinct clusters for identity to be estimable
         if len(set(pick)) < 2:
             continue
         parts = []
-        for k, m in enumerate(pick):
-            sub = ep[ep["model_id"] == m].copy()
-            sub["model_id"] = f"{m}__{k}"        # distinct cluster per draw
+        for k, c in enumerate(pick):
+            sub = ep[ep[cluster_col] == c].copy()
+            sub[cluster_col] = f"{c}__{k}"       # distinct cluster per draw
+            sub["model_id"] = sub["model_id"].astype(str) + f"__{k}"
             parts.append(sub)
         boot = pd.concat(parts, ignore_index=True)
         try:
@@ -88,6 +113,8 @@ def cluster_bootstrap_ratio(ep: pd.DataFrame, endpoint: str,
     finite = [r for r in ratios if np.isfinite(r)]
     return {
         "endpoint": endpoint,
+        "cluster_col": cluster_col,
+        "n_clusters": len(clusters),
         "n_boot_effective": len(ratios),
         "n_infinite": len(ratios) - len(finite),
         "ratio_median": float(np.median(finite)) if finite else float("nan"),
@@ -100,8 +127,18 @@ def cluster_bootstrap_ratio(ep: pd.DataFrame, endpoint: str,
     }
 
 
-def e7_marginal_balance(experiment: str, models: list[str]) -> pd.DataFrame:
-    """Per-parameter KS distance and SD ratio between E7 and its E3m comparator."""
+def e7_marginal_balance(experiment: str, models: list[str],
+                        seed: int = ANALYSIS_SEED,
+                        qc_policy: str = "primary") -> pd.DataFrame:
+    """Per-parameter KS distance and SD ratio between E7 and its E3m comparator.
+
+    The seed and QC policy must be the ones the PRIMARY analysis used.  This
+    check previously rebuilt the ensembles with ``seed=1`` while
+    ``tools/run_analysis.py`` builds them with 20260804, so it was measuring the
+    balance of a different E7 selection than the one every stored endpoint was
+    computed from -- it could not have detected an imbalance in the actual
+    result (post-response audit, section 4).
+    """
     import importlib.util as iu
 
     from scipy.stats import ks_2samp
@@ -120,7 +157,8 @@ def e7_marginal_balance(experiment: str, models: list[str]) -> pd.DataFrame:
         if target is None:
             continue
         ens = build_ensembles(df, mid, pids, CONDITIONING_FEATURES, target=target,
-                              seed=1, protocol_family="absolute")
+                              seed=seed, protocol_family="absolute",
+                              qc_policy=qc_policy)
         e7 = next((e for e in ens if e.regime == "E7"), None)
         e3m = next((e for e in ens if e.regime == "E3m"), None)
         if e7 is None or e3m is None:
@@ -160,7 +198,13 @@ def main() -> int:
         m = m[m["estimator"] == "gaussian"]
         # one row per (model, ensemble, draw); average draws so each model
         # contributes one row per ensemble, then bootstrap over models
-        keys = ["model_id", "regime", "tolerance", "metric", "protocol_family"]
+        # `source_lineage_id` must survive the aggregation, or the bootstrap
+        # below has nothing to cluster on.  It is functionally determined by
+        # `model_id`, so grouping on both changes no group.
+        if "source_lineage_id" not in m.columns:
+            m = annotate_lineage(m)
+        keys = ["source_lineage_id", "model_id", "regime", "tolerance", "metric",
+                "protocol_family"]
         agg = (m.groupby(keys, as_index=False)
                  [["synergy_area", "redundancy_area", "net_o_information",
                    "frac_synergy_o3", *GEOMETRY, "n_params", "n_samples"]].mean())

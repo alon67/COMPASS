@@ -102,38 +102,66 @@ def prepare(df: pd.DataFrame) -> pd.DataFrame:
 
 def cluster_bootstrap(values: np.ndarray, clusters: np.ndarray,
                       statistic=np.mean, n_boot: int = 5000,
-                      seed: int = 20260806) -> dict:
-    """Resample whole CLUSTERS, then rows within them.
+                      seed: int = 20260806,
+                      equal_cluster_weight: bool = True) -> dict:
+    """Resample whole CLUSTERS, then rows within them, weighting clusters equally.
 
     The previous bootstrap resampled eight model ids as if they were eight
     independent units.  Two pairs of those ids share a source lineage, so the
     resampling distribution was narrower than the data support (audit finding
     4, section 7.6).  Resampling lineages fixes the unit; resampling rows within
     a drawn lineage keeps the within-lineage variability.
+
+    Fixing the resampling unit was not, on its own, enough.  The statistic was
+    still computed by pooling every row from every drawn cluster, so a lineage
+    contributing two implementations put twice as many rows into the mean as a
+    lineage contributing one -- the HH and Pospischil lineages carried double
+    weight in both the point estimate and every replicate, which is the same
+    over-counting the cluster resampling was introduced to remove
+    (post-response audit, section 4).
+
+    With ``equal_cluster_weight`` the statistic is applied within each cluster
+    first and then averaged across clusters, so every lineage counts once
+    however many implementations it happens to contain.  Set it False only to
+    reproduce a pooled-row figure deliberately.
     """
     rng = np.random.default_rng(seed)
     values = np.asarray(values, dtype=float)
     clusters = np.asarray(clusters)
     uniq = np.unique(clusters)
     idx_by = {c: np.flatnonzero(clusters == c) for c in uniq}
+
+    def _combine(per_cluster: list[np.ndarray]) -> float:
+        """One number from the drawn clusters' row sets."""
+        if equal_cluster_weight:
+            means = [float(statistic(v)) for v in per_cluster if v.size]
+            return float(np.mean(means)) if means else float("nan")
+        v = np.concatenate(per_cluster) if per_cluster else np.array([])
+        return float(statistic(v)) if v.size else float("nan")
+
     stats = []
     for _ in range(n_boot):
         drawn = rng.choice(uniq, size=len(uniq), replace=True)
-        take = np.concatenate([
-            rng.choice(idx_by[c], size=len(idx_by[c]), replace=True) for c in drawn])
-        v = values[take]
-        v = v[np.isfinite(v)]
-        if v.size:
-            stats.append(float(statistic(v)))
+        per = []
+        for c in drawn:
+            take = rng.choice(idx_by[c], size=len(idx_by[c]), replace=True)
+            v = values[take]
+            per.append(v[np.isfinite(v)])
+        s = _combine(per)
+        if np.isfinite(s):
+            stats.append(s)
     if not stats:
-        return {"point": float("nan"), "ci95": [float("nan")] * 2, "n_clusters": len(uniq)}
-    fin = values[np.isfinite(values)]
+        return {"point": float("nan"), "ci95": [float("nan")] * 2,
+                "n_clusters": len(uniq)}
+    obs = [values[idx_by[c]][np.isfinite(values[idx_by[c]])] for c in uniq]
     return {
-        "point": float(statistic(fin)) if fin.size else float("nan"),
+        "point": _combine(obs),
         "ci95": [float(np.quantile(stats, 0.025)), float(np.quantile(stats, 0.975))],
         "sd": float(np.std(stats, ddof=1)),
         "n_clusters": int(len(uniq)),
         "n_rows": int(len(values)),
+        "equal_cluster_weight": bool(equal_cluster_weight),
+        "rows_per_cluster": {str(c): int(len(idx_by[c])) for c in uniq},
         "clusters": sorted(map(str, uniq)),
     }
 
@@ -170,15 +198,29 @@ def nested_variance_components(df: pd.DataFrame, endpoint: str) -> dict:
         var_res = float(m.scale)
         var_fix = float(np.var(np.asarray(m.model.exog) @ np.asarray(m.fe_params)))
         total = var_fix + var_grp + var_res
+        converged = bool(getattr(m, "converged", False))
         out[level] = {
             "var_group": var_grp, "var_residual": var_res, "var_fixed": var_fix,
             "icc_adjusted": var_grp / (var_grp + var_res) if (var_grp + var_res) > 0 else np.nan,
             "vpc": var_grp / total if total > 0 else np.nan,
             "n_groups": int(d[col].nunique()),
             # Production diagnostics, not just point estimates (audit section 1).
-            "converged": bool(getattr(m, "converged", False)),
+            "converged": converged,
             "method": str(getattr(m, "method", "reml")),
             "loglike": float(m.llf) if np.isfinite(m.llf) else None,
+            # The convergence flag was recorded and then ignored: the lineage
+            # level of this very model does NOT converge on the primary cohort,
+            # and its ICC was being quoted in docs/RESULTS.md as a number, next
+            # to a sentence asserting that both levels had converged. A variance
+            # component from a fit that did not converge is not an estimate of
+            # anything, so the record now says so in a field a reader cannot
+            # miss rather than in a boolean three keys away.
+            "quotable": converged,
+            "quotability_note": (
+                "" if converged else
+                f"the {level}-level mixed model did NOT converge on "
+                f"{d[col].nunique()} groups; icc_adjusted and vpc are reported "
+                f"for completeness and must not be quoted as estimates"),
         }
     return out
 

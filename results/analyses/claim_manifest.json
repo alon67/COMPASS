@@ -1,10 +1,10 @@
 {
- "written_utc": "2026-08-09T05:54:05.098574+00:00",
+ "git_revision": "9fe015be28c7ecf3358732eca24f593f7dec5966",
  "n_claims": 14,
  "claims": [
   {
    "label": "decision H-B tally",
-   "expected_string": "H-B: 1/2",
+   "expected_string": "H-B: 0/2",
    "documents": [
     "RESULTS.md"
    ],
@@ -44,7 +44,7 @@
   },
   {
    "label": "perturbation matched ratio",
-   "expected_string": "2.97",
+   "expected_string": "2.49",
    "documents": [
     "RESULTS.md",
     "README.md"
@@ -53,12 +53,12 @@
    "selector": "top_vs_control_middle.ratio_point",
    "aggregation": "mean |eta| of top tuples / mean |eta| of controls",
    "units": "dimensionless ratio of feature-SD units",
-   "uncertainty": "model-bootstrap 95% CI [1.3510495900698163, 7.7102236500185874]",
+   "uncertainty": "model-bootstrap 95% CI [1.0729362221365049, 6.912504725339532]",
    "note": ""
   },
   {
    "label": "perturbation matched p",
-   "expected_string": "0.047",
+   "expected_string": "0.188",
    "documents": [
     "RESULTS.md"
    ],
@@ -71,7 +71,7 @@
   },
   {
    "label": "perturbation random ratio",
-   "expected_string": "4.74",
+   "expected_string": "3.83",
    "documents": [
     "RESULTS.md",
     "README.md"
@@ -80,12 +80,12 @@
    "selector": "top_vs_control_random.ratio_point",
    "aggregation": "mean |eta| of top tuples / mean |eta| of controls",
    "units": "dimensionless ratio of feature-SD units",
-   "uncertainty": "model-bootstrap 95% CI [1.9020147819718705, 9.647767906807328]",
+   "uncertainty": "model-bootstrap 95% CI [1.5485737939506354, 9.018162661080435]",
    "note": ""
   },
   {
    "label": "perturbation random p",
-   "expected_string": "0.016",
+   "expected_string": "0.062",
    "documents": [
     "RESULTS.md"
    ],
@@ -163,7 +163,7 @@
   },
   {
    "label": "matched bootstrap median ratio",
-   "expected_string": "12.6",
+   "expected_string": "12.8",
    "documents": [
     "RESULTS.md",
     "README.md"
@@ -227,33 +227,44 @@
   "0.048": "the mis-computed 'ICC'",
   "8.5\u00d7": "matched variance ratio before target correction",
   "12.743": "median intrinsic dimension under the biased TwoNN",
-  "18.57": "unique-R2 ratio under the biased TwoNN"
+  "18.57": "unique-R2 ratio under the biased TwoNN",
+  "1843.55": "unique-R2 ratio before the regenerated screening tables",
+  "0.7310": "lineage LOMO median R2 before the true lineage folds",
+  "0.4352": "regime-classifier accuracy under model-id folds",
+  "0.2381": "functional-support fraction before the regenerated battery",
+  "2.1250": "perturbation matched ratio before the regenerated battery",
+  "7/42": "Sobol quotable count before the expansion campaign",
+  "0/5 models": "perturbation repeatability before the half-step reruns"
  },
+ "unique_value_claims": [
+  "conditioning effect direction agreement",
+  "high-covariance subset effect direction agreement",
+  "out-of-sample R2 for a held-out",
+  "sampling regime predictable across unseen lineages",
+  "statistical synergy modules validated by direct perturbation",
+  "top-synergy tuples more non-additive than matched controls",
+  "unique R2(sampling+geometry)"
+ ],
  "repository_facts": [
   {
-   "check": "documented fast-test count == observed (312)",
-   "ok": true,
-   "detail": "312 fast tests, consistently quoted"
+   "check": "documented fast-test count == observed (337)",
+   "ok": true
   },
   {
    "check": "`ruff check src tests tools` passes",
-   "ok": true,
-   "detail": "All checks passed!"
+   "ok": true
   },
   {
    "check": "withdrawn artifact readout_resolution.json not cited as evidence",
-   "ok": true,
-   "detail": "not cited, or cited as withdrawn"
+   "ok": true
   },
   {
    "check": "withdrawn artifact readout_resolution.parquet not cited as evidence",
-   "ok": true,
-   "detail": "not cited, or cited as withdrawn"
+   "ok": true
   },
   {
    "check": "model audit is not stale",
-   "ok": true,
-   "detail": "audit 2026-08-08 14:55 vs newest convergence file 2026-08-08 14:54"
+   "ok": true
   }
  ],
  "n_failures": 0

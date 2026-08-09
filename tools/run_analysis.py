@@ -38,6 +38,7 @@ from compass.analysis.geometry import describe_geometry  # noqa: E402
 from compass.analysis.oinfo import GaussianInfoEngine  # noqa: E402
 from compass.analysis.tuples import generate_tuples, order_curve  # noqa: E402
 from compass.conditioning.ensembles import (  # noqa: E402
+    BALANCE_TOL_SD,
     CONDITIONING_FEATURES,
     CONDITIONING_FEATURES_NORMALISED,
     build_ensembles,
@@ -113,6 +114,24 @@ def analyse_ensemble(ens, estimator: str, seed: int) -> tuple[dict, list[dict], 
         "net_o_information": red_area - syn_area,
         "acceptance_rate": ens.meta.get("acceptance_rate", np.nan),
     }
+    # E7's achieved marginal balance travels WITH the endpoint.
+    #
+    # `high_covariance_subset` enforces max_mean_shift_sd <= 0.10 SD but relaxes
+    # the constraint when no candidate satisfies it, and the stored endpoint
+    # table carried no trace of which of those two happened. The absolute
+    # migliore_ca1 cell is a relaxed one at ~0.131 SD, and nothing downstream
+    # could see it (post-response audit, section 4). Recorded per row, so any
+    # consumer can filter on `e7_balance_satisfied` instead of trusting that the
+    # constraint held.
+    for k in ("max_mean_shift_sd", "mean_mean_shift_sd", "max_ks",
+              "min_sd_ratio", "max_sd_ratio"):
+        if k in ens.meta:
+            row[f"e7_{k}"] = float(ens.meta[k])
+    if "max_mean_shift_sd" in ens.meta:
+        tol = float(ens.meta.get("balance_tol_sd", BALANCE_TOL_SD))
+        row["e7_balance_tol_sd"] = tol
+        row["e7_balance_satisfied"] = bool(
+            float(ens.meta["max_mean_shift_sd"]) <= tol)
     for i, o in enumerate(oc.orders):
         row[f"frac_synergy_o{o}"] = oc.frac_synergy[i]
         row[f"frac_synergy_sig_o{o}"] = oc.frac_synergy_sig[i]
@@ -199,10 +218,31 @@ def main() -> int:
                          "drop_failed_feature sensitivity arm; the phenotype is "
                          "fixed at ensemble construction, so this cannot be "
                          "applied by filtering endpoints afterwards.")
+    ap.add_argument("--drop-unidentifiable-parameters", action="store_true",
+                    help="remove the parameters gate N4 measured as "
+                         "unidentifiable (data/provenance/parameter_"
+                         "identifiability.json) from the sampled space before "
+                         "ensembles are built. Projects the N4-failing models "
+                         "onto their observable dimensions instead of excluding "
+                         "them; used by the n4_projected sensitivity arm.")
     ap.add_argument("--suffix", default="",
                     help="extra output suffix, e.g. '_dropfeat', so a deviating "
                          "analysis never overwrites the primary tables")
     args = ap.parse_args()
+
+    # Which parameters to project out, per model.  Empty unless asked for, so
+    # the primary analysis is untouched.
+    drop_params: dict[str, list[str]] = {}
+    if args.drop_unidentifiable_parameters:
+        from compass.analysis.cohorts import UNIDENTIFIABLE_PARAMETERS
+
+        drop_params = dict(UNIDENTIFIABLE_PARAMETERS)
+        if not drop_params:
+            ap.error("--drop-unidentifiable-parameters was requested but the "
+                     "identifiability record lists none. Refusing to run an arm "
+                     "that would be identical to its comparator.")
+        print(f"projecting out N4-unidentifiable parameters: {drop_params}",
+              flush=True)
 
     drop = set(args.drop_features)
     if drop:
@@ -223,6 +263,21 @@ def main() -> int:
             continue
         specs = get_adapter(model_id).parameter_specs()
         param_ids = [s.parameter_id for s in specs]
+        dropped_params: list[str] = []
+        if model_id in drop_params:
+            want = set(drop_params[model_id])
+            missing = sorted(want - set(param_ids))
+            if missing:
+                raise SystemExit(
+                    f"{model_id}: identifiability record names {missing}, which "
+                    f"the adapter does not expose. The record and the adapter "
+                    f"have drifted; refusing to run a projection that silently "
+                    f"drops nothing.")
+            specs = [s for s in specs if s.parameter_id not in want]
+            param_ids = [s.parameter_id for s in specs]
+            dropped_params = sorted(want)
+            print(f"  {model_id}: projected out {dropped_params} "
+                  f"({len(param_ids)} identifiable parameters remain)", flush=True)
         tier = specs[0].evidence_tier.value
         prior_width = float(np.mean([s.log_width for s in specs]))
 
@@ -246,6 +301,8 @@ def main() -> int:
                     row["evidence_tier"] = tier
                     row["qc_policy"] = args.qc_policy
                     row["mean_prior_width_decades"] = prior_width
+                    row["n_parameters_analysed"] = len(param_ids)
+                    row["parameters_projected_out"] = ";".join(dropped_params)
                     endpoints.append(row)
                     curves.extend(cs)
                     scores.extend(sc)

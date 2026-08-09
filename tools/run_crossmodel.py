@@ -32,6 +32,7 @@ from compass.analysis.cohorts import (  # noqa: E402
     SENSITIVITY_ARMS,
     annotate_lineage,
     drop_duplicate_scientific_rows,
+    duplicate_arms,
     effective_sample_summary,
     primary_mask,
 )
@@ -68,7 +69,115 @@ THRESHOLDS = {
     "module_selection_probability": 0.80,
     "perturbation_effect_sd": 0.25,
     "lomo_r2_floor": 0.0,
+    # Numerical precondition on the perturbation-derived H-B criteria; see
+    # `perturbation_precondition` below.  Three is the smallest number of
+    # clusters for which the lineage-clustered bootstrap the criterion is scored
+    # on means anything -- with two clusters the interval is a statement about
+    # two numbers -- so it is a property of the estimator, not of the outcome.
+    "perturbation_min_repeatable_lineages": 3,
 }
+
+
+def perturbation_precondition(perturb, inference: dict | None) -> dict:
+    """Which implementations' non-additivity may be used as causal evidence.
+
+    ``tools/perturbation_inference.py`` re-runs the whole battery at half each
+    model's campaign time step and applies a prespecified rule: repeatable means
+    median |delta eta| <= 0.05 feature SD *and* >= 80% of tuple means keep their
+    sign.  Until now nothing consumed that verdict -- the decision scored the
+    top-versus-control contrast from the campaign-dt numbers whether or not they
+    survived refinement, and it was the only passing H-B criterion
+    (post-response audit, section 3.2).
+
+    Both perturbation criteria are computed from the same ``eta``, so the
+    precondition governs both: a functional-support fraction built from
+    non-repeatable ``eta`` is no more trustworthy than a ratio built from it.
+
+    **This precondition is not preregistered.** It was written on 2026-08-09 in
+    response to the independent audit, and the 2/5 repeatability outcome was
+    already known when it was written. That is a real limitation and is recorded
+    rather than glossed: a rule added after seeing the data it will act on
+    cannot carry the weight of one fixed in advance.
+
+    Two things narrow the room it leaves for outcome-fitting. The *repeatability
+    rule itself* -- median |delta eta| <= 0.05 SD and >= 80% sign agreement --
+    was prespecified in ``perturbation_inference.py`` before the half-step run,
+    and is used here unchanged. The only new number is the minimum lineage
+    count, and it is set to 3 for a reason that is a property of the estimator
+    rather than of the result: the criterion is scored on a lineage-clustered
+    bootstrap interval, and with two clusters that interval is a statement about
+    two numbers. Any threshold below 3 would score an interval that cannot be
+    estimated; any threshold above 3 would be unreachable for this panel.
+
+    The policy on failure is stated here rather than decided after the fact:
+
+    * every implementation in the battery must have half-step results;
+    * only implementations whose ``eta`` is numerically repeatable may be
+      scored; and
+    * if the repeatable subset spans fewer than
+      ``perturbation_min_repeatable_lineages`` lineages, the perturbation
+      criteria are **not evaluable** -- reported, but casting no vote.
+
+    Not evaluable is not the same as failed.  A criterion that could not be
+    tested must not be counted as evidence against the hypothesis it was written
+    to test, which is why these are withheld from the tally rather than scored
+    as zero.
+    """
+    out: dict = {
+        "rule": ("perturbation-derived H-B criteria are scored only on "
+                 "implementations whose per-background eta is numerically "
+                 "repeatable at half the campaign time step"),
+        "preregistered": False,
+        "provenance": ("added 2026-08-09 in response to the independent "
+                       "post-response audit, with the 2/5 repeatability outcome "
+                       "already known. The repeatability RULE it consumes was "
+                       "prespecified in perturbation_inference.py before the "
+                       "half-step run; the minimum lineage count is new and is "
+                       "set by what a clustered bootstrap can estimate."),
+        "definition": None, "status": "no_inference_record",
+        "models_in_battery": [], "models_tested": [], "models_untested": [],
+        "models_repeatable": [], "models_not_repeatable": [],
+        "n_repeatable_lineages": 0, "evaluable": False, "reason": "",
+    }
+    if perturb is None or not len(perturb):
+        out["reason"] = "no perturbation table"
+        return out
+    in_battery = sorted(perturb["model_id"].unique())
+    out["models_in_battery"] = in_battery
+    if not inference:
+        out["reason"] = ("results/analyses/perturbation_inference.json is "
+                         "absent; run tools/perturbation_inference.py")
+        return out
+    rep = inference.get("numerical_repeatability", {})
+    out["status"] = rep.get("status", "missing")
+    out["definition"] = rep.get("definition")
+    per = rep.get("per_model", {}) if rep.get("status") == "ok" else {}
+    tested = sorted(set(per) & set(in_battery))
+    out["models_tested"] = tested
+    out["models_untested"] = sorted(set(in_battery) - set(per))
+    out["models_repeatable"] = [m for m in tested
+                                if per[m].get("numerically_repeatable")]
+    out["models_not_repeatable"] = [m for m in tested
+                                    if not per[m].get("numerically_repeatable")]
+    if "source_lineage_id" in perturb.columns:
+        lin = (perturb[perturb["model_id"].isin(out["models_repeatable"])]
+               ["source_lineage_id"].nunique())
+    else:
+        lin = len(out["models_repeatable"])
+    out["n_repeatable_lineages"] = int(lin)
+
+    need = THRESHOLDS["perturbation_min_repeatable_lineages"]
+    reasons = []
+    if out["models_untested"]:
+        reasons.append(f"{out['models_untested']} have no half-step results")
+    if lin < need:
+        reasons.append(f"the repeatable subset spans {lin} lineage(s), "
+                       f"below the required {need}")
+    out["evaluable"] = not reasons
+    out["reason"] = ("; ".join(reasons) if reasons
+                     else f"{len(out['models_repeatable'])} repeatable "
+                          f"implementations over {lin} lineages")
+    return out
 
 
 def conditioning_shift(ep: pd.DataFrame) -> pd.DataFrame:
@@ -124,9 +233,12 @@ def covariance_shift(ep: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
+def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability,
+           pert_inference: dict | None = None) -> dict:
     """Evaluate the preregistered decision framework (blueprint 19)."""
     ev: dict = {"criteria": [], "descriptive": [], "thresholds": THRESHOLDS}
+    ev["perturbation_precondition"] = perturbation_precondition(
+        perturb, pert_inference)
 
     def add(name, hypothesis, value, passed, detail=""):
         ev["criteria"].append({"criterion": name, "supports": hypothesis,
@@ -280,16 +392,35 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
     if perturb is not None and len(perturb):
         prim = perturb[perturb["primary_feature"]] if "primary_feature" in perturb \
             else perturb
+        # Apply the numerical precondition BEFORE anything is scored.  When it
+        # holds, the criteria are evaluated on the repeatable implementations
+        # only; when it does not, they are described and cast no vote.
+        pre = ev["perturbation_precondition"]
+        scored_pert = bool(pre.get("evaluable"))
+        if scored_pert:
+            prim = prim[prim["model_id"].isin(pre["models_repeatable"])]
         top = prim[prim["kind"] == "top_synergy"]
         ctrl = prim[prim["kind"].isin(["control_middle", "control"])]
         rand = prim[prim["kind"] == "control_random"]
+        pert_scope = (f"repeatable implementations only "
+                      f"({', '.join(pre['models_repeatable'])})" if scored_pert
+                      else f"NOT EVALUABLE -- {pre['reason']}")
         if len(top):
             frac = float(top["functionally_supported"].mean())
             frac_c = float(ctrl["functionally_supported"].mean()) if len(ctrl) else float("nan")
-            add("statistical synergy modules validated by direct perturbation",
-                "H-B", frac, frac >= 0.5,
-                f"n_top={len(top)}, n_control={len(ctrl)}; "
-                f"supported {frac:.3f} vs control {frac_c:.3f}")
+            fs_detail = (f"n_top={len(top)}, n_control={len(ctrl)}; "
+                         f"supported {frac:.3f} vs control {frac_c:.3f}; "
+                         f"scope: {pert_scope}")
+            if scored_pert:
+                add("statistical synergy modules validated by direct perturbation",
+                    "H-B", frac, frac >= 0.5, fs_detail)
+            else:
+                note("statistical synergy modules validated by direct "
+                     "perturbation (NOT EVALUABLE)", frac,
+                     fs_detail + ". Withheld from the tally: functional support "
+                     "is computed from the same eta as the contrast below, so "
+                     "it inherits the same numerical precondition. Not "
+                     "evaluable is not the same as failed.")
             # The two point ratios are NOT two votes.  They come from the same
             # perturbation result on the same top tuples, differing only in
             # which control family sits in the denominator, so scoring both
@@ -322,12 +453,22 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
                                f"lineage-clustered 95% CI "
                                f"[{ci['ci95'][0]:+.3f}, {ci['ci95'][1]:+.3f}] "
                                f"over {ci['n_clusters']} lineages")
-                if scored:
+                detail += f"; scope: {pert_scope}"
+                if scored and scored_pert:
                     passed = bool(ci and ci["ci95"][0] > 0)
                     add("top-synergy tuples more non-additive than matched controls",
                         "H-B", ratio, passed,
                         detail + ". Scored on the lineage-clustered paired interval, "
                         "not on the point ratio.")
+                elif scored:
+                    note("top-synergy tuples more non-additive than matched "
+                         "controls (NOT EVALUABLE)", ratio,
+                         detail + ". Withheld from the tally: the campaign-dt "
+                         "eta this contrast is built from does not satisfy the "
+                         "half-step repeatability rule prespecified in "
+                         "perturbation_inference.py. The rule is preregistered; "
+                         "the decision to withhold on it is not -- see "
+                         "perturbation_precondition.provenance.")
                 else:
                     note(f"top vs {label} control point ratio (descriptive only)",
                          ratio, detail + ". Not scored: same measurement as the "
@@ -351,8 +492,28 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
     if ev["n_hg_total"] == 0 or ev["n_hb_total"] == 0:
         absent = [s for s, n in (("H-G", ev["n_hg_total"]),
                                  ("H-B", ev["n_hb_total"])) if n == 0]
-        ev["conclusion"] = (f"not evaluable: {' and '.join(absent)} has no "
-                            f"computable criterion in this arm")
+        # State what WAS decided before what could not be. When H-G is complete
+        # and only H-B is unevaluable, "not evaluable" on its own is misleading
+        # in the other direction: five H-G criteria were tested and passed.
+        hg_part = (f"H-G {ev['n_hg_passed']}/{ev['n_hg_total']}"
+                   if ev["n_hg_total"] else "")
+        ev["conclusion"] = (
+            (f"{hg_part}; " if hg_part else "")
+            + f"{' and '.join(absent)} NOT EVALUABLE -- no computable criterion "
+              f"in this arm")
+        # A short form for figure captions and one-line summaries. The long
+        # `conclusion` explains itself; a plot axis cannot hold it, and a figure
+        # that silently truncates the explanation would put the label back in
+        # the reader's head without its qualification.
+        ev["conclusion_label"] = f"{' and '.join(absent)} not evaluable"
+        pre = ev["perturbation_precondition"]
+        if ev["n_hb_total"] == 0 and not pre.get("evaluable") \
+                and pre.get("models_in_battery"):
+            ev["conclusion"] += (
+                f" (both H-B criteria are perturbation-derived and were "
+                f"withheld: {pre['reason']}). The causal-module question is "
+                f"UNRESOLVED, not answered in the negative; no H-M or H-G label "
+                f"is asserted.")
         ev["hg_fraction_passed"] = (ev["n_hg_passed"] / ev["n_hg_total"]
                                     if ev["n_hg_total"] else None)
         ev["hb_fraction_passed"] = (ev["n_hb_passed"] / ev["n_hb_total"]
@@ -369,6 +530,7 @@ def decide(ep, cond, cov, vp, lomo, clf, mixed, perturb, stability) -> dict:
         ev["conclusion"] = "H-M"
     else:
         ev["conclusion"] = "inconclusive"
+    ev["conclusion_label"] = ev["conclusion"]
     ev["hg_fraction_passed"] = hg_frac
     ev["hb_fraction_passed"] = hb_frac
     return ev
@@ -424,7 +586,14 @@ def run_arm(ep_all: pd.DataFrame, arm: str, experiment: str,
         pert = annotate_lineage(pert)
         pert = pert[primary_mask(pert, arm)]
 
-    decision = decide(ep, cond, cov, vp, lomo, clf, mixed, pert, stability)
+    # The numerical-repeatability verdict on the perturbation battery.  Read
+    # here rather than recomputed: perturbation_inference.py owns the rule, and
+    # a second implementation of it would be a second thing to keep in step.
+    pinf_path = OUT / "perturbation_inference.json"
+    pert_inference = json.loads(pinf_path.read_text()) if pinf_path.exists() else None
+
+    decision = decide(ep, cond, cov, vp, lomo, clf, mixed, pert, stability,
+                      pert_inference)
     # An arm can only test what it has data for.  `retain_mainen` exists to show
     # what changes when mainen_l5pc is put back, but mainen's perturbation
     # battery was not regenerated (it is excluded from primary inference and
@@ -592,9 +761,29 @@ def main() -> int:
               f"H-B {d['n_hb_passed']}/{d['n_hb_total']}   "
               f"-> conclusion: {d['conclusion']}")
 
+    # An arm that admits exactly the rows another arm already admitted has not
+    # demonstrated robustness to anything; it has re-run the same analysis under
+    # a different name.  Three of the seven were in that position and were being
+    # counted as independent agreement (post-response audit, section 4).  The
+    # coincidence is detected from the data, because whether two arms differ
+    # depends on which models have rows in this table.
+    dups = duplicate_arms(ep)
+    for a, same_as in dups.items():
+        if a in arms and "error" not in arms[a]:
+            arms[a]["duplicate_of"] = same_as
+            arms[a]["independent_evidence"] = False
+
     (OUT / "decision_sensitivity.json").write_text(json.dumps(
         {"primary_arm": "primary",
          "exclusions": PRIMARY_EXCLUSIONS,
+         "duplicate_arms": dups,
+         "duplicate_arms_note": (
+             "these arms select the same models as the arm they are mapped to, "
+             "so their agreement with it is arithmetic rather than evidential. "
+             "Count the distinct arms, not the entries."),
+         "n_arms_declared": len(arms),
+         "n_arms_independent": len([a for a, d in arms.items()
+                                    if "error" not in d and a not in dups]),
          "arms": {a: {"conclusion": d.get("conclusion"),
                       "description": d.get("arm_description"),
                       "n_hg_passed": d.get("n_hg_passed"),
@@ -603,15 +792,22 @@ def main() -> int:
                       "n_hb_total": d.get("n_hb_total"),
                       "effective_sample": d.get("effective_sample"),
                       "perturbation_coverage": d.get("perturbation_coverage"),
+                      "perturbation_precondition": d.get("perturbation_precondition"),
+                      "duplicate_of": d.get("duplicate_of"),
+                      "independent_evidence": d.get("independent_evidence", True),
                       "error": d.get("error")}
                   for a, d in arms.items()}},
         indent=1, default=float))
 
     print("\n=== SENSITIVITY CASCADE ===")
     for a, d in arms.items():
+        dup = f"  [duplicate of {dups[a]}: not independent]" if a in dups else ""
         print(f"  {a:26s} -> {d.get('conclusion', d.get('error'))}"
               f"  (H-G {d.get('n_hg_passed')}/{d.get('n_hg_total')}, "
-              f"H-B {d.get('n_hb_passed')}/{d.get('n_hb_total')})")
+              f"H-B {d.get('n_hb_passed')}/{d.get('n_hb_total')}){dup}")
+    if dups:
+        print(f"  {len(arms) - len(dups)} of {len(arms)} arms are substantively "
+              f"distinct")
     return 0
 
 

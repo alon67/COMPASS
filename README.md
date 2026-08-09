@@ -18,7 +18,16 @@ The distinction between *implementation* and *source lineage* is load-bearing
 and was the subject of the third audit's finding 4: `hh_point`/`hh_cable` are one
 Hodgkin-Huxley lineage and `pospischil_rs`/`pospischil_fs` one Destexhe-lab
 framework, so counting model ids overstates the inferential sample. Every fold,
-bootstrap and random effect clusters on `source_lineage_id`.
+bootstrap and random effect clusters on `source_lineage_id`, and each lineage
+carries equal weight regardless of how many implementations it contributes.
+
+> This sentence was **not true when it was first written**, and the 2026-08-09
+> independent audit caught it: `tools/run_robustness.py` was still bootstrapping
+> `model_id`, and the lineage-clustered bootstrap pooled rows across drawn
+> clusters, so the HH and Pospischil lineages got double weight in both the point
+> estimate and every replicate. Both are fixed, both refuse to fall back
+> silently, and both are regression-tested in
+> `tests/unit/test_audit_regressions.py`.
 
 It is designed as a **falsification study**: a synergistic parameter tuple is not
 treated as biological merely because it appears in a neuron model. See
@@ -29,27 +38,55 @@ thresholds, and `docs/RESULTS.md` for the findings.
 
 ## Headline result
 
-**Conclusion: mixed (H-M)**, on 7 implementations over 5 source lineages after
-**four** models were excluded by the numerical-convergence gate (`mainen_l5pc`,
-`miyasho_purkinje`, `ortner_snc_da`, `tzilivaki_fsbc` — the four entries of
-`cohorts.PRIMARY_EXCLUSIONS`, each failing N3). An earlier version of this line
-said three.
+Evaluated on 7 implementations over 5 source lineages, after **four** models were
+excluded by the numerical-convergence gate (`mainen_l5pc`, `miyasho_purkinje`,
+`ortner_snc_da`, `tzilivaki_fsbc` — the four entries of
+`cohorts.PRIMARY_EXCLUSIONS`, each failing N3). The cohort is **N3-passing with
+N4 unresolved**, not "gate-passing": `bbp_l5pc` is inside it and fails N4 on two
+apical conductances that move no observable feature. See
+[`docs/RESULTS.md` §5.0.3](docs/RESULTS.md).
 
-Read [`docs/RESULTS.md` §0](docs/RESULTS.md) first: the third audit
-(2026-08-06) invalidated two published results — a biased intrinsic-dimension
-estimator and a spike-count "measurement floor" — and both are withdrawn and
-recomputed rather than softened.
+**Conclusion: generic (H-G)** — H-G 5/5, H-B 0/2, and the same in every
+evaluable arm of the sensitivity cascade. This **replaces H-M**, which was the
+conclusion for the previous two releases. The change is not a new measurement:
+both H-B criteria are computed from perturbation non-additivity, and they are
+now scored only on the implementations whose non-additivity survives halving the
+time step. Three of seven do. On that subset the top-versus-control contrast is
+1.91× with a lineage-clustered interval of [−0.020, +0.530] — it includes zero —
+and functional support is 0.444 against a 0.5 bar.
+
+> **This is a failure to demonstrate, not a demonstration of absence.** Three
+> lineages cannot separate "no enrichment" from "half a standard deviation of
+> enrichment", and the same subset's random-control contrast (3.25×, interval
+> excluding zero) would have passed had it been the scored one. H-G here means
+> the biological criteria are unsupported by evidence that survives its own
+> numerical check — not that the modules are spurious. See
+> [`docs/RESULTS.md` §12.0](docs/RESULTS.md).
+
+Read [`docs/RESULTS.md` §0](docs/RESULTS.md) first. The third audit (2026-08-06)
+invalidated two published results — a biased intrinsic-dimension estimator and a
+spike-count "measurement floor". The fourth (2026-08-09) found five more things a
+reader of that document would have believed and that were not true, including
+this one:
+
+> **A significance claim is withdrawn.** The paired perturbation tests were
+> reported at p = 0.047 and 0.016 over seven implementations. That counted the
+> two HH models and the two Pospischil models as four independent units when
+> they are two lineages. At the lineage level the same simulations give
+> **p = 0.188 and 0.063**. Neither is below 0.05.
 
 The **sign** of higher-order structure is generic — set by how the ensemble was
-built, not by which neuron it came from. The **identity** of the parameters
-involved is not: the extreme tuples are reproducible and do interact in the model
-equations.
+built, not by which neuron it came from. Whether the parameter **identities** are
+biologically meaningful is **unresolved**: the extreme tuples are reproducible
+across estimators and do move the model equations more than controls, but that
+comparison is not significant at the inferential unit and its non-additivity has
+not passed the numerical-repeatability check that now gates it.
 
 | evidence that the sign is generic | value |
 |---|---|
 | cross-model agreement, conditioning → synergy | **4 / 5 source lineages** in the primary cohort (5/6 with Mainen retained); exact two-sided sign p = 0.375, or 0.219 with Mainen. Unanimous across implementations at the permissive tolerance. |
 | cross-model agreement, high-covariance → redundancy | **4 / 5 source lineages**; exact two-sided sign p = 0.375. **Fails when Mainen is retained** (4/6, p = 0.6875). Weakened from 5/5 (p = 0.0625) once E7 selection was made genuinely held out by cross-fitting: the earlier subset was ranked using axes partly fitted on the rows it then selected. |
-| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,800×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **12.6×** size-matched, CI [3.6, 60.5], 100% of resamples above threshold |
+| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,800×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **12.8×** size-matched over 5 lineages, CI [2.6, 46.1], 100% of resamples above threshold |
 | effect exceeds each model's own conditional bootstrap noise | **5 / 8 implementations**, SNR 4–5 (a conditional bootstrap ratio, *not* a sigma significance — see below) |
 | effective inferential sample | **7 implementations / 5 source lineages** in the primary cohort; 14 implementations / 10 lineages registered |
 | same effect in a non-neuronal gene circuit | Ω 0.0000 → **−0.0018 … −0.183** (permissive → very strict) |
@@ -59,23 +96,30 @@ equations.
 |---|---|
 | top-tuple agreement, Gaussian vs Gaussian-copula | Jaccard **0.83** (min 0.67) — descriptive only; both are Gaussian estimators on the same samples, so this measures estimator similarity, not module stability |
 | within-campaign implementation identifiability | **0.566** vs 0.151 baseline — descriptive only; random within-table splits of derived rows from one campaign measure dataset fingerprinting, not biological identity |
-| top-synergy vs **random** controls, non-additivity | 4.74× point, CI [1.90, 9.65], paired p = 0.016 over 7 models |
-| top-synergy vs **matched** controls | 2.97× point, CI [1.35, 7.71], paired p = 0.047; lineage-clustered paired difference +0.203 SD, CI [+0.018, +0.439] over 5 lineages |
+| top-synergy vs **random** controls, non-additivity | 3.83× point, CI [1.55, 9.02], paired p = 0.063 over **5 lineages** |
+| top-synergy vs **matched** controls | 2.49× point, CI [1.07, 6.91], paired p = 0.188 over 5 lineages |
 
-**The last two rows are stronger than the previous release reported, but still
-bounded.** The point ratios are 2.97
-(matched) and 4.74 (random), with
-paired Wilcoxon p = 0.047 and
-p = 0.016 — both now below 0.05, where the
-previous release had 0.195 and 0.078 and neither reached it. Every one of the
-seven models shows top > random, and six of seven show top > matched.
+**These two rows moved when the bootstrap unit was corrected, and the move
+matters.** They were previously reported as 2.97× (p = 0.047) and 4.74×
+(p = 0.016) — *"both now below 0.05"* — over **7 models**. That resampled
+implementations: the HH and Pospischil lineages each supplied two of the seven
+"independent" units, so the interval was narrower than the data support. Once
+implementations are averaged within lineage and each lineage counts once, the
+same simulations give 2.49× (p = 0.188) and 3.83× (p = 0.063). **Neither paired
+test is below 0.05.** The direction is unchanged and every lineage still shows
+top > random; the significance claim is withdrawn.
 
-Three limits keep this short of established. The bootstrap upper bounds (7.71
-and 9.65) sit far above the point estimates, because seven models is a small
-unit. `mainen_l5pc` is absent from the perturbation battery entirely, so this
-arm carries the partial-coverage caveat the decision table prints and cannot be
-compared with an arm that has complete coverage. And the lineage-clustered
-interval — the quantity actually scored — rests on five lineages.
+Note also that with five lineages the smallest two-sided Wilcoxon p obtainable is
+0.0625, so the random-control comparison is at its floor: this panel cannot
+produce a significant paired result at the lineage level however large the
+effect.
+
+Three further limits. The bootstrap upper bounds (6.91 and 9.02) sit far above
+the point estimates, because five lineages is a small unit. `mainen_l5pc` is
+absent from the perturbation battery entirely, so this arm carries the
+partial-coverage caveat the decision table prints. And since the 2026-08-09
+audit these criteria are **gated on their own half-step repeatability**, which
+they had never been — see §11.1.1 and §12.0 of `docs/RESULTS.md`.
 **Only one of the two control comparisons is scored**:
 they come from the same perturbation result on the same top tuples and differ
 only in the denominator, so scoring both would count one measurement twice.
@@ -118,7 +162,7 @@ parameters, hold the E1 endpoint fixed, do not repeat conditioning or target
 estimation, and use 40 replicates. The criterion is left as preregistered rather
 than rescored after the fact.
 
-Three methodological results stand independently of the panel:
+Four methodological results stand independently of the panel:
 
 * A **shuffled null** with all dependence destroyed still reports 45%
   "synergy-dominated" tuples; matched-search surrogate control returns **0.000**.
@@ -126,6 +170,13 @@ Three methodological results stand independently of the panel:
   synergy — exactly 0.000 where a k-NN estimator returns −1.57 nats.
 * Two ensembles at **the same mean |r| (0.27 vs 0.29)** land on **opposite
   sides** of zero. Covariance magnitude does not determine the balance.
+* **Deterministic feature replay does not certify a trace.** 445 stratified
+  waveforms were archived and put through a seven-check battery: 23,413 features
+  recomputed from the retained voltage match their stored values exactly, and
+  the battery still found two defect classes the campaign's own QC does not flag
+  — sub-physiological hyperpolarisation in 2 eligible traces, and slow baseline
+  settling drift in 31. Neither is visible to a check that compares feature rows.
+  See `docs/RESULTS.md` §5.5.
 
 ---
 
@@ -224,6 +275,44 @@ python tools/validate_campaign.py --all && python tools/validate_replay.py --exp
 
 ```bash
 pytest -m slow
+```
+
+Record the neuronal-validity gates as machine-readable evidence, tied to the
+commit, the environment and pytest's own exit status. The roll-up separates
+neuronal validity from exclusion bookkeeping, and carries a per-model matrix in
+which a model exempted from a gate's decisive test reads `exempt`, never `pass`:
+
+```bash
+python tools/record_numerical_gates.py --slow
+```
+
+Retain and inspect a stratified sample of actual voltage waveforms — feature
+replay proves a stored row reproduces, not that the trace behind it is plausible:
+
+```bash
+python tools/retain_waveforms.py --experiment screening --workers 12
+```
+
+Recompute a stored perturbation battery's statistics without re-simulating, for
+when the analysis changed and the simulations did not:
+
+```bash
+python tools/run_perturbations.py --reanalyse
+```
+
+Check that the stored release manifest still describes the tree it claims to
+(release rule 10 — every recorded artifact hash re-derived from disk):
+
+```bash
+python tools/build_release_manifest.py --verify
+```
+
+Verify the stored convergence evidence against the solver contract without
+re-running the audits, which cost hours per model and supersede rather than
+overwrite:
+
+```bash
+python tools/verify_convergence_evidence.py
 ```
 
 ## Layout

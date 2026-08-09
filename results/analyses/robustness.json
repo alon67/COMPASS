@@ -2,53 +2,61 @@
  "cluster_bootstrap_raw": {
   "synergy_area": {
    "endpoint": "synergy_area",
+   "cluster_col": "source_lineage_id",
+   "n_clusters": 6,
    "n_boot_effective": 2000,
    "n_infinite": 0,
-   "ratio_median": 11.878446871730489,
-   "ratio_q025": 3.3010808671915344,
-   "ratio_q975": 71.16807716987971,
+   "ratio_median": 11.506011729369217,
+   "ratio_q025": 2.697457374945709,
+   "ratio_q975": 46.92556732108986,
    "ratio_gt_2_fraction": 1.0,
-   "unique_sampling_median": 0.2180910493026887,
-   "unique_geometry_median": 0.026818571997219598,
-   "unique_identity_median": 0.020855756677906345
+   "unique_sampling_median": 0.22186002714331066,
+   "unique_geometry_median": 0.03440642360046009,
+   "unique_identity_median": 0.024170582269434582
   },
   "frac_synergy_o3": {
    "endpoint": "frac_synergy_o3",
+   "cluster_col": "source_lineage_id",
+   "n_clusters": 6,
    "n_boot_effective": 2000,
    "n_infinite": 0,
-   "ratio_median": 28.71963096867154,
-   "ratio_q025": 8.272682043745085,
-   "ratio_q975": 254.8500023808981,
+   "ratio_median": 30.031383199527347,
+   "ratio_q025": 5.059002915558701,
+   "ratio_q975": 428.05601819778923,
    "ratio_gt_2_fraction": 1.0,
-   "unique_sampling_median": 0.6897614326621389,
-   "unique_geometry_median": 0.03881110888368794,
-   "unique_identity_median": 0.025449812308410313
+   "unique_sampling_median": 0.6794806611387768,
+   "unique_geometry_median": 0.03882379779820694,
+   "unique_identity_median": 0.023225926476475256
   }
  },
  "cluster_bootstrap_matched": {
   "synergy_area": {
    "endpoint": "synergy_area",
-   "n_boot_effective": 2000,
+   "cluster_col": "source_lineage_id",
+   "n_clusters": 5,
+   "n_boot_effective": 1996,
    "n_infinite": 0,
-   "ratio_median": 12.558128510316015,
-   "ratio_q025": 3.601756153389089,
-   "ratio_q975": 60.491086075252625,
+   "ratio_median": 12.764835144399997,
+   "ratio_q025": 2.629938030677262,
+   "ratio_q975": 46.05503448543388,
    "ratio_gt_2_fraction": 1.0,
-   "unique_sampling_median": 0.23503496256081247,
-   "unique_geometry_median": 0.03415505583307149,
-   "unique_identity_median": 0.022520768465486785
+   "unique_sampling_median": 0.24166264430094486,
+   "unique_geometry_median": 0.03929416449932943,
+   "unique_identity_median": 0.025213523689636808
   },
   "frac_synergy_o3": {
    "endpoint": "frac_synergy_o3",
-   "n_boot_effective": 2000,
+   "cluster_col": "source_lineage_id",
+   "n_clusters": 5,
+   "n_boot_effective": 1996,
    "n_infinite": 0,
-   "ratio_median": 14.02070883453342,
-   "ratio_q025": 6.894505083038166,
-   "ratio_q975": 72.43479359751045,
+   "ratio_median": 11.005410663549585,
+   "ratio_q025": 6.4179445779937385,
+   "ratio_q975": 43.64033289668394,
    "ratio_gt_2_fraction": 1.0,
-   "unique_sampling_median": 0.4451207055015003,
-   "unique_geometry_median": 0.14480795901444876,
-   "unique_identity_median": 0.040128781935784674
+   "unique_sampling_median": 0.44195040667828134,
+   "unique_geometry_median": 0.14544423542889823,
+   "unique_identity_median": 0.046415204418421174
   }
  },
  "matched_draw_spread": {
@@ -71,21 +79,21 @@
  },
  "e7_marginal_balance": {
   "n_parameters_compared": 72,
-  "mean_ks_distance": 0.06574225014572846,
-  "max_ks_distance": 0.2,
-  "frac_ks_significant_p05": 0.16666666666666666,
-  "max_sd_ratio": 1.2207571502620407,
-  "min_sd_ratio": 0.8668033335708744,
-  "max_abs_mean_shift_sd": 0.22459698236535675,
+  "mean_ks_distance": 0.06420270860399875,
+  "max_ks_distance": 0.18333333333333332,
+  "frac_ks_significant_p05": 0.1527777777777778,
+  "max_sd_ratio": 1.2775104790674714,
+  "min_sd_ratio": 0.790534647900222,
+  "max_abs_mean_shift_sd": 0.26433882483058124,
   "per_model_mean_ks": {
-   "bbp_l5pc": 0.0662,
-   "hh_cable": 0.0465,
-   "hh_point": 0.0594,
-   "khaliq_purkinje": 0.0407,
-   "mainen_l5pc": 0.115,
-   "migliore_ca1": 0.1167,
-   "pospischil_fs": 0.033,
-   "pospischil_rs": 0.0363
+   "bbp_l5pc": 0.0696,
+   "hh_cable": 0.0449,
+   "hh_point": 0.0626,
+   "khaliq_purkinje": 0.0403,
+   "mainen_l5pc": 0.12,
+   "migliore_ca1": 0.0896,
+   "pospischil_fs": 0.03,
+   "pospischil_rs": 0.0394
   }
  }
 }

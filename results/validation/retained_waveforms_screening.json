@@ -1,0 +1,197 @@
+{
+ "tool": "retain_waveforms.py",
+ "written_utc": "2026-08-09T07:12:10.862876+00:00",
+ "experiment": "screening",
+ "n_selected": 445,
+ "n_clean": 406,
+ "n_with_problems": 39,
+ "n_features_recomputed": 23413,
+ "n_features_mismatched": 0,
+ "problems_by_kind": {
+  "voltage_range": 8,
+  "baseline_stability": 43
+ },
+ "coverage": {
+  "models": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "mainen_l5pc",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "regimes": [
+   "E1",
+   "E2",
+   "E6"
+  ],
+  "strata": [
+   "class_depolarisation_block",
+   "class_spontaneous",
+   "class_unstable",
+   "coverage",
+   "nonspiking",
+   "ordinary_random",
+   "prior_corner",
+   "qc_flagged",
+   "rate_max",
+   "rate_min"
+  ]
+ },
+ "checks": [
+  "voltage_range",
+  "baseline_stability",
+  "spike_shape",
+  "depolarisation_block",
+  "discontinuity",
+  "finite",
+  "feature_recomputation"
+ ],
+ "not_checked_here": "half-step agreement: a per-model property already measured by the convergence audits (gate N3) and the perturbation repeatability battery, not re-derived from a trace sample",
+ "traces_dir": "results/traces/retained",
+ "worst": [
+  {
+   "key": "khaliq_purkinje__E1__r1__s500",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-158.2, 53.1] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "khaliq_purkinje__E1__r1__s1793",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-190.1, 29.4] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "khaliq_purkinje__E2__r1__s556",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-161.8, 18.1] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "khaliq_purkinje__E2__r1__s58",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-152.8, -64.9] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E1__r1__s1951",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.05 mV, 10% of the 20.4 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E1__r1__s4116",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 0.66 mV, 10% of the 6.6 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E1__r1__s7055",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.40 mV, 14% of the 9.8 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E2__r1__s1002",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.06 mV, 10% of the 19.9 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E2__r1__s2276",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.10 mV, 12% of the 17.1 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E2__r1__s2445",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 0.69 mV, 10% of the 6.8 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E2__r1__s2955",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.73 mV, 10% of the 26.9 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_fs__E6__r1__s356",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.28 mV, 10% of the 22.7 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E1__r1__s109",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.99 mV, 11% of the 17.6 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E1__r1__s1367",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.47 mV, 20% of the 7.2 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E1__r1__s2814",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.15 mV, 12% of the 9.7 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E1__r1__s8133",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.68 mV, 23% of the 7.2 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E2__r1__s2114",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.29 mV, 11% of the 12.1 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 1.29 mV, 11% of the 11.2 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E2__r1__s2633",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.16 mV, 10% of the 21.5 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E6__r1__s680",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.90 mV, 14% of the 14.1 mV excursion"
+   ]
+  },
+  {
+   "key": "pospischil_rs__E6__r1__s405",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.63 mV, 14% of the 18.5 mV excursion"
+   ]
+  }
+ ]
+}

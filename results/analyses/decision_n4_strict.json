@@ -1,0 +1,224 @@
+{
+ "criteria": [
+  {
+   "criterion": "conditioning effect direction agreement across LINEAGES",
+   "supports": "H-G",
+   "value": 0.75,
+   "passed": false,
+   "detail": "toward synergy; 3/4 lineages (6 implementations); exact two-sided sign p=0.625"
+  },
+  {
+   "criterion": "high-covariance subset effect direction agreement (lineages)",
+   "supports": "H-G",
+   "value": 0.75,
+   "passed": false,
+   "detail": "toward redundancy; 3/4 lineages; exact two-sided sign p=0.625"
+  },
+  {
+   "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
+   "supports": "H-G",
+   "value": 1942.9853734876422,
+   "passed": true,
+   "detail": "sampling=0.161 geometry=0.033 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>1943x), not a point estimate"
+  },
+  {
+   "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
+   "supports": "H-G",
+   "value": 0.6184788120779406,
+   "passed": true,
+   "detail": "n_folds=4; leave-one-lineage-out, so no relative of the held-out model stays in training"
+  },
+  {
+   "criterion": "sampling regime predictable across unseen lineages",
+   "supports": "H-G",
+   "value": 0.300939983505773,
+   "passed": true,
+   "detail": "baseline=0.175, 11 classes, cv=leave_one_source_lineage_id_out"
+  },
+  {
+   "criterion": "statistical synergy modules validated by direct perturbation",
+   "supports": "H-B",
+   "value": 0.4444444444444444,
+   "passed": false,
+   "detail": "n_top=18, n_control=18; supported 0.444 vs control 0.167; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs)"
+  },
+  {
+   "criterion": "top-synergy tuples more non-additive than matched controls",
+   "supports": "H-B",
+   "value": 1.9145698995703115,
+   "passed": false,
+   "detail": "top=0.382 SD vs control=0.199 SD (ratio 1.91x); paired difference +0.182 SD, lineage-clustered 95% CI [-0.020, +0.530] over 3 lineages; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs). Scored on the lineage-clustered paired interval, not on the point ratio."
+  }
+ ],
+ "descriptive": [
+  {
+   "quantity": "within-campaign implementation identifiability (descriptive only)",
+   "value": 0.5817733990147783,
+   "detail": "baseline=0.177, 6 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
+  },
+  {
+   "quantity": "adjusted ICC of model identity (mixed model, descriptive only)",
+   "value": 0.16216422423293855,
+   "detail": "not scored: the fixed covariates are the H-G hypothesis, so the residual between-family share is not a fair test of H-B"
+  },
+  {
+   "quantity": "top-tuple Jaccard, Gaussian vs Gaussian-copula (descriptive only)",
+   "value": 0.8255390442890442,
+   "detail": "8 models over 31 ensemble cells, min per-model 0.67. Withdrawn as an H-B criterion by the 2026-08-06 audit (M6): both rankings come from Gaussian estimators on the SAME samples -- the copula transform only removes marginal non-Gaussianity -- so agreement between them measures estimator similarity, not module stability. Stability across independent samples is what blueprint 19.3 asks for and what the campaign-scramble replicate now supplies."
+  },
+  {
+   "quantity": "top vs random control point ratio (descriptive only)",
+   "value": 3.2473859658967674,
+   "detail": "top=0.382 SD vs control=0.118 SD (ratio 3.25x); paired difference +0.264 SD, lineage-clustered 95% CI [+0.022, +0.677] over 3 lineages; scope: repeatable implementations only (hh_cable, migliore_ca1, pospischil_rs). Not scored: same measurement as the criterion above with a different denominator."
+  }
+ ],
+ "thresholds": {
+  "cross_model_direction_agreement": 0.8,
+  "sampling_geometry_over_identity_ratio": 2.0,
+  "module_selection_probability": 0.8,
+  "perturbation_effect_sd": 0.25,
+  "lomo_r2_floor": 0.0,
+  "perturbation_min_repeatable_lineages": 3
+ },
+ "perturbation_precondition": {
+  "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+  "preregistered": false,
+  "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+  "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+  "status": "ok",
+  "models_in_battery": [
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "models_tested": [
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "models_untested": [],
+  "models_repeatable": [
+   "hh_cable",
+   "migliore_ca1",
+   "pospischil_rs"
+  ],
+  "models_not_repeatable": [
+   "hh_point",
+   "khaliq_purkinje",
+   "pospischil_fs"
+  ],
+  "n_repeatable_lineages": 3,
+  "evaluable": true,
+  "reason": "3 repeatable implementations over 3 lineages"
+ },
+ "n_hg_passed": 3,
+ "n_hg_total": 5,
+ "n_hb_passed": 0,
+ "n_hb_total": 2,
+ "conclusion": "H-G",
+ "conclusion_label": "H-G",
+ "hg_fraction_passed": 0.6,
+ "hb_fraction_passed": 0.0,
+ "perturbation_coverage": {
+  "models_in_endpoints": [
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "models_with_perturbation_data": [
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "missing_from_perturbation": [],
+  "complete": true,
+  "caveat": ""
+ },
+ "arm": "n4_strict",
+ "arm_description": "every N4-failing implementation excluded as well, so the headline can be read under full N1-N7 enforcement",
+ "excluded_models": [
+  "bbp_l5pc",
+  "mainen_l5pc",
+  "miyasho_purkinje",
+  "ortner_snc_da",
+  "tomko_ca1",
+  "tzilivaki_fsbc"
+ ],
+ "effective_sample": {
+  "n_rows_all": 314,
+  "n_rows_primary": 314,
+  "n_rows_primary_deduplicated": 282,
+  "n_model_ids": 6,
+  "n_model_ids_primary": 6,
+  "n_source_lineages": 4,
+  "n_source_lineages_primary": 4,
+  "n_neuron_classes": 5,
+  "n_classes_with_2plus_lineages": 0,
+  "n_classes_with_3plus_lineages": 0,
+  "lineage_members": {
+   "hodgkin_huxley_1952": [
+    "hh_cable",
+    "hh_point"
+   ],
+   "khaliq_2003": [
+    "khaliq_purkinje"
+   ],
+   "migliore_1999": [
+    "migliore_ca1"
+   ],
+   "pospischil_2008": [
+    "pospischil_fs",
+    "pospischil_rs"
+   ]
+  },
+  "excluded_from_primary": {},
+  "cohort_label": "gate-passing (N3 and N4 enforced)",
+  "n4_failing_models_retained": [],
+  "n4_unidentifiable_parameters": {},
+  "note": "clustering, folds and bootstraps use source_lineage_id, not model_id; the two differ and the difference is the whole point of the 2026-08-06 audit's finding 4"
+ },
+ "nested_variance_components": {
+  "endpoint": "synergy_area",
+  "n": 141,
+  "n_lineages": 4,
+  "n_implementations": 6,
+  "lineage": {
+   "var_group": 0.02162524435374982,
+   "var_residual": 0.1362798578190713,
+   "var_fixed": 0.8580510272974083,
+   "icc_adjusted": 0.13695089047902845,
+   "vpc": 0.021285608429791457,
+   "n_groups": 4,
+   "converged": true,
+   "method": "REML",
+   "loglike": -68.00454340957884,
+   "quotable": true,
+   "quotability_note": ""
+  },
+  "implementation": {
+   "var_group": 0.026301132136370566,
+   "var_residual": 0.13588712030203823,
+   "var_fixed": 0.8492026943895222,
+   "icc_adjusted": 0.16216422423293855,
+   "vpc": 0.02600491157139575,
+   "n_groups": 6,
+   "converged": true,
+   "method": "REML",
+   "loglike": -69.13691932443186,
+   "quotable": true,
+   "quotability_note": ""
+  }
+ }
+}

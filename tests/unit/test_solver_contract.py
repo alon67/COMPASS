@@ -161,3 +161,89 @@ def test_feature_schema_version_is_declared_when_the_extractor_changes():
         f"change cannot alter a stored feature -- in which case update "
         f"FEATURE_MODULE_DIGEST -- or it can, in which case bump the version so "
         f"shards extracted under the two definitions can never be pooled.")
+
+
+# --------------------------------------------------------------------------- #
+# The SAME guard, for every other module that can change a simulated value
+# --------------------------------------------------------------------------- #
+# Shard reuse compares semantic axes and deliberately ignores
+# `recorded_only.sim_code_hash`, so that a comment does not invalidate 130,098
+# simulations.  The post-response audit's objection is that only ONE of the
+# modules covered by that hash -- the feature extractor -- had a version-bump
+# guard behind it, leaving every other simulation-relevant module able to change
+# without either invalidating shards or failing review.
+#
+# The list below is `tools/run_campaign.py:SIM_CODE_PATHS` expanded to files,
+# with the digest each had when MEASUREMENT_SCHEMA_VERSION was last set.  The
+# test itself re-derives the file list from SIM_CODE_PATHS, so a NEW module
+# added under those paths fails too rather than slipping through unlisted.
+#
+# When one of these changes, exactly one of the following is true, and the
+# author has to say which:
+#   * it cannot alter a stored row (comment, docstring, type hint, a tool-only
+#     helper) -- update the digest here; or
+#   * it can -- bump MEASUREMENT_SCHEMA_VERSION so shards produced under the two
+#     definitions can never be pooled.
+SIM_MODULE_DIGESTS = {
+    "probe-2": {
+        "compass/adapters/__init__.py": "e3b0c44298fc1c14",
+        "compass/adapters/base.py": "7bcdb2b1808fcc49",
+        "compass/adapters/models.py": "1011d9b2b8c3eca3",
+        "compass/adapters/replication.py": "a190402bfe57ff64",
+        "compass/features/__init__.py": "e3b0c44298fc1c14",
+        "compass/features/extract.py": "7f7efafe586169eb",
+        "compass/protocols/__init__.py": "e3b0c44298fc1c14",
+        "compass/protocols/common.py": "92658dac2715659c",
+        "compass/sampling/__init__.py": "e3b0c44298fc1c14",
+        "compass/sampling/priors.py": "af352333ec9fe222",
+        "compass/workflows/simulate.py": "c6d2c1fcc02f2055",
+    },
+}
+
+
+def _sim_module_digests() -> dict[str, str]:
+    """Current digest of every file under run_campaign.SIM_CODE_PATHS."""
+    import hashlib
+    import importlib.util as iu
+    from pathlib import Path as _P
+
+    root = _P(__file__).resolve().parents[2]
+    spec = iu.spec_from_file_location("_rc", root / "tools" / "run_campaign.py")
+    rc = iu.module_from_spec(spec)
+    spec.loader.exec_module(rc)
+
+    out = {}
+    for rel in rc.SIM_CODE_PATHS:
+        p = root / "src" / rel
+        for f in (sorted(p.rglob("*.py")) if p.is_dir() else [p]):
+            key = f.relative_to(root / "src").as_posix()
+            out[key] = hashlib.sha256(f.read_bytes()).hexdigest()[:16]
+    return out
+
+
+def test_measurement_schema_version_is_declared_when_simulation_code_changes():
+    """Undeclared changes to simulation logic must fail review, not ship."""
+    from compass.adapters.base import MEASUREMENT_SCHEMA_VERSION
+
+    recorded = SIM_MODULE_DIGESTS.get(MEASUREMENT_SCHEMA_VERSION)
+    current = _sim_module_digests()
+    if recorded is None:
+        pytest.skip(
+            f"MEASUREMENT_SCHEMA_VERSION={MEASUREMENT_SCHEMA_VERSION!r} has no "
+            f"recorded digests yet. Add "
+            f"SIM_MODULE_DIGESTS[{MEASUREMENT_SCHEMA_VERSION!r}] = {current!r} "
+            f"to arm the check.")
+
+    added = sorted(set(current) - set(recorded))
+    removed = sorted(set(recorded) - set(current))
+    changed = sorted(k for k in set(current) & set(recorded)
+                     if current[k] != recorded[k])
+    assert not (added or removed or changed), (
+        f"simulation-relevant source changed while MEASUREMENT_SCHEMA_VERSION is "
+        f"still {MEASUREMENT_SCHEMA_VERSION!r}.\n"
+        f"  changed: {changed}\n  added:   {added}\n  removed: {removed}\n"
+        f"Shard reuse ignores recorded_only.sim_code_hash, so nothing else will "
+        f"notice. Either the change cannot alter a stored row -- update "
+        f"SIM_MODULE_DIGESTS[{MEASUREMENT_SCHEMA_VERSION!r}] with the current "
+        f"digests {current!r} -- or it can, in which case bump "
+        f"MEASUREMENT_SCHEMA_VERSION.")

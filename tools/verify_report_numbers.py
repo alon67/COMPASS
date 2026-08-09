@@ -110,6 +110,82 @@ FORBIDDEN = [
 # --------------------------------------------------------------------------- #
 
 
+def _git_rev() -> str:
+    try:
+        return subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True,
+                              text=True, cwd=ROOT, timeout=30).stdout.strip()
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+# Criterion phrases that must carry ONE value throughout the documents.
+#
+# String equality against a single expected occurrence cannot catch a stale
+# TABLE: the reviewed revision carried a second, eight-model decision table
+# whose every row named a real criterion and quoted a superseded number, and
+# nothing failed, because the CURRENT number also appeared elsewhere in the file
+# (post-response audit, section 3.4). The rule below is the one that catches it:
+# find every line that talks about a criterion, and require each of them either
+# to quote the current value or to be explicitly marked as superseded.
+#
+# Keyed by a distinctive phrase; the value is pulled from decision.json by
+# matching the start of the criterion name, so the check cannot drift from the
+# artifact.
+UNIQUE_VALUE = {
+    "conditioning effect direction agreement",
+    "high-covariance subset effect direction agreement",
+    "unique R2(sampling+geometry)",
+    "out-of-sample R2 for a held-out",
+    "sampling regime predictable across unseen lineages",
+    "statistical synergy modules validated by direct perturbation",
+    "top-synergy tuples more non-additive than matched controls",
+}
+
+
+def criterion_consistency(dec: dict | None, marker: re.Pattern) -> list[str]:
+    """Every line naming a criterion must quote its CURRENT value, or be marked."""
+    if not dec:
+        return []
+    out = []
+    entries = [(c["criterion"], c["value"]) for c in dec.get("criteria", [])]
+    entries += [(q["quantity"], q["value"]) for q in dec.get("descriptive", [])]
+    for name, value in entries:
+        key = next((k for k in UNIQUE_VALUE if name.lower().startswith(k.lower())),
+                   None)
+        if key is None or not isinstance(value, int | float):
+            continue
+        # Accept any rounding the documents plausibly use -- but never a
+        # zero-decimal one. `f"{0.8:.0f}"` is "1", and "1" is a substring of
+        # almost every table row, so including it made the check pass on the
+        # very rows it exists to catch.
+        allowed = {f"{value:.{p}f}" for p in range(1, 5)}
+        allowed |= {f"{value:.{p}f}".rstrip("0").rstrip(".") for p in range(1, 5)}
+        if float(value).is_integer():
+            allowed.add(str(int(value)))
+        # A ratio may be written 2.97x or 2.971
+        allowed |= {f"{value:.2f}x", f"{value:.1f}x"}
+        # Guard against an accepted form so short it matches by accident.
+        allowed = {a for a in allowed if len(a) >= 3}
+        for doc, txt in DOCS.items():
+            lines = txt.splitlines()
+            for i, line in enumerate(lines):
+                if key.lower() not in line.lower():
+                    continue
+                if any(a in line for a in allowed):
+                    continue
+                # A line that quotes no number at all is prose, not a table row.
+                if not re.search(r"\d\.\d", line):
+                    continue
+                window = " ".join(lines[max(0, i - 3):i + 2])
+                if marker.search(window):
+                    continue
+                out.append(
+                    f"  [stale] {doc}: a line about '{key}' quotes a number that "
+                    f"is not the current {value:.4g} and carries no correction "
+                    f"marker:\n      {line.strip()[:110]}")
+    return out
+
+
 def repo_facts() -> list[tuple[str, bool, str]]:
     """(description, ok, detail) for claims about the repository itself."""
     out = []
@@ -175,7 +251,16 @@ def repo_facts() -> list[tuple[str, bool, str]]:
 
 def main() -> int:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--write-manifest", action="store_true")
+    # `--write-manifest` used to be guarded by `if args.write_manifest or True`,
+    # i.e. the flag did nothing and the manifest was rewritten on every run
+    # whatever the caller asked for.  Writing it by default is right -- the
+    # release manifest hashes it as evidence -- but the flag has to mean
+    # something, so the default is now explicit and the opt-OUT is real
+    # (post-response audit, section 3.4).
+    ap.add_argument("--no-write-manifest", action="store_true",
+                    help="check only; do not rewrite claim_manifest.json. Use "
+                         "when re-verifying a released tree, so the artifact "
+                         "hash recorded in release_manifest.json still matches.")
     args = ap.parse_args()
 
     dec = _load("decision.json")
@@ -304,6 +389,17 @@ def main() -> int:
         "8.5×": "matched variance ratio before target correction",
         "12.743": "median intrinsic dimension under the biased TwoNN",
         "18.57": "unique-R2 ratio under the biased TwoNN",
+        # Values the post-response audit found still standing in RESULTS.md
+        # after the regeneration. Each is a real number from a real earlier run;
+        # what makes it a defect is appearing without a correction marker beside
+        # the value that superseded it.
+        "1843.55": "unique-R2 ratio before the regenerated screening tables",
+        "0.7310": "lineage LOMO median R2 before the true lineage folds",
+        "0.4352": "regime-classifier accuracy under model-id folds",
+        "0.2381": "functional-support fraction before the regenerated battery",
+        "2.1250": "perturbation matched ratio before the regenerated battery",
+        "7/42": "Sobol quotable count before the expansion campaign",
+        "0/5 models": "perturbation repeatability before the half-step reruns",
     }
     MARKER = re.compile(
         r"earlier|previous|before|withdraw|was |old |orig|superseded|pre-audit|"
@@ -327,33 +423,50 @@ def main() -> int:
                         f"  [retired] {d}: '{bad}' ({why}) appears without a "
                         f"correction marker:\n      {line.strip()[:110]}")
 
+    failures.extend(criterion_consistency(dec, MARKER))
+
     facts = repo_facts()
     for desc, ok, detail in facts:
         if not ok:
             failures.append(f"  [fact] {desc}: {detail}")
 
-    if args.write_manifest or True:
+    if not args.no_write_manifest:
         MANIFEST.parent.mkdir(parents=True, exist_ok=True)
         MANIFEST.write_text(json.dumps({
-            "written_utc": datetime.now(UTC).isoformat(),
+            # No wall-clock timestamp. This file is hashed into
+            # release_manifest.json, and a timestamp made its hash change on
+            # every run -- so a re-verification of an unchanged tree
+            # invalidated the release manifest that had just been built from
+            # it, which is how the reviewed revision came to have a
+            # claim_manifest.json whose recorded hash no longer matched. The
+            # revision identifies the state; the content is now a pure function
+            # of the inputs.
+            "git_revision": _git_rev(),
             "n_claims": len(CLAIMS),
             "claims": CLAIMS,
             "forbidden_wording": [{"pattern": p, "reason": w} for p, w in FORBIDDEN],
             "retired_values": RETIRED,
-            "repository_facts": [{"check": d, "ok": o, "detail": t}
-                                 for d, o, t in facts],
+            "unique_value_claims": sorted(UNIQUE_VALUE),
+            # check + verdict only. Two of these details embed file mtimes,
+            # which change on a checkout without any content changing, and this
+            # file has to hash deterministically. The details are printed and,
+            # when a check fails, appear in the failure list.
+            "repository_facts": [{"check": d, "ok": o} for d, o, _t in facts],
             "n_failures": len(failures),
         }, indent=1, default=str))
 
+    where = (f"claim manifest -> {MANIFEST}" if not args.no_write_manifest
+             else "claim manifest NOT rewritten (--no-write-manifest)")
     if failures:
         print(f"FAILED: {len(failures)} inconsistency(ies)\n")
         print("\n".join(failures))
-        print(f"\nclaim manifest -> {MANIFEST}")
+        print(f"\n{where}")
         return 1
     print(f"OK: {len(CLAIMS)} claims match their artefacts; "
           f"{len(FORBIDDEN)} forbidden phrasings absent; "
+          f"{len(UNIQUE_VALUE)} criteria carry a single value; "
           f"{len(facts)} repository facts hold.")
-    print(f"claim manifest -> {MANIFEST}")
+    print(where)
     return 0
 
 

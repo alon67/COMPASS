@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-09T05:51:13.521392+00:00",
- "git_tree": "2eb2dfe0da78c6a92219cf092f06fa35a4967e3b-dirty",
+ "written_utc": "2026-08-09T09:03:43.044941+00:00",
+ "git_tree": "9fe015be28c7ecf3358732eca24f593f7dec5966-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -326,6 +326,18 @@
  },
  "artifacts": [
   {
+   "path": "results/analyses/_perturbation_cache/bbp_l5pc_dt_half_raw.parquet",
+   "bytes": 56949,
+   "sha256": "ef69d9d7c5d3eaacbf07b854e69c4eb4",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/bbp_l5pc_dt_half_summary.parquet",
+   "bytes": 14066,
+   "sha256": "f588554726738a0eb18885f9e45cc132",
+   "rows": 90
+  },
+  {
    "path": "results/analyses/_perturbation_cache/bbp_l5pc_main_raw.parquet",
    "bytes": 57156,
    "sha256": "95f30b4323ad3495aeba07540977e9e3",
@@ -410,6 +422,18 @@
    "rows": 90
   },
   {
+   "path": "results/analyses/_perturbation_cache/migliore_ca1_dt_half_raw.parquet",
+   "bytes": 43645,
+   "sha256": "06fe245fa2961bcabc21f164cba4631e",
+   "rows": 720
+  },
+  {
+   "path": "results/analyses/_perturbation_cache/migliore_ca1_dt_half_summary.parquet",
+   "bytes": 14638,
+   "sha256": "c62f3814d55aab856d050147cd1a5c95",
+   "rows": 90
+  },
+  {
    "path": "results/analyses/_perturbation_cache/migliore_ca1_main_raw.parquet",
    "bytes": 44476,
    "sha256": "19dbb2ebc0d5430bf5f32161008021a0",
@@ -476,8 +500,8 @@
   },
   {
    "path": "results/analyses/claim_manifest.json",
-   "bytes": 7640,
-   "sha256": "70906adc5faa24c2bd542333f9392f54"
+   "bytes": 8254,
+   "sha256": "efa6ee2689c5ad7fd82dd9d7cac51acd"
   },
   {
    "path": "results/analyses/classification.parquet",
@@ -501,6 +525,18 @@
    "path": "results/analyses/classification_drop_failed_feature.parquet",
    "bytes": 5272,
    "sha256": "9db90845eccb97d27864513fefb1e121",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/classification_n4_projected.parquet",
+   "bytes": 5264,
+   "sha256": "25f23c82f82c712897aedb5f7f4bf162",
+   "rows": 2
+  },
+  {
+   "path": "results/analyses/classification_n4_strict.parquet",
+   "bytes": 5272,
+   "sha256": "319cf7a5203bb90d074a78e7026154a0",
    "rows": 2
   },
   {
@@ -546,6 +582,18 @@
    "rows": 210
   },
   {
+   "path": "results/analyses/conditioning_shift_n4_projected.parquet",
+   "bytes": 16993,
+   "sha256": "31b0d6616ff71d08da205c205199f549",
+   "rows": 190
+  },
+  {
+   "path": "results/analyses/conditioning_shift_n4_strict.parquet",
+   "bytes": 15902,
+   "sha256": "f8d0a3abbd6f10945daaa59405a306a1",
+   "rows": 162
+  },
+  {
    "path": "results/analyses/conditioning_shift_replication_only.parquet",
    "bytes": 12176,
    "sha256": "0f6053171ba660a2aa3e72ffa073c391",
@@ -588,6 +636,18 @@
    "rows": 114
   },
   {
+   "path": "results/analyses/covariance_shift_n4_projected.parquet",
+   "bytes": 11062,
+   "sha256": "ff4ee2c62a3d5f1aab32fd2fbd9f70d7",
+   "rows": 102
+  },
+  {
+   "path": "results/analyses/covariance_shift_n4_strict.parquet",
+   "bytes": 10524,
+   "sha256": "1e99321b6d4ee598a761b7c6cbe75a48",
+   "rows": 86
+  },
+  {
    "path": "results/analyses/covariance_shift_replication_only.parquet",
    "bytes": 8969,
    "sha256": "e28c9c2f7025944c5a47564662c88b99",
@@ -607,66 +667,82 @@
   },
   {
    "path": "results/analyses/decision.json",
-   "bytes": 6050,
-   "sha256": "6bb7ec8a8fc7e91869ec1f14fc72e1fd"
+   "bytes": 8278,
+   "sha256": "23ec5fd8fdc7c9079a6d8623e3de0831"
   },
   {
    "path": "results/analyses/decision_all_models.json",
-   "bytes": 6418,
-   "sha256": "5cd7543e233c46ddcabd5ea74ac634be"
+   "bytes": 8428,
+   "sha256": "3b84ef2fb5c1138eb74b28f4b0ddc620"
   },
   {
    "path": "results/analyses/decision_discovery_only.json",
-   "bytes": 6158,
-   "sha256": "d49092bd520be51509ecf887f796e89d"
+   "bytes": 8315,
+   "sha256": "0cef9924732ed258d7b415a5d2396be2"
   },
   {
    "path": "results/analyses/decision_drop_failed_feature.json",
-   "bytes": 6617,
-   "sha256": "b5e100ebd282a8a43b84c223edc41055"
+   "bytes": 8627,
+   "sha256": "f84aed8fcf1e7c40bbc6e9634e54013f"
+  },
+  {
+   "path": "results/analyses/decision_n4_projected.json",
+   "bytes": 8604,
+   "sha256": "274bae8ac08bf95d540684661a3f35ad"
+  },
+  {
+   "path": "results/analyses/decision_n4_strict.json",
+   "bytes": 7940,
+   "sha256": "f4f5c661551909128219756bf2eebd93"
   },
   {
    "path": "results/analyses/decision_replication_only.json",
-   "bytes": 5068,
-   "sha256": "2dcda2250be987d4cc6762d6fec6851e"
+   "bytes": 6334,
+   "sha256": "d63fe01dca1c3d810ba46b6a3ada3ac1"
   },
   {
    "path": "results/analyses/decision_retain_mainen.json",
-   "bytes": 6526,
-   "sha256": "ad939b6341dc2f7a241ba11dc4c54f21"
+   "bytes": 8536,
+   "sha256": "8066622e250795de69cdf3ccf3947b7a"
   },
   {
    "path": "results/analyses/decision_retain_partial_coverage.json",
-   "bytes": 6056,
-   "sha256": "a2784c8d74060952ec23af3172b0497a"
+   "bytes": 8213,
+   "sha256": "95e55b63d2696f319dc9042b53a20306"
   },
   {
    "path": "results/analyses/decision_sensitivity.json",
-   "bytes": 14994,
-   "sha256": "0056f35fec99df631978caff43082c16"
+   "bytes": 34080,
+   "sha256": "03173955c72c75be4702966861e60c97"
   },
   {
    "path": "results/analyses/e7_marginal_balance.parquet",
-   "bytes": 8032,
-   "sha256": "dd93ada52f9dafc16825a46b179022bc",
+   "bytes": 8022,
+   "sha256": "4c4395a69aa248b4f85e870ce4c40d0e",
    "rows": 72
   },
   {
    "path": "results/analyses/endpoints_annotated_screening.parquet",
-   "bytes": 81854,
-   "sha256": "2a1312ce690bbd82f9117a16eef06c9f",
+   "bytes": 88451,
+   "sha256": "740d050dcbdfb37a7e5d95cbff5f56a6",
    "rows": 410
   },
   {
    "path": "results/analyses/endpoints_annotated_screening_dropfeat.parquet",
-   "bytes": 81834,
-   "sha256": "22750e5b56f26651fc57f54a1211d7d9",
+   "bytes": 88431,
+   "sha256": "daa46c4a6929482f45077130b9e38d98",
+   "rows": 410
+  },
+  {
+   "path": "results/analyses/endpoints_annotated_screening_n4proj.parquet",
+   "bytes": 88649,
+   "sha256": "b74da9a4f581a627bb5a1b7b6756e9bb",
    "rows": 410
   },
   {
    "path": "results/analyses/endpoints_annotated_screening_v2_replication.parquet",
-   "bytes": 50069,
-   "sha256": "0eccd6b7a81373dc18481f3ecc0899e0",
+   "bytes": 56079,
+   "sha256": "fca662e41dfa22ee27dc5dbd3b78d5b2",
    "rows": 128
   },
   {
@@ -677,32 +753,44 @@
   },
   {
    "path": "results/analyses/endpoints_screening.parquet",
-   "bytes": 74855,
-   "sha256": "00ae8813e223754b6c99c1fd28b3062c",
+   "bytes": 81448,
+   "sha256": "2a0fd478c58ddf46035e9ba418289e77",
    "rows": 410
   },
   {
    "path": "results/analyses/endpoints_screening_dropfeat.parquet",
-   "bytes": 74835,
-   "sha256": "77462811e496d20711a8967fd495a293",
+   "bytes": 81428,
+   "sha256": "ef47883df563b4a955cb4923676c9037",
+   "rows": 410
+  },
+  {
+   "path": "results/analyses/endpoints_screening_n4proj.parquet",
+   "bytes": 81646,
+   "sha256": "e8c72451b811e22bac286fc949051dd6",
    "rows": 410
   },
   {
    "path": "results/analyses/endpoints_screening_qc_strict.parquet",
-   "bytes": 73613,
-   "sha256": "2092bec86f837b0f809479ef18fb2ef1",
+   "bytes": 80235,
+   "sha256": "c421e9c59a8d5cdd4310a2ed92b39c7a",
    "rows": 394
   },
   {
    "path": "results/analyses/endpoints_screening_scramble2.parquet",
-   "bytes": 62101,
-   "sha256": "a4ecd91d7ebd6aaffbb9f6656de4e09d",
+   "bytes": 68462,
+   "sha256": "70c282f8e1b25530e4c6217ecf880d48",
    "rows": 308
   },
   {
    "path": "results/analyses/endpoints_screening_v2_replication.parquet",
-   "bytes": 43299,
-   "sha256": "79617688135072c010caec6f0f5c8af8",
+   "bytes": 49305,
+   "sha256": "0d8828c85f653ac9c4608a19f0ff6125",
+   "rows": 128
+  },
+  {
+   "path": "results/analyses/endpoints_screening_v2_replication_n4proj.parquet",
+   "bytes": 49529,
+   "sha256": "5276bef435c50d04d61ae3ee8ee7c7ea",
    "rows": 128
   },
   {
@@ -712,8 +800,8 @@
   },
   {
    "path": "results/analyses/key_numbers.json",
-   "bytes": 37118,
-   "sha256": "8237f468720862c7127f7cdd1d4f5863"
+   "bytes": 41909,
+   "sha256": "3f91c8b57491c37118f41b2087e5f9f9"
   },
   {
    "path": "results/analyses/lomo.parquet",
@@ -738,6 +826,18 @@
    "bytes": 10249,
    "sha256": "91b09a862de873504e5d0931b24762bf",
    "rows": 280
+  },
+  {
+   "path": "results/analyses/lomo_n4_projected.parquet",
+   "bytes": 9752,
+   "sha256": "33ee4caede0feac601335dff60b4f78a",
+   "rows": 240
+  },
+  {
+   "path": "results/analyses/lomo_n4_strict.parquet",
+   "bytes": 9367,
+   "sha256": "c995b5fcc3a0f69055e60d796800d12f",
+   "rows": 200
   },
   {
    "path": "results/analyses/lomo_replication_only.parquet",
@@ -771,38 +871,48 @@
   },
   {
    "path": "results/analyses/mixed_effects.json",
-   "bytes": 1080,
-   "sha256": "cadb3499d1632faf1aa3060514a11af4"
+   "bytes": 1323,
+   "sha256": "7dbeeefcad338f9e91cae83533a1a5da"
   },
   {
    "path": "results/analyses/mixed_effects_all_models.json",
-   "bytes": 1079,
-   "sha256": "1476afb369a53e178e68019cde4f9397"
+   "bytes": 1175,
+   "sha256": "5006986033fa5edbd47a0c8a5eb059ee"
   },
   {
    "path": "results/analyses/mixed_effects_discovery_only.json",
-   "bytes": 1080,
-   "sha256": "cadb3499d1632faf1aa3060514a11af4"
+   "bytes": 1323,
+   "sha256": "7dbeeefcad338f9e91cae83533a1a5da"
   },
   {
    "path": "results/analyses/mixed_effects_drop_failed_feature.json",
-   "bytes": 1078,
-   "sha256": "15fefe64cc7a2418bc48d5d9f1d0fd06"
+   "bytes": 1174,
+   "sha256": "27634ff17dd3d06396e1544170863248"
+  },
+  {
+   "path": "results/analyses/mixed_effects_n4_projected.json",
+   "bytes": 1319,
+   "sha256": "710687ded33bdaf8954583654ce88de0"
+  },
+  {
+   "path": "results/analyses/mixed_effects_n4_strict.json",
+   "bytes": 1173,
+   "sha256": "f0273cbde86b6b52c878719ba34e0266"
   },
   {
    "path": "results/analyses/mixed_effects_replication_only.json",
-   "bytes": 1072,
-   "sha256": "5bb9c8efa08f0a081b50a85393faef55"
+   "bytes": 1168,
+   "sha256": "2698e0e5f6be3d045676f1a4d700f8f9"
   },
   {
    "path": "results/analyses/mixed_effects_retain_mainen.json",
-   "bytes": 1079,
-   "sha256": "1476afb369a53e178e68019cde4f9397"
+   "bytes": 1175,
+   "sha256": "5006986033fa5edbd47a0c8a5eb059ee"
   },
   {
    "path": "results/analyses/mixed_effects_retain_partial_coverage.json",
-   "bytes": 1080,
-   "sha256": "cadb3499d1632faf1aa3060514a11af4"
+   "bytes": 1323,
+   "sha256": "7dbeeefcad338f9e91cae83533a1a5da"
   },
   {
    "path": "results/analyses/module_stability.parquet",
@@ -820,6 +930,12 @@
    "path": "results/analyses/order_curves_screening_dropfeat.parquet",
    "bytes": 118502,
    "sha256": "a09504dd261e154c010b491e0fdaad99",
+   "rows": 1230
+  },
+  {
+   "path": "results/analyses/order_curves_screening_n4proj.parquet",
+   "bytes": 118852,
+   "sha256": "6dc011a18cbf01a2f63a10216f1d47f6",
    "rows": 1230
   },
   {
@@ -841,9 +957,15 @@
    "rows": 384
   },
   {
+   "path": "results/analyses/order_curves_screening_v2_replication_n4proj.parquet",
+   "bytes": 50574,
+   "sha256": "732ad42b9e5260da7bb2a3cab8ff5c95",
+   "rows": 384
+  },
+  {
    "path": "results/analyses/perturbation_inference.json",
-   "bytes": 4736,
-   "sha256": "0e09e258e82fc75b2609d84070daf881"
+   "bytes": 5174,
+   "sha256": "c06aa27a605cb2db212520767733900e"
   },
   {
    "path": "results/analyses/perturbation_inference.parquet",
@@ -859,9 +981,9 @@
   },
   {
    "path": "results/analyses/perturbations_dt_half.parquet",
-   "bytes": 27978,
-   "sha256": "ff7c4a87038a9abf8b423c39e6e89d00",
-   "rows": 450
+   "bytes": 34486,
+   "sha256": "a8ab7fb41384cfdc454ba044f8d9d826",
+   "rows": 630
   },
   {
    "path": "results/analyses/perturbations_fast5.parquet",
@@ -877,9 +999,9 @@
   },
   {
    "path": "results/analyses/perturbations_raw_dt_half.parquet",
-   "bytes": 144174,
-   "sha256": "c1ac5dfdd3bf3e215deee63a962e0f5b",
-   "rows": 3600
+   "bytes": 220172,
+   "sha256": "e842c97f90c16d7ec68060171890cef3",
+   "rows": 5040
   },
   {
    "path": "results/analyses/perturbations_raw_fast5.parquet",
@@ -889,13 +1011,13 @@
   },
   {
    "path": "results/analyses/perturbations_summary.json",
-   "bytes": 5318,
-   "sha256": "2b254e5aca8a88d2748fba6a9c1c424c"
+   "bytes": 6341,
+   "sha256": "243b0ee186e880250feae8d20700e82c"
   },
   {
    "path": "results/analyses/perturbations_summary_dt_half.json",
-   "bytes": 5285,
-   "sha256": "06465ee4d41f4f739ff129af50650a95"
+   "bytes": 5666,
+   "sha256": "e71cc7088927fd6773434ba82c90d9cd"
   },
   {
    "path": "results/analyses/perturbations_summary_fast5.json",
@@ -904,8 +1026,8 @@
   },
   {
    "path": "results/analyses/robustness.json",
-   "bytes": 2640,
-   "sha256": "80efd05da5257334b4cf4b0f5af67b75"
+   "bytes": 2891,
+   "sha256": "b870f60908bb0a72dadb5576d5c99702"
   },
   {
    "path": "results/analyses/rsi_screening.parquet",
@@ -918,6 +1040,12 @@
    "bytes": 67522,
    "sha256": "be2652bfe10366dcca83b33064f30d5d",
    "rows": 1616
+  },
+  {
+   "path": "results/analyses/rsi_screening_n4proj.parquet",
+   "bytes": 66477,
+   "sha256": "664450ad1187b682d2c74bfb10b2a89c",
+   "rows": 1600
   },
   {
    "path": "results/analyses/rsi_screening_qc_strict.parquet",
@@ -935,6 +1063,12 @@
    "path": "results/analyses/rsi_screening_v2_replication.parquet",
    "bytes": 27908,
    "sha256": "8a688d39681ce8e781bc3364c676cdbb",
+   "rows": 528
+  },
+  {
+   "path": "results/analyses/rsi_screening_v2_replication_n4proj.parquet",
+   "bytes": 28024,
+   "sha256": "c68ef44a9a095b8bfddf65a80b0b16b4",
    "rows": 528
   },
   {
@@ -968,6 +1102,12 @@
    "rows": 46876
   },
   {
+   "path": "results/analyses/tuple_scores_screening_n4proj.parquet",
+   "bytes": 350105,
+   "sha256": "95a4d4aa9630ff0ab6d04a7eaa7945a2",
+   "rows": 37412
+  },
+  {
    "path": "results/analyses/tuple_scores_screening_qc_strict.parquet",
    "bytes": 424155,
    "sha256": "f028909d93ca48c04a2b3f212dc1ebc2",
@@ -984,6 +1124,12 @@
    "bytes": 424800,
    "sha256": "274b6e14c746720fe08fb5cc00126e36",
    "rows": 44458
+  },
+  {
+   "path": "results/analyses/tuple_scores_screening_v2_replication_n4proj.parquet",
+   "bytes": 301917,
+   "sha256": "054a8cf37bf56fbcd9b91911e834f215",
+   "rows": 31306
   },
   {
    "path": "results/analyses/variance_partition.parquet",
@@ -1007,6 +1153,18 @@
    "path": "results/analyses/variance_partition_drop_failed_feature.parquet",
    "bytes": 5156,
    "sha256": "74f92ca53f0fcd1db0b78efe547aa8a3",
+   "rows": 20
+  },
+  {
+   "path": "results/analyses/variance_partition_n4_projected.parquet",
+   "bytes": 5160,
+   "sha256": "169c2212b581bd2dc0d575121da52570",
+   "rows": 20
+  },
+  {
+   "path": "results/analyses/variance_partition_n4_strict.parquet",
+   "bytes": 5160,
+   "sha256": "8cd1ca5d58d7d36fa3aeee4a1cdd996d",
    "rows": 20
   },
   {
@@ -1168,9 +1326,14 @@
    "sha256": "8a27d04fbed300fd332d3ee36f9e1aa2"
   },
   {
+   "path": "results/validation/convergence_evidence.json",
+   "bytes": 5474,
+   "sha256": "798f3caac8521a1376546fa8d7452385"
+  },
+  {
    "path": "results/validation/numerical_gates.json",
-   "bytes": 1930,
-   "sha256": "411e98493eb521621ca4665d35d5e124"
+   "bytes": 7017,
+   "sha256": "ccbe1924edc907040194c683708d8bda"
   },
   {
    "path": "results/validation/replay_gate_screening.json",
@@ -1193,6 +1356,22 @@
    "bytes": 14680,
    "sha256": "d8d1e8bc27f19cc235675646e38fae1b",
    "rows": 531
+  },
+  {
+   "path": "results/validation/retained_waveforms_screening.json",
+   "bytes": 5183,
+   "sha256": "a34a9e4d259aed35369818dbc0121f64"
+  },
+  {
+   "path": "results/validation/retained_waveforms_screening.parquet",
+   "bytes": 27413,
+   "sha256": "457885653eaee75984ac79f705c1e401",
+   "rows": 445
+  },
+  {
+   "path": "results/validation/waveform_gate_screening.json",
+   "bytes": 486962,
+   "sha256": "6b738154d976675410231e3dc940a914"
   }
  ],
  "gates": {
@@ -1256,8 +1435,8 @@
    ]
   },
   "N3": {
-   "n": 46,
-   "passed": 46,
+   "n": 38,
+   "passed": 38,
    "failed": [],
    "sources": [
     "numerical_gates.json"
@@ -1283,8 +1462,8 @@
    ]
   },
   "N6": {
-   "n": 97,
-   "passed": 97,
+   "n": 95,
+   "passed": 95,
    "failed": [],
    "sources": [
     "numerical_gates.json"
@@ -1306,13 +1485,210 @@
     "replay_gate_screening.json",
     "replay_gate_screening_v2_replication.json"
    ]
+  },
+  "WAVEFORM": {
+   "n": 445,
+   "passed": 406,
+   "failed": [
+    "khaliq_purkinje__E1__r1__s500[FAIL]",
+    "khaliq_purkinje__E1__r1__s1793[FAIL]",
+    "khaliq_purkinje__E2__r1__s556[FAIL]",
+    "khaliq_purkinje__E2__r1__s58[FAIL]",
+    "pospischil_fs__E1__r1__s1951[FAIL]",
+    "pospischil_fs__E1__r1__s4116[FAIL]",
+    "pospischil_fs__E1__r1__s7055[FAIL]",
+    "pospischil_fs__E2__r1__s1002[FAIL]",
+    "pospischil_fs__E2__r1__s2276[FAIL]",
+    "pospischil_fs__E2__r1__s2445[FAIL]",
+    "pospischil_fs__E2__r1__s2955[FAIL]",
+    "pospischil_fs__E6__r1__s356[FAIL]",
+    "pospischil_rs__E1__r1__s109[FAIL]",
+    "pospischil_rs__E1__r1__s1367[FAIL]",
+    "pospischil_rs__E1__r1__s2814[FAIL]",
+    "pospischil_rs__E1__r1__s8133[FAIL]",
+    "pospischil_rs__E2__r1__s2114[FAIL]",
+    "pospischil_rs__E2__r1__s2633[FAIL]",
+    "pospischil_rs__E6__r1__s680[FAIL]",
+    "pospischil_rs__E6__r1__s405[FAIL]",
+    "pospischil_rs__E6__r1__s1846[FAIL]",
+    "pospischil_rs__E6__r1__s2813[FAIL]",
+    "pospischil_rs__E6__r1__s2429[FAIL]",
+    "pospischil_rs__E6__r1__s3047[FAIL]",
+    "bbp_l5pc__E1__r1__s510[FAIL]",
+    "bbp_l5pc__E2__r1__s163[FAIL]",
+    "bbp_l5pc__E2__r1__s176[FAIL]",
+    "bbp_l5pc__E2__r1__s74[FAIL]",
+    "bbp_l5pc__E2__r1__s511[FAIL]",
+    "bbp_l5pc__E6__r1__s344[FAIL]",
+    "khaliq_purkinje__E1__r1__s2926[FAIL]",
+    "khaliq_purkinje__E2__r1__s313[FAIL]",
+    "khaliq_purkinje__E2__r1__s1822[FAIL]",
+    "khaliq_purkinje__E6__r1__s1553[FAIL]",
+    "khaliq_purkinje__E6__r1__s1850[FAIL]",
+    "mainen_l5pc__E1__r1__s82[FAIL]",
+    "pospischil_fs__E1__r1__s5120[FAIL]",
+    "pospischil_fs__E1__r1__s7715[FAIL]",
+    "pospischil_rs__E6__r1__s83[FAIL]"
+   ],
+   "sources": [
+    "waveform_gate_screening.json"
+   ]
+  }
+ },
+ "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1",
+ "n4_unidentifiable_parameters": {
+  "bbp_l5pc": [
+   "gcalva_apical",
+   "gskv3_apical"
+  ],
+  "tomko_ca1": [
+   "gcal_soma",
+   "gcat_soma",
+   "gkdr_soma"
+  ]
+ },
+ "confirmatory_release_gates": {
+  "source": "COMPASS_INDEPENDENT_POST_RESPONSE_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md, section 7",
+  "n_met": 5,
+  "n_total": 13,
+  "met": [
+   "4_half_step_battery_covers_every_primary_model",
+   "6_gate_evidence_is_tied_to_commit_and_environment",
+   "7_rollups_separate_validity_from_exclusion_policy",
+   "8_high_impact_fixes_have_regression_tests",
+   "9_report_tables_generated_from_one_manifest"
+  ],
+  "not_met": [
+   "1_n2_source_trace_reproduction",
+   "2_n1_and_n4_pass_for_included_models",
+   "3_n4_failures_excluded_or_confined",
+   "11_stratified_waveforms_retained_and_inspected",
+   "13_reproduced_from_a_committed_tagged_revision"
+  ],
+  "not_machine_decidable": [
+   "5_run_all_completes_in_dependency_order",
+   "10_manifest_hashes_match_every_artifact",
+   "12_lineage_level_inference_throughout"
+  ],
+  "note": "a condition that cannot be decided from the tree is counted as NOT met. These are the conditions for describing the project as CONFIRMATORY; they are stricter than the fail-closed gate set that decides the release verdict.",
+  "checks": {
+   "1_n2_source_trace_reproduction": {
+    "requirement": "N2 strict source-trace reproduction is implemented",
+    "met": false,
+    "evidence": "N2 roll-up 0/0"
+   },
+   "2_n1_and_n4_pass_for_included_models": {
+    "requirement": "N1 and N4 pass for every inferentially included implementation",
+    "met": false,
+    "evidence": {
+     "N1": "82/84",
+     "N4": "54/56"
+    }
+   },
+   "3_n4_failures_excluded_or_confined": {
+    "requirement": "BBP and Tomko are remediated, excluded, or explicitly confined to exploratory sensitivity arms",
+    "met": false,
+    "evidence": {
+     "retained_in_primary": [
+      "bbp_l5pc",
+      "tomko_ca1"
+     ],
+     "arms_available": [
+      "n4_strict",
+      "n4_projected"
+     ],
+     "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1"
+    }
+   },
+   "4_half_step_battery_covers_every_primary_model": {
+    "requirement": "the half-step perturbation battery covers every primary model, and decision scoring obeys its repeatability outcome",
+    "met": true,
+    "evidence": {
+     "models_tested": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_untested": [],
+     "n_repeatable": 3,
+     "scoring_obeys_it": true
+    }
+   },
+   "5_run_all_completes_in_dependency_order": {
+    "requirement": "run_all.sh completes from a clean result tree and orders perturbation generation before cross-model scoring",
+    "met": null,
+    "evidence": "stage order enforced by tests/unit/test_audit_regressions.py::test_perturbations_are_generated_before_cross_model_scoring; end-to-end execution from a clean tree NOT performed"
+   },
+   "6_gate_evidence_is_tied_to_commit_and_environment": {
+    "requirement": "numerical-gate evidence is tied to the exact commit and environment, with raw pytest status retained",
+    "met": true,
+    "evidence": {
+     "git_revision": "9fe015be28c7ecf3358732eca24f593f7dec5966",
+     "git_tree": "9fe015be28c7ecf3358732eca24f593f7dec5966-dirty",
+     "pytest_exit_code": 1,
+     "pytest_version": "9.0.2",
+     "duration_s": 2467.7
+    }
+   },
+   "7_rollups_separate_validity_from_exclusion_policy": {
+    "requirement": "gate roll-ups distinguish neuronal validity from 'known failure correctly excluded'",
+    "met": true,
+    "evidence": {
+     "has_policy_tests": true,
+     "has_validity_matrix": true
+    }
+   },
+   "8_high_impact_fixes_have_regression_tests": {
+    "requirement": "new high-impact fixes have regression tests",
+    "met": true,
+    "evidence": "tests/unit/test_audit_regressions.py"
+   },
+   "9_report_tables_generated_from_one_manifest": {
+    "requirement": "all report tables are generated from one authoritative result manifest, and stale values are tested for absence",
+    "met": true,
+    "evidence": "tools/verify_report_numbers.py: claim manifest, retired values, and per-criterion single-value enforcement"
+   },
+   "10_manifest_hashes_match_every_artifact": {
+    "requirement": "release-manifest hashes match every released artifact",
+    "met": null,
+    "evidence": "run `python3 tools/build_release_manifest.py --verify` on the candidate tree; not self-evaluable while the manifest is being written"
+   },
+   "11_stratified_waveforms_retained_and_inspected": {
+    "requirement": "a stratified set of replay voltage traces is retained and inspected, not only derived features",
+    "met": false,
+    "evidence": {
+     "n_selected": 445,
+     "n_clean": 406,
+     "n_with_problems": 39,
+     "problems_by_kind": {
+      "voltage_range": 8,
+      "baseline_stability": 43
+     },
+     "traces_dir": "results/traces/retained"
+    }
+   },
+   "12_lineage_level_inference_throughout": {
+    "requirement": "lineage-level folds, bootstraps, random effects and weighting are applied consistently",
+    "met": null,
+    "evidence": "leave-one-lineage-out folds, lineage-clustered bootstraps with equal cluster weight, and run_robustness clustering on source_lineage_id are all in place and tested; 'consistently' across every consumer is a review judgement, not a computable one"
+   },
+   "13_reproduced_from_a_committed_tagged_revision": {
+    "requirement": "the complete workflow is reproduced from a committed, preferably tagged, clean revision",
+    "met": false,
+    "evidence": "9fe015be28c7ecf3358732eca24f593f7dec5966-dirty"
+   }
   }
  },
  "release_verdict": "RELEASE-BLOCKED",
  "blockers": [
   "mandatory gate records absent: ['N2'] (a missing gate is a failure, not a pass)",
-  "gates with failures: ['N1', 'N4']",
-  "working tree is 2eb2dfe0da78c6a92219cf092f06fa35a4967e3b-dirty: reproducibility claims apply only to a committed, tagged state",
-  "models excluded on gate failure: mainen_l5pc (N3), miyasho_purkinje (N3), ortner_snc_da (N3), tzilivaki_fsbc (N3) -- valid for a screening result, blocking for a confirmatory release"
+  "gates with failures: ['N1', 'N4', 'WAVEFORM']",
+  "working tree is 9fe015be28c7ecf3358732eca24f593f7dec5966-dirty: reproducibility claims apply only to a committed, tagged state",
+  "models excluded on gate failure: mainen_l5pc (N3), miyasho_purkinje (N3), ortner_snc_da (N3), tzilivaki_fsbc (N3) -- valid for a screening result, blocking for a confirmatory release",
+  "N4-failing implementations retained in the primary cohort: bbp_l5pc (gcalva_apical, gskv3_apical), tomko_ca1 (gcal_soma, gcat_soma, gkdr_soma) -- the primary cohort is N3-passing, NOT gate-passing. See the n4_strict and n4_projected sensitivity arms"
  ]
 }

@@ -25,7 +25,9 @@
    "n_groups": 5,
    "converged": false,
    "method": "REML",
-   "loglike": -85.67066632088125
+   "loglike": -85.67066632088125,
+   "quotable": false,
+   "quotability_note": "the lineage-level mixed model did NOT converge on 5 groups; icc_adjusted and vpc are reported for completeness and must not be quoted as estimates"
   },
   "implementation": {
    "var_group": 0.023225740824549167,
@@ -36,7 +38,9 @@
    "n_groups": 7,
    "converged": true,
    "method": "REML",
-   "loglike": -86.96436574084612
+   "loglike": -86.96436574084612,
+   "quotable": true,
+   "quotability_note": ""
   }
  }
 }

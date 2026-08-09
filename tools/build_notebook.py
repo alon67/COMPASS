@@ -398,8 +398,17 @@ print(json.dumps(mixed, indent=1))
 code(r"""
 fig = FG.fig_generalisation(lomo, clf); plt.show()
 if lomo is not None and len(lomo):
-    display(lomo[lomo.endpoint=="synergy_area"]
-            .groupby("predictors")[["r2_out_of_sample","rmse"]].median().round(4))
+    # lomo.parquet holds BOTH fold levels. Pooling them medians a mixture of two
+    # different experiments (0.563 for lineage folds, 0.748 for model folds), so
+    # they are shown separately. The inferential unit is the lineage.
+    for lvl in ("source_lineage_id", "model_id"):
+        sub = lomo[(lomo.endpoint == "synergy_area") & (lomo.fold_level == lvl)]
+        if len(sub):
+            print(f"held-out unit: {lvl}"
+                  + ("  <- inferential unit" if lvl == "source_lineage_id"
+                     else "  (diagnostic only)"))
+            display(sub.groupby("predictors")[["r2_out_of_sample", "rmse"]]
+                    .median().round(4))
 if clf is not None and len(clf):
     display(clf.round(4))
 """)
@@ -533,8 +542,17 @@ the grounds that "statistical modules frequently fail direct perturbation
 validation". That claim came from a perturbation experiment with three design
 faults (backgrounds drawn from E1-that-fires rather than the accepted manifold;
 279 evaluations outside the declared prior; normalisation against the
-unconditioned ensemble). With those fixed the finding reverses, so the override
-no longer stands and H-M is reported as the conclusion.
+unconditioned ensemble). With those fixed the finding reversed, so the override
+no longer stands.
+
+It was then reported as **H-M**. That is also superseded. Since the 2026-08-09
+independent audit, both H-B criteria are perturbation-derived and are gated on a
+numerical-repeatability precondition the non-additivity they are built from had
+never been required to pass. When that precondition fails they are **not
+evaluable** — reported, casting no vote — and no H-M or H-G label is asserted.
+Read the `conclusion` field below rather than any label in this prose, and see
+`docs/RESULTS.md` §12.0 and §12.2, including the fact that the precondition is
+**not preregistered**.
 
 """)
 

@@ -1,0 +1,126 @@
+{
+ "_doc": [
+  "Two trace-level observations that feature replay could not have made.",
+  "",
+  "The 2026-08-09 independent audit's point (section 5) was that",
+  "tools/validate_replay.py verifies DERIVED FEATURES rather than archived",
+  "voltage, so a trace that is wrong in the same way twice reproduces perfectly.",
+  "tools/retain_waveforms.py retains a stratified sample of actual waveforms and",
+  "runs a battery of checks features cannot express. It was run over 445 samples",
+  "spanning 8 models x 3 regimes x campaign blocks plus the risk strata already",
+  "defined by validate_replay.",
+  "",
+  "The primary result is positive and worth stating first: 23,413 features",
+  "recomputed from the RETAINED VOLTAGE match their stored values exactly, with",
+  "zero mismatches. The archived trace really does regenerate the stored row.",
+  "",
+  "Two things the battery found that the campaign's own QC does not flag are",
+  "recorded below. NEITHER has been repaired, and that is deliberate: the QC",
+  "thresholds are frozen properties of the campaign, and moving one after seeing",
+  "which samples it admits is an outcome-driven change that would also invalidate",
+  "every stored shard. They are reported with their measured prevalence so a",
+  "reader can judge them, and so a future campaign can set the bounds before",
+  "looking."
+ ],
+ "measured_utc": "2026-08-09",
+ "source": "tools/retain_waveforms.py --experiment screening --per-cell 1",
+ "sample": {
+  "n_retained": 445,
+  "n_clean": 406,
+  "models": 8,
+  "regimes": ["E1", "E2", "E6"],
+  "strata": ["class_depolarisation_block", "class_spontaneous", "class_unstable",
+             "coverage", "nonspiking", "ordinary_random", "prior_corner",
+             "qc_flagged", "rate_max", "rate_min"],
+  "n_features_recomputed_from_retained_voltage": 23413,
+  "n_features_mismatched": 0
+ },
+ "findings": {
+  "sub_physiological_hyperpolarisation": {
+   "what": [
+    "8 of 445 retained traces (1.8%) leave the [-150, +80] mV band on the",
+    "hyperpolarising step. All 8 are khaliq_purkinje, the model with by far the",
+    "highest input resistance in the panel (median 593 MOhm, 99th percentile",
+    "2,361 MOhm, against a median of 23-49 MOhm for every other model). At a",
+    "fixed -0.05 nA step this is Ohm's law, not a numerical failure."
+   ],
+   "gap": [
+    "The campaign's own QC flag `nonphysical_voltage` fires when V leaves",
+    "[-160, +120] mV (src/compass/adapters/base.py:447). The battery's band is",
+    "[-150, +80]. Six of the eight already carry the QC flag and are",
+    "analysis_eligible=False. TWO fall in the 10 mV gap between the two lower",
+    "bounds and ARE analysis-eligible:",
+    "  khaliq_purkinje E1 sample 500: V_min = -158.2 mV, class 'spontaneous'",
+    "  khaliq_purkinje E2 sample  58: V_min = -152.8 mV, class 'spontaneous'"
+   ],
+   "prevalence": [
+    "2 of 445 retained samples (0.45%) are eligible AND breach -150 mV.",
+    "A campaign-wide count is NOT available: the trace minimum is not a stored",
+    "column, and a steady-state estimate from the stored input resistance",
+    "(V_rest + I*R_in) predicts 204 eligible khaliq rows below -150 mV of which",
+    "ALL carry the QC flag -- i.e. the steady-state estimate misses precisely",
+    "the marginal transient cases these two are. The 0.45% is therefore a",
+    "measurement on the retained sample, not an extrapolation."
+   ],
+   "consequence": [
+    "Affects features measured against the hyperpolarising step -- input",
+    "resistance, sag ratio, sag amplitude, membrane tau. A model driven to",
+    "-158 mV is being measured far outside the range its channel kinetics were",
+    "fitted in; the number is a correct measurement of the model and not of",
+    "anything biological. It does not affect the step_abs_hi spike features that",
+    "carry most of the conditioning phenotype."
+   ],
+   "not_repaired": [
+    "Tightening `nonphysical_voltage` to -150 mV would change the accepted",
+    "ensembles and require regenerating all 130,098 simulations, and choosing",
+    "the bound now, having seen which samples it excludes, is exactly the",
+    "outcome-driven adjustment the sensitivity cascade exists to prevent. A",
+    "future campaign should set the hyperpolarising amplitude per model from",
+    "measured input resistance rather than as a fixed absolute current."
+   ]
+  },
+  "slow_baseline_settling_drift": {
+   "what": [
+    "31 of 445 retained samples (7.0%) show the pre-stimulus mean still moving",
+    "when the step arrives: |mean(last 50 ms before onset) - mean(earlier",
+    "pre-stimulus)| exceeds 10% of the trace's total voltage excursion.",
+    "Distributed across five models: pospischil_rs 13, pospischil_fs 10,",
+    "bbp_l5pc 6, khaliq_purkinje 1, mainen_l5pc 1."
+   ],
+   "gap": [
+    "This is a DIFFERENT defect from the one QC catches. The `unstable_baseline`",
+    "flag fires when the peak-to-peak range of the second half of the",
+    "pre-stimulus window exceeds 2.0 mV (src/compass/adapters/base.py:452) --",
+    "that is a ripple detector. A membrane settling smoothly toward its resting",
+    "potential has a small peak-to-peak inside any short window while its MEAN",
+    "is still moving, so it passes the ripple test and fails this one. 28 of the",
+    "43 flagged protocol-instances carry no `unstable_baseline` flag, and their",
+    "samples are analysis_eligible."
+   ],
+   "consequence": [
+    "This is the same failure mode already documented for ortner_snc_da under",
+    "gate N6, where an unsettled baseline plus an Ih sag produced a NEGATIVE",
+    "input resistance. Every feature defined relative to a pre-stimulus",
+    "baseline -- input resistance, sag, resting potential -- inherits the drift.",
+    "The affected fraction is small and the drift is bounded at ~10-20% of the",
+    "response excursion in the observed cases."
+   ],
+   "not_repaired": [
+    "The fix is a longer pre-stimulus settling period, which changes",
+    "protocol_hash and therefore every shard identity. Recorded here as a known",
+    "limitation of the frozen protocol; the next campaign should measure the",
+    "settling time per model and set DELAY_MS from it."
+   ]
+  }
+ },
+ "what_this_does_not_show": [
+  "Nothing here is a reproduction failure. Zero of 23,413 recomputed features",
+  "disagreed with their stored values, and no retained trace contained a NaN, an",
+  "Inf, a spike of implausible shape, an undetected depolarisation block, or a",
+  "discontinuity larger than the integrator can produce in one step.",
+  "",
+  "The sample is 445 of 130,098 simulations. It is stratified to cover every",
+  "model, regime and campaign block and to over-sample the risky strata, but a",
+  "defect confined to a few hundred ordinary samples could still be missed."
+ ]
+}

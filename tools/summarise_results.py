@@ -146,8 +146,29 @@ def main() -> int:
     if mixed:
         out["mixed_effects"] = mixed
     if lomo is not None and len(lomo):
-        out["lomo"] = (lomo.groupby(["endpoint", "predictors"])["r2_out_of_sample"]
-                       .median().round(4).reset_index().to_dict("records"))
+        # lomo.parquet holds BOTH fold levels: one row per held-out model id and
+        # one per held-out source lineage.  Pooling them produced a median over a
+        # mixture of two different experiments -- 0.644 for the headline
+        # sampling+geometry cell, where the lineage folds give 0.563 and the model
+        # folds 0.748.  The mixture is not an estimate of anything.  The
+        # inferential unit is the lineage, so that is what the summary reports,
+        # with the model-level folds kept alongside as a labelled diagnostic
+        # (post-response audit, section 4).
+        if "fold_level" not in lomo.columns:
+            raise KeyError(
+                "lomo.parquet has no fold_level column; refusing to pool "
+                "lineage folds with model folds. Regenerate it with "
+                "tools/run_crossmodel.py.")
+
+        def _median(frame):
+            return (frame.groupby(["endpoint", "predictors"])["r2_out_of_sample"]
+                    .median().round(4).reset_index().to_dict("records"))
+
+        lin = lomo[lomo["fold_level"] == "source_lineage_id"]
+        mod = lomo[lomo["fold_level"] == "model_id"]
+        out["lomo"] = _median(lin) if len(lin) else []
+        out["lomo_fold_level"] = "source_lineage_id"
+        out["lomo_by_model_id_diagnostic"] = _median(mod) if len(mod) else []
     if clf is not None and len(clf):
         out["classification"] = clf.round(4).to_dict("records")
     if stab is not None and len(stab):

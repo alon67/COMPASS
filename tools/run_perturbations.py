@@ -62,6 +62,7 @@ import multiprocessing as mp
 import os
 import sys
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -287,6 +288,45 @@ def load_backgrounds(experiment: str, model_id: str, param_ids: list[str],
     return bg, sd
 
 
+def reanalyse(suffix: str) -> int:
+    """Rewrite a stored battery's summary from its stored rows.
+
+    The summary carries statistics -- the bootstrap unit above all -- that are
+    properties of the ANALYSIS, not of the simulations.  When one of them
+    changes there is nothing to re-simulate, and re-running the battery to pick
+    up a new bootstrap unit would burn hours and produce identical eta.
+    Everything that describes the run itself (effective dt, resumed models) is
+    preserved from the existing summary rather than re-derived, so a reanalysis
+    cannot silently relabel which solver settings produced the rows.
+    """
+    src = OUT / f"perturbations{suffix}.parquet"
+    if not src.exists():
+        raise SystemExit(f"missing {src}; nothing to reanalyse")
+    df = pd.read_parquet(src)
+    path = OUT / f"perturbations_summary{suffix}.json"
+    prev = json.loads(path.read_text()) if path.exists() else {}
+    summary = analyse(df)
+    for k in ("solver_dt_override_ms", "solver_dt_scale", "effective_dt_ms",
+              "models_resumed_from_cache", "quantisation_arithmetic",
+              "withdrawn"):
+        if k in prev:
+            summary[k] = prev[k]
+    summary["reanalysed_utc"] = datetime.now(UTC).isoformat()
+    summary["reanalysed_note"] = (
+        f"statistics recomputed from {src.name} without re-simulating; the "
+        f"per-row eta is unchanged")
+    path.write_text(json.dumps(summary, indent=1, default=float))
+    print(f"reanalysed {len(df)} rows -> {path}")
+    print(f"  bootstrap unit: {summary.get('bootstrap_unit')}")
+    for k in ("top_vs_control_middle", "top_vs_control_random"):
+        if k in summary:
+            v = summary[k]
+            print(f"  {k}: ratio {v['ratio_point']:.3f} "
+                  f"CI {[round(x, 2) for x in v['ratio_ci95']]} "
+                  f"p={v['wilcoxon_p']:.4f} n={v['n_models']}")
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--experiment", default="screening")
@@ -306,21 +346,52 @@ def main() -> int:
                     help="skip models whose per-model cache already exists")
     ap.add_argument("--suffix", default="",
                     help="filename suffix, e.g. '_dt_half' for a repeatability run")
+    ap.add_argument("--reanalyse", action="store_true",
+                    help="do not simulate: reload the stored "
+                         "perturbations<suffix>.parquet and rewrite its summary. "
+                         "For when the ANALYSIS changed and the simulations did "
+                         "not -- re-running a 16-hour battery to change a "
+                         "bootstrap unit is not a reproducibility improvement.")
     args = ap.parse_args()
     if args.dt is not None and args.dt_scale is not None:
         ap.error("--dt and --dt-scale are mutually exclusive")
 
+    if args.reanalyse:
+        return reanalyse(args.suffix)
+
     picks = select_candidates(args.experiment)
     models = args.models or sorted(picks)
+    # Models whose cached slices must be folded back into the aggregate.
+    #
+    # `--resume` used to skip cached models and then build the aggregate from
+    # the newly executed ones ALONE, so resuming a five-of-seven run wrote a
+    # two-model `perturbations_raw.parquet` over the complete one.  The skip and
+    # the aggregate are now two different questions: skipped models are not
+    # re-simulated, but their cached rows are read back and concatenated
+    # (post-response audit, section 4, "Resume and cache semantics").
+    #
+    # `--resume` also has to compose with `--models`.  Restricting execution to
+    # two slow models is the normal way to finish a partial battery, and if the
+    # merge set were `--models` minus the cache it would be EMPTY in exactly
+    # that case -- writing a two-model aggregate, which is the same failure by
+    # another route.  Under `--resume` the merge set is therefore every cached
+    # slice for this suffix that is not being re-executed, independent of
+    # `--models`.  Without `--resume` the aggregate is the executed models only,
+    # which is explicit and unchanged.
+    resumed: list[str] = []
     if args.resume:
         tag = args.suffix or "_main"
         cached = {p.name.split(tag)[0]
                   for p in (OUT / "_perturbation_cache").glob(f"*{tag}_raw.parquet")}
-        skipped = [m for m in models if m in cached]
+        skipped = sorted(set(models) & cached)
         models = [m for m in models if m not in cached]
+        resumed = sorted(cached - set(models))
         if skipped:
-            print(f"resuming: {len(skipped)} model(s) already cached, skipping "
-                  f"{skipped}", flush=True)
+            print(f"resuming: {len(skipped)} requested model(s) already cached, "
+                  f"not re-simulating {skipped}", flush=True)
+        if resumed:
+            print(f"aggregate will also include cached slices for {resumed}",
+                  flush=True)
     tasks, feature_sd, pid_map, meta = [], {}, {}, {}
     for mid in models:
         if mid not in picks:
@@ -398,10 +469,26 @@ def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     sfx = args.suffix
     df = pd.DataFrame(rows)
-    df.to_parquet(OUT / f"perturbations{sfx}.parquet", index=False)
     raw = pd.DataFrame(raw_rows)
+    # Fold the resumed models back in.  Without this the aggregate describes
+    # only the models this invocation happened to execute, which is how a
+    # resumed run could silently shrink the battery.
+    if resumed:
+        cached_sum = [pd.read_parquet(cache_path(m, "summary")) for m in resumed]
+        cached_raw = [pd.read_parquet(cache_path(m, "raw")) for m in resumed]
+        df = pd.concat([*cached_sum, df] if len(df) else cached_sum,
+                       ignore_index=True)
+        raw = pd.concat([*cached_raw, raw] if len(raw) else cached_raw,
+                        ignore_index=True)
+        df = df.sort_values(["model_id", "kind", "tuple", "feature"],
+                            kind="stable").reset_index(drop=True)
+        raw = raw.sort_values(["model_id", "tuple", "feature", "background"],
+                              kind="stable").reset_index(drop=True)
+        print(f"aggregate merged: {sorted(df['model_id'].unique())}", flush=True)
+    df.to_parquet(OUT / f"perturbations{sfx}.parquet", index=False)
     raw.to_parquet(OUT / f"perturbations_raw{sfx}.parquet", index=False)
     summary = analyse(df)
+    summary["models_resumed_from_cache"] = resumed
     summary["solver_dt_override_ms"] = args.dt
     summary["solver_dt_scale"] = args.dt_scale
     # The step each model actually integrated at.  A repeatability claim must be
@@ -417,7 +504,12 @@ def main() -> int:
             return None
         return float(base) * args.dt_scale if args.dt_scale is not None else float(base)
 
-    summary["effective_dt_ms"] = {mid: _effective_dt(mid) for mid in sorted(meta)}
+    # Reported for every model in the aggregate, not only the ones this
+    # invocation simulated -- a resumed run must still say what step each of its
+    # rows was integrated at.
+    summary["effective_dt_ms"] = {
+        mid: _effective_dt(mid)
+        for mid in sorted(set(meta) | set(df["model_id"].unique() if len(df) else []))}
     summary["quantisation_arithmetic"] = background_grid_note(N_BACKGROUNDS)
     summary["withdrawn"] = (
         "The 2.5 Hz 'measurement floor' analysis and its '4/8 models "
@@ -451,15 +543,35 @@ def analyse(df: pd.DataFrame) -> dict:
             "n": stats["n"].to_dict(),
         }
 
-    # paired across models, primary feature, top vs each control family
+    # Paired across LINEAGES, primary feature, top vs each control family.
+    #
+    # This resampled `model_id`, so the HH lineage and the Pospischil lineage
+    # each supplied two of the seven "independent" units the interval was built
+    # from -- while the README claimed every bootstrap clusters by lineage. The
+    # scored criterion in run_crossmodel was already lineage-clustered; this
+    # summary, which is where the quoted ratio CI comes from, was not
+    # (post-response audit, section 4). Implementations are averaged within
+    # lineage FIRST, so a lineage counts once however many it contributes.
+    from compass.analysis.cohorts import annotate_lineage
+
+    prim = annotate_lineage(prim) if "source_lineage_id" not in prim.columns else prim
     per_model = (prim.groupby(["model_id", "kind"])["mean_nonadditivity_sd"]
                      .apply(lambda s: float(np.nanmean(np.abs(s)))).unstack())
     out["per_model_mean_abs_eta"] = per_model.round(4).to_dict()
+    per_impl = (prim.groupby(["source_lineage_id", "model_id", "kind"])
+                    ["mean_nonadditivity_sd"]
+                    .apply(lambda s: float(np.nanmean(np.abs(s)))).unstack())
+    per_lineage = per_impl.groupby(level="source_lineage_id").mean()
+    out["per_lineage_mean_abs_eta"] = per_lineage.round(4).to_dict()
+    out["bootstrap_unit"] = "source_lineage_id"
+    out["lineage_members"] = {
+        lin: sorted(g.index.get_level_values("model_id").unique())
+        for lin, g in per_impl.groupby(level="source_lineage_id")}
     for ctrl in ("control_middle", "control_random"):
-        if "top_synergy" not in per_model or ctrl not in per_model:
+        if "top_synergy" not in per_lineage or ctrl not in per_lineage:
             continue
-        a = per_model["top_synergy"].to_numpy(dtype=float)
-        b = per_model[ctrl].to_numpy(dtype=float)
+        a = per_lineage["top_synergy"].to_numpy(dtype=float)
+        b = per_lineage[ctrl].to_numpy(dtype=float)
         ok = np.isfinite(a) & np.isfinite(b)
         a, b = a[ok], b[ok]
         if len(a) < 3:
