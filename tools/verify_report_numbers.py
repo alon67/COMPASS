@@ -54,6 +54,16 @@ DOC_PATHS = {
     "RESULTS.md": ROOT / "docs" / "RESULTS.md",
     "README.md": ROOT / "README.md",
 }
+# THE DOCUMENTS THAT GO TO THE REVIEWER WERE THE ONES NOT CHECKED.
+#
+# The forbidden-phrasing rules and the retired-value scan exist to stop the
+# project asserting what its artifacts do not support, and until now they ran
+# over RESULTS.md and README.md only -- while every audit response, whose whole
+# purpose is to assert things to a reviewer and which is a `reports`-class entry
+# in the release inventory, was outside their scope. Globbed rather than listed
+# so the next response is covered without anyone remembering to add it.
+DOC_PATHS.update({p.name: p for p in
+                  sorted((ROOT / "docs").glob("COMPASS_AUDIT_RESPONSE_*.md"))})
 DOCS = {k: p.read_text() for k, p in DOC_PATHS.items() if p.exists()}
 MANIFEST = AN / "claim_manifest.json"
 
@@ -82,6 +92,12 @@ def claim(label: str, text: str, docs: list[str], *, artifact: str,
 # --------------------------------------------------------------------------- #
 # 2. Forbidden wording (audit section 11 "Avoid")
 # --------------------------------------------------------------------------- #
+# A prefix marking a rule that only applies while the decision WITHHOLDS the
+# H-B criteria. Some bans encode a transient state of the release rather than a
+# permanent error; when the state changes they forbid true statements, so they
+# are switched off from the artifact instead of being remembered by hand.
+CONDITIONAL_ON_H_B_WITHHELD = "@@HB_WITHHELD@@"
+
 FORBIDDEN = [
     (r"eight independent (model )?(families|lineages)",
      "the eight model ids represent ten source lineages across the whole panel "
@@ -137,6 +153,51 @@ FORBIDDEN = [
     (r"five independent (confirmations|criteria|lines of evidence)",
      "the five H-G criteria are correlated derivatives of the same small panel "
      "and the same endpoints; describe the vote, not five independent tests"),
+    # --- 2026-08-09 post-response-3 audit, P1-3 ---------------------------- #
+    #
+    # Each of these was an ACTIVE sentence sitting a few hundred lines from its
+    # own contradiction, in a document whose every number verified.  A retained
+    # historical table is fine; an active instruction that disagrees with the
+    # current one is not, so the phrasings are forbidden and the current
+    # statement is generated.
+    (r"N2 (is )?not implemented",
+     "N2 is implemented for the sourceable subset. Quote "
+     "compass.validation.gates.n2_coverage()['statement'] -- "
+     "'source-referenced canonical scalar agreement: 6/14 evaluable "
+     "implementations' -- rather than restating the pre-implementation status"),
+    (r"N2[^.\n]{0,40}\b(7/7|7 of 7)\b",
+     "the N2 roll-up is 6 model tests plus one declaration-coverage test, not "
+     "seven reproduced models (post-response-3 audit, P1-2)"),
+    (r"strict reproduction of published traces is not implemented",
+     "true of trace-level reproduction and misleading as an N2 summary; say "
+     "what N2 does cover"),
+    # STATE-DEPENDENT: forbidden only while the decision withholds H-B. The rule
+    # was written when the perturbation inputs were stale and the tally read
+    # 0/0, and it is switched off from `decision.json` rather than by hand --
+    # otherwise it outlives the condition it guards and starts forbidding a true
+    # statement, which is how a correctness check becomes a source of error.
+    (CONDITIONAL_ON_H_B_WITHHELD + r"the H-B (quantities|criteria) are (now )?scored",
+     "H-B is withheld while its perturbation inputs are stale; the values are "
+     "printed beside the table but not scored"),
+    (r"archives? (are|is) (written |stored )?(at |in )?float32",
+     "trace archives are float64; a float32 archive can only support "
+     "agreement 'to within rounding', which is not the claim the gate makes"),
+    (r"validate_replay\.py --experiment screening\s*$",
+     "the manual release-validation command must replay every declared "
+     "campaign, not screening alone -- all six are mandatory"),
+    (r"\b154\b[^.\n]{0,40}(flagged|waveform|of 914)",
+     "the flagged-sample count is generated; quote n_with_problems from "
+     "results/validation/retained_waveforms_*.json and never sum findings, "
+     "which exceed samples because one sample can raise several"),
+    # Naming the withdrawn arm while recounting what a previous revision did is
+    # history and is allowed. Pointing a reader at its OUTPUTS, or listing it as
+    # a live arm, is not: `decision_n4_projected.json` still asserts an overall
+    # H-G conclusion the project no longer holds.
+    (r"(results/analyses/[^\s`)]*n4_projected|SENSITIVITY_ARMS\[[\"']n4_projected"
+     r"|--suffix\s+_?n4_projected)",
+     "the n4_projected arm was withdrawn as a duplicate of `primary`; its "
+     "outputs are quarantined under results/analyses/_withdrawn and the "
+     "release manifest blocks on any that reappear"),
 ]
 
 # --------------------------------------------------------------------------- #
@@ -380,6 +441,42 @@ def main() -> int:
                   artifact="mixed_effects.json", selector="flat.vpc_model_identity",
                   aggregation="var_group / total variance")
 
+    # WAVEFORM SAMPLE ARITHMETIC, ASSERTED RATHER THAN MERELY POLICED.
+    #
+    # The only protection this number had was a FORBIDDEN rule banning the one
+    # value a previous response got wrong (`154`). A ban on one wrong answer
+    # cannot detect the next one, and the count is regenerated by every
+    # waveform run, so it is now a positive claim: summed over the campaign
+    # records the battery actually wrote, and required to appear in the
+    # documents verbatim.
+    wf = sorted((ROOT / "results" / "validation").glob("retained_waveforms_*.json"))
+    if wf:
+        recs = [json.loads(p.read_text()) for p in wf]
+        n_sel = sum(r["n_selected"] for r in recs)
+        n_flag = sum(r["n_with_problems"] for r in recs)
+        n_rec = sum(r["n_features_recomputed"] for r in recs)
+        n_bad = sum(r["n_features_mismatched"] for r in recs)
+        claim("waveform samples retained", f"{n_sel} traces", res,
+              artifact="retained_waveforms_*.json", selector="sum(n_selected)",
+              aggregation=f"summed over {len(recs)} campaign records", units="traces")
+        claim("waveform samples flagged", f"{n_flag}", res,
+              artifact="retained_waveforms_*.json",
+              selector="sum(n_with_problems)",
+              aggregation="a SAMPLE count, not a finding count", units="samples")
+        claim("waveform features recomputed", f"{n_rec:,}", res,
+              artifact="retained_waveforms_*.json",
+              selector="sum(n_features_recomputed)",
+              aggregation="recomputed from the reloaded float64 archive")
+        # Non-zero mismatches would make the recomputation claim false; the
+        # documents must not be able to say "zero mismatches" when they are not.
+        if n_bad:
+            CLAIMS.append({"label": "waveform feature mismatches", "documents": res,
+                           "expected_string": f"{n_bad} mismatched",
+                           "artifact": "retained_waveforms_*.json",
+                           "selector": "sum(n_features_mismatched)",
+                           "aggregation": "", "units": "", "uncertainty": "",
+                           "note": "non-zero: the archive does not reproduce the row"})
+
     if rob and "cluster_bootstrap_matched" in rob:
         m = rob["cluster_bootstrap_matched"]["synergy_area"]
         claim("matched bootstrap median ratio", f"{m['ratio_median']:.1f}", both,
@@ -402,7 +499,12 @@ def main() -> int:
                     f"  [value] {d}: expected '{c['expected_string']}' for "
                     f"[{c['label']}] from {c['artifact']}:{c['selector']} -- NOT FOUND")
 
+    h_b_withheld = not dec.get("n_hb_total")
     for pattern, why in FORBIDDEN:
+        if pattern.startswith(CONDITIONAL_ON_H_B_WITHHELD):
+            if not h_b_withheld:
+                continue
+            pattern = pattern[len(CONDITIONAL_ON_H_B_WITHHELD):]
         rx = re.compile(pattern, re.I | re.M)
         for d, txt in DOCS.items():
             for m in rx.finditer(txt):
@@ -446,7 +548,20 @@ def main() -> int:
         r"earlier|previous|before|withdraw|was |old |orig|superseded|pre-audit|"
         r"revised|reported as|rather than|corrected|first release|not a finding|"
         r"biased|retired", re.I)
+    # A RETIRED VALUE OF ONE QUANTITY CAN BE THE CURRENT VALUE OF ANOTHER.
+    #
+    # `2.34x` was the perturbation MATCHED ratio before a target correction and
+    # is retired under that name; on the probe-4 battery it is the current
+    # RANDOM ratio, and the check flagged the line that reports it correctly.
+    # A number that some CLAIM asserts as current cannot simultaneously be a
+    # stale number left lying in prose, so those strings are exempt -- and the
+    # exemption is derived from the claims this run just built, not listed by
+    # hand, so it cannot outlive the coincidence that created it.
+    current_strings = {c["expected_string"] for c in CLAIMS}
+    current_strings |= {s + "×" for s in current_strings}
     for bad, why in RETIRED.items():
+        if bad in current_strings:
+            continue
         # Numeric retired values must match as WHOLE numbers. Plain substring
         # matching flagged "0.0483" as the retired ICC "0.048", which is the
         # kind of false positive that gets a check switched off.

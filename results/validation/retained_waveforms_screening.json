@@ -1,18 +1,89 @@
 {
  "tool": "retain_waveforms.py",
- "written_utc": "2026-08-09T15:29:15.483969+00:00",
+ "written_utc": "2026-08-11T12:19:57.975813+00:00",
  "experiment": "screening",
  "n_selected": 444,
- "n_clean": 398,
- "n_with_problems": 46,
- "n_features_recomputed": 21995,
+ "n_clean": 395,
+ "n_with_problems": 49,
+ "sample_arithmetic": "395 clean + 49 flagged = 444 samples",
+ "disposition": {
+  "policy": {
+   "simulation_error": {
+    "disposition": "integrity_failure",
+    "mechanism": "gate record fails; the release manifest lists WAVEFORM as a blocker"
+   },
+   "archive_reload_error": {
+    "disposition": "integrity_failure",
+    "mechanism": "as simulation_error"
+   },
+   "archive_schema_error": {
+    "disposition": "integrity_failure",
+    "mechanism": "as simulation_error"
+   },
+   "feature_recomputation": {
+    "disposition": "integrity_failure",
+    "mechanism": "archive and stored row disagree; determinism claim fails"
+   },
+   "spike_count_agreement": {
+    "disposition": "integrity_failure",
+    "mechanism": "archive and stored row describe different simulations"
+   },
+   "no_protocols": {
+    "disposition": "integrity_failure",
+    "mechanism": "as simulation_error"
+   },
+   "finite": {
+    "disposition": "numerical_invalid",
+    "mechanism": "qc_flags raises nonfinite_voltage -> execution_valid=False corpus-wide"
+   },
+   "voltage_range": {
+    "disposition": "numerical_invalid",
+    "mechanism": "qc_flags raises nonphysical_voltage on the same band (PHYSICAL_V_MIN_MV/PHYSICAL_V_MAX_MV) -> excluded corpus-wide"
+   },
+   "discontinuity": {
+    "disposition": "numerical_invalid",
+    "mechanism": "a step larger than one dt of the integrator can produce; co-occurs with nonfinite/nonphysical voltage in every observed case and is reported if it ever does not"
+   },
+   "depolarisation_block": {
+    "disposition": "prior_predictive",
+    "mechanism": "two detectors disagree about one trace; recorded as a finding to adjudicate, never used to drop a row"
+   },
+   "spike_shape": {
+    "disposition": "detector_limit",
+    "mechanism": "a 10 mV / 10 ms screening bound, not a validity criterion; a broad-prior draw may legitimately have a wide, small AP"
+   },
+   "baseline_stability": {
+    "disposition": "protocol_settling",
+    "mechanism": "the strict-QC sensitivity arm drops rows flagged unstable_baseline; the primary arm keeps them and says so"
+   }
+  },
+  "findings_by_class": {
+   "baseline_stability": 35,
+   "depolarisation_block": 2,
+   "spike_shape": 40,
+   "voltage_range": 8
+  },
+  "findings_by_disposition": {
+   "detector_limit": 40,
+   "numerical_invalid": 8,
+   "prior_predictive": 2,
+   "protocol_settling": 35
+  },
+  "unassigned_classes": [],
+  "n_findings_total": 85,
+  "n_findings_classified": 85,
+  "n_findings_truncated_from_the_record": 0,
+  "note": "counts are FINDINGS, not samples: one sample can raise several and they must not be summed to a sample count. Each record lists at most ten; n_findings_total is the true sum."
+ },
+ "n_features_recomputed": 22076,
  "n_features_mismatched": 0,
  "features_recomputed_from": "the reloaded .npz archive, not the in-memory simulation",
  "trace_precision": "float64",
  "problems_by_kind": {
   "spike_shape": 40,
-  "voltage_range": 7,
-  "baseline_stability": 31
+  "voltage_range": 8,
+  "baseline_stability": 35,
+  "depolarisation_block": 2
  },
  "coverage": {
   "models": [
@@ -50,6 +121,9 @@
    "every_absolute_protocol_per_model": 1,
    "risk_strata_represented": 1
   },
+  "counts_only_status_ok": true,
+  "n_records": 444,
+  "n_records_not_ok": 49,
   "n_models_required": 8,
   "n_models_covered": 8,
   "missing_models": [],
@@ -59,7 +133,6 @@
   "strata_present": [
    "class_depolarisation_block",
    "class_spontaneous",
-   "class_unstable",
    "coverage",
    "nonspiking",
    "ordinary_random",
@@ -109,17 +182,17 @@
    ]
   },
   {
-   "key": "screening/khaliq_purkinje__E2__r1__s921",
-   "stratum": "coverage",
-   "problems": [
-    "hyperpol_abs: voltage_range: [-206.9, 53.9] mV outside [-150.0, 80.0]"
-   ]
-  },
-  {
    "key": "screening/khaliq_purkinje__E2__r1__s662",
    "stratum": "coverage",
    "problems": [
     "hyperpol_abs: voltage_range: [-191.8, 44.7] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "screening/khaliq_purkinje__E2__r1__s921",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-206.9, 53.9] mV outside [-150.0, 80.0]"
    ]
   },
   {

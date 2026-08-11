@@ -53,6 +53,25 @@ INVENTORY = ROOT / "configs" / "release_inventory.json"
 MANDATORY_GATES = ["D1", "D2", "D3", "D4", "D5", "REPLAY", "WAVEFORM",
                    "N1", "N2", "N3", "N4", "N5", "N6", "N7"]
 
+# The stages of tools/run_all.sh that actually simulate. A receipt covers the
+# simulation only when it contains ALL of them; see `covers_simulation`.
+SIMULATION_STAGES = ("campaign", "sobol")
+
+
+def _unattributed(artifacts: list[dict], produced: set[str]) -> list[str]:
+    """Which manifest artifacts the run receipt does not account for.
+
+    Imported from tools/run_receipt.py rather than reimplemented: the standalone
+    `run_receipt.py check` and this build must not be able to disagree about
+    what "produced by this run" means.
+    """
+    import importlib.util as iu
+
+    spec = iu.spec_from_file_location("_rr", ROOT / "tools" / "run_receipt.py")
+    rr = iu.module_from_spec(spec)
+    spec.loader.exec_module(rr)
+    return rr.unattributed(artifacts, produced)
+
 
 def file_record(p: Path, count_rows: bool = True) -> dict:
     rec = {"path": str(p.relative_to(ROOT)), "bytes": p.stat().st_size,
@@ -120,57 +139,115 @@ def collect_inventory(inv: dict) -> tuple[list[dict], dict]:
     return artifacts, summary
 
 
-def resolve_gate_subjects(kind: str) -> list[str]:
-    """Turn a declared coverage rule into the concrete subjects it requires."""
+def declared_campaign_design() -> dict[str, dict]:
+    """The required campaigns and, per campaign, its declared models/regimes.
+
+    Read from ``required_campaigns`` in the inventory and from each campaign's
+    own configuration -- NEVER from what is on disk.  The previous version built
+    this list from the campaign-config entries that currently have shards, so a
+    missing campaign silently stopped being required and ``sobol``, which is not
+    a ``campaigns.json`` entry at all, was in no coverage rule despite being
+    listed in this same inventory (2026-08-09 post-response-3 audit, P0-4B).
+    """
     import importlib.util as iu
+
+    inv = load_inventory()
+    req = inv.get("required_campaigns")
+    if not req:
+        raise SystemExit(
+            "configs/release_inventory.json has no `required_campaigns`. "
+            "The required set must be declared, not inferred from the files "
+            "being checked.")
 
     spec = iu.spec_from_file_location("_rc", ROOT / "tools" / "run_campaign.py")
     rc = iu.module_from_spec(spec)
     spec.loader.exec_module(rc)
-    feats = ROOT / "results" / "features"
+    sspec = iu.spec_from_file_location("_rs", ROOT / "tools" / "run_sobol.py")
+    rs = iu.module_from_spec(sspec)
+    sspec.loader.exec_module(rs)
 
-    campaigns = sorted(
-        c for c in rc.CONFIG["campaigns"]
-        if (feats / c).is_dir() and any(
-            q for q in (feats / c).rglob("*.parquet")
-            if "_quarantine" not in q.parts))
+    regimes_for = req.get("regimes_for", {})
+    out: dict[str, dict] = {}
+    for c in req["declared"]:
+        if c in rc.CONFIG["campaigns"]:
+            cfg = rc.CONFIG["campaigns"][c]
+            models = sorted(cfg["sample_sizes"])
+            by_model = cfg.get("regimes_by_model", {})
+            out[c] = {"models": models,
+                      "regimes": {m: list(by_model.get(m, cfg["regimes"]))
+                                  for m in models},
+                      "source": "configs/experiments/campaigns.json"}
+        elif c == "sobol":
+            models = sorted(rs.N_BASE)
+            out[c] = {"models": models,
+                      "regimes": dict.fromkeys(models,
+                                               list(regimes_for.get("sobol", ["SOBOL"]))),
+                      "source": "tools/run_sobol.py:N_BASE"}
+        else:
+            raise SystemExit(
+                f"required campaign {c!r} is declared in the inventory but has "
+                f"no design anywhere: add it to campaigns.json or give it a "
+                f"`models_from` rule")
+    return out
+
+
+def resolve_gate_subjects(kind: str) -> list[str]:
+    """Turn a declared coverage rule into the concrete subjects it requires."""
+    design = declared_campaign_design()
+    campaigns = sorted(design)
+
     if kind == "campaigns_with_shards":
         return campaigns
     if kind == "campaign_model_pairs":
-        out = []
-        for c in campaigns:
-            out += [f"{c}/{d.name}" for d in sorted((feats / c).iterdir())
-                    if d.is_dir() and any(d.glob("*.parquet"))]
-        return out
+        return [f"{c}/{m}" for c in campaigns for m in design[c]["models"]]
     if kind == "waveform_campaign_model_pairs":
-        inv = load_inventory().get("waveform_campaigns", {})
-        want = set(inv.get("included", campaigns))
-        out = []
-        for c in campaigns:
-            if c not in want:
-                continue
-            out += [f"{c}/{d.name}" for d in sorted((feats / c).iterdir())
-                    if d.is_dir() and any(d.glob("*.parquet"))]
-        return out
+        want = set(load_inventory().get("waveform_campaigns", {})
+                   .get("included", campaigns))
+        return [f"{c}/{m}" for c in campaigns if c in want
+                for m in design[c]["models"]]
     if kind == "campaign_model_regime":
-        out = []
-        for c in campaigns:
-            cfg = rc.CONFIG["campaigns"][c]
-            by_model = cfg.get("regimes_by_model", {})
-            for d in sorted((feats / c).iterdir()):
-                if d.is_dir() and any(d.glob("*.parquet")):
-                    for r in by_model.get(d.name, cfg["regimes"]):
-                        out.append(f"{c}/{d.name}/{r}")
-        return out
-    simulated = sorted({d.name for c in campaigns
-                        for d in (feats / c).iterdir() if d.is_dir()})
+        return [f"{c}/{m}/{r}" for c in campaigns for m in design[c]["models"]
+                for r in design[c]["regimes"][m]]
+    declared_models = sorted({m for c in campaigns for m in design[c]["models"]})
     if kind == "simulated_models":
-        return simulated
+        return declared_models
     if kind == "primary_models":
         from compass.analysis.cohorts import PRIMARY_EXCLUSIONS
 
-        return [m for m in simulated if m not in PRIMARY_EXCLUSIONS]
+        return [m for m in declared_models if m not in PRIMARY_EXCLUSIONS]
     raise KeyError(f"unknown subjects_from rule {kind!r}")
+
+
+def find_orphans(inv: dict) -> dict:
+    """Files that exist, hash consistently, and should not be in the release.
+
+    The inventory's `analyses` class accepts any JSON/Parquet under
+    ``results/analyses``, so seven obsolete ``*_n4_projected`` outputs and the
+    ``perturbations_fast5*`` family were released -- one of them still asserting
+    an overall H-G conclusion that the current decision contradicts
+    (2026-08-09 post-response-3 audit, P0-4C).
+    """
+    pol = inv.get("orphan_policy") or {}
+    pats = list(pol.get("forbidden_basename_patterns", []))
+    withdrawn = pol.get("withdrawn_dir", "results/analyses/_withdrawn")
+    hits: list[str] = []
+    for base in ("results", "docs", "notebooks"):
+        d = ROOT / base
+        if not d.is_dir():
+            continue
+        for p in sorted(d.rglob("*")):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(ROOT).as_posix()
+            if rel.startswith(withdrawn) or "_history/" in rel:
+                continue
+            if _matches(p.name, pats):
+                hits.append(rel)
+    return {"patterns": pats, "withdrawn_dir": withdrawn, "files": hits,
+            "rationale": pol.get("rationale", {}),
+            "policy": ("an arm name no longer in the declared registry, or an "
+                       "output family the current runner does not generate, is "
+                       "an orphan and blocks the release")}
 
 
 def gate_coverage(inv: dict, records: dict[str, list[dict]]) -> dict:
@@ -233,6 +310,109 @@ def _n2_spec() -> dict:
         return {}
 
 
+def _rheobase_behaviour_check() -> dict:
+    """Run the search against firing windows placed between its grid points.
+
+    Executed here, in the release build, because the previous check was
+    ``measurement_schema == "probe-3"`` -- a string comparison that stayed true
+    while the search returned ``None`` for a cell firing from 0.30 to 0.40 nA.
+    No NEURON: the synthetic adapter answers the semantic question.
+    """
+    try:
+        import importlib.util as iu
+
+        spec = iu.spec_from_file_location(
+            "_rf", ROOT / "tests" / "unit" / "test_rheobase_failure_states.py")
+        m = iu.module_from_spec(spec)
+        spec.loader.exec_module(m)
+
+        n = 16
+        delta = 1.0 / n
+        missed = []
+        for k in range(n - 1):                       # a window between every pair
+            start = (k + 0.5) * delta
+            a = m.probe(lambda amp, s=start: "spike" if s <= amp < s + delta
+                        else "silent")
+            got = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                                  tol_nA=1e-4, scan_points=n)
+            if got is None or abs(got - start) > 1e-3:
+                missed.append(round(start, 4))
+        # and a low window under a SPIKING ceiling, which probe-3 never scanned
+        a = m.probe(lambda amp: "spike" if (0.10 <= amp < 0.15 or amp >= 0.60)
+                    else "silent")
+        low = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                              tol_nA=1e-3, scan_points=64)
+        low_ok = low is not None and abs(low - 0.10) <= 1e-3
+        from compass.adapters.base import (
+            RHEOBASE_SEARCH_CONTRACT,
+            NeuronAdapter,
+        )
+        return {
+            "met": not missed and low_ok,
+            "evidence": {
+                "windows_between_every_pair_of_grid_points": f"{n - 1} tested, "
+                                                             f"{len(missed)} missed",
+                "missed_window_starts_nA": missed,
+                "low_window_under_a_spiking_ceiling_found": low_ok,
+                "scan_points": NeuronAdapter.RHEOBASE_SCAN_POINTS,
+                "contract": RHEOBASE_SEARCH_CONTRACT,
+            }}
+    except Exception as exc:                                      # noqa: BLE001
+        return {"met": False, "evidence": f"check could not run: {exc!r}"}
+
+
+def _perturbation_identity_check() -> dict:
+    """Do the STORED perturbation slices carry the identity axes they must?"""
+    cache = ROOT / "results" / "analyses" / "_perturbation_cache"
+    need = ("measurement_schema", "feature_schema", "sim_code_hash",
+            "selection_code_hash", "background_vectors_hash",
+            "candidate_rows_hash", "effective_dt_ms", "solver")
+    sides = sorted(cache.glob("*.identity.json")) if cache.is_dir() else []
+    if not sides:
+        return {"met": False,
+                "evidence": "no per-slice identity sidecars found under "
+                            "results/analyses/_perturbation_cache"}
+    incomplete = {}
+    for s in sides:
+        try:
+            rec = json.loads(s.read_text())      # written flat by write_slice_identity
+        except Exception:                                         # noqa: BLE001
+            incomplete[s.name] = "unreadable"
+            continue
+        gaps = [k for k in need if rec.get(k) in (None, "")]
+        if gaps:
+            incomplete[s.name] = gaps
+    agg = sorted((ROOT / "results" / "analyses").glob("perturbations_raw*.identity.json"))
+    return {"met": not incomplete and bool(agg),
+            "evidence": {"n_slice_sidecars": len(sides),
+                         "required_axes": list(need),
+                         "slices_missing_axes": incomplete,
+                         "aggregate_sidecars": [p.name for p in agg]}}
+
+
+def _waveform_reload_check() -> dict:
+    """Did the waveform battery actually recompute from reloaded archives?"""
+    val = ROOT / "results" / "validation"
+    reports = sorted(val.glob("retained_waveforms_*.json"))
+    if not reports:
+        return {"met": False, "evidence": "no retained-waveform report found"}
+    total = mismatched = 0
+    from_archive = []
+    for p in reports:
+        try:
+            d = json.loads(p.read_text())
+        except Exception:                                         # noqa: BLE001
+            return {"met": False, "evidence": f"{p.name} is unreadable"}
+        total += int(d.get("n_features_recomputed", 0))
+        mismatched += int(d.get("n_features_mismatched", 0))
+        from_archive.append("reloaded" in str(d.get("features_recomputed_from", "")))
+    return {"met": total > 0 and mismatched == 0 and all(from_archive),
+            "evidence": {"campaigns": [p.name for p in reports],
+                         "n_features_recomputed": total,
+                         "n_features_mismatched": mismatched,
+                         "all_recomputed_from_the_reloaded_archive": all(from_archive)}}
+
+
 def acceptance_checklist(manifest: dict, gates: dict) -> dict:
     """The fourteen conditions of the 2026-08-09 post-response-2 audit, §9.
 
@@ -251,6 +431,9 @@ def acceptance_checklist(manifest: dict, gates: dict) -> dict:
 
     ng = load(val / "numerical_gates.json")
     receipt = load(val / "run_receipt.json")
+    unattributed_here = _unattributed(
+        manifest.get("artifacts", []),
+        set(receipt.get("artifacts_produced_by_this_run") or []))
     cov = manifest.get("gate_coverage", {})
     inv = manifest.get("inventory", {})
     matrix = ng.get("validity_matrix", {})
@@ -276,30 +459,46 @@ def acceptance_checklist(manifest: dict, gates: dict) -> dict:
             "evidence": {g: {m: matrix.get(g, {}).get(m, "absent") for m in primary}
                          for g in ("N1", "N2", "N3", "N4")}},
         "5_every_primary_model_is_n4_compliant": {
-            "met": manifest.get("n4_disposition", "").startswith("projected"),
-            "evidence": manifest.get("n4_disposition")},
+            # Every REPORTED arm, not only the discovery headline (P0-5).
+            "met": all(
+                (manifest.get("n4_disposition_by_arm", {}).get(a, {})
+                 .get("disposition") in ("projected", "not_applicable"))
+                for a in ("primary", "discovery_only", "replication_only")),
+            "evidence": {a: manifest.get("n4_disposition_by_arm", {}).get(a)
+                         for a in ("primary", "discovery_only", "replication_only")},
+            "kind": "runtime"},
         "6_rheobase_handles_non_monotonic_firing": {
-            "met": manifest.get("measurement_schema") == "probe-3",
-            "evidence": manifest.get("measurement_schema")},
+            # EXECUTED, not asserted from a version string.  Marking this met
+            # because `measurement_schema == "probe-3"` tested a label while the
+            # search was still stepping over firing windows between its rungs
+            # (2026-08-09 post-response-3 audit, P0-1/P0-4D).
+            **_rheobase_behaviour_check(),
+            "kind": "runtime"},
         "7_draw_specific_spontaneity_cannot_make_zero_amplitude_protocols": {
-            "met": manifest.get("measurement_schema") == "probe-3",
-            "evidence": "gate D3 fails any row with normalised features at "
-                        "rheobase 0; classify_row reports normalised_protocol_valid"},
+            "met": bool(gates.get("D3", {}).get("n"))
+                   and gates["D3"]["passed"] == gates["D3"]["n"],
+            "evidence": {"D3": f"{gates.get('D3', {}).get('passed')}/"
+                               f"{gates.get('D3', {}).get('n')}",
+                         "rule": "D3 fails any row with normalised features at "
+                                 "rheobase 0 or a ghost step_rheo_* QC flag"},
+            "kind": "runtime"},
         "8_cv_preprocessing_is_fold_local": {
             "met": True,
             "evidence": "compass.analysis.hierarchical.FoldPipeline; every LOMO "
-                        "row records preprocessing='fold_local'"},
+                        "row records preprocessing='fold_local'",
+            "kind": "implementation"},
         "9_perturbation_cache_reuse_is_rejected_on_any_change": {
-            "met": True,
-            "evidence": "run_perturbations.slice_identity covers 18 axes; "
-                        "slice_is_reusable fails closed"},
+            # Reads the identities actually written beside the stored slices,
+            # rather than counting axes in the source.
+            **_perturbation_identity_check(),
+            "kind": "runtime"},
         "10_archived_traces_are_reloaded_and_fail_closed": {
-            "met": True,
-            "evidence": "retain_waveforms reloads each .npz and recomputes from "
-                        "the archived arrays; every error is a failed record"},
+            **_waveform_reload_check(),
+            "kind": "runtime"},
         "11_waveform_coverage_meets_declared_policy": {
             "met": bool(n_wave),
-            "evidence": cov.get("WAVEFORM", "no coverage record")},
+            "evidence": cov.get("WAVEFORM", "no coverage record"),
+            "kind": "runtime"},
         "12_slow_suite_passes_or_failures_have_a_disposition": {
             "met": None,
             "evidence": {"pytest_exit_code": ng.get("provenance", {}).get(
@@ -317,23 +516,91 @@ def acceptance_checklist(manifest: dict, gates: dict) -> dict:
         "14_hg_and_hb_interpreted_in_proportion": {
             "met": True,
             "evidence": "decision.json carries criterion_dependence and "
-                        "interpretation; H-B recorded as UNRESOLVED"},
+                        "interpretation; H-B recorded as UNRESOLVED",
+            "kind": "implementation"},
+        "15_h_b_input_evidence_is_current": {
+            "met": bool(gates.get("H_B_INPUT", {}).get("n"))
+                   and gates["H_B_INPUT"]["passed"] == gates["H_B_INPUT"]["n"],
+            "evidence": {"H_B_INPUT": f"{gates.get('H_B_INPUT', {}).get('passed')}/"
+                                      f"{gates.get('H_B_INPUT', {}).get('n')}",
+                         "failed_subjects": gates.get("H_B_INPUT", {}).get("failed"),
+                         "rule": "the battery's measurement schema is current, its "
+                                 "half-step twin exists, its repeatable subset "
+                                 "clears the lineage floor, and H-B carries an "
+                                 "explicit evaluable/withheld disposition"},
+            "kind": "runtime"},
     }
     for k, v in items.items():
         v["requirement"] = k.split("_", 1)[1].replace("_", " ")
+        v.setdefault("kind", "implementation")
     met = [k for k, v in items.items() if v["met"] is True]
     return {
         "source": ("COMPASS_INDEPENDENT_POST_RESPONSE_2_TECHNICAL_SCIENTIFIC_"
-                   "AUDIT_2026-08-09.md, section 9"),
+                   "AUDIT_2026-08-09.md section 9, extended by the "
+                   "post-response-3 audit sections P0-3 and P0-4D"),
+        # HOW AN ITEM IS ESTABLISHED, not only whether it is met.
+        # Several items were marked met from the presence of an implementation
+        # or a schema string, which reads as runtime acceptance evidence and is
+        # not (post-response-3 audit, P0-4D).  `runtime` items are decided from
+        # an artifact this build read or a check it executed; `implementation`
+        # items are decided from the code being present and correct by review.
+        "evidence_kinds": {"runtime": sorted(k for k, v in items.items()
+                                             if v["kind"] == "runtime"),
+                           "implementation": sorted(k for k, v in items.items()
+                                                    if v["kind"] == "implementation")},
         "n_met": len(met), "n_total": len(items),
+        "n_met_runtime": len([k for k in met if items[k]["kind"] == "runtime"]),
+        "n_runtime": len([k for k, v in items.items() if v["kind"] == "runtime"]),
         "met": met,
         "not_met": [k for k, v in items.items() if v["met"] is False],
         "not_machine_decidable": [k for k, v in items.items() if v["met"] is None],
+        # WHAT THE RECEIPT COVERS, not merely that one exists.
+        #
+        # Gate D of the 2026-08-09 post-response-3 audit asks for "one full clean
+        # --force-simulations run". A receipt for the DERIVED half of the
+        # pipeline is real evidence and is not that, and the difference has to be
+        # legible from the manifest rather than from a paragraph in a response
+        # document -- otherwise "a passing receipt check" reads as more than it
+        # is. `covers_simulation` is the distinction Gate D turns on.
         "clean_build_receipt": {
             "present": bool(receipt),
             "stages_run": receipt.get("stages_run"),
             "stages_failed": receipt.get("stages_failed"),
             "n_artifacts_produced": receipt.get("n_produced"),
+            # INTERSECTION, NOT SUBSET, WAS THE BUG. `&` made this true as soon
+            # as EITHER simulation stage ran, so a receipt covering `sobol`
+            # alone -- 360 blocks of one design -- reported that the run covered
+            # the simulation, i.e. the whole 130k-row corpus. The claim is that
+            # every simulation stage ran, so the test is containment, and the
+            # stages actually missing are named rather than left to be inferred
+            # from two lists.
+            #
+            # AND the run has to have rebuilt the corpus, not merely visited
+            # the stage. `--force` preserves feature shards by design, so a
+            # campaign stage that ran and reused every shard covers no
+            # simulation at all; only `--force-simulations` does, and the
+            # receipt now records which force it was.
+            "covers_simulation": bool(
+                set(SIMULATION_STAGES).issubset(set(receipt.get("stages_run") or []))
+                and receipt.get("force_simulations")),
+            "simulation_stages": list(SIMULATION_STAGES),
+            "simulation_stages_not_in_receipt": sorted(
+                set(SIMULATION_STAGES) - set(receipt.get("stages_run") or [])),
+            "force_simulations": receipt.get("force_simulations"),
+            # The clean-build question, answered from the artifact list this
+            # build just assembled instead of from a manifest on disk. `check`
+            # reads the previous manifest, and a `--force` run has quarantined
+            # it, so the standalone check could never pass on the one kind of
+            # run it exists to validate (P1-1, found running this rebuild).
+            "n_artifacts_not_produced_by_this_run": len(unattributed_here),
+            "artifacts_not_produced_by_this_run": unattributed_here[:200],
+            "note": ("`covers_simulation` false means the feature corpus was "
+                     "produced outside this receipt. That is not a gap in the "
+                     "corpus -- it is regenerated from immutable parameter "
+                     "draws whenever the measurement schema changes, and gate "
+                     "REPLAY re-simulates a sample of it from scratch -- but it "
+                     "is a gap against Gate D's 'one full clean "
+                     "--force-simulations run', and is reported as one."),
         },
         "checks": items,
     }
@@ -619,9 +886,7 @@ def main() -> int:
 
     from compass.adapters.models import MODEL_REGISTRY
     from compass.analysis.cohorts import (
-        N4_FAILING_MODELS,
         PRIMARY_EXCLUSIONS,
-        SENSITIVITY_ARMS,
         UNIDENTIFIABLE_PARAMETERS,
         cohort_label,
     )
@@ -685,6 +950,21 @@ def main() -> int:
     # --- gates ------------------------------------------------------------ #
     gates: dict = {}
     records: dict[str, list[dict]] = {}
+    # EVIDENCE MUST BELONG TO THIS RELEASE, NOT MERELY CARRY A REVISION FIELD.
+    #
+    # Every gate record found under results/validation was aggregated regardless
+    # of the revision that produced it.  At the audited commit all 5,788 records
+    # carried `c736e48...-dirty` while the manifest described `2745fa3...-dirty`,
+    # and the confirmatory check tested only that a revision field EXISTED
+    # (2026-08-09 post-response-3 audit, P0-4A).  A dirty suffix names neither
+    # the content of the uncommitted patch nor its equivalence to any commit, so
+    # "the evidence has a revision" is not "the evidence is this release's".
+    #
+    # Stale records are retained in the manifest as history and are reported,
+    # but they do not satisfy a gate: the roll-up counts only records whose
+    # `git_tree` equals the manifest's.
+    this_tree = manifest["git_tree"]
+    stale: dict[str, int] = {}
     vdir = ROOT / "results" / "validation"
     if vdir.exists():
         for p in sorted(vdir.rglob("*.json")):
@@ -694,10 +974,16 @@ def main() -> int:
                 d = json.loads(p.read_text())
             except Exception:  # noqa: BLE001
                 continue
+            file_tree = d.get("git_tree")
             for r in d.get("records", []):
-                if isinstance(r, dict) and "gate" in r:
-                    records.setdefault(r["gate"], []).append(r)
-            if "by_gate" in d:
+                if not (isinstance(r, dict) and "gate" in r):
+                    continue
+                rec_tree = r.get("git_tree", file_tree)
+                if rec_tree != this_tree:
+                    stale[r["gate"]] = stale.get(r["gate"], 0) + 1
+                    continue
+                records.setdefault(r["gate"], []).append(r)
+            if "by_gate" in d and file_tree == this_tree:
                 for g, v in d["by_gate"].items():
                     cur = gates.setdefault(g, {"n": 0, "passed": 0, "failed": [],
                                                "sources": []})
@@ -706,7 +992,16 @@ def main() -> int:
                     cur["failed"] += v.get("failed_subjects", [])
                     cur["sources"].append(p.name)
     manifest["gates"] = gates
+    manifest["gate_evidence_revision"] = {
+        "release_revision": this_tree,
+        "policy": ("a gate record counts only when its git_tree equals the "
+                   "release revision; older records remain in the tree as "
+                   "history and are counted here, not in the roll-up"),
+        "records_rejected_as_stale": dict(sorted(stale.items())),
+        "n_records_rejected_as_stale": sum(stale.values()),
+    }
     manifest["gate_coverage"] = gate_coverage(inv, records)
+    manifest["orphans"] = find_orphans(inv)
 
     # A gate present in the roll-up but carrying NO evidence (n == 0) is missing,
     # not passing.  Without the `n == 0` arm, `failed` below tests `passed < n`,
@@ -736,6 +1031,20 @@ def main() -> int:
     if under:
         blockers.append(f"release inventory classes below their declared minimum: "
                         f"{under}")
+    if manifest["orphans"]["files"]:
+        blockers.append(
+            f"obsolete outputs present in the release inventory: "
+            f"{len(manifest['orphans']['files'])} file(s) matching "
+            f"{manifest['orphans']['patterns']} -- e.g. "
+            f"{manifest['orphans']['files'][:3]}. Move them under "
+            f"{manifest['orphans']['withdrawn_dir']} or delete them; the "
+            f"manifest can prove their bytes are unchanged but not that they "
+            f"belong in this release")
+    if stale:
+        blockers.append(
+            f"{sum(stale.values())} gate record(s) were produced at a different "
+            f"revision than this release and do not count towards any gate: "
+            f"{dict(sorted(stale.items()))}. Re-run the gates on this revision.")
     if manifest["git_tree"].endswith("-dirty") or manifest["git_tree"] == "unversioned":
         blockers.append(f"working tree is {manifest['git_tree']}: reproducibility "
                         "claims apply only to a committed, tagged state")
@@ -757,26 +1066,51 @@ def main() -> int:
     # ensembles are built, which is one of the two dispositions the 2026-08-09
     # audit accepted.  A model is only "retained unresolved" if it is in the
     # primary arm AND that arm does not project.
-    projected = SENSITIVITY_ARMS["primary"].get(
-        "source_experiment", "").endswith("_n4proj")
-    retained_n4 = ([] if projected
-                   else sorted(N4_FAILING_MODELS - set(PRIMARY_EXCLUSIONS)))
+    # PER ARM AND PER MODEL, never inferred globally from one filename.
+    #
+    # This tested `SENSITIVITY_ARMS["primary"]["source_experiment"].endswith
+    # ("_n4proj")` and, on that basis alone, declared every N4 failure projected
+    # and suppressed the retained-N4 blocker for the whole release -- while
+    # `replication_only` was reading the unprojected replication table and its
+    # decision artifact still listed tomko_ca1 as retained with three
+    # unidentifiable parameters (2026-08-09 post-response-3 audit, P0-5).
+    from compass.analysis.cohorts import REPORTED_ARMS, n4_disposition_by_arm
+
+    by_arm = n4_disposition_by_arm()
+    manifest["n4_disposition_by_arm"] = by_arm
+    reported = REPORTED_ARMS
+    unresolved = {a: by_arm[a]["n4_failing_models_present"]
+                  for a in reported
+                  if by_arm.get(a, {}).get("disposition") == "retained_unresolved"}
+    retained_n4 = sorted({m for ms in unresolved.values() for m in ms})
     manifest["n4_disposition"] = (
-        "projected out of the sampled space before ensemble construction"
-        if projected else "retained with unidentifiable parameters intact")
-    if retained_n4:
+        "projected out of the sampled space before ensemble construction in "
+        + ", ".join(a for a in reported
+                    if by_arm.get(a, {}).get("disposition") == "projected")
+        if not unresolved else
+        "retained with unidentifiable parameters intact in " + ", ".join(unresolved))
+    if unresolved:
         blockers.append(
-            "N4-failing implementations retained in the primary cohort: "
-            + ", ".join(f"{m} ({', '.join(UNIDENTIFIABLE_PARAMETERS[m])})"
-                        for m in retained_n4)
-            + " -- the primary cohort is N3-passing, NOT gate-passing. See the "
-              "n4_strict and n4_retained sensitivity arms")
+            "N4-failing implementations retained in a REPORTED arm: "
+            + "; ".join(f"{a}: " + ", ".join(
+                f"{m} ({', '.join(UNIDENTIFIABLE_PARAMETERS[m])})" for m in ms)
+                for a, ms in sorted(unresolved.items()))
+            + " -- these cohorts are N3-passing, NOT gate-passing. See the "
+              "n4_strict, n4_retained and replication_n4_retained arms")
     manifest["cohort_label"] = cohort_label("primary")
     manifest["n4_unidentifiable_parameters"] = {
         m: UNIDENTIFIABLE_PARAMETERS[m] for m in sorted(UNIDENTIFIABLE_PARAMETERS)}
-    from compass.adapters.base import MEASUREMENT_SCHEMA_VERSION
+    from compass.adapters.base import (
+        MEASUREMENT_SCHEMA_VERSION,
+        RHEOBASE_SEARCH_CONTRACT,
+    )
+    from compass.validation.gates import n2_coverage
 
     manifest["measurement_schema"] = MEASUREMENT_SCHEMA_VERSION
+    # The guarantee travels with the schema version, so a reader of the manifest
+    # never has to infer what "probe-4" promises (post-response-3 audit, P0-1).
+    manifest["rheobase_search_contract"] = RHEOBASE_SEARCH_CONTRACT
+    manifest["n2_coverage"] = n2_coverage()
     manifest["confirmatory_release_gates"] = confirmatory_gates(
         manifest, gates, retained_n4)
     manifest["release_acceptance_checklist"] = acceptance_checklist(manifest, gates)

@@ -1,0 +1,218 @@
+{
+ "table": [
+  {
+   "count": "rows_total",
+   "criterion": "every row present in BOTH snapshots, joined on (experiment, model_id, regime, replicate, parameter_sample_id)",
+   "n": 130098,
+   "pct_of_total": 100.0
+  },
+  {
+   "count": "rows_unchanged",
+   "criterion": "identical rheobase (both NaN counts as identical) AND identical feature digest AND identical physiology_class",
+   "n": 129220,
+   "pct_of_total": 99.325
+  },
+  {
+   "count": "rows_any_change",
+   "criterion": "the complement of rows_unchanged: rheobase, feature digest or physiology_class moved",
+   "n": 878,
+   "pct_of_total": 0.675
+  },
+  {
+   "count": "rheobase_changed",
+   "criterion": "rheobase differs by more than 1e-12, or one is NaN and the other is not",
+   "n": 275,
+   "pct_of_total": 0.211
+  },
+  {
+   "count": "rescued_from_silence",
+   "criterion": "rheobase was NaN before and is finite after: a row that was recorded as non-spiking and in fact fires",
+   "n": 86,
+   "pct_of_total": 0.066
+  },
+  {
+   "count": "lost_to_silence",
+   "criterion": "rheobase was finite before and is NaN after",
+   "n": 16,
+   "pct_of_total": 0.012
+  },
+  {
+   "count": "rheobase_lowered",
+   "criterion": "both finite and the new value is lower by more than 1e-12: a firing window below the one the previous search found",
+   "n": 164,
+   "pct_of_total": 0.126
+  },
+  {
+   "count": "rheobase_raised",
+   "criterion": "both finite and the new value is higher by more than 1e-12",
+   "n": 9,
+   "pct_of_total": 0.007
+  },
+  {
+   "count": "became_spontaneous",
+   "criterion": "rheobase is exactly 0 after and was not exactly 0 before",
+   "n": 64,
+   "pct_of_total": 0.049
+  },
+  {
+   "count": "ceased_to_be_spontaneous",
+   "criterion": "rheobase was exactly 0 before and is not exactly 0 after",
+   "n": 0,
+   "pct_of_total": 0.0
+  },
+  {
+   "count": "features_changed",
+   "criterion": "the float64 digest over all feature columns differs",
+   "n": 211,
+   "pct_of_total": 0.162
+  },
+  {
+   "count": "physiology_class_changed",
+   "criterion": "the stored physiology_class label differs",
+   "n": 698,
+   "pct_of_total": 0.537
+  },
+  {
+   "count": "analysis_eligibility_changed",
+   "criterion": "analysis_eligible differs: the row entered or left the inferential set",
+   "n": 609,
+   "pct_of_total": 0.468
+  },
+  {
+   "count": "entered_the_analysis_set",
+   "criterion": "analysis_eligible False before, True after",
+   "n": 0,
+   "pct_of_total": 0.0
+  },
+  {
+   "count": "left_the_analysis_set",
+   "criterion": "analysis_eligible True before, False after",
+   "n": 609,
+   "pct_of_total": 0.468
+  },
+  {
+   "count": "normalised_validity_changed",
+   "criterion": "normalised_protocol_valid differs: the rheobase-normalised family became defined or undefined for this row",
+   "n": 369,
+   "pct_of_total": 0.284
+  },
+  {
+   "count": "blocked_at_ceiling_after",
+   "criterion": "the new search found a firing window but the ceiling itself is silent",
+   "n": 67,
+   "pct_of_total": 0.051
+  },
+  {
+   "count": "simulation_errors_before",
+   "criterion": "simulation_status != ok in the BEFORE snapshot",
+   "n": 0,
+   "pct_of_total": 0.0
+  },
+  {
+   "count": "simulation_errors_after",
+   "criterion": "simulation_status != ok in the AFTER snapshot",
+   "n": 0,
+   "pct_of_total": 0.0
+  },
+  {
+   "count": "qc_flags_changed",
+   "criterion": "the stored qc_flags string differs",
+   "n": 625,
+   "pct_of_total": 0.48
+  }
+ ],
+ "per_model": {
+  "bbp_l5pc": {
+   "n_rows": 4608,
+   "n_changed": 2,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 2
+  },
+  "dougalis_vlpag_da": {
+   "n_rows": 8192,
+   "n_changed": 330,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 120
+  },
+  "hh_cable": {
+   "n_rows": 25088,
+   "n_changed": 37,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 37
+  },
+  "hh_point": {
+   "n_rows": 24064,
+   "n_changed": 1,
+   "n_rescued_from_silence": 1,
+   "n_rheobase_lowered": 0
+  },
+  "khaliq_purkinje": {
+   "n_rows": 13056,
+   "n_changed": 486,
+   "n_rescued_from_silence": 63,
+   "n_rheobase_lowered": 5
+  },
+  "mainen_l5pc": {
+   "n_rows": 960,
+   "n_changed": 0,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 0
+  },
+  "migliore_ca1": {
+   "n_rows": 1906,
+   "n_changed": 0,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 0
+  },
+  "moubarak_snc_da": {
+   "n_rows": 512,
+   "n_changed": 0,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 0
+  },
+  "pospischil_fs": {
+   "n_rows": 24576,
+   "n_changed": 0,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 0
+  },
+  "pospischil_rs": {
+   "n_rows": 25088,
+   "n_changed": 0,
+   "n_rescued_from_silence": 0,
+   "n_rheobase_lowered": 0
+  },
+  "tomko_ca1": {
+   "n_rows": 2048,
+   "n_changed": 22,
+   "n_rescued_from_silence": 22,
+   "n_rheobase_lowered": 0
+  }
+ },
+ "rows_only_in_before": 0,
+ "rows_only_in_after": 0,
+ "rheobase_delta_nA": {
+  "n": 122099,
+  "median": 0.0,
+  "p01": 0.0,
+  "p99": 0.0,
+  "min": -1.1630859375,
+  "max": 0.029296875
+ },
+ "generated_utc": "2026-08-10T19:15:15.807544+00:00",
+ "before": {
+  "file": "corpus_probe-3-final_keyed2_20260809T1748.parquet",
+  "n_rows": 130098,
+  "sha256": "278d1c29ed0341f36486c88360623fb8d1a331d7ea05df8e5862d4df8f80e54b",
+  "measurement_schema": []
+ },
+ "after": {
+  "file": "corpus_probe-4_20260810T1911.parquet",
+  "n_rows": 130098,
+  "sha256": "037f9665922672269c196f6f16257538aeaf3189fb71bad3d5e4106afdc0a8f7",
+  "measurement_schema": [
+   "probe-4"
+  ]
+ },
+ "_doc": "Every count below is defined by its `criterion` field and recomputable from the two snapshot files named above. No affected-row count may be quoted anywhere in this repository unless it appears here (2026-08-09 post-response-3 audit, P0-2)."
+}

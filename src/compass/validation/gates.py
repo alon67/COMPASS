@@ -27,16 +27,67 @@ __all__ = ["GateResult", "environment_record", "gate_record", "git_tree"]
 ROOT = Path(__file__).resolve().parents[3]
 
 
-def git_tree() -> str:
-    """Current commit, with a dirty marker.  ``unversioned`` if not a repo."""
+# THE TREE IDENTITY IS THE SOURCE REVISION, NOT THE WHOLE WORKING DIRECTORY.
+#
+# `git_tree()` used to run `git rev-parse HEAD` plus `git status --porcelain`
+# over everything, and generated output is tracked in this repository -- 176 of
+# 204 modified files at the 2026-08-11 release were under `results/`. Two
+# consequences, and together they made the release's own acceptance item
+# "one clean identified revision" unreachable:
+#
+#   * every gate record carried `<rev>-dirty` forever, because running a gate
+#     writes a tracked artifact and therefore dirties the tree it is stamping;
+#   * committing changed HEAD, which instantly made all 4,780 campaign records,
+#     84 N-gate records and every waveform record stale -- and re-running them
+#     to fix that dirtied the tree again. A fixed point with no exit.
+#
+# The claim a gate record actually makes is "this evidence was produced by this
+# SOURCE revision". So the identity is now the last commit that touched a
+# declared INPUT path, and the dirty flag is computed over those paths alone.
+# Regenerating results no longer changes it; changing a line of `src/` does.
+#
+# The path set is read from configs/release_inventory.json -- the `source` and
+# `configuration` classes, the same two the clean-build check calls inputs -- so
+# it cannot drift from the inventory's own notion of what an input is.
+_INPUT_CLASSES = ("source", "configuration")
+
+
+def _source_paths() -> list[str]:
+    """Top-level paths of the declared input classes, from the inventory."""
+    inv = ROOT / "configs" / "release_inventory.json"
     try:
-        out = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
-                             capture_output=True, text=True, timeout=20)
-        if out.returncode != 0:
+        classes = json.loads(inv.read_text())["classes"]
+    except Exception:  # noqa: BLE001
+        return ["src", "tools", "tests", "configs", "pyproject.toml"]
+    out: set[str] = set()
+    for name in _INPUT_CLASSES:
+        for glob in classes.get(name, {}).get("include", []):
+            out.add(glob.split("/")[0].split("*")[0] or glob)
+    return sorted(p for p in out if p)
+
+
+def git_tree() -> str:
+    """The source revision, with a dirty marker over source paths only.
+
+    ``unversioned`` if this is not a git repository.
+    """
+    try:
+        paths = _source_paths()
+        rev = subprocess.run(
+            ["git", "-C", str(ROOT), "log", "-1", "--format=%H", "--", *paths],
+            capture_output=True, text=True, timeout=20)
+        if rev.returncode != 0:
             return "unversioned"
-        commit = out.stdout.strip()
-        dirty = subprocess.run(["git", "-C", str(ROOT), "status", "--porcelain"],
-                               capture_output=True, text=True, timeout=30)
+        commit = rev.stdout.strip()
+        if not commit:                      # no commit has touched source yet
+            head = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                                  capture_output=True, text=True, timeout=20)
+            commit = head.stdout.strip() if head.returncode == 0 else ""
+            if not commit:
+                return "unversioned"
+        dirty = subprocess.run(
+            ["git", "-C", str(ROOT), "status", "--porcelain", "--", *paths],
+            capture_output=True, text=True, timeout=30)
         return commit + ("-dirty" if dirty.stdout.strip() else "")
     except Exception:  # noqa: BLE001
         return "unversioned"
@@ -99,6 +150,45 @@ def gate_record(gate: str, subject: str, failures: list[str],
         measurements=measurements or {}, tolerances=tolerances or {},
         inputs=inputs or {},
     )
+
+
+def n2_coverage() -> dict:
+    """The single generated statement of what gate N2 does and does not cover.
+
+    N2's roll-up reads ``7/7``, which is six model tests plus one
+    declaration-coverage test -- and a reader who sees ``7/7`` beside a gate
+    named "quantitative agreement with published values" will read it as seven
+    source-reproduced models out of seven (2026-08-09 post-response-3 audit,
+    P1-2).  The published summary is generated from the target file instead, so
+    every document quotes the same sentence and the arithmetic cannot drift.
+    """
+    spec = json.loads(
+        (ROOT / "data" / "provenance" / "n2_source_targets.json").read_text())
+    models = spec["models"]
+    ev = sorted(m for m, v in models.items() if v.get("evaluable"))
+    ne = sorted(m for m, v in models.items() if not v.get("evaluable"))
+    n_targets = sum(len(models[m].get("targets", [])) for m in ev)
+    n_unmatched = sum(1 for m in ev for t in models[m].get("targets", [])
+                      if not t.get("protocol_matched"))
+    return {
+        "statement": (f"source-referenced canonical scalar agreement: "
+                      f"{len(ev)}/{len(models)} evaluable implementations"),
+        "n_evaluable": len(ev),
+        "n_registered": len(models),
+        "evaluable": ev,
+        "not_evaluable": ne,
+        "n_scalar_targets": n_targets,
+        "n_targets_with_unmatched_protocol": n_unmatched,
+        "is_not": ("trace-level reproduction of a published figure. The "
+                   "published stimulus, temperature and recording site are not "
+                   "distributed with these models; every target is a published "
+                   "SCALAR compared against the COMPASS canonical measurement, "
+                   "and targets whose protocol does not match are marked as "
+                   "such with a widened tolerance."),
+        "roll_up_note": (f"the N2 gate roll-up counts {len(ev)} model tests plus "
+                         f"one declaration-coverage test; it is not "
+                         f"{len(ev) + 1} reproduced models"),
+    }
 
 
 def write_gate_records(records: list[GateResult], path: Path) -> Path:

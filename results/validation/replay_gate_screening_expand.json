@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-09T14:51:38.427380+00:00",
- "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+ "written_utc": "2026-08-11T11:23:57.268912+00:00",
+ "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -135,7 +135,7 @@
      "migliore_ca1:E6:1:89"
     ]
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -149,7 +149,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T14:51:38.427333+00:00",
+   "recorded_utc": "2026-08-11T11:23:57.268870+00:00",
    "passed": true
   }
  ]

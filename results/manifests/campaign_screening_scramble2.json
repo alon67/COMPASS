@@ -12312,5 +12312,6158 @@
   "n_samples": 18944,
   "n_error": 0,
   "n_nonspiking": 1375
+ },
+ {
+  "invocation_utc": "2026-08-10T06:03:09.190472+00:00",
+  "experiment": "screening_scramble2",
+  "models": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "regimes": null,
+  "replicates": 1,
+  "workers": 12,
+  "seeds": {
+   "bbp_l5pc:r1": 21032558,
+   "hh_cable:r1": 21032690,
+   "hh_point:r1": 21032736,
+   "khaliq_purkinje:r1": 21031810,
+   "pospischil_fs:r1": 21032335,
+   "pospischil_rs:r1": 21032310
+  },
+  "code_hash": "475fc72261b91705",
+  "config_hash": "4e40c55aa6ecbb25",
+  "env_hash": "26da7d85899aec51",
+  "asset_hash": {
+   "bbp_l5pc": "e4291e6944ef61c8",
+   "hh_cable": "builtin",
+   "hh_point": "builtin",
+   "khaliq_purkinje": "0fac8a56cb61ba9c",
+   "pospischil_fs": "07c0ddd2c817c271",
+   "pospischil_rs": "07c0ddd2c817c271"
+  },
+  "mechanism_hash": {
+   "bbp_l5pc": "579739062ee339dd",
+   "hh_cable": "builtin",
+   "hh_point": "none",
+   "khaliq_purkinje": "652564f3ee00b2b3",
+   "pospischil_fs": "unknown",
+   "pospischil_rs": "f906670fc4b6027a"
+  },
+  "n_reused_shards": 0,
+  "n_stale_quarantined": 762,
+  "env": {
+   "python": "3.12.4",
+   "numpy": "1.26.4",
+   "platform": "macOS-26.5.2-arm64-arm-64bit"
+  },
+  "wall_min": 42.24,
+  "blocks": [
+   {
+    "shard": "E1_r1_000250.parquet",
+    "n": 6,
+    "wall_s": 212.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 863.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 954.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 963.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 974.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 986.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 1019.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 1030.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 1038.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 1062.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 1077.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000125.parquet",
+    "n": 3,
+    "wall_s": 101.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 1121.4,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 960.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000125.parquet",
+    "n": 3,
+    "wall_s": 95.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001000.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001025.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001050.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001075.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001100.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001125.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001150.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001175.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001200.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001225.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001250.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001275.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001300.parquet",
+    "n": 25,
+    "wall_s": 6.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001325.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001350.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001375.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001400.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001425.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001450.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001475.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001500.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001525.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001550.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001575.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001600.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001625.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001650.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001675.parquet",
+    "n": 25,
+    "wall_s": 7.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001700.parquet",
+    "n": 25,
+    "wall_s": 6.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001725.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001750.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001775.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001800.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001825.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001850.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001875.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001900.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001925.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001950.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001975.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002000.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002025.parquet",
+    "n": 23,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 4.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 3.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 4.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 6.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 4.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 4.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 4.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 4.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 4.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 4.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 4.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 4.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 4.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 4.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 4.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 4.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 4.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 3.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 4.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 4.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 3.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 6.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 6.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 6.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 6.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 6.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 7.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 6.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 6.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001000.parquet",
+    "n": 25,
+    "wall_s": 6.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001075.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001050.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001025.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001100.parquet",
+    "n": 25,
+    "wall_s": 6.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001175.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001125.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001150.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001200.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001225.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001250.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001275.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001300.parquet",
+    "n": 25,
+    "wall_s": 6.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001325.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001375.parquet",
+    "n": 25,
+    "wall_s": 6.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001350.parquet",
+    "n": 25,
+    "wall_s": 6.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001400.parquet",
+    "n": 25,
+    "wall_s": 6.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001425.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001475.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001450.parquet",
+    "n": 25,
+    "wall_s": 6.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001500.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001525.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001550.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001575.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001600.parquet",
+    "n": 25,
+    "wall_s": 6.7,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001625.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001650.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001675.parquet",
+    "n": 25,
+    "wall_s": 6.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001700.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001725.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001750.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001775.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001800.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001825.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001850.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001875.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001925.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001900.parquet",
+    "n": 25,
+    "wall_s": 6.7,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001950.parquet",
+    "n": 25,
+    "wall_s": 6.9,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001975.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002025.parquet",
+    "n": 23,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002000.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 6.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 6.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 4.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 4.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 4.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 4.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 5.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 5.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 5.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 4.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 5.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 6.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 4.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 5.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 4.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 4.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 5.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 5.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 4.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 5.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 4.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 5.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 5.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 4.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 4.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 4.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 6.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 847.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 978.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 823.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 39.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 46.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 48.7,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 49.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E1_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 36.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 44.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E2_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 952.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 48.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 31.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 47.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 6
+   },
+   {
+    "shard": "E1_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 42.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 42.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E6_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 892.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 906.7,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 42.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 51.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E2_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 974.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 39.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 49.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E1_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 37.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E1_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 37.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E1_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 42.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 39.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 6
+   },
+   {
+    "shard": "E1_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 44.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 5
+   },
+   {
+    "shard": "E1_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 56.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E6_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 911.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 44.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E1_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 37.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 5
+   },
+   {
+    "shard": "E1_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 49.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 42.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 41.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E1_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 40.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E1_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 43.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 7
+   },
+   {
+    "shard": "E1_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 49.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 39.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 44.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 46.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E1_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 43.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 39.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 48.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 5
+   },
+   {
+    "shard": "E1_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 44.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 6
+   },
+   {
+    "shard": "E1_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 43.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E1_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 40.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E1_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 43.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E1_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 47.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 43.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 6
+   },
+   {
+    "shard": "E2_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 37.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 8
+   },
+   {
+    "shard": "E2_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 41.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 9
+   },
+   {
+    "shard": "E2_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 43.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 7
+   },
+   {
+    "shard": "E2_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 43.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E2_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 50.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 8
+   },
+   {
+    "shard": "E2_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 46.8,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E2_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 55.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 6
+   },
+   {
+    "shard": "E2_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 35.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E2_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 32.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 9
+   },
+   {
+    "shard": "E2_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 36.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 10
+   },
+   {
+    "shard": "E2_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 53.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 9
+   },
+   {
+    "shard": "E2_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 40.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 5
+   },
+   {
+    "shard": "E2_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 56.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E2_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 44.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 4
+   },
+   {
+    "shard": "E2_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 56.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 5
+   },
+   {
+    "shard": "E2_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 37.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 8
+   },
+   {
+    "shard": "E2_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 45.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 9
+   },
+   {
+    "shard": "E2_r1_000500.parquet",
+    "n": 12,
+    "wall_s": 25.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 3
+   },
+   {
+    "shard": "E2_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 44.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 8
+   },
+   {
+    "shard": "E2_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 51.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 5
+   },
+   {
+    "shard": "E6_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 30.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 39.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 37.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 31.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 37.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E2_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 59.5,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 10
+   },
+   {
+    "shard": "E6_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 33.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E6_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 38.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 35.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 35.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 37.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E6_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 36.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 8.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 30.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 37.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 32.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 38.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 2
+   },
+   {
+    "shard": "E6_r1_000500.parquet",
+    "n": 12,
+    "wall_s": 18.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 9.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 9.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 8.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 37.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 9.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 9.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 9.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 9.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 9.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 9.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 38.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 39.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 39.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E6_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 41.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 1
+   },
+   {
+    "shard": "E1_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 10.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 10.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 10.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 10.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 10.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 10.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 9.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 10.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 10.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 10.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 11.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 11.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 10.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 11.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 11.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 10.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 10.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 10.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 11.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 11.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 11.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 11.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 11.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 11.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 10.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 11.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 11.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001000.parquet",
+    "n": 25,
+    "wall_s": 10.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001025.parquet",
+    "n": 25,
+    "wall_s": 10.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001050.parquet",
+    "n": 25,
+    "wall_s": 10.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001075.parquet",
+    "n": 25,
+    "wall_s": 11.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001100.parquet",
+    "n": 25,
+    "wall_s": 11.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001125.parquet",
+    "n": 25,
+    "wall_s": 12.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001150.parquet",
+    "n": 25,
+    "wall_s": 11.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001225.parquet",
+    "n": 25,
+    "wall_s": 10.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001175.parquet",
+    "n": 25,
+    "wall_s": 11.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001200.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001250.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001275.parquet",
+    "n": 25,
+    "wall_s": 12.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001300.parquet",
+    "n": 25,
+    "wall_s": 10.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001325.parquet",
+    "n": 25,
+    "wall_s": 9.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001350.parquet",
+    "n": 25,
+    "wall_s": 10.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001375.parquet",
+    "n": 25,
+    "wall_s": 10.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001400.parquet",
+    "n": 25,
+    "wall_s": 11.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001425.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001450.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001525.parquet",
+    "n": 25,
+    "wall_s": 10.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001500.parquet",
+    "n": 25,
+    "wall_s": 10.9,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001475.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001550.parquet",
+    "n": 25,
+    "wall_s": 11.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001575.parquet",
+    "n": 25,
+    "wall_s": 12.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001600.parquet",
+    "n": 25,
+    "wall_s": 10.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001650.parquet",
+    "n": 25,
+    "wall_s": 10.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001625.parquet",
+    "n": 25,
+    "wall_s": 11.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001675.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001700.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001725.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001750.parquet",
+    "n": 25,
+    "wall_s": 12.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001775.parquet",
+    "n": 25,
+    "wall_s": 10.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001800.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001825.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001850.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001875.parquet",
+    "n": 25,
+    "wall_s": 10.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001900.parquet",
+    "n": 25,
+    "wall_s": 10.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001925.parquet",
+    "n": 25,
+    "wall_s": 10.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002000.parquet",
+    "n": 25,
+    "wall_s": 10.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001975.parquet",
+    "n": 25,
+    "wall_s": 11.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001950.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002025.parquet",
+    "n": 23,
+    "wall_s": 11.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 11.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 10.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 12.4,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 11.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 10.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 11.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 12.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 13.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 14.3,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 10.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 13.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 11.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 12.7,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 13.0,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 10.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 11.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 10.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 12.7,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 10.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 13.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 10.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 10.4,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 11.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 10.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 12.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 11.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 10.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 10.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 11.4,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 10.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 11.2,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 11.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 11.4,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 11.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 10.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 11.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 13.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 12.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 11.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 12.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 11.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 10.9,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 10.5,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 10.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 13.6,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 11.7,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 12.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 10.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 9.8,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 10.1,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 12.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 13.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 11.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 12.0,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 13.6,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 14.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 10.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 13.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 12.5,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 12.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 11.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 13.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 12.7,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 11.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 12.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 12.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 6.9,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 12.1,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 11.3,
+    "n_error": 0,
+    "n_nonspiking": 0,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 7.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 12.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 10.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 11.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 11.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 8.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 7.8,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 7.6,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 7.0,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 7.8,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 8.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 9.0,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 8.5,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 8.7,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 7.8,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 8.5,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 8.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001000.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001025.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001075.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001050.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001125.parquet",
+    "n": 25,
+    "wall_s": 7.1,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001100.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001175.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001150.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001200.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001225.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001275.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001250.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001325.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001300.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001350.parquet",
+    "n": 25,
+    "wall_s": 6.6,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001400.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001375.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001425.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001450.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001475.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001500.parquet",
+    "n": 25,
+    "wall_s": 8.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001525.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001550.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001575.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001625.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001600.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001650.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001700.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001675.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001725.parquet",
+    "n": 25,
+    "wall_s": 7.8,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001775.parquet",
+    "n": 25,
+    "wall_s": 7.8,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001750.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001800.parquet",
+    "n": 25,
+    "wall_s": 8.4,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001825.parquet",
+    "n": 25,
+    "wall_s": 8.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001875.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001850.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001900.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001950.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001925.parquet",
+    "n": 25,
+    "wall_s": 7.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002025.parquet",
+    "n": 23,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_001975.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_002000.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 8.5,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 9.2,
+    "n_error": 0,
+    "n_nonspiking": 9,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 8.4,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 8.8,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 7.6,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 6.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 6.9,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 9.0,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 9.9,
+    "n_error": 0,
+    "n_nonspiking": 8,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 7.8,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 6.6,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 9.1,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 7.6,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 9.0,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 7.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 7.8,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E2_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000100.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000050.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 9.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 9.3,
+    "n_error": 0,
+    "n_nonspiking": 8,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000075.parquet",
+    "n": 25,
+    "wall_s": 9.0,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000125.parquet",
+    "n": 25,
+    "wall_s": 9.3,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000150.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000175.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000200.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000225.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000250.parquet",
+    "n": 25,
+    "wall_s": 8.9,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000300.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000275.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000375.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000325.parquet",
+    "n": 25,
+    "wall_s": 8.4,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000350.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000400.parquet",
+    "n": 25,
+    "wall_s": 8.9,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000425.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000450.parquet",
+    "n": 25,
+    "wall_s": 7.5,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000525.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000475.parquet",
+    "n": 25,
+    "wall_s": 8.8,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000500.parquet",
+    "n": 25,
+    "wall_s": 8.3,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000550.parquet",
+    "n": 25,
+    "wall_s": 8.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000675.parquet",
+    "n": 25,
+    "wall_s": 7.0,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000600.parquet",
+    "n": 25,
+    "wall_s": 7.3,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000650.parquet",
+    "n": 25,
+    "wall_s": 7.2,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000575.parquet",
+    "n": 25,
+    "wall_s": 7.4,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000625.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000700.parquet",
+    "n": 25,
+    "wall_s": 8.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000725.parquet",
+    "n": 25,
+    "wall_s": 6.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000750.parquet",
+    "n": 25,
+    "wall_s": 7.9,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000775.parquet",
+    "n": 25,
+    "wall_s": 8.2,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000800.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 6,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000825.parquet",
+    "n": 25,
+    "wall_s": 8.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000850.parquet",
+    "n": 25,
+    "wall_s": 9.0,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000900.parquet",
+    "n": 25,
+    "wall_s": 7.6,
+    "n_error": 0,
+    "n_nonspiking": 3,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000925.parquet",
+    "n": 25,
+    "wall_s": 7.6,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000875.parquet",
+    "n": 25,
+    "wall_s": 7.7,
+    "n_error": 0,
+    "n_nonspiking": 7,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000975.parquet",
+    "n": 25,
+    "wall_s": 8.1,
+    "n_error": 0,
+    "n_nonspiking": 2,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_000950.parquet",
+    "n": 25,
+    "wall_s": 9.0,
+    "n_error": 0,
+    "n_nonspiking": 5,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E6_r1_001000.parquet",
+    "n": 24,
+    "wall_s": 8.5,
+    "n_error": 0,
+    "n_nonspiking": 4,
+    "n_ineligible": 0
+   }
+  ],
+  "n_blocks_total": 762,
+  "n_blocks_run": 762,
+  "n_samples": 18944,
+  "n_error": 0,
+  "n_nonspiking": 1118
  }
 ]

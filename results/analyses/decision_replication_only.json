@@ -17,21 +17,21 @@
   {
    "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
    "supports": "H-G",
-   "value": 673.0789870941667,
+   "value": 311.29483814940846,
    "passed": true,
-   "detail": "sampling=0.054 geometry=0.013 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>673x), not a point estimate"
+   "detail": "sampling=0.028 geometry=0.004 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>311x), not a point estimate"
   },
   {
    "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
    "supports": "H-G",
-   "value": 0.8476424965400554,
+   "value": 0.9297257679804687,
    "passed": true,
    "detail": "n_folds=3; leave-one-lineage-out, so no relative of the held-out model stays in training"
   },
   {
    "criterion": "sampling regime predictable across unseen lineages",
    "supports": "H-G",
-   "value": 0.30444444444444446,
+   "value": 0.31777777777777777,
    "passed": true,
    "detail": "baseline=0.183, 11 classes, cv=leave_one_source_lineage_id_out"
   }
@@ -39,17 +39,17 @@
  "descriptive": [
   {
    "quantity": "within-campaign implementation identifiability (descriptive only)",
-   "value": 0.8545454545454547,
+   "value": 0.8363636363636365,
    "detail": "baseline=0.447, 3 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
   },
   {
    "quantity": "adjusted ICC of model identity (mixed model, descriptive only)",
-   "value": 0.913999399625133,
+   "value": 0.9195099794227938,
    "detail": "not scored: the fixed covariates are the H-G hypothesis, so the residual between-family share is not a fair test of H-B"
   },
   {
    "quantity": "top-tuple Jaccard, Gaussian vs Gaussian-copula (descriptive only)",
-   "value": 0.8018648018648019,
+   "value": 0.7999708624708626,
    "detail": "8 models over 31 ensemble cells, min per-model 0.67. Withdrawn as an H-B criterion by the 2026-08-06 audit (M6): both rankings come from Gaussian estimators on the SAME samples -- the copula transform only removes marginal non-Gaussianity -- so agreement between them measures estimator similarity, not module stability. Stability across independent samples is what blueprint 19.3 asks for and what the campaign-scramble replicate now supplies."
   }
  ],
@@ -180,7 +180,7 @@
   "caveat": "the perturbation criteria in this arm are computed without ['dougalis_vlpag_da', 'moubarak_snc_da', 'tomko_ca1']; their conclusion cannot be compared with an arm that has complete coverage"
  },
  "arm": "replication_only",
- "arm_description": "the external replication cohort alone",
+ "arm_description": "the external replication cohort alone, under the SAME N4 rule as the primary arm: tomko_ca1's unidentifiable parameters are projected out before ensembles are built",
  "excluded_models": [
   "mainen_l5pc",
   "miyasho_purkinje",
@@ -210,7 +210,7 @@
    ]
   },
   "excluded_from_primary": {},
-  "cohort_label": "N3-passing; N4 unresolved for bbp_l5pc, tomko_ca1",
+  "cohort_label": "N3-passing, with N4-unidentifiable dimensions projected out of bbp_l5pc, tomko_ca1",
   "n4_failing_models_retained": [
    "tomko_ca1"
   ],
@@ -229,28 +229,28 @@
   "n_lineages": 3,
   "n_implementations": 3,
   "lineage": {
-   "var_group": 0.08054718729431037,
-   "var_residual": 0.007578896078768856,
-   "var_fixed": 0.9882321150706824,
-   "icc_adjusted": 0.9139993996251505,
-   "vpc": 0.07483306896418727,
+   "var_group": 0.04806001905863903,
+   "var_residual": 0.004206971114548173,
+   "var_fixed": 0.9833386382109911,
+   "icc_adjusted": 0.9195099794227996,
+   "vpc": 0.04640764567263458,
    "n_groups": 3,
    "converged": true,
    "method": "REML",
-   "loglike": 35.01090749243217,
+   "loglike": 47.33856646616438,
    "quotable": true,
    "quotability_note": ""
   },
   "implementation": {
-   "var_group": 0.08054718729429297,
-   "var_residual": 0.007578896078768905,
-   "var_fixed": 0.9882321150706616,
-   "icc_adjusted": 0.913999399625133,
-   "vpc": 0.07483306896417376,
+   "var_group": 0.048060019058635585,
+   "var_residual": 0.004206971114548203,
+   "var_fixed": 0.9833386382109925,
+   "icc_adjusted": 0.9195099794227938,
+   "vpc": 0.046407645672631344,
    "n_groups": 3,
    "converged": true,
    "method": "REML",
-   "loglike": 35.010907492432224,
+   "loglike": 47.33856646616431,
    "quotable": true,
    "quotability_note": ""
   }

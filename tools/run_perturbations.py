@@ -57,6 +57,7 @@ Design decisions forced by the 2026-08-06 audit (section 4)
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import json
 import multiprocessing as mp
@@ -297,8 +298,43 @@ def load_backgrounds(experiment: str, model_id: str, param_ids: list[str],
 # --------------------------------------------------------------------------- #
 # Cache identity (2026-08-09 audit, 4.3)
 # --------------------------------------------------------------------------- #
+SELECTION_CODE_PATHS = (
+    ROOT / "tools" / "run_perturbations.py",
+    ROOT / "src" / "compass" / "analysis" / "perturbation.py",
+    ROOT / "src" / "compass" / "analysis" / "tuples.py",
+    ROOT / "src" / "compass" / "analysis" / "oinfo.py",
+    ROOT / "src" / "compass" / "conditioning" / "ensembles.py",
+)
+
+
+@functools.lru_cache(maxsize=1)
+def selection_code_hash() -> str:
+    """Hash of the code that SELECTS backgrounds and candidate tuples.
+
+    ``sim_code_hash`` covers the simulation, but the battery's selection and
+    analysis logic lives outside ``SIM_CODE_PATHS`` and was tracked only by a
+    hand-incremented ``PERTURBATION_BATTERY_VERSION`` -- so a change to how
+    candidates are chosen could leave every cached slice looking current
+    (2026-08-09 post-response-3 audit, P0-3).  This is computed, not remembered.
+    """
+    h = hashlib.blake2b(digest_size=8)
+    for p in SELECTION_CODE_PATHS:
+        h.update(p.name.encode())
+        h.update(p.read_bytes() if p.is_file() else b"<absent>")
+    return h.hexdigest()
+
+
+def _array_hash(a) -> str:
+    """Exact float64 digest of an array, shape included."""
+    arr = np.ascontiguousarray(np.asarray(a, dtype=np.float64))
+    h = hashlib.blake2b(digest_size=8)
+    h.update(str(arr.shape).encode())
+    h.update(arr.tobytes())
+    return h.hexdigest()
+
+
 def slice_identity(model_id: str, experiment: str, jobs: list[dict],
-                   dt_override, dt_scale) -> dict:
+                   dt_override, dt_scale, backgrounds=None) -> dict:
     """Everything that must match before a cached perturbation slice is reused.
 
     The cache used to be keyed on ``{model}{suffix}_{kind}.parquet`` and nothing
@@ -310,6 +346,16 @@ def slice_identity(model_id: str, experiment: str, jobs: list[dict],
 
     Effective solver settings are part of the identity AND are stored, so a
     resumed run reads them back rather than re-deriving them.
+
+    What the post-response-3 audit added (P0-3): the *count* of backgrounds and
+    the seed were bound, but not the background vectors themselves; the tuple
+    indices were bound, but not the O-information values that ranked them; and
+    the selection code was not bound at all.  All three are here now.
+    ``background_vectors_hash`` is also the input-table digest that matters:
+    the backgrounds are k-means representatives of the accepted E3 ensemble, so
+    if the feature rows they were computed from move, the representatives move
+    and the hash changes -- a functional digest of the relevant part of a
+    76,288-row table rather than a hash of the whole thing.
     """
     import importlib.util as iu
 
@@ -328,6 +374,18 @@ def slice_identity(model_id: str, experiment: str, jobs: list[dict],
         kw = dict(kw, dt_ms=float(kw["dt_ms"]) * float(dt_scale))
     payload = json.dumps([sorted(j["tuple_idx"]) for j in jobs] +
                          [j["kind"] for j in jobs], sort_keys=True)
+    # The candidate ROWS, not only their indices: two runs can select the same
+    # tuple indices from differently-ranked tables, and the O-information value
+    # is what made a tuple "top synergy" in the first place.
+    def _oi(j: dict):
+        v = j.get("o_information")
+        return None if v is None else round(float(v), 12)
+
+    rows_payload = json.dumps(
+        [[sorted(j["tuple_idx"]), j["kind"], _oi(j)]
+         for j in sorted(jobs, key=lambda j: (j["kind"], sorted(j["tuple_idx"])))],
+        sort_keys=True)
+    ts_path = OUT / f"tuple_scores_{experiment}.parquet"
     return {
         "model_id": model_id,
         "experiment": experiment,
@@ -335,6 +393,14 @@ def slice_identity(model_id: str, experiment: str, jobs: list[dict],
         "delta_log10": DELTA,
         "n_backgrounds": N_BACKGROUNDS,
         "background_seed": SEED,
+        "background_vectors_hash": (
+            _array_hash(backgrounds) if backgrounds is not None else None),
+        "candidate_rows_hash": hashlib.blake2b(rows_payload.encode(),
+                                               digest_size=8).hexdigest(),
+        "candidate_source_hash": (
+            hashlib.blake2b(ts_path.read_bytes(), digest_size=8).hexdigest()
+            if ts_path.is_file() else None),
+        "selection_code_hash": selection_code_hash(),
         "pert_features": ",".join([*PERT_FEATURES, "spike_count"]),
         "candidate_tuples_hash": hashlib.blake2b(payload.encode(),
                                                  digest_size=8).hexdigest(),
@@ -356,6 +422,73 @@ def slice_identity(model_id: str, experiment: str, jobs: list[dict],
 
 def slice_sidecar(path: Path) -> Path:
     return path.with_suffix(".identity.json")
+
+
+# Identity axes that must be SINGLE-VALUED across every model in an aggregate.
+# A battery half of whose slices were produced under one measurement schema and
+# half under another is not a battery; it is two.
+AGGREGATE_UNIFORM_AXES = ("measurement_schema", "feature_schema",
+                          "battery_version", "selection_code_hash",
+                          "experiment", "delta_log10", "n_backgrounds",
+                          "background_seed")
+
+
+def write_aggregate_identity(path: Path, frame, slice_identities: dict,
+                             args) -> Path:
+    """Bind the aggregate parquet to the identities of the slices inside it."""
+    models = sorted(frame["model_id"].unique()) if len(frame) else []
+    present = {m: slice_identities.get(m) for m in models}
+    missing = sorted(m for m, v in present.items() if not v)
+    axes = {}
+    for axis in AGGREGATE_UNIFORM_AXES:
+        vals = sorted({json.dumps((v or {}).get(axis), sort_keys=True)
+                       for v in present.values() if v})
+        axes[axis] = {"values": [json.loads(v) for v in vals],
+                      "uniform": len(vals) == 1}
+    doc = {
+        "artifact": path.name,
+        "written_utc": datetime.now(UTC).isoformat(),
+        "n_rows": int(len(frame)),
+        "models": models,
+        "models_without_slice_identity": missing,
+        "uniform_axes": axes,
+        "per_model": {m: v for m, v in present.items() if v},
+        "suffix": args.suffix,
+        "_doc": ("The ONLY admissible source of identity for this file. "
+                 "tools/perturbation_inference.py reads it and refuses to run "
+                 "when it is absent, when a model has no slice identity, or "
+                 "when any uniform axis is not uniform -- rather than stamping "
+                 "the schema of whatever code happens to be imported "
+                 "(2026-08-09 post-response-3 audit, P0-3)."),
+    }
+    out = path.with_suffix(".identity.json")
+    out.write_text(json.dumps(doc, indent=1, default=str) + "\n")
+    return out
+
+
+def read_aggregate_identity(path: Path) -> dict:
+    """Load and validate an aggregate sidecar. Fails closed, loudly."""
+    side = path.with_suffix(".identity.json")
+    if not side.is_file():
+        raise SystemExit(
+            f"{path.name} has no identity sidecar ({side.name}). The battery's "
+            f"measurement schema cannot be derived from the analysis tool's own "
+            f"imports -- that is exactly how a stale battery gets relabelled as "
+            f"current. Re-run tools/run_perturbations.py to produce one.")
+    doc = json.loads(side.read_text())
+    if doc.get("models_without_slice_identity"):
+        raise SystemExit(
+            f"{side.name}: no slice identity for "
+            f"{doc['models_without_slice_identity']}; the aggregate contains "
+            f"rows whose provenance is unknown")
+    bad = [a for a, v in (doc.get("uniform_axes") or {}).items()
+           if not v.get("uniform")]
+    if bad:
+        raise SystemExit(
+            f"{side.name}: mixed identity across models on {bad}. "
+            f"An aggregate assembled from slices produced under different "
+            f"{bad} is not one battery and will not be analysed as one.")
+    return doc
 
 
 def write_slice_identity(path: Path, identity: dict, n_rows: int) -> Path:
@@ -483,6 +616,27 @@ def main() -> int:
     # model (2026-08-09 audit, 4.3).  A slice that does not match is neither
     # merged nor silently re-run under a resume flag -- it is reported and the
     # model is put back into the execution set.
+    # BACKGROUNDS ARE SELECTED BEFORE THE RESUME DECISION, not after.
+    #
+    # A cached slice may only be reused when the background vectors it was
+    # simulated around are the ones this run would select, and that cannot be
+    # checked without selecting them (2026-08-09 post-response-3 audit, P0-3).
+    # It costs one pass over each candidate model's table, which is the right
+    # price for the one operation that can silently import stale simulations.
+    bg_of: dict[str, np.ndarray] = {}
+    sd_of: dict[str, np.ndarray] = {}
+    pid_of: dict[str, list[str]] = {}
+    spec_of: dict[str, list] = {}
+    for mid in sorted(picks):
+        specs = get_adapter(mid).parameter_specs()
+        pids = [s.parameter_id for s in specs]
+        bg, sd = load_backgrounds(args.experiment, mid, pids, N_BACKGROUNDS, SEED)
+        pid_of[mid], spec_of[mid], bg_of[mid], sd_of[mid] = pids, specs, bg, sd
+
+    def want_identity(mid: str) -> dict:
+        return slice_identity(mid, args.experiment, picks[mid], args.dt,
+                              args.dt_scale, backgrounds=bg_of.get(mid))
+
     resumed: list[str] = []
     slice_identities: dict[str, dict] = {}
     rejected: dict[str, str] = {}
@@ -495,7 +649,7 @@ def main() -> int:
             if m not in picks:
                 rejected[m] = "not a candidate model in this experiment"
                 continue
-            want = slice_identity(m, args.experiment, picks[m], args.dt, args.dt_scale)
+            want = want_identity(m)
             ok_r, why_r, rec = slice_is_reusable(cdir / f"{m}{tag}_raw.parquet", want)
             ok_s, why_s, _ = slice_is_reusable(cdir / f"{m}{tag}_summary.parquet", want)
             if ok_r and ok_s:
@@ -521,10 +675,9 @@ def main() -> int:
     for mid in models:
         if mid not in picks:
             continue
-        specs = get_adapter(mid).parameter_specs()
-        pids = [s.parameter_id for s in specs]
+        specs, pids = spec_of[mid], pid_of[mid]
         pid_map[mid] = pids
-        bg, sd = load_backgrounds(args.experiment, mid, pids, N_BACKGROUNDS, SEED)
+        bg, sd = bg_of[mid], sd_of[mid]
         if len(bg) == 0:
             print(f"skip {mid}: accepted ensemble too small for {N_BACKGROUNDS} backgrounds")
             continue
@@ -585,8 +738,7 @@ def main() -> int:
             # Write this model's slice immediately.
             mine = [r for r in rows if r["model_id"] == mid]
             mine_raw = [r for r in raw_rows if r["model_id"] == mid]
-            ident = slice_identity(mid, args.experiment, picks[mid],
-                                   args.dt, args.dt_scale)
+            ident = want_identity(mid)
             slice_identities[mid] = dict(ident)
             for kind, payload in (("summary", mine), ("raw", mine_raw)):
                 p = cache_path(mid, kind)
@@ -617,6 +769,17 @@ def main() -> int:
         print(f"aggregate merged: {sorted(df['model_id'].unique())}", flush=True)
     df.to_parquet(OUT / f"perturbations{sfx}.parquet", index=False)
     raw.to_parquet(OUT / f"perturbations_raw{sfx}.parquet", index=False)
+    # AGGREGATE IDENTITY SIDECAR.
+    #
+    # Per-slice identity existed; the aggregate the analysis tool actually reads
+    # had none, so `perturbation_inference.py` stamped the schema from its own
+    # imported constant and could relabel a probe-2 battery as current
+    # (2026-08-09 post-response-3 audit, P0-3).  The sidecar below is written
+    # beside the raw file, is the only place the analysis tool may take identity
+    # from, and reports mixture explicitly rather than picking one value.
+    for path, frame in ((OUT / f"perturbations{sfx}.parquet", df),
+                        (OUT / f"perturbations_raw{sfx}.parquet", raw)):
+        write_aggregate_identity(path, frame, slice_identities, args)
     summary = analyse(df)
     summary["models_resumed_from_cache"] = resumed
     summary["rejected_cache_slices"] = rejected

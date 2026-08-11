@@ -73,19 +73,16 @@ H-M; the release before this one concluded H-G.
 > supports is that **sampling, conditioning, covariance and model geometry
 > materially influence the sign and magnitude of measured higher-order
 > interactions across the tested models** — not that the interaction structure is
-> generally non-biological. The change is not a new measurement:
-both H-B criteria are computed from perturbation non-additivity, and they are
-now scored only on the implementations whose non-additivity survives halving the
-time step. Three of seven do. On that subset the top-versus-control contrast is
-1.91× with a lineage-clustered interval of [−0.020, +0.530] — it includes zero —
-and functional support is 0.444 against a 0.5 bar.
+> generally non-biological.
 
-> **This is a failure to demonstrate, not a demonstration of absence.** Three
-> lineages cannot separate "no enrichment" from "half a standard deviation of
+> **This is a failure to demonstrate, not a demonstration of absence.**
+> **H-B is UNRESOLVED, not refuted**, and in this release it is formally *not
+> evaluable* rather than failing: its inputs are withheld, so no value of any
+> kind is scored for it. Even when it was last scored, on the three of seven
+> implementations whose non-additivity survived halving the time step, three
+> lineages could not separate "no enrichment" from "half a standard deviation of
 > enrichment", and the same subset's random-control contrast would have passed
-> had it been the scored one. **H-B is UNRESOLVED, not refuted** — and as of
-> this revision it is formally *not evaluable* rather than failing. See
-> [`docs/RESULTS.md` §12.0](docs/RESULTS.md).
+> had it been the scored one. See [`docs/RESULTS.md` §12.0](docs/RESULTS.md).
 
 Read [`docs/RESULTS.md` §0](docs/RESULTS.md) first. The third audit (2026-08-06)
 invalidated two published results — a biased intrinsic-dimension estimator and a
@@ -110,7 +107,7 @@ not passed the numerical-repeatability check that now gates it.
 |---|---|
 | cross-model agreement, conditioning → synergy | **4 / 5 source lineages** in the primary cohort (5/6 with Mainen retained); exact two-sided sign p = 0.375, or 0.219 with Mainen. Unanimous across implementations at the permissive tolerance. |
 | cross-model agreement, high-covariance → redundancy | **4 / 5 source lineages**; exact two-sided sign p = 0.375. **Fails when Mainen is retained** (4/6, p = 0.6875). Weakened from 5/5 (p = 0.0625) once E7 selection was made genuinely held out by cross-fitting: the earlier subset was ranked using axes partly fitted on the rows it then selected. |
-| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,650×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **16.5×** size-matched over 5 lineages, CI [3.4, 105.9], 100% of resamples above threshold |
+| unique R²(sampling+geometry) ÷ unique R²(identity) | **>1,650×** (a lower bound: with lineage as the identity block, unique R²(identity) falls below the 1e-4 resolution floor); **14.4×** size-matched over 5 lineages, CI [2.8, 89.7], 100% of resamples above threshold |
 | effect exceeds each model's own conditional bootstrap noise | **5 / 8 implementations**, SNR 4–5 (a conditional bootstrap ratio, *not* a sigma significance — see below) |
 | effective inferential sample | **7 implementations / 5 source lineages** in the primary cohort; 14 implementations / 10 lineages registered |
 | same effect in a non-neuronal gene circuit | Ω 0.0000 → **−0.0018 … −0.183** (permissive → very strict) |
@@ -120,28 +117,33 @@ not passed the numerical-repeatability check that now gates it.
 |---|---|
 | top-tuple agreement, Gaussian vs Gaussian-copula | Jaccard **0.83** (min 0.67) — descriptive only; both are Gaussian estimators on the same samples, so this measures estimator similarity, not module stability |
 | within-campaign implementation identifiability | **0.566** vs 0.151 baseline — descriptive only; random within-table splits of derived rows from one campaign measure dataset fingerprinting, not biological identity |
-| top-synergy vs **random** controls, non-additivity | 3.83× point, CI [1.55, 9.02], paired p = 0.063 over **5 lineages** |
-| top-synergy vs **matched** controls | 2.49× point, CI [1.07, 6.91], paired p = 0.188 over 5 lineages |
+| top-synergy vs **random** controls, non-additivity | 2.34× point, CI [1.18, 5.75], paired p = 0.156 over **6 lineages** |
+| top-synergy vs **matched** controls | **1.43× point, CI [0.84, 2.99] — includes no enrichment** — paired p = 0.562, 3/6 lineages |
 
-**These two rows moved when the bootstrap unit was corrected, and the move
-matters.** They were previously reported as 2.97× (p = 0.047) and 4.74×
-(p = 0.016) — *"both now below 0.05"* — over **7 models**. That resampled
-implementations: the HH and Pospischil lineages each supplied two of the seven
-"independent" units, so the interval was narrower than the data support. Once
-implementations are averaged within lineage and each lineage counts once, the
-same simulations give 2.49× (p = 0.188) and 3.83× (p = 0.063). **Neither paired
-test is below 0.05.** The direction is unchanged and every lineage still shows
-top > random; the significance claim is withdrawn.
+**On the probe-4 corpus the matched contrast no longer excludes
+no-enrichment.** It read 2.49× (CI [1.07, 6.91], p = 0.188) on the probe-3
+rows and 3.83× (CI [1.55, 9.02], p = 0.063) against random controls. Two
+separable things moved: `mainen_1996` entered the battery — its accepted
+ensemble was previously too small — and it is the one lineage whose top tuples
+are *less* non-additive than their controls; and of the five lineages present
+under both corpora, three are numerically identical while the HH lineage's
+top-tuple non-additivity halved and `khaliq_2003`'s control rose ninefold.
+See §0.0.2 and §11.1 of `docs/RESULTS.md`.
 
-Note also that with five lineages the smallest two-sided Wilcoxon p obtainable is
-0.0625, so the random-control comparison is at its floor: this panel cannot
-produce a significant paired result at the lineage level however large the
-effect.
+Earlier still, these were reported as 2.97× (p = 0.047) and 4.74× (p = 0.016)
+— *"both now below 0.05"* — over **7 models**. That resampled implementations:
+the HH and Pospischil lineages each supplied two of the seven "independent"
+units, so the interval was narrower than the data support. **That significance
+claim was withdrawn then and stays withdrawn.**
 
-Three further limits. The bootstrap upper bounds (6.91 and 9.02) sit far above
-the point estimates, because five lineages is a small unit. `mainen_l5pc` is
-absent from the perturbation battery entirely, so this arm carries the
-partial-coverage caveat the decision table prints. And since the 2026-08-09
+With six lineages the smallest two-sided Wilcoxon p obtainable is 0.031, so the
+panel is no longer pinned at its floor — and neither test approaches it.
+
+Three further limits. The bootstrap upper bounds (2.99 and 5.75) sit far above
+the point estimates, because six lineages is a small unit. `mainen_l5pc` is now
+**in** the battery, so this arm no longer carries the partial-coverage caveat —
+but it is excluded from the primary cohort by gate N3 and casts no vote in the
+scored criteria. And since the 2026-08-09
 audit these criteria are **gated on their own half-step repeatability**, which
 they had never been — see §11.1.1 and §12.0 of `docs/RESULTS.md`.
 **Only one of the two control comparisons is scored**:
@@ -291,10 +293,12 @@ ruff check src tests tools
 ```
 
 Release validation (slow; every gate fails closed, and a missing gate record is
-a failure rather than a pass):
+a failure rather than a pass). Replay must cover **every** declared campaign —
+replaying `screening` alone leaves five campaigns in the release with no
+determinism evidence, which is what this command used to do:
 
 ```bash
-python tools/validate_campaign.py --all && python tools/validate_replay.py --experiment screening && python tools/build_release_manifest.py
+python tools/validate_campaign.py --all && for e in pilot screening screening_expand screening_scramble2 screening_v2_replication sobol; do python tools/validate_replay.py --experiment "$e" || break; done && python tools/build_release_manifest.py
 ```
 
 ```bash

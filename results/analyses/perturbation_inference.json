@@ -20,24 +20,31 @@
    },
    "hh_cable": {
     "n_top_tuples": 6,
-    "median_abs_mean_eta_sd": 0.8569,
-    "median_sem_sd": 0.5613,
+    "median_abs_mean_eta_sd": 0.2433,
+    "median_sem_sd": 0.0547,
     "n_tuples_ci_excludes_zero": 5,
-    "median_signflip_p": 0.0234
+    "median_signflip_p": 0.0156
    },
    "hh_point": {
     "n_top_tuples": 6,
-    "median_abs_mean_eta_sd": 0.9115,
-    "median_sem_sd": 0.5168,
-    "n_tuples_ci_excludes_zero": 5,
-    "median_signflip_p": 0.0742
+    "median_abs_mean_eta_sd": 0.7232,
+    "median_sem_sd": 0.4546,
+    "n_tuples_ci_excludes_zero": 4,
+    "median_signflip_p": 0.125
    },
    "khaliq_purkinje": {
     "n_top_tuples": 6,
-    "median_abs_mean_eta_sd": 0.0315,
-    "median_sem_sd": 0.0191,
-    "n_tuples_ci_excludes_zero": 2,
-    "median_signflip_p": 0.25
+    "median_abs_mean_eta_sd": 0.1018,
+    "median_sem_sd": 0.1953,
+    "n_tuples_ci_excludes_zero": 0,
+    "median_signflip_p": 0.75
+   },
+   "mainen_l5pc": {
+    "n_top_tuples": 6,
+    "median_abs_mean_eta_sd": 0.0502,
+    "median_sem_sd": 0.1132,
+    "n_tuples_ci_excludes_zero": 0,
+    "median_signflip_p": 0.6953
    },
    "migliore_ca1": {
     "n_top_tuples": 6,
@@ -61,40 +68,40 @@
     "median_signflip_p": 0.875
    }
   },
-  "n_top_tuples_total": 42,
-  "n_top_tuples_ci_excludes_zero": 16
+  "n_top_tuples_total": 48,
+  "n_top_tuples_ci_excludes_zero": 13
  },
  "discrete_count_analysis": {
   "definition": "eta recomputed on integer spike counts and tested by exact enumeration of all 2^n background sign flips",
-  "n_tuples": 126,
-  "n_integer_valued": 126,
-  "n_significant_p05": 9,
+  "n_tuples": 144,
+  "n_integer_valued": 144,
+  "n_significant_p05": 8,
   "per_kind_mean_abs_eta_counts": {
-   "control_middle": 1.0208,
-   "control_random": 0.7173,
-   "top_synergy": 2.7708
+   "control_middle": 1.375,
+   "control_random": 0.8307,
+   "top_synergy": 2.1068
   }
  },
  "numerical_repeatability": {
   "status": "ok",
   "sign_stability_by_effect_size": {
    "0.0-0.02 SD": {
-    "n_tuples": 48,
-    "n_sign_flipped": 22,
-    "fraction_flipped": 0.4583,
-    "median_abs_delta_eta_sd": 0.0092
+    "n_tuples": 46,
+    "n_sign_flipped": 19,
+    "fraction_flipped": 0.413,
+    "median_abs_delta_eta_sd": 0.0077
    },
    "0.02-0.1 SD": {
-    "n_tuples": 36,
-    "n_sign_flipped": 2,
-    "fraction_flipped": 0.0556,
-    "median_abs_delta_eta_sd": 0.0163
+    "n_tuples": 49,
+    "n_sign_flipped": 1,
+    "fraction_flipped": 0.0204,
+    "median_abs_delta_eta_sd": 0.0113
    },
    ">=0.1 SD": {
-    "n_tuples": 42,
+    "n_tuples": 49,
     "n_sign_flipped": 0,
     "fraction_flipped": 0.0,
-    "median_abs_delta_eta_sd": 0.0222
+    "median_abs_delta_eta_sd": 0.017
    }
   },
   "diagnostic_note": "the prespecified verdict is not rescored on this breakdown. It is reported because a sign instability confined to effects that are already indistinguishable from zero constrains the conclusion differently from one that touches large effects. The preregistered functional-support threshold is 0.25 SD.",
@@ -110,24 +117,31 @@
    },
    "hh_cable": {
     "n_paired": 144,
-    "median_abs_delta_eta_sd": 0.0,
-    "max_abs_delta_eta_sd": 0.8161114152250151,
-    "tuple_mean_sign_agreement": 1.0,
-    "numerically_repeatable": true
+    "median_abs_delta_eta_sd": 0.1622178029506026,
+    "max_abs_delta_eta_sd": 0.4866534088518078,
+    "tuple_mean_sign_agreement": 0.9444444444444444,
+    "numerically_repeatable": false
    },
    "hh_point": {
     "n_paired": 144,
     "median_abs_delta_eta_sd": 0.0,
-    "max_abs_delta_eta_sd": 1.1785560532216846,
+    "max_abs_delta_eta_sd": 1.1717319203102985,
     "tuple_mean_sign_agreement": 0.7222222222222222,
     "numerically_repeatable": false
    },
    "khaliq_purkinje": {
     "n_paired": 144,
+    "median_abs_delta_eta_sd": 0.045256160092347494,
+    "max_abs_delta_eta_sd": 0.13576848027704247,
+    "tuple_mean_sign_agreement": 0.8888888888888888,
+    "numerically_repeatable": true
+   },
+   "mainen_l5pc": {
+    "n_paired": 144,
     "median_abs_delta_eta_sd": 0.0,
-    "max_abs_delta_eta_sd": 0.09162894508488253,
-    "tuple_mean_sign_agreement": 0.6111111111111112,
-    "numerically_repeatable": false
+    "max_abs_delta_eta_sd": 0.07297651821411533,
+    "tuple_mean_sign_agreement": 1.0,
+    "numerically_repeatable": true
    },
    "migliore_ca1": {
     "n_paired": 144,
@@ -151,7 +165,99 @@
     "numerically_repeatable": true
    }
   },
-  "n_models_repeatable": 3,
-  "n_models": 7
+  "n_models_repeatable": 4,
+  "n_models": 8
+ },
+ "measurement_schema": "probe-4",
+ "feature_schema": "features-2",
+ "measurement_schema_source": "perturbations_raw.identity.json, written by run_perturbations.py when the rows were produced",
+ "measurement_schema_of_this_process": "probe-4",
+ "battery_identity": {
+  "models": [
+   "bbp_l5pc",
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "mainen_l5pc",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "uniform_axes": {
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2",
+   "battery_version": "battery-1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "experiment": "screening",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805
+  },
+  "per_model_digests": {
+   "bbp_l5pc": {
+    "background_vectors_hash": "955026b7d4c84bac",
+    "candidate_rows_hash": "7039766baa3a0f04",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.025
+   },
+   "hh_cable": {
+    "background_vectors_hash": "e673535c176ebba2",
+    "candidate_rows_hash": "f91b1b4632e18d98",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.05
+   },
+   "hh_point": {
+    "background_vectors_hash": "1d6a1d4de0e0d2e3",
+    "candidate_rows_hash": "7f35e3c023199f27",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.025
+   },
+   "khaliq_purkinje": {
+    "background_vectors_hash": "12af370915850e98",
+    "candidate_rows_hash": "28be4914a606ad73",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.00625
+   },
+   "mainen_l5pc": {
+    "background_vectors_hash": "2a92384bd3d6ecdf",
+    "candidate_rows_hash": "8c825661374c0276",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.0125
+   },
+   "migliore_ca1": {
+    "background_vectors_hash": "a3fe80849ba83c09",
+    "candidate_rows_hash": "482e39f1d6a15181",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.025
+   },
+   "pospischil_fs": {
+    "background_vectors_hash": "6385135be8f1c549",
+    "candidate_rows_hash": "243f12bd04c24046",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.025
+   },
+   "pospischil_rs": {
+    "background_vectors_hash": "5ab2ad9c2087ed41",
+    "candidate_rows_hash": "3792919304e4e084",
+    "candidate_source_hash": "ae24c1c8cfc14fe1",
+    "selection_code_hash": "130be7b3ef24753e",
+    "sim_code_hash": "92b476892f08f692",
+    "effective_dt_ms": 0.05
+   }
+  }
  }
 }

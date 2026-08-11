@@ -17,55 +17,59 @@
   {
    "criterion": "unique R2(sampling+geometry) / unique R2(model identity) [synergy_area]",
    "supports": "H-G",
-   "value": 1710.6502348679564,
+   "value": 1706.7724170854447,
    "passed": true,
-   "detail": "sampling=0.158 geometry=0.013 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>1711x), not a point estimate"
+   "detail": "sampling=0.158 geometry=0.013 identity=0.0000; identity is below the 0.0001 resolution floor, so the ratio is a LOWER BOUND (>1707x), not a point estimate"
   },
   {
    "criterion": "out-of-sample R2 for a held-out LINEAGE (sampling+geometry)",
    "supports": "H-G",
-   "value": 0.5645243804815524,
+   "value": 0.5746147145457401,
    "passed": true,
    "detail": "n_folds=6; leave-one-lineage-out, so no relative of the held-out model stays in training"
   },
   {
    "criterion": "sampling regime predictable across unseen lineages",
    "supports": "H-G",
-   "value": 0.2853896761133603,
+   "value": 0.2767364547408407,
    "passed": true,
    "detail": "baseline=0.178, 11 classes, cv=leave_one_source_lineage_id_out"
+  },
+  {
+   "criterion": "statistical synergy modules validated by direct perturbation",
+   "supports": "H-B",
+   "value": 0.125,
+   "passed": false,
+   "detail": "n_top=24, n_control=24; supported 0.125 vs control 0.125; scope: repeatable implementations only (khaliq_purkinje, mainen_l5pc, migliore_ca1, pospischil_rs)"
+  },
+  {
+   "criterion": "top-synergy tuples more non-additive than matched controls",
+   "supports": "H-B",
+   "value": 0.8750465813108982,
+   "passed": false,
+   "detail": "top=0.125 SD vs control=0.143 SD (ratio 0.88x); paired difference -0.018 SD, lineage-clustered 95% CI [-0.054, +0.022] over 4 lineages; scope: repeatable implementations only (khaliq_purkinje, mainen_l5pc, migliore_ca1, pospischil_rs). Scored on the lineage-clustered paired interval, not on the point ratio."
   }
  ],
  "descriptive": [
   {
    "quantity": "within-campaign implementation identifiability (descriptive only)",
-   "value": 0.5567567567567568,
+   "value": 0.5567567567567567,
    "detail": "baseline=0.135, 8 classes, cv=stratified_5fold. Withdrawn as an H-B criterion by the 2026-08-06 audit (7.5): random within-table splits of derived rows from one campaign measure dataset fingerprinting, not independent biological identity."
   },
   {
    "quantity": "adjusted ICC of model identity (mixed model, descriptive only)",
-   "value": 0.2737961684889884,
+   "value": 0.2767589813776212,
    "detail": "not scored: the fixed covariates are the H-G hypothesis, so the residual between-family share is not a fair test of H-B"
   },
   {
    "quantity": "top-tuple Jaccard, Gaussian vs Gaussian-copula (descriptive only)",
-   "value": 0.8018648018648019,
+   "value": 0.7999708624708626,
    "detail": "8 models over 31 ensemble cells, min per-model 0.67. Withdrawn as an H-B criterion by the 2026-08-06 audit (M6): both rankings come from Gaussian estimators on the SAME samples -- the copula transform only removes marginal non-Gaussianity -- so agreement between them measures estimator similarity, not module stability. Stability across independent samples is what blueprint 19.3 asks for and what the campaign-scramble replicate now supplies."
   },
   {
-   "quantity": "statistical synergy modules validated by direct perturbation (NOT EVALUABLE)",
-   "value": 0.30952380952380953,
-   "detail": "n_top=42, n_control=42; supported 0.310 vs control 0.071; scope: NOT EVALUABLE -- the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated. Withheld from the tally: functional support is computed from the same eta as the contrast below, so it inherits the same numerical precondition. Not evaluable is not the same as failed."
-  },
-  {
-   "quantity": "top-synergy tuples more non-additive than matched controls (NOT EVALUABLE)",
-   "value": 2.9708770496886325,
-   "detail": "top=0.306 SD vs control=0.103 SD (ratio 2.97x); paired difference +0.157 SD, lineage-clustered 95% CI [+0.011, +0.376] over 5 lineages; scope: NOT EVALUABLE -- the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated. Withheld from the tally: the campaign-dt eta this contrast is built from does not satisfy the half-step repeatability rule prespecified in perturbation_inference.py. The rule is preregistered; the decision to withhold on it is not -- see perturbation_precondition.provenance."
-  },
-  {
    "quantity": "top vs random control point ratio (descriptive only)",
-   "value": 4.743843797949135,
-   "detail": "top=0.306 SD vs control=0.065 SD (ratio 4.74x); paired difference +0.194 SD, lineage-clustered 95% CI [+0.044, +0.434] over 5 lineages; scope: NOT EVALUABLE -- the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated. Not scored: same measurement as the criterion above with a different denominator."
+   "value": 1.2784547811064333,
+   "detail": "top=0.125 SD vs control=0.098 SD (ratio 1.28x); paired difference +0.027 SD, lineage-clustered 95% CI [-0.034, +0.076] over 4 lineages; scope: repeatable implementations only (khaliq_purkinje, mainen_l5pc, migliore_ca1, pospischil_rs). Not scored: same measurement as the criterion above with a different denominator."
   }
  ],
  "thresholds": {
@@ -87,6 +91,7 @@
    "hh_cable",
    "hh_point",
    "khaliq_purkinje",
+   "mainen_l5pc",
    "migliore_ca1",
    "pospischil_fs",
    "pospischil_rs"
@@ -96,37 +101,39 @@
    "hh_cable",
    "hh_point",
    "khaliq_purkinje",
+   "mainen_l5pc",
    "migliore_ca1",
    "pospischil_fs",
    "pospischil_rs"
   ],
   "models_untested": [],
   "models_repeatable": [
-   "hh_cable",
+   "khaliq_purkinje",
+   "mainen_l5pc",
    "migliore_ca1",
    "pospischil_rs"
   ],
   "models_not_repeatable": [
    "bbp_l5pc",
+   "hh_cable",
    "hh_point",
-   "khaliq_purkinje",
    "pospischil_fs"
   ],
-  "n_repeatable_lineages": 3,
-  "evaluable": false,
-  "reason": "the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated",
-  "measurement_schema_now": "probe-3",
-  "measurement_schema_of_battery": "not recorded",
-  "battery_schema_current": false
+  "n_repeatable_lineages": 4,
+  "evaluable": true,
+  "reason": "4 repeatable implementations over 4 lineages",
+  "measurement_schema_now": "probe-4",
+  "measurement_schema_of_battery": "probe-4",
+  "battery_schema_current": true
  },
  "n_hg_passed": 4,
  "n_hg_total": 5,
  "n_hb_passed": 0,
- "n_hb_total": 0,
- "conclusion": "H-G 4/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
- "conclusion_label": "H-B not evaluable",
+ "n_hb_total": 2,
+ "conclusion": "H-G",
+ "conclusion_label": "H-G",
  "hg_fraction_passed": 0.8,
- "hb_fraction_passed": null,
+ "hb_fraction_passed": 0.0,
  "criterion_dependence": {
   "criteria": [
    {
@@ -173,6 +180,24 @@
     "endpoint": "information summaries",
     "unit": "source lineage",
     "statistic": "classifier accuracy"
+   },
+   {
+    "criterion": "statistical synergy modules validated by direct perturbation",
+    "supports": "H-B",
+    "passed": false,
+    "table": "perturbations",
+    "endpoint": "nonadditivity",
+    "unit": "tuple",
+    "statistic": "support fraction"
+   },
+   {
+    "criterion": "top-synergy tuples more non-additive than matched controls",
+    "supports": "H-B",
+    "passed": false,
+    "table": "perturbations",
+    "endpoint": "nonadditivity",
+    "unit": "source lineage",
+    "statistic": "paired difference"
    }
   ],
   "n_hg_criteria": 5,
@@ -189,8 +214,8 @@
  },
  "interpretation": {
   "status": "exploratory decision-framework outcome",
-  "label": "H-G 4/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted.",
-  "may_be_described_as": "the preregistered decision algorithm returns H-G 4/5; H-B NOT EVALUABLE -- no computable criterion in this arm (both H-B criteria are perturbation-derived and were withheld: the stored battery was produced under measurement schema not recorded, the campaign is now probe-3; its backgrounds and candidate tuples are derived from feature rows that have since been regenerated). The causal-module question is UNRESOLVED, not answered in the negative; no H-M or H-G label is asserted. on this arm",
+  "label": "H-G",
+  "may_be_described_as": "the preregistered decision algorithm returns H-G on this arm",
   "may_not_be_described_as": [
    "a confirmatory general biological conclusion",
    "five independent confirmations",
@@ -223,15 +248,14 @@
    "hh_cable",
    "hh_point",
    "khaliq_purkinje",
+   "mainen_l5pc",
    "migliore_ca1",
    "pospischil_fs",
    "pospischil_rs"
   ],
-  "missing_from_perturbation": [
-   "mainen_l5pc"
-  ],
-  "complete": false,
-  "caveat": "the perturbation criteria in this arm are computed without ['mainen_l5pc']; their conclusion cannot be compared with an arm that has complete coverage"
+  "missing_from_perturbation": [],
+  "complete": true,
+  "caveat": ""
  },
  "arm": "retain_mainen",
  "arm_description": "mainen_l5pc retained despite its N3 failure, to show how much the exclusion moves the result",
@@ -294,28 +318,28 @@
   "n_lineages": 6,
   "n_implementations": 8,
   "lineage": {
-   "var_group": 0.03309981819672213,
-   "var_residual": 0.15725125843607146,
-   "var_fixed": 0.7942819683213954,
-   "icc_adjusted": 0.17388826363496232,
-   "vpc": 0.03361639990283093,
+   "var_group": 0.03267918439375149,
+   "var_residual": 0.15764998399914162,
+   "var_fixed": 0.793025956131358,
+   "icc_adjusted": 0.17169824609485201,
+   "vpc": 0.033232332428797515,
    "n_groups": 6,
    "converged": true,
    "method": "REML",
-   "loglike": -103.33551337099294,
+   "loglike": -103.54004198106963,
    "quotable": true,
    "quotability_note": ""
   },
   "implementation": {
-   "var_group": 0.05553200301149628,
-   "var_residual": 0.14729042258329314,
-   "var_fixed": 0.7597094722586586,
-   "icc_adjusted": 0.2737961684889884,
-   "vpc": 0.05769367553983276,
+   "var_group": 0.056376564289028375,
+   "var_residual": 0.14732618099642955,
+   "var_fixed": 0.7582068401328947,
+   "icc_adjusted": 0.2767589813776212,
+   "vpc": 0.05860900561096825,
    "n_groups": 8,
    "converged": true,
    "method": "REML",
-   "loglike": -100.58811477927873,
+   "loglike": -100.67018279438855,
    "quotable": true,
    "quotability_note": ""
   }

@@ -1,10 +1,11 @@
 {
  "tool": "record_numerical_gates.py",
- "written_utc": "2026-08-09T16:21:10.153374+00:00",
+ "written_utc": "2026-08-11T15:50:39.027323+00:00",
+ "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
  "slow_tests_included": true,
  "provenance": {
-  "git_revision": "c736e48f90783b6e72cb28ee4ddec81af165bbaa",
-  "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+  "git_revision": "2745fa32293660bffb479538c1edea1b3d3cd651",
+  "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
   "command": [
    "/Library/Frameworks/Python.framework/Versions/3.12/bin/python3",
    "-m",
@@ -18,7 +19,7 @@
   "pytest_version": "9.0.2",
   "pytest_exit_code": 1,
   "pytest_exit_meaning": "tests were collected and run, some failed",
-  "duration_s": 2394.7,
+  "duration_s": 2607.0,
   "collection_errors": [],
   "environment": {
    "python": "3.12.4",
@@ -34,7 +35,34 @@
    "SALib": "?"
   }
  },
- "note": "N2 compares each model's canonical operating point against a SOURCED published scalar declared in data/provenance/n2_source_targets.json. It is NOT trace-level reproduction: the published stimulus, temperature and recording site are not distributed with these models. Models with no sourceable scalar are declared not evaluable with a reason and appear as `exempt` in validity_matrix, never as a pass; every claim requiring source-level reproduction is withdrawn for them.",
+ "n2_coverage": {
+  "statement": "source-referenced canonical scalar agreement: 6/14 evaluable implementations",
+  "n_evaluable": 6,
+  "n_registered": 14,
+  "evaluable": [
+   "hh_cable",
+   "hh_point",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "pospischil_fs",
+   "pospischil_rs"
+  ],
+  "not_evaluable": [
+   "bbp_l5pc",
+   "dougalis_vlpag_da",
+   "mainen_l5pc",
+   "miyasho_purkinje",
+   "moubarak_snc_da",
+   "ortner_snc_da",
+   "tomko_ca1",
+   "tzilivaki_fsbc"
+  ],
+  "n_scalar_targets": 8,
+  "n_targets_with_unmatched_protocol": 2,
+  "is_not": "trace-level reproduction of a published figure. The published stimulus, temperature and recording site are not distributed with these models; every target is a published SCALAR compared against the COMPASS canonical measurement, and targets whose protocol does not match are marked as such with a widened tolerance.",
+  "roll_up_note": "the N2 gate roll-up counts 6 model tests plus one declaration-coverage test; it is not 7 reproduced models"
+ },
+ "note": "N2 compares each model's canonical operating point against a SOURCED published scalar declared in data/provenance/n2_source_targets.json. It is NOT trace-level reproduction: the published stimulus, temperature and recording site are not distributed with these models. Models with no sourceable scalar are declared not evaluable with a reason and appear as `exempt` in validity_matrix, never as a pass; every claim requiring source-level reproduction is withdrawn for them. Quote `n2_coverage.statement`, not the roll-up count.",
  "by_gate": {
   "N1": {
    "n": 84,
@@ -71,8 +99,8 @@
    ]
   },
   "N5": {
-   "n": 19,
-   "passed": 19,
+   "n": 40,
+   "passed": 40,
    "skipped": 0,
    "skipped_subjects": [],
    "failed_subjects": []

@@ -1,0 +1,51 @@
+# COMPASS exact environment lock — the versions every published number was
+# produced under.
+#
+# `pyproject.toml` declares LOWER BOUNDS, which is right for a library and wrong
+# for a scientific archive: reinstalling from it a year from now can select a
+# materially different NEURON, eFEL, SciPy or statsmodels, and none of the
+# results in docs/RESULTS.md are claimed to be invariant to that (2026-08-09
+# post-response-3 audit, P1-4).
+#
+# Install exactly this set:
+#     python -m pip install --require-hashes=false -r requirements.lock
+#
+# Provenance of the pin: `python -m pip freeze`-equivalent capture from the
+# interpreter that produced the release, recorded together with the interpreter
+# and platform below. `results/validation/release_manifest.json:environment`
+# records the same versions at build time, and the release verification fails if
+# the running environment does not match this file
+# (`tools/check_environment_lock.py`).
+#
+# Interpreter: CPython 3.12.4 (v3.12.4:8e8a4baf65, 2024-06-06) [Clang 13.0.0]
+# Platform:    macOS 26.5 arm64 (Darwin 25.5.0)
+# Container:   see Dockerfile; the image digest for the archived build is
+#              recorded in data/provenance/container_image.json
+
+# --- simulation and feature extraction ---
+NEURON==8.2.6
+efel==5.7.29
+
+# --- numerics ---
+numpy==1.26.4
+scipy==1.14.0
+pandas==2.2.3
+pyarrow==23.0.0
+scikit-learn==1.5.2
+statsmodels==0.14.6
+SALib==1.5.1
+h5py==3.16.0
+
+# --- figures ---
+matplotlib==3.9.2
+seaborn==0.13.2
+
+# --- support ---
+PyYAML==6.0.3
+joblib==1.4.2
+tqdm==4.67.1
+certifi==2024.12.14
+
+# --- development / verification (not imported by src/) ---
+pytest==9.0.2
+ruff==0.16.1

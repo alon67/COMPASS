@@ -1,0 +1,139 @@
+name: CI
+
+# The repository had no CI at all (2026-08-09 post-response-3 audit, P1-4): the
+# fast suite, the lint and the artifact-schema checks were only ever run on one
+# developer's machine, so "the fast suite is green" was a claim about a laptop.
+#
+# Three jobs, in increasing cost:
+#   checks  — lint + fast suite + schema/consistency checks, no NEURON needed
+#   neuron  — a small REAL-NEURON smoke panel: build a point model, simulate,
+#             extract features, and run the rheobase contract against the real
+#             solver. Minutes, not hours; it is a smoke test, not the gate panel.
+#   locked  — the fast suite under the exact archived environment lock, so drift
+#             in a transitive dependency is visible before it reaches a result.
+#
+# What CI deliberately does NOT do: run the campaign, the perturbation battery,
+# or the slow gate panel. Those are days of compute and are recorded as release
+# evidence with their own provenance, not re-derived per commit.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: lint + fast suite
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.4"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest ruff
+      - name: Lint
+        run: ruff check src tests tools
+      - name: Fast suite
+        run: pytest -m "not slow" -q
+      - name: Artifact schemas and declared configuration parse
+        run: |
+          python - <<'PY'
+          import json, sys
+          from pathlib import Path
+          for p in sorted(Path("configs").rglob("*.json")):
+              json.loads(p.read_text())
+          inv = json.loads(Path("configs/release_inventory.json").read_text())
+          assert inv["inventory_version"], "inventory must declare a version"
+          assert inv["required_campaigns"]["declared"], "no required campaigns"
+          assert "H_B_INPUT" in inv["mandatory_gates"]
+          print("configs parse;", len(inv["classes"]), "inventory classes")
+          PY
+      - name: Report/number consistency
+        run: python tools/verify_report_numbers.py --no-write-manifest
+
+  neuron:
+    name: real-NEURON smoke panel
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.4"
+      - name: System build tools for nrnivmodl
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends bison flex libncurses-dev
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Smoke — build, simulate, extract, and probe rheobase for real
+        env:
+          NEURON_MODULE_OPTIONS: -nogui
+          MPLBACKEND: Agg
+        run: |
+          python - <<'PY'
+          import sys; sys.path.insert(0, "src")
+          import numpy as np
+          from compass.adapters.models import MODEL_REGISTRY
+          from compass.features.extract import extract
+          from compass.protocols import common as P
+          from compass.workflows.simulate import solver_kwargs
+
+          # hh_point only: no downloaded assets, no compiled mechanisms, seconds
+          # to run, and it exercises the whole chain the results depend on.
+          a = MODEL_REGISTRY["hh_point"](); a.build()
+          kw = solver_kwargs("hh_point")
+          rec = a.simulate(0.5, delay_ms=P.DELAY_MS, duration_ms=P.DURATION_MS,
+                           total_ms=P.TOTAL_MS, protocol_id="step_abs_hi", **kw)
+          feats = extract(rec)
+          assert np.isfinite(rec.v).all(), "non-finite trace"
+          assert feats["spike_count"] > 0, f"no spikes at 0.5 nA: {feats}"
+
+          r = a.find_rheobase(delay_ms=P.RHEO_DELAY_MS,
+                              duration_ms=P.RHEO_DURATION_MS,
+                              total_ms=P.RHEO_TOTAL_MS, **kw)
+          d = a.last_rheobase_search
+          assert r is not None and 0.0 < r < a.manifest_rheobase_hi, r
+          assert d["scan_points"] == a.RHEOBASE_SCAN_POINTS
+          print(f"hh_point rheobase={r:.4g} nA in {d['n_probes']} probes; "
+                f"spike_count={feats['spike_count']}")
+
+          # Bit-identical repetition: gate N7's property, on the real solver.
+          a.reset()
+          rec2 = a.simulate(0.5, delay_ms=P.DELAY_MS, duration_ms=P.DURATION_MS,
+                            total_ms=P.TOTAL_MS, protocol_id="step_abs_hi", **kw)
+          assert np.array_equal(rec.v, rec2.v), "fixed-step run is not reproducible"
+          print("N7 smoke: identical after reset")
+          PY
+      - name: Rheobase contract against the real solver
+        env:
+          NEURON_MODULE_OPTIONS: -nogui
+        run: pytest tests/unit/test_rheobase_failure_states.py -q
+
+  locked:
+    name: fast suite under the archived lock
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.4"
+      - name: Install the exact archived versions
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.lock
+          python -m pip install -e . --no-deps
+      - name: Environment matches the lock
+        run: python tools/check_environment_lock.py
+      - name: Fast suite
+        run: pytest -m "not slow" -q

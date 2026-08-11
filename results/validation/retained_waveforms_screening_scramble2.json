@@ -1,19 +1,89 @@
 {
  "tool": "retain_waveforms.py",
- "written_utc": "2026-08-09T15:33:34.153957+00:00",
+ "written_utc": "2026-08-11T12:26:27.581750+00:00",
  "experiment": "screening_scramble2",
- "n_selected": 204,
+ "n_selected": 205,
  "n_clean": 168,
- "n_with_problems": 36,
- "n_features_recomputed": 9362,
+ "n_with_problems": 37,
+ "sample_arithmetic": "168 clean + 37 flagged = 205 samples",
+ "disposition": {
+  "policy": {
+   "simulation_error": {
+    "disposition": "integrity_failure",
+    "mechanism": "gate record fails; the release manifest lists WAVEFORM as a blocker"
+   },
+   "archive_reload_error": {
+    "disposition": "integrity_failure",
+    "mechanism": "as simulation_error"
+   },
+   "archive_schema_error": {
+    "disposition": "integrity_failure",
+    "mechanism": "as simulation_error"
+   },
+   "feature_recomputation": {
+    "disposition": "integrity_failure",
+    "mechanism": "archive and stored row disagree; determinism claim fails"
+   },
+   "spike_count_agreement": {
+    "disposition": "integrity_failure",
+    "mechanism": "archive and stored row describe different simulations"
+   },
+   "no_protocols": {
+    "disposition": "integrity_failure",
+    "mechanism": "as simulation_error"
+   },
+   "finite": {
+    "disposition": "numerical_invalid",
+    "mechanism": "qc_flags raises nonfinite_voltage -> execution_valid=False corpus-wide"
+   },
+   "voltage_range": {
+    "disposition": "numerical_invalid",
+    "mechanism": "qc_flags raises nonphysical_voltage on the same band (PHYSICAL_V_MIN_MV/PHYSICAL_V_MAX_MV) -> excluded corpus-wide"
+   },
+   "discontinuity": {
+    "disposition": "numerical_invalid",
+    "mechanism": "a step larger than one dt of the integrator can produce; co-occurs with nonfinite/nonphysical voltage in every observed case and is reported if it ever does not"
+   },
+   "depolarisation_block": {
+    "disposition": "prior_predictive",
+    "mechanism": "two detectors disagree about one trace; recorded as a finding to adjudicate, never used to drop a row"
+   },
+   "spike_shape": {
+    "disposition": "detector_limit",
+    "mechanism": "a 10 mV / 10 ms screening bound, not a validity criterion; a broad-prior draw may legitimately have a wide, small AP"
+   },
+   "baseline_stability": {
+    "disposition": "protocol_settling",
+    "mechanism": "the strict-QC sensitivity arm drops rows flagged unstable_baseline; the primary arm keeps them and says so"
+   }
+  },
+  "findings_by_class": {
+   "baseline_stability": 36,
+   "depolarisation_block": 1,
+   "spike_shape": 52,
+   "voltage_range": 6
+  },
+  "findings_by_disposition": {
+   "detector_limit": 52,
+   "numerical_invalid": 6,
+   "prior_predictive": 1,
+   "protocol_settling": 36
+  },
+  "unassigned_classes": [],
+  "n_findings_total": 96,
+  "n_findings_classified": 95,
+  "n_findings_truncated_from_the_record": 1,
+  "note": "counts are FINDINGS, not samples: one sample can raise several and they must not be summed to a sample count. Each record lists at most ten; n_findings_total is the true sum."
+ },
+ "n_features_recomputed": 9413,
  "n_features_mismatched": 0,
  "features_recomputed_from": "the reloaded .npz archive, not the in-memory simulation",
  "trace_precision": "float64",
  "problems_by_kind": {
-  "spike_shape": 54,
+  "spike_shape": 52,
   "baseline_stability": 36,
-  "voltage_range": 6,
-  "depolarisation_block": 3
+  "depolarisation_block": 1,
+  "voltage_range": 6
  },
  "coverage": {
   "models": [
@@ -49,6 +119,9 @@
    "every_absolute_protocol_per_model": 1,
    "risk_strata_represented": 1
   },
+  "counts_only_status_ok": true,
+  "n_records": 205,
+  "n_records_not_ok": 37,
   "n_models_required": 6,
   "n_models_covered": 6,
   "missing_models": [],
@@ -58,7 +131,6 @@
   "strata_present": [
    "class_depolarisation_block",
    "class_spontaneous",
-   "class_unstable",
    "coverage",
    "nonspiking",
    "ordinary_random",
@@ -83,14 +155,6 @@
  "traces_dir": "results/traces/retained",
  "worst": [
   {
-   "key": "screening_scramble2/khaliq_purkinje__E2__r1__s483",
-   "stratum": "coverage",
-   "problems": [
-    "step_rheo_1p5x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace",
-    "step_rheo_3p0x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace"
-   ]
-  },
-  {
    "key": "screening_scramble2/pospischil_rs__E1__r1__s933",
    "stratum": "coverage",
    "problems": [
@@ -108,10 +172,11 @@
    ]
   },
   {
-   "key": "screening_scramble2/pospischil_rs__E2__r1__s604",
+   "key": "screening_scramble2/khaliq_purkinje__E2__r1__s483",
    "stratum": "coverage",
    "problems": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.22 mV, 11% of the 11.0 mV excursion"
+    "step_rheo_1p5x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace"
    ]
   },
   {
@@ -122,10 +187,29 @@
    ]
   },
   {
+   "key": "screening_scramble2/pospischil_rs__E2__r1__s604",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 1.22 mV, 11% of the 11.0 mV excursion"
+   ]
+  },
+  {
    "key": "screening_scramble2/pospischil_rs__E2__r1__s809",
    "stratum": "coverage",
    "problems": [
     "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.24 mV, 12% of the 18.2 mV excursion"
+   ]
+  },
+  {
+   "key": "screening_scramble2/bbp_l5pc__E2__r1__s88",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_lo: spike_shape: smallest detected AP is 1.31 mV over 2 spikes measured on the trace",
+    "step_abs_lo: spike_shape: widest detected AP is 27.2 ms over 2 spikes measured on the trace",
+    "step_abs_hi: spike_shape: smallest detected AP is 3.72 mV over 2 spikes measured on the trace",
+    "step_abs_hi: spike_shape: widest detected AP is 70.8 ms over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: smallest detected AP is 0.82 mV over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 20.4 ms over 2 spikes measured on the trace"
    ]
   },
   {
@@ -135,6 +219,22 @@
     "hyperpol_abs: baseline_stability: pre-stimulus mean moved 16.08 mV, 18% of the 88.5 mV excursion",
     "step_abs_lo: baseline_stability: pre-stimulus mean moved 16.08 mV, 20% of the 82.4 mV excursion",
     "step_abs_hi: baseline_stability: pre-stimulus mean moved 16.08 mV, 19% of the 83.7 mV excursion"
+   ]
+  },
+  {
+   "key": "screening_scramble2/bbp_l5pc__E1__r1__s162",
+   "stratum": "coverage",
+   "problems": [
+    "step_abs_lo: spike_shape: widest detected AP is 11.7 ms over 1 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_scramble2/bbp_l5pc__E2__r1__s71",
+   "stratum": "class_spontaneous",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 19.45 mV, 17% of the 112.7 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 19.45 mV, 17% of the 112.3 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 19.45 mV, 17% of the 112.3 mV excursion"
    ]
   },
   {
@@ -154,25 +254,6 @@
    ]
   },
   {
-   "key": "screening_scramble2/bbp_l5pc__E1__r1__s162",
-   "stratum": "coverage",
-   "problems": [
-    "step_abs_lo: spike_shape: widest detected AP is 11.7 ms over 1 spikes measured on the trace"
-   ]
-  },
-  {
-   "key": "screening_scramble2/bbp_l5pc__E2__r1__s88",
-   "stratum": "coverage",
-   "problems": [
-    "step_abs_lo: spike_shape: smallest detected AP is 1.31 mV over 2 spikes measured on the trace",
-    "step_abs_lo: spike_shape: widest detected AP is 27.2 ms over 2 spikes measured on the trace",
-    "step_abs_hi: spike_shape: smallest detected AP is 3.72 mV over 2 spikes measured on the trace",
-    "step_abs_hi: spike_shape: widest detected AP is 70.8 ms over 2 spikes measured on the trace",
-    "step_rheo_3p0x: spike_shape: smallest detected AP is 0.82 mV over 2 spikes measured on the trace",
-    "step_rheo_3p0x: spike_shape: widest detected AP is 20.4 ms over 2 spikes measured on the trace"
-   ]
-  },
-  {
    "key": "screening_scramble2/bbp_l5pc__E2__r1__s18",
    "stratum": "qc_flagged",
    "problems": [
@@ -183,39 +264,12 @@
    ]
   },
   {
-   "key": "screening_scramble2/bbp_l5pc__E2__r1__s71",
-   "stratum": "class_spontaneous",
-   "problems": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 19.45 mV, 17% of the 112.7 mV excursion",
-    "step_abs_lo: baseline_stability: pre-stimulus mean moved 19.45 mV, 17% of the 112.3 mV excursion",
-    "step_abs_hi: baseline_stability: pre-stimulus mean moved 19.45 mV, 17% of the 112.3 mV excursion"
-   ]
-  },
-  {
    "key": "screening_scramble2/bbp_l5pc__E6__r1__s28",
    "stratum": "class_spontaneous",
    "problems": [
     "hyperpol_abs: baseline_stability: pre-stimulus mean moved 37.95 mV, 32% of the 118.3 mV excursion",
     "step_abs_lo: baseline_stability: pre-stimulus mean moved 37.95 mV, 34% of the 113.0 mV excursion",
     "step_abs_hi: baseline_stability: pre-stimulus mean moved 37.95 mV, 33% of the 114.0 mV excursion"
-   ]
-  },
-  {
-   "key": "screening_scramble2/bbp_l5pc__E2__r1__s27",
-   "stratum": "ordinary_random",
-   "problems": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 21.75 mV, 18% of the 117.6 mV excursion",
-    "step_abs_lo: baseline_stability: pre-stimulus mean moved 21.75 mV, 19% of the 117.5 mV excursion",
-    "step_abs_hi: baseline_stability: pre-stimulus mean moved 21.75 mV, 19% of the 117.5 mV excursion"
-   ]
-  },
-  {
-   "key": "screening_scramble2/bbp_l5pc__E6__r1__s121",
-   "stratum": "nonspiking",
-   "problems": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 15.12 mV, 12% of the 130.6 mV excursion",
-    "step_abs_lo: baseline_stability: pre-stimulus mean moved 15.12 mV, 12% of the 130.1 mV excursion",
-    "step_abs_hi: baseline_stability: pre-stimulus mean moved 15.12 mV, 12% of the 130.1 mV excursion"
    ]
   },
   {
@@ -229,26 +283,10 @@
    ]
   },
   {
-   "key": "screening_scramble2/bbp_l5pc__E6__r1__s16",
-   "stratum": "rate_min",
+   "key": "screening_scramble2/hh_point__E2__r1__s852",
+   "stratum": "class_depolarisation_block",
    "problems": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 22.34 mV, 17% of the 130.8 mV excursion",
-    "step_abs_lo: baseline_stability: pre-stimulus mean moved 22.34 mV, 17% of the 130.1 mV excursion",
-    "step_abs_hi: baseline_stability: pre-stimulus mean moved 22.34 mV, 17% of the 130.1 mV excursion",
-    "step_rheo_1p5x: baseline_stability: pre-stimulus mean moved 22.34 mV, 17% of the 130.1 mV excursion",
-    "step_rheo_3p0x: baseline_stability: pre-stimulus mean moved 22.34 mV, 17% of the 130.1 mV excursion",
-    "step_rheo_3p0x: spike_shape: smallest detected AP is 6.4 mV over 3 spikes measured on the trace",
-    "step_rheo_3p0x: spike_shape: widest detected AP is 322 ms over 3 spikes measured on the trace"
-   ]
-  },
-  {
-   "key": "screening_scramble2/bbp_l5pc__E6__r1__s127",
-   "stratum": "prior_corner",
-   "problems": [
-    "step_abs_lo: spike_shape: widest detected AP is 12.8 ms over 1 spikes measured on the trace",
-    "step_abs_hi: spike_shape: smallest detected AP is 3.78 mV over 3 spikes measured on the trace",
-    "step_rheo_1p5x: spike_shape: widest detected AP is 12.2 ms over 2 spikes measured on the trace",
-    "step_rheo_3p0x: spike_shape: smallest detected AP is 7.53 mV over 3 spikes measured on the trace"
+    "step_abs_hi: depolarisation_block: trace says blocked=False, stored row says blocked=True (last third of the stimulus, 387-520 ms)"
    ]
   },
   {
@@ -263,10 +301,34 @@
    ]
   },
   {
+   "key": "screening_scramble2/bbp_l5pc__E6__r1__s27",
+   "stratum": "ordinary_random",
+   "problems": [
+    "step_abs_hi: spike_shape: widest detected AP is 15.2 ms over 3 spikes measured on the trace"
+   ]
+  },
+  {
+   "key": "screening_scramble2/bbp_l5pc__E6__r1__s127",
+   "stratum": "prior_corner",
+   "problems": [
+    "step_abs_lo: spike_shape: widest detected AP is 12.8 ms over 1 spikes measured on the trace",
+    "step_abs_hi: spike_shape: smallest detected AP is 3.78 mV over 3 spikes measured on the trace",
+    "step_rheo_1p5x: spike_shape: widest detected AP is 12.2 ms over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: smallest detected AP is 7.53 mV over 3 spikes measured on the trace"
+   ]
+  },
+  {
    "key": "screening_scramble2/khaliq_purkinje__E1__r1__s726",
    "stratum": "class_unstable",
    "problems": [
     "hyperpol_abs: voltage_range: [-164.6, 53.5] mV outside [-150.0, 80.0]"
+   ]
+  },
+  {
+   "key": "screening_scramble2/khaliq_purkinje__E2__r1__s304",
+   "stratum": "qc_flagged",
+   "problems": [
+    "hyperpol_abs: voltage_range: [-235.6, 19.0] mV outside [-150.0, 80.0]"
    ]
   }
  ]

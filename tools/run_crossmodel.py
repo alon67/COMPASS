@@ -29,6 +29,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from compass.analysis.cohorts import (  # noqa: E402
     PRIMARY_EXCLUSIONS,
+    REPORTED_ARMS,
     SENSITIVITY_ARMS,
     annotate_lineage,
     drop_duplicate_scientific_rows,
@@ -776,6 +777,58 @@ def run_arm(ep_all: pd.DataFrame, arm: str, experiment: str,
     return decision
 
 
+def write_h_b_input_gate(primary: dict) -> Path:
+    """Gate H_B_INPUT: is the evidence the H-B criteria need actually current?
+
+    The release manifest's blockers listed N1/N4/WAVEFORM failure, a dirty tree
+    and N3 exclusions -- and nothing about the perturbation battery.  The
+    confirmatory checklist marked the half-step requirement met because old
+    models had been tested and a precondition field existed, without requiring
+    that precondition to be satisfied.  A release could therefore have shipped
+    with an unevaluable H-B side and no gate saying so
+    (2026-08-09 post-response-3 audit, P0-3).
+
+    One subject per condition, so a failure names what is wrong rather than
+    reporting a single opaque false.
+    """
+    from compass.validation.gates import gate_record, write_gate_records
+
+    pre = (primary or {}).get("perturbation_precondition") or {}
+    cov = (primary or {}).get("perturbation_coverage") or {}
+    subjects = [
+        ("battery_schema_current",
+         [] if pre.get("battery_schema_current") else
+         [f"battery produced under measurement schema "
+          f"{pre.get('measurement_schema_of_battery')}, campaign is now "
+          f"{pre.get('measurement_schema_now')}"],
+         "the battery's backgrounds and candidate tuples come from feature "
+         "rows; a measurement change makes them probe points that no longer exist"),
+        ("half_step_twin_present",
+         [] if not pre.get("models_untested") else
+         [f"no half-step results for {pre.get('models_untested')}"],
+         "numerical repeatability needs a halved-dt rerun of every tested model"),
+        ("repeatable_lineage_floor",
+         [] if pre.get("n_repeatable_lineages", 0) >= THRESHOLDS[
+             "perturbation_min_repeatable_lineages"] else
+         [f"{pre.get('n_repeatable_lineages')} repeatable lineage(s), need "
+          f"{THRESHOLDS['perturbation_min_repeatable_lineages']}"],
+         "a repeatable subset spanning too few lineages cannot support H-B"),
+        ("disposition_explicit",
+         [] if pre.get("evaluable") is not None else
+         ["the decision artifact records no evaluable/withdrawn disposition"],
+         "H-B must be scored or explicitly withheld, never silently absent"),
+    ]
+    rows = [gate_record("H_B_INPUT", name, failures=fails,
+                        measurements={"precondition": pre, "coverage": cov},
+                        detail=detail)
+            for name, fails, detail in subjects]
+    out = ROOT / "results" / "validation" / "h_b_input_gate.json"
+    write_gate_records(rows, out)
+    ok = sum(1 for _, f, _ in subjects if not f)
+    print(f"\ngate H_B_INPUT: {ok}/{len(subjects)} subjects pass -> {out.name}")
+    return out
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--experiment", default="screening")
@@ -869,16 +922,20 @@ def main() -> int:
         if src:
             path = OUT / f"endpoints_{src}.parquet"
             if not path.exists():
-                # Skipping is right for a SENSITIVITY arm and catastrophic for
-                # the primary one: the headline arm now reads the N4-projected
-                # table, so a missing source would silently produce no
-                # decision.json at all rather than a wrong one.  Fail loudly.
-                if arm == "primary":
+                # Skipping is right for a SENSITIVITY arm and catastrophic for a
+                # REPORTED one: those arms read N4-projected tables, so a
+                # missing source would silently produce no decision at all
+                # rather than a wrong one.  `replication_only` is in this list
+                # because it became a projected arm in the post-response-3
+                # revision (P0-5) and is load-bearing for any "replicates and
+                # expands" framing -- skipping it quietly is how the
+                # unprojected version went unnoticed in the first place.
+                if arm in REPORTED_ARMS:
                     raise SystemExit(
-                        f"the PRIMARY arm reads {path.name}, which is absent. "
-                        f"Run: python3 tools/run_analysis.py --experiment "
-                        f"{args.experiment} --suffix _n4proj "
-                        f"--drop-unidentifiable-parameters")
+                        f"the REPORTED arm {arm!r} reads {path.name}, which is "
+                        f"absent. Run: python3 tools/run_analysis.py "
+                        f"--experiment {src.removesuffix('_n4proj')} "
+                        f"--suffix _n4proj --drop-unidentifiable-parameters")
                 print(f"\n### arm {arm}: source table {path.name} is absent; "
                       f"arm skipped rather than silently evaluated on "
                       f"{args.experiment}")
@@ -951,6 +1008,8 @@ def main() -> int:
                       "error": d.get("error")}
                   for a, d in arms.items()}},
         indent=1, default=float))
+
+    write_h_b_input_gate(arms.get("primary", {}))
 
     print("\n=== SENSITIVITY CASCADE ===")
     for a, d in arms.items():

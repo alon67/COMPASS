@@ -14,3 +14,15 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 .ruff_cache/
+
+# Run-local, not release artifacts.
+#
+# `results/logs/` is the driver's per-stage stdout; `run_receipt.py` already
+# treats it as unattributable and the release inventory does not declare it.
+# `_superseded_run_*/` is what `run_all.sh --force` moves aside before a
+# rebuild -- a snapshot of the PREVIOUS release, kept on disk so nothing is
+# destroyed, and precisely the thing the manifest's orphan policy exists to
+# keep out of the current one.
+results/logs/
+results/_superseded_run_*/
+results/features/*/_superseded/

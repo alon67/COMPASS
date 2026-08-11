@@ -144,6 +144,21 @@ def normalised_family_defined(rheobase) -> bool:
     return rheobase is not None and float(rheobase) != 0.0
 
 
+def _search_columns(adapter) -> dict:
+    """The probe-4 search diagnostics, for a row whose simulation raised.
+
+    An error row still records the resolution the search was running at, so
+    "this sample failed" and "this sample was searched at delta = x" are both
+    answerable from the shard without re-deriving them from the code version.
+    """
+    s = dict(getattr(adapter, "last_rheobase_search", None) or {})
+    return {
+        "rheobase_scan_points": int(s.get("scan_points", 0)),
+        "rheobase_scan_resolution_nA": float(s.get("scan_resolution_nA", np.nan)),
+        "rheobase_n_probes": int(s.get("n_probes", 0)),
+    }
+
+
 def _feature_row(adapter, kw, rheobase, protocols) -> tuple[dict, list[str]]:
     """Run the common-core protocol suite for one already-applied parameter set."""
     from compass.features.extract import extract, extract_rest
@@ -186,7 +201,9 @@ def _feature_row(adapter, kw, rheobase, protocols) -> tuple[dict, list[str]]:
 # Bumped whenever the row-level validity classification changes, so a stored row
 # always says which validator produced its verdict (audit 6.4.2).
 # v3: `normalised_protocol_valid` is reported separately from `protocol_valid`.
-VALIDATOR_VERSION = "row-validity-3"
+# v4: the row carries the rheobase search resolution it was measured at, so
+#     `non_spiking` is readable as the resolution-limited claim it is (P0-1).
+VALIDATOR_VERSION = "row-validity-4"
 
 
 def classify_row(row: dict, flags: list[str], rheobase, spontaneous: bool,
@@ -326,6 +343,14 @@ def run_block(
             # to report identically (2026-08-09 audit, 4.1).
             rec_meta["rheobase_blocked_at_ceiling"] = bool(
                 search.get("blocked_at_ceiling", False))
+            # probe-4: the resolution the search actually ran at travels with
+            # every row, so `non_spiking` can be read as the resolution-limited
+            # statement it is rather than as "silent at every amplitude"
+            # (2026-08-09 post-response-3 audit, P0-1).
+            rec_meta["rheobase_scan_points"] = int(search.get("scan_points", 0))
+            rec_meta["rheobase_scan_resolution_nA"] = float(
+                search.get("scan_resolution_nA", np.nan))
+            rec_meta["rheobase_n_probes"] = int(search.get("n_probes", 0))
             rec_meta.update(feats)
         except adapter.RheobaseProbeFailure as exc:
             # A probe that could not be evaluated fails the whole sample.  It is
@@ -337,6 +362,7 @@ def run_block(
             rec_meta["rheobase_nA"] = np.nan
             rec_meta["non_spiking"] = False   # unknown, not False-as-silence
             rec_meta["rheobase_blocked_at_ceiling"] = False
+            rec_meta.update(_search_columns(adapter))
         except Exception as exc:  # noqa: BLE001
             error = f"{type(exc).__name__}: {exc}"
             rec_meta["simulation_status"] = "error"
@@ -345,6 +371,7 @@ def run_block(
             rec_meta["rheobase_nA"] = np.nan
             rec_meta["non_spiking"] = False
             rec_meta["rheobase_blocked_at_ceiling"] = False
+            rec_meta.update(_search_columns(adapter))
         rec_meta.update(classify_row(rec_meta, flags, rheo, spontaneous, error))
         rows.append(rec_meta)
 

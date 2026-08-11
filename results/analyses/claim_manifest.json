@@ -1,10 +1,10 @@
 {
- "git_revision": "c736e48f90783b6e72cb28ee4ddec81af165bbaa",
- "n_claims": 14,
+ "git_revision": "2745fa32293660bffb479538c1edea1b3d3cd651",
+ "n_claims": 15,
  "claims": [
   {
    "label": "decision H-B tally",
-   "expected_string": "H-B: 0/0",
+   "expected_string": "H-B: 0/2",
    "documents": [
     "RESULTS.md"
    ],
@@ -44,7 +44,7 @@
   },
   {
    "label": "perturbation matched ratio",
-   "expected_string": "2.49",
+   "expected_string": "1.43",
    "documents": [
     "RESULTS.md",
     "README.md"
@@ -53,12 +53,12 @@
    "selector": "top_vs_control_middle.ratio_point",
    "aggregation": "mean |eta| of top tuples / mean |eta| of controls",
    "units": "dimensionless ratio of feature-SD units",
-   "uncertainty": "model-bootstrap 95% CI [1.0729362221365049, 6.912504725339532]",
+   "uncertainty": "model-bootstrap 95% CI [0.837220445652266, 2.9899556041319806]",
    "note": ""
   },
   {
    "label": "perturbation matched p",
-   "expected_string": "0.188",
+   "expected_string": "0.562",
    "documents": [
     "RESULTS.md"
    ],
@@ -71,7 +71,7 @@
   },
   {
    "label": "perturbation random ratio",
-   "expected_string": "3.83",
+   "expected_string": "2.34",
    "documents": [
     "RESULTS.md",
     "README.md"
@@ -80,12 +80,12 @@
    "selector": "top_vs_control_random.ratio_point",
    "aggregation": "mean |eta| of top tuples / mean |eta| of controls",
    "units": "dimensionless ratio of feature-SD units",
-   "uncertainty": "model-bootstrap 95% CI [1.5485737939506354, 9.018162661080435]",
+   "uncertainty": "model-bootstrap 95% CI [1.1793792274251866, 5.7537096474928395]",
    "note": ""
   },
   {
    "label": "perturbation random p",
-   "expected_string": "0.062",
+   "expected_string": "0.156",
    "documents": [
     "RESULTS.md"
    ],
@@ -98,7 +98,7 @@
   },
   {
    "label": "top tuples distinguishable from zero",
-   "expected_string": "16/42",
+   "expected_string": "13/48",
    "documents": [
     "RESULTS.md"
    ],
@@ -110,34 +110,8 @@
    "note": "replaces the withdrawn resolvable/floor comparison"
   },
   {
-   "label": "sobol mean interaction fraction",
-   "expected_string": "0.148",
-   "documents": [
-    "RESULTS.md"
-   ],
-   "artifact": "key_numbers.json",
-   "selector": "sobol.mean_interaction_fraction",
-   "aggregation": "mean over quotable summaries",
-   "units": "fraction",
-   "uncertainty": "",
-   "note": "quotable now requires completeness AND precision AND physical plausibility (audit M8)"
-  },
-  {
-   "label": "sobol quotable count",
-   "expected_string": "8 quotable",
-   "documents": [
-    "RESULTS.md"
-   ],
-   "artifact": "key_numbers.json",
-   "selector": "sobol.n_analyses",
-   "aggregation": "count",
-   "units": "",
-   "uncertainty": "",
-   "note": ""
-  },
-  {
    "label": "adjusted ICC",
-   "expected_string": "0.260",
+   "expected_string": "0.262",
    "documents": [
     "RESULTS.md"
    ],
@@ -162,8 +136,47 @@
    "note": ""
   },
   {
+   "label": "waveform samples retained",
+   "expected_string": "916 traces",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "retained_waveforms_*.json",
+   "selector": "sum(n_selected)",
+   "aggregation": "summed over 5 campaign records",
+   "units": "traces",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "waveform samples flagged",
+   "expected_string": "145",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "retained_waveforms_*.json",
+   "selector": "sum(n_with_problems)",
+   "aggregation": "a SAMPLE count, not a finding count",
+   "units": "samples",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "waveform features recomputed",
+   "expected_string": "44,887",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "retained_waveforms_*.json",
+   "selector": "sum(n_features_recomputed)",
+   "aggregation": "recomputed from the reloaded float64 archive",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
    "label": "matched bootstrap median ratio",
-   "expected_string": "16.5",
+   "expected_string": "14.4",
    "documents": [
     "RESULTS.md",
     "README.md"
@@ -177,7 +190,7 @@
   },
   {
    "label": "E8 naive synergy fraction",
-   "expected_string": "0.455",
+   "expected_string": "0.468",
    "documents": [
     "RESULTS.md"
    ],
@@ -245,6 +258,38 @@
   {
    "pattern": "five independent (confirmations|criteria|lines of evidence)",
    "reason": "the five H-G criteria are correlated derivatives of the same small panel and the same endpoints; describe the vote, not five independent tests"
+  },
+  {
+   "pattern": "N2 (is )?not implemented",
+   "reason": "N2 is implemented for the sourceable subset. Quote compass.validation.gates.n2_coverage()['statement'] -- 'source-referenced canonical scalar agreement: 6/14 evaluable implementations' -- rather than restating the pre-implementation status"
+  },
+  {
+   "pattern": "N2[^.\\n]{0,40}\\b(7/7|7 of 7)\\b",
+   "reason": "the N2 roll-up is 6 model tests plus one declaration-coverage test, not seven reproduced models (post-response-3 audit, P1-2)"
+  },
+  {
+   "pattern": "strict reproduction of published traces is not implemented",
+   "reason": "true of trace-level reproduction and misleading as an N2 summary; say what N2 does cover"
+  },
+  {
+   "pattern": "@@HB_WITHHELD@@the H-B (quantities|criteria) are (now )?scored",
+   "reason": "H-B is withheld while its perturbation inputs are stale; the values are printed beside the table but not scored"
+  },
+  {
+   "pattern": "archives? (are|is) (written |stored )?(at |in )?float32",
+   "reason": "trace archives are float64; a float32 archive can only support agreement 'to within rounding', which is not the claim the gate makes"
+  },
+  {
+   "pattern": "validate_replay\\.py --experiment screening\\s*$",
+   "reason": "the manual release-validation command must replay every declared campaign, not screening alone -- all six are mandatory"
+  },
+  {
+   "pattern": "\\b154\\b[^.\\n]{0,40}(flagged|waveform|of 914)",
+   "reason": "the flagged-sample count is generated; quote n_with_problems from results/validation/retained_waveforms_*.json and never sum findings, which exceed samples because one sample can raise several"
+  },
+  {
+   "pattern": "(results/analyses/[^\\s`)]*n4_projected|SENSITIVITY_ARMS\\[[\\\"']n4_projected|--suffix\\s+_?n4_projected)",
+   "reason": "the n4_projected arm was withdrawn as a duplicate of `primary`; its outputs are quarantined under results/analyses/_withdrawn and the release manifest blocks on any that reappear"
   }
  ],
  "retired_values": {
@@ -275,7 +320,7 @@
  ],
  "repository_facts": [
   {
-   "check": "documented fast-test count == observed (382)",
+   "check": "documented fast-test count == observed (444)",
    "ok": true
   },
   {

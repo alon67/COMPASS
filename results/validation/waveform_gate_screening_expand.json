@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-09T15:31:28.908338+00:00",
- "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+ "written_utc": "2026-08-11T12:23:19.873042+00:00",
+ "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -14,13 +14,13 @@
   "statsmodels": "0.14.6",
   "SALib": "?"
  },
- "n_records": 22,
- "n_passed": 19,
+ "n_records": 23,
+ "n_passed": 20,
  "all_passed": false,
  "by_gate": {
   "WAVEFORM": {
-   "n": 22,
-   "passed": 19,
+   "n": 23,
+   "passed": 20,
    "failed_subjects": [
     "screening_expand/migliore_ca1__E1__r1__s162[FAIL]",
     "screening_expand/migliore_ca1__E1__r1__s354[FAIL]",
@@ -29,123 +29,6 @@
   }
  },
  "records": [
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E1__r1__s325",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 18,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E1",
-    "stratum": "nonspiking",
-    "shard": "E1_r1_000325.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s325.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s325.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.134162+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E1__r1__s2",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 18,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E1",
-    "stratum": "rate_min",
-    "shard": "E1_r1_000000.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s2.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s2.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.173417+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E2__r1__s37",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 18,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E2",
-    "stratum": "nonspiking",
-    "shard": "E2_r1_000025.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s37.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s37.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.213665+00:00",
-   "passed": true
-  },
   {
    "gate": "WAVEFORM",
    "subject": "screening_expand/migliore_ca1__E1__r1__s420",
@@ -168,7 +51,7 @@
     "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s420.npz",
     "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s420.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -182,124 +65,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.251025+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E2__r1__s43",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 60,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E2",
-    "stratum": "coverage",
-    "shard": "E2_r1_000025.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s43.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s43.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.287367+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E2__r1__s107",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E2",
-    "stratum": "class_depolarisation_block",
-    "shard": "E2_r1_000100.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s107.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s107.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.322693+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E1__r1__s433",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E1",
-    "stratum": "coverage",
-    "shard": "E1_r1_000425.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s433.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s433.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.358696+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.042356+00:00",
    "passed": true
   },
   {
@@ -324,7 +90,7 @@
     "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s105.npz",
     "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s105.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -338,7 +104,358 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.394287+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.082304+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E1__r1__s497",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E1",
+    "stratum": "rate_max",
+    "shard": "E1_r1_000475.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s497.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s497.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.119046+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E2__r1__s107",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E2",
+    "stratum": "class_depolarisation_block",
+    "shard": "E2_r1_000100.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s107.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s107.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.156880+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E2__r1__s43",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 60,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E2",
+    "stratum": "coverage",
+    "shard": "E2_r1_000025.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s43.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s43.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.194064+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E1__r1__s433",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E1",
+    "stratum": "coverage",
+    "shard": "E1_r1_000425.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s433.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s433.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.231934+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E1__r1__s10",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 50,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E1",
+    "stratum": "ordinary_random",
+    "shard": "E1_r1_000000.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s10.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s10.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.269694+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E2__r1__s80",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 60,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E2",
+    "stratum": "prior_corner",
+    "shard": "E2_r1_000075.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s80.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s80.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.306248+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E2__r1__s177",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E2",
+    "stratum": "ordinary_random",
+    "shard": "E2_r1_000175.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s177.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s177.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.343819+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E6__r1__s252",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E6",
+    "stratum": "prior_corner",
+    "shard": "E6_r1_000250.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s252.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s252.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.383741+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E2__r1__s193",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E2",
+    "stratum": "rate_max",
+    "shard": "E2_r1_000175.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s193.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s193.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.424394+00:00",
    "passed": true
   },
   {
@@ -366,7 +483,7 @@
     "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s162.npz",
     "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s162.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -380,8 +497,86 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.429856+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.462974+00:00",
    "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E6__r1__s41",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 52,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E6",
+    "stratum": "class_depolarisation_block",
+    "shard": "E6_r1_000025.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s41.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s41.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.500540+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E6__r1__s119",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 38,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E6",
+    "stratum": "rate_min",
+    "shard": "E6_r1_000100.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s119.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s119.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.538270+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -408,7 +603,7 @@
     "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s354.npz",
     "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s354.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -422,18 +617,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.479415+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.575987+00:00",
    "passed": false
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E1__r1__s497",
+   "subject": "screening_expand/migliore_ca1__E2__r1__s37",
    "status": "PASS",
    "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
+    "n_protocols": 4,
+    "n_features_recomputed": 18,
     "n_features_mismatched": 0,
     "campaign": "screening_expand",
     "status": "ok"
@@ -441,13 +636,13 @@
    "tolerances": {},
    "inputs": {
     "model_id": "migliore_ca1",
-    "regime": "E1",
-    "stratum": "rate_max",
-    "shard": "E1_r1_000475.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s497.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s497.meta.json"
+    "regime": "E2",
+    "stratum": "nonspiking",
+    "shard": "E2_r1_000025.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s37.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s37.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -461,18 +656,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.515850+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.613960+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E1__r1__s10",
+   "subject": "screening_expand/migliore_ca1__E1__r1__s2",
    "status": "PASS",
    "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 50,
+    "n_protocols": 4,
+    "n_features_recomputed": 18,
     "n_features_mismatched": 0,
     "campaign": "screening_expand",
     "status": "ok"
@@ -481,12 +676,12 @@
    "inputs": {
     "model_id": "migliore_ca1",
     "regime": "E1",
-    "stratum": "ordinary_random",
+    "stratum": "rate_min",
     "shard": "E1_r1_000000.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s10.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s10.meta.json"
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s2.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s2.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -500,18 +695,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.551195+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.651529+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E2__r1__s80",
+   "subject": "screening_expand/migliore_ca1__E1__r1__s325",
    "status": "PASS",
    "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 60,
+    "n_protocols": 4,
+    "n_features_recomputed": 18,
     "n_features_mismatched": 0,
     "campaign": "screening_expand",
     "status": "ok"
@@ -519,13 +714,13 @@
    "tolerances": {},
    "inputs": {
     "model_id": "migliore_ca1",
-    "regime": "E2",
-    "stratum": "prior_corner",
-    "shard": "E2_r1_000075.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s80.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s80.meta.json"
+    "regime": "E1",
+    "stratum": "nonspiking",
+    "shard": "E1_r1_000325.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s325.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E1__r1__s325.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -539,12 +734,12 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.587016+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.688956+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E2__r1__s193",
+   "subject": "screening_expand/migliore_ca1__E6__r1__s121",
    "status": "PASS",
    "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
@@ -558,13 +753,13 @@
    "tolerances": {},
    "inputs": {
     "model_id": "migliore_ca1",
-    "regime": "E2",
+    "regime": "E6",
     "stratum": "rate_max",
-    "shard": "E2_r1_000175.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s193.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s193.meta.json"
+    "shard": "E6_r1_000100.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s121.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s121.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -578,7 +773,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.622742+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.726004+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/migliore_ca1__E6__r1__s177",
+   "status": "PASS",
+   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 54,
+    "n_features_mismatched": 0,
+    "campaign": "screening_expand",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "E6",
+    "stratum": "ordinary_random",
+    "shard": "E6_r1_000175.parquet",
+    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s177.npz",
+    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s177.meta.json"
+   },
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.762496+00:00",
    "passed": true
   },
   {
@@ -606,7 +840,7 @@
     "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s6.npz",
     "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s6.meta.json"
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -620,242 +854,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.658469+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.799419+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E6__r1__s41",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 52,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E6",
-    "stratum": "class_depolarisation_block",
-    "shard": "E6_r1_000025.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s41.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s41.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.694884+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E2__r1__s177",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E2",
-    "stratum": "ordinary_random",
-    "shard": "E2_r1_000175.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s177.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E2__r1__s177.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.730770+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E6__r1__s121",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E6",
-    "stratum": "rate_max",
-    "shard": "E6_r1_000100.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s121.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s121.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.766168+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E6__r1__s119",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 38,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E6",
-    "stratum": "rate_min",
-    "shard": "E6_r1_000100.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s119.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s119.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.800870+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E6__r1__s252",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E6",
-    "stratum": "prior_corner",
-    "shard": "E6_r1_000250.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s252.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s252.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.836974+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_expand/migliore_ca1__E6__r1__s177",
-   "status": "PASS",
-   "detail": "screening_expand: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 54,
-    "n_features_mismatched": 0,
-    "campaign": "screening_expand",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "E6",
-    "stratum": "ordinary_random",
-    "shard": "E6_r1_000175.parquet",
-    "trace_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s177.npz",
-    "trace_metadata_file": "results/traces/retained/screening_expand__migliore_ca1__E6__r1__s177.meta.json"
-   },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-09T15:31:28.872717+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -870,6 +870,9 @@
      "every_absolute_protocol_per_model": 1,
      "risk_strata_represented": 1
     },
+    "counts_only_status_ok": true,
+    "n_records": 21,
+    "n_records_not_ok": 3,
     "n_models_required": 1,
     "n_models_covered": 1,
     "missing_models": [],
@@ -889,7 +892,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -903,7 +906,95 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T15:31:28.908233+00:00",
+   "recorded_utc": "2026-08-11T12:23:19.836897+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_expand/_disposition",
+   "status": "PASS",
+   "detail": "every finding class is assigned a disposition before the run",
+   "failures": [],
+   "measurements": {
+    "policy": {
+     "simulation_error": {
+      "disposition": "integrity_failure",
+      "mechanism": "gate record fails; the release manifest lists WAVEFORM as a blocker"
+     },
+     "archive_reload_error": {
+      "disposition": "integrity_failure",
+      "mechanism": "as simulation_error"
+     },
+     "archive_schema_error": {
+      "disposition": "integrity_failure",
+      "mechanism": "as simulation_error"
+     },
+     "feature_recomputation": {
+      "disposition": "integrity_failure",
+      "mechanism": "archive and stored row disagree; determinism claim fails"
+     },
+     "spike_count_agreement": {
+      "disposition": "integrity_failure",
+      "mechanism": "archive and stored row describe different simulations"
+     },
+     "no_protocols": {
+      "disposition": "integrity_failure",
+      "mechanism": "as simulation_error"
+     },
+     "finite": {
+      "disposition": "numerical_invalid",
+      "mechanism": "qc_flags raises nonfinite_voltage -> execution_valid=False corpus-wide"
+     },
+     "voltage_range": {
+      "disposition": "numerical_invalid",
+      "mechanism": "qc_flags raises nonphysical_voltage on the same band (PHYSICAL_V_MIN_MV/PHYSICAL_V_MAX_MV) -> excluded corpus-wide"
+     },
+     "discontinuity": {
+      "disposition": "numerical_invalid",
+      "mechanism": "a step larger than one dt of the integrator can produce; co-occurs with nonfinite/nonphysical voltage in every observed case and is reported if it ever does not"
+     },
+     "depolarisation_block": {
+      "disposition": "prior_predictive",
+      "mechanism": "two detectors disagree about one trace; recorded as a finding to adjudicate, never used to drop a row"
+     },
+     "spike_shape": {
+      "disposition": "detector_limit",
+      "mechanism": "a 10 mV / 10 ms screening bound, not a validity criterion; a broad-prior draw may legitimately have a wide, small AP"
+     },
+     "baseline_stability": {
+      "disposition": "protocol_settling",
+      "mechanism": "the strict-QC sensitivity arm drops rows flagged unstable_baseline; the primary arm keeps them and says so"
+     }
+    },
+    "findings_by_class": {
+     "spike_shape": 6
+    },
+    "findings_by_disposition": {
+     "detector_limit": 6
+    },
+    "unassigned_classes": [],
+    "n_findings_total": 6,
+    "n_findings_classified": 6,
+    "n_findings_truncated_from_the_record": 0,
+    "note": "counts are FINDINGS, not samples: one sample can raise several and they must not be summed to a sample count. Each record lists at most ten; n_findings_total is the true sum."
+   },
+   "tolerances": {},
+   "inputs": {},
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T12:23:19.872934+00:00",
    "passed": true
   }
  ]

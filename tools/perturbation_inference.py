@@ -69,6 +69,17 @@ from compass.adapters.base import (  # noqa: E402
     MEASUREMENT_SCHEMA_VERSION as _MEASUREMENT_SCHEMA_VERSION,
 )
 
+
+def _read_aggregate_identity(path: Path) -> dict:
+    """Delegate to the writer's own reader, so the two cannot drift apart."""
+    import importlib.util as iu
+
+    spec = iu.spec_from_file_location("_rp", ROOT / "tools" / "run_perturbations.py")
+    m = iu.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m.read_aggregate_identity(path)
+
+
 OUT = ROOT / "results" / "analyses"
 SEED = 20260806
 N_BOOT = 10000
@@ -275,11 +286,62 @@ def main() -> int:
             "per-background outcomes it now stores are what this tool analyses.")
     raw = pd.read_parquet(raw_path)
 
+    # IDENTITY IS READ FROM THE DATA, NOT STAMPED FROM THIS PROCESS.
+    #
+    # This tool used to write `measurement_schema` from its own imported
+    # constant, so running it on a probe-2 battery produced a file that said
+    # probe-4 -- and `run_crossmodel.py` trusts that field to decide whether the
+    # H-B criteria may be scored.  The staleness check could therefore be
+    # cleared by re-running the analysis rather than the battery
+    # (2026-08-09 post-response-3 audit, P0-3).  The sidecar is now the only
+    # source, and it fails closed when absent, incomplete or mixed.
+    ident = _read_aggregate_identity(raw_path)
+    battery_schema = ident["uniform_axes"]["measurement_schema"]["values"][0]
+    battery_feature_schema = ident["uniform_axes"]["feature_schema"]["values"][0]
+
     prec = precision_table(raw)
     counts = count_inference(raw)
     prec.to_parquet(OUT / "perturbation_inference.parquet", index=False)
 
+    # THE HALF-STEP TWIN IS IDENTITY-CHECKED TOO.
+    #
+    # Repeatability compares the main battery against a rerun at half each
+    # model's time step, and the comparison only means anything if the two
+    # differ in the time step ALONE. Reading the fine file with no identity
+    # check would let a battery built from different backgrounds, different
+    # candidate tuples or a different measurement schema be presented as a
+    # numerical-repeatability result (2026-08-09 post-response-3 audit, P0-3).
     fine_path = OUT / args.fine
+    fine_ident = None
+    if fine_path.exists():
+        fine_ident = _read_aggregate_identity(fine_path)
+        # Everything except the solver must match; the solver is what differs
+        # by construction, and `effective_dt_ms` records by how much.
+        mismatched = {
+            axis: {"main": ident["uniform_axes"][axis]["values"][0],
+                   "half_step": fine_ident["uniform_axes"][axis]["values"][0]}
+            for axis in ident["uniform_axes"]
+            if (fine_ident["uniform_axes"].get(axis, {}).get("values")
+                != ident["uniform_axes"][axis]["values"])
+        }
+        for m, rec in ident["per_model"].items():
+            other = fine_ident["per_model"].get(m)
+            if other is None:
+                mismatched[f"per_model.{m}"] = {"main": "present",
+                                                "half_step": "absent"}
+                continue
+            for k in ("background_vectors_hash", "candidate_rows_hash",
+                      "selection_code_hash"):
+                if rec.get(k) != other.get(k):
+                    mismatched[f"per_model.{m}.{k}"] = {
+                        "main": rec.get(k), "half_step": other.get(k)}
+        if mismatched:
+            raise SystemExit(
+                f"{fine_path.name} is not a half-step twin of {raw_path.name}: "
+                f"they differ on {sorted(mismatched)}. Repeatability compares "
+                f"two batteries that must differ in the TIME STEP alone. "
+                f"Re-run: tools/run_perturbations.py --dt-scale 0.5 "
+                f"--suffix _dt_half")
     repeat = (repeatability(raw, pd.read_parquet(fine_path)) if fine_path.exists()
               else {"status": "not_run",
                     "note": "run tools/run_perturbations.py --dt <half> "
@@ -340,13 +402,30 @@ def main() -> int:
                 if len(counts) else {}),
         },
         "numerical_repeatability": repeat,
-        # The measurement schema the battery's inputs were produced under.
-        # run_crossmodel refuses to score the perturbation-derived H-B criteria
-        # when this does not match the current campaign schema: the battery's
-        # backgrounds and candidate tuples are derived from feature rows, so a
-        # measurement change makes stored eta a probe of points that no longer
-        # exist in the ensemble it claims to test (2026-08-09 audit, 4.1).
-        "measurement_schema": _MEASUREMENT_SCHEMA_VERSION,
+        # The measurement schema the battery's inputs were ACTUALLY produced
+        # under, read from the aggregate's identity sidecar.  run_crossmodel
+        # refuses to score the perturbation-derived H-B criteria when this does
+        # not match the current campaign schema: the battery's backgrounds and
+        # candidate tuples are derived from feature rows, so a measurement
+        # change makes stored eta a probe of points that no longer exist in the
+        # ensemble it claims to test (2026-08-09 audit, 4.1).
+        "measurement_schema": battery_schema,
+        "feature_schema": battery_feature_schema,
+        "measurement_schema_source": (
+            f"{raw_path.with_suffix('.identity.json').name}, written by "
+            f"run_perturbations.py when the rows were produced"),
+        "measurement_schema_of_this_process": _MEASUREMENT_SCHEMA_VERSION,
+        "battery_identity": {
+            "models": ident["models"],
+            "uniform_axes": {k: v["values"][0]
+                             for k, v in ident["uniform_axes"].items()},
+            "per_model_digests": {
+                m: {k: rec.get(k) for k in
+                    ("background_vectors_hash", "candidate_rows_hash",
+                     "candidate_source_hash", "selection_code_hash",
+                     "sim_code_hash", "effective_dt_ms")}
+                for m, rec in sorted(ident["per_model"].items())},
+        },
     }
     (OUT / "perturbation_inference.json").write_text(
         json.dumps(payload, indent=1, default=float))

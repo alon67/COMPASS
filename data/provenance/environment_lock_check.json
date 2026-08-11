@@ -1,0 +1,35 @@
+{
+ "locked_packages": 18,
+ "matched": {
+  "NEURON": "8.2.6",
+  "PyYAML": "6.0.3",
+  "SALib": "1.5.1",
+  "certifi": "2024.12.14",
+  "efel": "5.7.29",
+  "h5py": "3.16.0",
+  "joblib": "1.4.2",
+  "matplotlib": "3.9.2",
+  "numpy": "1.26.4",
+  "pandas": "2.2.3",
+  "pyarrow": "23.0.0",
+  "pytest": "9.0.2",
+  "ruff": "0.16.1",
+  "scikit-learn": "1.5.2",
+  "scipy": "1.14.0",
+  "seaborn": "0.13.2",
+  "statsmodels": "0.14.6",
+  "tqdm": "4.67.1"
+ },
+ "drifted": {},
+ "not_installed": [],
+ "python": {
+  "locked": "3.12.4",
+  "installed": "3.12.4",
+  "matches": true
+ },
+ "platform": "macOS-26.5.2-arm64-arm-64bit",
+ "machine": "arm64",
+ "conforms": true,
+ "checked_utc": "2026-08-09T18:21:06.591764+00:00",
+ "lock_file": "requirements.lock"
+}

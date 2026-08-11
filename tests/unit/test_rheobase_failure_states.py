@@ -207,12 +207,8 @@ def test_depolarisation_block_at_the_ceiling_no_longer_reads_as_silent():
     assert a.last_rheobase_search["scan_hit_nA"] is not None
 
 
-def test_the_ladder_brackets_a_narrow_low_current_firing_window():
-    """khaliq_purkinje fires at 0.03 nA and is blocked long before its 1.0 ceiling.
-
-    A linear ladder would step straight over a window this narrow; the geometric
-    one reaches hi/256 = 0.0039 nA.
-    """
+def test_a_narrow_low_current_firing_window_is_bracketed():
+    """khaliq_purkinje fires at 0.03 nA and is blocked long before its 1.0 ceiling."""
     def behaviour(amp):
         return "spike" if 0.020 <= amp < 0.045 else "silent"
 
@@ -222,31 +218,151 @@ def test_the_ladder_brackets_a_narrow_low_current_firing_window():
     assert abs(rheo - 0.020) <= 0.001
 
 
-def test_a_truly_silent_cell_still_returns_none_after_the_ladder():
+def test_a_truly_silent_cell_still_returns_none_after_the_scan():
     a = probe(lambda amp: "silent")
     assert a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200) is None
-    assert a.last_rheobase_search["blocked_at_ceiling"] is False
-    assert a.last_rheobase_search["scan_rungs"] == a.RHEOBASE_SCAN_RUNGS
+    d = a.last_rheobase_search
+    assert d["blocked_at_ceiling"] is False
+    assert d["scan_probes"] == a.RHEOBASE_SCAN_POINTS
+    assert d["transitions"] == []
 
 
-def test_the_ladder_costs_nothing_when_the_ceiling_spikes():
-    """The majority path must be bit-identical to probe-2, not merely similar."""
-    a = probe(lambda amp: "spike" if amp >= 0.37 else "silent")
-    a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200)
-    assert a.last_rheobase_search["scan_rungs"] == 0
-    assert a.last_rheobase_search["blocked_at_ceiling"] is False
-
-
-def test_a_failed_probe_inside_the_ladder_still_raises():
+def test_a_failed_probe_inside_the_scan_still_raises():
     """A blow-up must not be absorbed by the new search path either."""
     def behaviour(amp):
         if amp >= 1.0:
-            return "silent"      # forces the ladder
+            return "silent"      # forces the scan
         return "empty"
 
     a = probe(behaviour)
     with pytest.raises(NeuronAdapter.RheobaseProbeFailure):
         a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200)
+
+
+# --------------------------------------------------------------------------- #
+# 2026-08-09 post-response-3 audit, P0-1: the geometric ladder was sparse and
+# only ran when the ceiling was silent.  Both halves are tested here.
+# --------------------------------------------------------------------------- #
+
+def test_the_audit_counterexample_between_two_geometric_rungs():
+    """The reviewer's deterministic case, verbatim.
+
+    Fires from 0.30 to 0.40 nA under a 1.0 nA ceiling.  probe-3 probed the
+    rungs 0.25 and 0.50 and returned ``None`` for a cell that fires.
+    """
+    def behaviour(amp):
+        return "spike" if 0.30 <= amp < 0.40 else "silent"
+
+    a = probe(behaviour)
+    rheo = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                           tol_nA=0.001)
+    assert rheo is not None, "0.30-0.40 nA is a firing window, not silence"
+    assert abs(rheo - 0.30) <= 0.001
+    assert a.last_rheobase_search["blocked_at_ceiling"] is True
+
+
+@pytest.mark.parametrize("k", range(15))
+def test_a_window_between_every_pair_of_coarse_probes_is_found(k):
+    """A window exactly one grid step wide, offset half a step off the grid.
+
+    Placed between consecutive probes for every k, so no single lucky rung can
+    carry the test the way ``0.020-0.045`` happened to sit on ``hi/32``.
+    """
+    n = 16
+    delta = 1.0 / n
+    start = (k + 0.5) * delta
+
+    def behaviour(amp):
+        return "spike" if start <= amp < start + delta else "silent"
+
+    a = probe(behaviour)
+    rheo = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                           tol_nA=1e-4, scan_points=n)
+    assert rheo is not None, f"missed the window at [{start}, {start + delta})"
+    assert abs(rheo - start) <= 1e-4
+
+
+def test_the_lowest_of_several_disconnected_windows_is_returned():
+    def behaviour(amp):
+        return "spike" if (0.10 <= amp < 0.15 or 0.40 <= amp < 0.50
+                           or 0.80 <= amp < 0.95) else "silent"
+
+    a = probe(behaviour)
+    rheo = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                           tol_nA=0.001)
+    assert rheo is not None
+    assert abs(rheo - 0.10) <= 0.001, "rheobase is the lowest firing amplitude"
+
+
+def test_a_low_window_is_found_even_when_the_ceiling_spikes():
+    """probe-3's second defect: the scan only ran for ceiling-silent cells.
+
+    This cell has a disconnected low window AND an upper firing branch that
+    includes the ceiling, so probe-3 bisected onto the upper branch and
+    reported 0.60 nA for a cell whose rheobase is 0.10 nA.
+    """
+    def behaviour(amp):
+        return "spike" if (0.10 <= amp < 0.15 or amp >= 0.60) else "silent"
+
+    a = probe(behaviour)
+    rheo = a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                           tol_nA=0.001)
+    assert rheo is not None
+    assert abs(rheo - 0.10) <= 0.001, (
+        "a spiking ceiling does not license the monotonic assumption")
+    d = a.last_rheobase_search
+    assert d["spikes_at_ceiling"] is True
+    assert d["blocked_at_ceiling"] is False
+
+
+def test_the_declared_resolution_is_recorded_with_every_search():
+    """The guarantee travels with the number, including for a None result."""
+    a = probe(lambda amp: "silent")
+    a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200, scan_points=16)
+    d = a.last_rheobase_search
+    assert d["scan_points"] == 16
+    assert d["smallest_detectable_window_nA"] == pytest.approx(1.0 / 16)
+    assert d["contract"] == "uniform-grid"
+
+
+def test_the_contract_string_admits_what_the_grid_cannot_do():
+    """A window narrower than delta CAN be missed, and the code says so.
+
+    This is the honest statement the audit asked for in place of "returns None
+    only when no probe anywhere in the interval spikes".
+    """
+    from compass.adapters.base import RHEOBASE_SEARCH_CONTRACT
+
+    assert "NOT GUARANTEED" in RHEOBASE_SEARCH_CONTRACT
+    assert "narrower than delta" in RHEOBASE_SEARCH_CONTRACT
+    # and the behaviour matches the admission
+    def behaviour(amp):
+        return "spike" if 0.5001 <= amp < 0.5002 else "silent"
+
+    a = probe(behaviour)
+    assert a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                           scan_points=16) is None
+
+
+def test_exhaustive_mode_records_every_transition():
+    def behaviour(amp):
+        return "spike" if (0.10 <= amp < 0.15 or 0.40 <= amp < 0.50) else "silent"
+
+    a = probe(behaviour)
+    a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200,
+                    scan_points=64, exhaustive=True)
+    trans = a.last_rheobase_search["transitions"]
+    assert len(trans) == 2, f"two disconnected windows, got {trans}"
+    assert trans[0]["hi_nA"] < 0.15 and 0.40 <= trans[1]["hi_nA"] < 0.50
+
+
+def test_the_scan_stops_at_the_first_hit_when_not_exhaustive():
+    """Cost control: an early rheobase must not pay for the whole grid."""
+    a = probe(lambda amp: "spike" if amp >= 0.05 else "silent")
+    a.find_rheobase(delay_ms=10, duration_ms=100, total_ms=200, scan_points=64)
+    d = a.last_rheobase_search
+    assert d["scan_probes"] <= 5, d["scan_probes"]
+    assert len(d["transitions"]) == 1
 
 
 def test_a_plateau_at_the_ceiling_is_bracketed_not_reported_as_silent():

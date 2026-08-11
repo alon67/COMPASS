@@ -1,0 +1,278 @@
+{
+ "artifact": "perturbations_raw.parquet",
+ "written_utc": "2026-08-11T04:59:31.565726+00:00",
+ "n_rows": 5760,
+ "models": [
+  "bbp_l5pc",
+  "hh_cable",
+  "hh_point",
+  "khaliq_purkinje",
+  "mainen_l5pc",
+  "migliore_ca1",
+  "pospischil_fs",
+  "pospischil_rs"
+ ],
+ "models_without_slice_identity": [],
+ "uniform_axes": {
+  "measurement_schema": {
+   "values": [
+    "probe-4"
+   ],
+   "uniform": true
+  },
+  "feature_schema": {
+   "values": [
+    "features-2"
+   ],
+   "uniform": true
+  },
+  "battery_version": {
+   "values": [
+    "battery-1"
+   ],
+   "uniform": true
+  },
+  "selection_code_hash": {
+   "values": [
+    "130be7b3ef24753e"
+   ],
+   "uniform": true
+  },
+  "experiment": {
+   "values": [
+    "screening"
+   ],
+   "uniform": true
+  },
+  "delta_log10": {
+   "values": [
+    0.15
+   ],
+   "uniform": true
+  },
+  "n_backgrounds": {
+   "values": [
+    8
+   ],
+   "uniform": true
+  },
+  "background_seed": {
+   "values": [
+    20260805
+   ],
+   "uniform": true
+  }
+ },
+ "per_model": {
+  "bbp_l5pc": {
+   "model_id": "bbp_l5pc",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "955026b7d4c84bac",
+   "candidate_rows_hash": "7039766baa3a0f04",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "5551ffd2071f1041",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "effective_dt_ms": 0.025,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "e4291e6944ef61c8",
+   "mechanism_hash": "579739062ee339dd",
+   "protocol_hash": "28168788b84c8cd6",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  },
+  "hh_cable": {
+   "model_id": "hh_cable",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "e673535c176ebba2",
+   "candidate_rows_hash": "f91b1b4632e18d98",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "f9e01297216c43af",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.05}",
+   "effective_dt_ms": 0.05,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "builtin",
+   "mechanism_hash": "builtin",
+   "protocol_hash": "55aca557d7e298b7",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  },
+  "hh_point": {
+   "model_id": "hh_point",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "1d6a1d4de0e0d2e3",
+   "candidate_rows_hash": "7f35e3c023199f27",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "0133d8becbd30014",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "effective_dt_ms": 0.025,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "builtin",
+   "mechanism_hash": "none",
+   "protocol_hash": "d901ae235f60e38d",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  },
+  "khaliq_purkinje": {
+   "model_id": "khaliq_purkinje",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "12af370915850e98",
+   "candidate_rows_hash": "28be4914a606ad73",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "c0700e91cfb39855",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.00625}",
+   "effective_dt_ms": 0.00625,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "0fac8a56cb61ba9c",
+   "mechanism_hash": "652564f3ee00b2b3",
+   "protocol_hash": "6ff0658d327e4f94",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  },
+  "mainen_l5pc": {
+   "model_id": "mainen_l5pc",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "2a92384bd3d6ecdf",
+   "candidate_rows_hash": "8c825661374c0276",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "f40bb178c2f2ab60",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.0125}",
+   "effective_dt_ms": 0.0125,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "7e293e6fa2fc2fa0",
+   "mechanism_hash": "4050ec98693bb432",
+   "protocol_hash": "e86f69ae2504bbac",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  },
+  "migliore_ca1": {
+   "model_id": "migliore_ca1",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "a3fe80849ba83c09",
+   "candidate_rows_hash": "482e39f1d6a15181",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "4fb1f0b6d4edb2c6",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "effective_dt_ms": 0.025,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "2b0b22794ef7eb05",
+   "mechanism_hash": "18743b25b47f3a36",
+   "protocol_hash": "869b24f90b2799e8",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  },
+  "pospischil_fs": {
+   "model_id": "pospischil_fs",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "6385135be8f1c549",
+   "candidate_rows_hash": "243f12bd04c24046",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "518d0496f69dbc8d",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "effective_dt_ms": 0.025,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "07c0ddd2c817c271",
+   "mechanism_hash": "unknown",
+   "protocol_hash": "b30db271db7ad7ac",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  },
+  "pospischil_rs": {
+   "model_id": "pospischil_rs",
+   "experiment": "screening",
+   "battery_version": "battery-1",
+   "delta_log10": 0.15,
+   "n_backgrounds": 8,
+   "background_seed": 20260805,
+   "background_vectors_hash": "5ab2ad9c2087ed41",
+   "candidate_rows_hash": "3792919304e4e084",
+   "candidate_source_hash": "ae24c1c8cfc14fe1",
+   "selection_code_hash": "130be7b3ef24753e",
+   "pert_features": "mean_firing_rate_Hz,ap_amplitude_mV,ap_halfwidth_ms,first_isi_ms,spike_count",
+   "candidate_tuples_hash": "fab49c74b6745c35",
+   "n_candidate_tuples": 18,
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.05}",
+   "effective_dt_ms": 0.05,
+   "dt_override": null,
+   "dt_scale": null,
+   "asset_hash": "07c0ddd2c817c271",
+   "mechanism_hash": "f906670fc4b6027a",
+   "protocol_hash": "99a61564c7fec042",
+   "env_hash": "26da7d85899aec51",
+   "feature_schema": "features-2",
+   "measurement_schema": "probe-4",
+   "sim_code_hash": "92b476892f08f692"
+  }
+ },
+ "suffix": "",
+ "_doc": "The ONLY admissible source of identity for this file. tools/perturbation_inference.py reads it and refuses to run when it is absent, when a model has no slice identity, or when any uniform axis is not uniform -- rather than stamping the schema of whatever code happens to be imported (2026-08-09 post-response-3 audit, P0-3)."
+}

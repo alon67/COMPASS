@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-09T14:59:02.815421+00:00",
- "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+ "written_utc": "2026-08-11T11:33:19.231341+00:00",
+ "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -37,9 +37,9 @@
     "drift_note": "derived labels and documented schema drift are reported separately: they are not reproduction failures, and gate D5 validates them by exact recomputation",
     "n_rows_total": 18944,
     "n_shards": 762,
-    "n_replayed": 1006,
-    "n_planned": 1006,
-    "n_match": 1006,
+    "n_replayed": 1005,
+    "n_planned": 1005,
+    "n_match": 1005,
     "n_mismatch": 0,
     "n_replay_error": 0,
     "invalid_shards": [],
@@ -544,7 +544,6 @@
      "khaliq_purkinje:E1:1:1023",
      "khaliq_purkinje:E1:1:118",
      "khaliq_purkinje:E1:1:139",
-     "khaliq_purkinje:E1:1:169",
      "khaliq_purkinje:E1:1:17",
      "khaliq_purkinje:E1:1:170",
      "khaliq_purkinje:E1:1:181",
@@ -552,15 +551,16 @@
      "khaliq_purkinje:E1:1:213",
      "khaliq_purkinje:E1:1:226",
      "khaliq_purkinje:E1:1:250",
-     "khaliq_purkinje:E1:1:273",
+     "khaliq_purkinje:E1:1:269",
+     "khaliq_purkinje:E1:1:279",
      "khaliq_purkinje:E1:1:292",
      "khaliq_purkinje:E1:1:309",
      "khaliq_purkinje:E1:1:34",
      "khaliq_purkinje:E1:1:344",
-     "khaliq_purkinje:E1:1:352"
+     "khaliq_purkinje:E1:1:374"
     ]
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -574,7 +574,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T14:59:02.815377+00:00",
+   "recorded_utc": "2026-08-11T11:33:19.231287+00:00",
    "passed": true
   }
  ]

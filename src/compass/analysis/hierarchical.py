@@ -461,8 +461,19 @@ def fold_distribution(lomo: pd.DataFrame, predictors: str,
         return {"n_folds": 0}
     folds = {str(g): (None if not np.isfinite(x) else float(x))
              for g, x in zip(sub["held_out_group"], sub[metric], strict=True)}
+    # `worst_fold` used to be `min(folds, key=folds.get)` over a dict that keeps
+    # non-finite folds as None, so a single non-converged fold raised
+    # TypeError comparing None with float -- in the one function whose purpose is
+    # to report unstable folds (2026-08-09 post-response-3 audit, P1-5).  Rank on
+    # the finite folds and name the non-finite ones separately, because "this
+    # fold did not produce a number" is a different statement from "this fold
+    # scored badly" and the reader needs both.
+    finite = {k: x for k, x in folds.items() if x is not None}
+    nonfinite = sorted(k for k, x in folds.items() if x is None)
     return {
         "n_folds": int(v.size),
+        "n_folds_nonfinite": len(nonfinite),
+        "nonfinite_folds": nonfinite,
         "median": float(np.median(v)),
         "mean": float(np.mean(v)),
         "min": float(v.min()),
@@ -470,7 +481,7 @@ def fold_distribution(lomo: pd.DataFrame, predictors: str,
         "iqr": [float(np.percentile(v, 25)), float(np.percentile(v, 75))],
         "range": [float(v.min()), float(v.max())],
         "n_folds_beating_null": int((v > 0).sum()),
-        "worst_fold": min(folds, key=lambda k: folds[k]),
+        "worst_fold": (min(finite, key=lambda k: finite[k]) if finite else None),
         "folds": folds,
     }
 

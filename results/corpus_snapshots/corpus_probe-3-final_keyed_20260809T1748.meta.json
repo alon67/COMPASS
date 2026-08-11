@@ -1,0 +1,31 @@
+{
+ "label": "probe-3-final (re-keyed)",
+ "written_utc": "2026-08-09T17:48:17.974969+00:00",
+ "n_rows": 130098,
+ "n_shards": 4656,
+ "key_columns": [
+  "experiment",
+  "model_id",
+  "regime",
+  "replicate",
+  "parameter_sample_id"
+ ],
+ "outcome_columns": [
+  "rheobase_nA",
+  "non_spiking",
+  "rheobase_blocked_at_ceiling",
+  "simulation_status",
+  "physiology_class",
+  "execution_valid",
+  "analysis_eligible",
+  "protocol_valid",
+  "normalised_protocol_valid",
+  "qc_flags",
+  "validator_version"
+ ],
+ "n_feature_columns": 102,
+ "file_sha256": "7e3fef05473b4e5f39f802d6323421440b05a2bf528720d3555b6ffab794d244",
+ "purpose": "immutable before/after state for the corpus reconciliation table required by the 2026-08-09 post-response-3 audit, P0-2",
+ "derived_from": "corpus_probe-3-final_20260809T1748.parquet",
+ "note": "`experiment` and `regime` were absent from the original snapshot: the shards store them as `identity.experiment` and `sampling_regime`, and the first version of snapshot_corpus.py dropped any key column it did not find by its canonical name. Both are recovered here from the shard path, which encodes them exactly. The original file is retained unchanged; the tool now resolves aliases and fails closed on a missing key."
+}

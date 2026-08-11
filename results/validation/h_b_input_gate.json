@@ -1,0 +1,401 @@
+{
+ "written_utc": "2026-08-11T14:27:19.075223+00:00",
+ "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+ "environment": {
+  "python": "3.12.4",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "machine": "arm64",
+  "neuron": "8.2.6-1-gb6e6a5fad+",
+  "efel": "5.7.29",
+  "numpy": "1.26.4",
+  "scipy": "1.14.0",
+  "pandas": "2.2.3",
+  "sklearn": "1.5.2",
+  "statsmodels": "0.14.6",
+  "SALib": "?"
+ },
+ "n_records": 4,
+ "n_passed": 4,
+ "all_passed": true,
+ "by_gate": {
+  "H_B_INPUT": {
+   "n": 4,
+   "passed": 4,
+   "failed_subjects": []
+  }
+ },
+ "records": [
+  {
+   "gate": "H_B_INPUT",
+   "subject": "battery_schema_current",
+   "status": "PASS",
+   "detail": "the battery's backgrounds and candidate tuples come from feature rows; a measurement change makes them probe points that no longer exist",
+   "failures": [],
+   "measurements": {
+    "precondition": {
+     "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+     "preregistered": false,
+     "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+     "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+     "status": "ok",
+     "models_in_battery": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_tested": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_untested": [],
+     "models_repeatable": [
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_rs"
+     ],
+     "models_not_repeatable": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "pospischil_fs"
+     ],
+     "n_repeatable_lineages": 3,
+     "evaluable": true,
+     "reason": "3 repeatable implementations over 3 lineages",
+     "measurement_schema_now": "probe-4",
+     "measurement_schema_of_battery": "probe-4",
+     "battery_schema_current": true
+    },
+    "coverage": {
+     "models_in_endpoints": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_with_perturbation_data": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "missing_from_perturbation": [],
+     "complete": true,
+     "caveat": ""
+    }
+   },
+   "tolerances": {},
+   "inputs": {},
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T14:27:18.957054+00:00",
+   "passed": true
+  },
+  {
+   "gate": "H_B_INPUT",
+   "subject": "half_step_twin_present",
+   "status": "PASS",
+   "detail": "numerical repeatability needs a halved-dt rerun of every tested model",
+   "failures": [],
+   "measurements": {
+    "precondition": {
+     "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+     "preregistered": false,
+     "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+     "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+     "status": "ok",
+     "models_in_battery": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_tested": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_untested": [],
+     "models_repeatable": [
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_rs"
+     ],
+     "models_not_repeatable": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "pospischil_fs"
+     ],
+     "n_repeatable_lineages": 3,
+     "evaluable": true,
+     "reason": "3 repeatable implementations over 3 lineages",
+     "measurement_schema_now": "probe-4",
+     "measurement_schema_of_battery": "probe-4",
+     "battery_schema_current": true
+    },
+    "coverage": {
+     "models_in_endpoints": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_with_perturbation_data": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "missing_from_perturbation": [],
+     "complete": true,
+     "caveat": ""
+    }
+   },
+   "tolerances": {},
+   "inputs": {},
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T14:27:18.997868+00:00",
+   "passed": true
+  },
+  {
+   "gate": "H_B_INPUT",
+   "subject": "repeatable_lineage_floor",
+   "status": "PASS",
+   "detail": "a repeatable subset spanning too few lineages cannot support H-B",
+   "failures": [],
+   "measurements": {
+    "precondition": {
+     "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+     "preregistered": false,
+     "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+     "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+     "status": "ok",
+     "models_in_battery": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_tested": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_untested": [],
+     "models_repeatable": [
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_rs"
+     ],
+     "models_not_repeatable": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "pospischil_fs"
+     ],
+     "n_repeatable_lineages": 3,
+     "evaluable": true,
+     "reason": "3 repeatable implementations over 3 lineages",
+     "measurement_schema_now": "probe-4",
+     "measurement_schema_of_battery": "probe-4",
+     "battery_schema_current": true
+    },
+    "coverage": {
+     "models_in_endpoints": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_with_perturbation_data": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "missing_from_perturbation": [],
+     "complete": true,
+     "caveat": ""
+    }
+   },
+   "tolerances": {},
+   "inputs": {},
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T14:27:19.036468+00:00",
+   "passed": true
+  },
+  {
+   "gate": "H_B_INPUT",
+   "subject": "disposition_explicit",
+   "status": "PASS",
+   "detail": "H-B must be scored or explicitly withheld, never silently absent",
+   "failures": [],
+   "measurements": {
+    "precondition": {
+     "rule": "perturbation-derived H-B criteria are scored only on implementations whose per-background eta is numerically repeatable at half the campaign time step",
+     "preregistered": false,
+     "provenance": "added 2026-08-09 in response to the independent post-response audit, with the 2/5 repeatability outcome already known. The repeatability RULE it consumes was prespecified in perturbation_inference.py before the half-step run; the minimum lineage count is new and is set by what a clustered bootstrap can estimate.",
+     "definition": "per-background eta recomputed at half the campaign dt; repeatable = median |delta eta| <= 0.05 feature SD AND >= 80% of tuple means keep their sign",
+     "status": "ok",
+     "models_in_battery": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_tested": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_untested": [],
+     "models_repeatable": [
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_rs"
+     ],
+     "models_not_repeatable": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "pospischil_fs"
+     ],
+     "n_repeatable_lineages": 3,
+     "evaluable": true,
+     "reason": "3 repeatable implementations over 3 lineages",
+     "measurement_schema_now": "probe-4",
+     "measurement_schema_of_battery": "probe-4",
+     "battery_schema_current": true
+    },
+    "coverage": {
+     "models_in_endpoints": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "models_with_perturbation_data": [
+      "bbp_l5pc",
+      "hh_cable",
+      "hh_point",
+      "khaliq_purkinje",
+      "migliore_ca1",
+      "pospischil_fs",
+      "pospischil_rs"
+     ],
+     "missing_from_perturbation": [],
+     "complete": true,
+     "caveat": ""
+    }
+   },
+   "tolerances": {},
+   "inputs": {},
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T14:27:19.075115+00:00",
+   "passed": true
+  }
+ ]
+}

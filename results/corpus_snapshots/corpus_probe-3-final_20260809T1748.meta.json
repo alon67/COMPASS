@@ -1,0 +1,29 @@
+{
+ "label": "probe-3-final",
+ "written_utc": "2026-08-09T17:48:17.974969+00:00",
+ "n_rows": 130098,
+ "n_shards": 4656,
+ "key_columns": [
+  "experiment",
+  "model_id",
+  "regime",
+  "replicate",
+  "parameter_sample_id"
+ ],
+ "outcome_columns": [
+  "rheobase_nA",
+  "non_spiking",
+  "rheobase_blocked_at_ceiling",
+  "simulation_status",
+  "physiology_class",
+  "execution_valid",
+  "analysis_eligible",
+  "protocol_valid",
+  "normalised_protocol_valid",
+  "qc_flags",
+  "validator_version"
+ ],
+ "n_feature_columns": 102,
+ "file_sha256": "d089051ad7691344a003ce61002743019980da1d4c427dd652ada6b18f161e34",
+ "purpose": "immutable before/after state for the corpus reconciliation table required by the 2026-08-09 post-response-3 audit, P0-2"
+}

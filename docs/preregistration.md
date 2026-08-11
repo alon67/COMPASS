@@ -356,3 +356,84 @@ reason to state them plainly rather than fold them into the frozen text above.
    vote count is not five independent confirmations. `decision.json` now carries
    `criterion_dependence` and `interpretation` blocks stating what the label may
    and may not be described as. **H-B is recorded as UNRESOLVED**, not refuted.
+
+---
+
+## Addendum 6 — post-hoc changes made in response to the 2026-08-09 post-response-3 audit
+
+Same rule as Addendum 5: everything here was decided **after** outcomes were
+visible and is therefore exploratory. It is listed so a reader can discount it,
+not to make it preregistered retrospectively.
+
+1. **The rheobase search was found to be sparse, and the whole corpus was
+   regenerated (`probe-3` → `probe-4`).** `probe-3` walked a geometric ladder
+   `hi/2**k` and only when the ceiling did not spike. A reviewer's deterministic
+   counterexample — a cell firing from 0.30 to 0.40 nA under a 1.0 nA ceiling —
+   returned `None`, because the ladder probes 0.25 and 0.50 and nothing between.
+   Running the ladder only for ceiling-silent cells was a second defect: a cell
+   with a low disconnected window *and* an upper firing branch was bisected on
+   the upper branch, so its rheobase was overstated rather than missed.
+
+   `probe-4` scans a **uniform grid of declared resolution** — 64 points over
+   `(0, ceiling]` — upward from the bottom, on **every** sample.
+   `compass.adapters.base.RHEOBASE_SEARCH_CONTRACT` states both halves of what
+   that provides: any firing window at least `ceiling/64` wide is found; a
+   narrower one may be stepped over, so `None` means *no spike at any probed
+   amplitude at this resolution* and never *silent everywhere*.
+   `tools/audit_rheobase_resolution.py` measures the observed firing-window
+   widths on a stratified sample at 8× that resolution, so whether 64 is fine
+   enough is answered with evidence rather than assertion.
+
+   **No enumeration argument is made this time.** `probe-3`'s targeted repair
+   rested on the claim that the change touched a strictly enumerable set of
+   rows; the claim was false, its equivalence check retained a `NOT equivalent`
+   verdict, and its affected-row counts could not be reconciled. The corpus is
+   now regenerated in full from the stored parameter draws — the measurement
+   schema is part of every shard's reuse identity, so bumping it invalidates
+   every shard — and `tools/repair_rheobase.py` was deleted. In-place mutation
+   of feature shards is no longer an operation this repository offers. The
+   before/after difference is measured by diffing two immutable corpus snapshots
+   (`tools/snapshot_corpus.py`, `tools/reconcile_corpus.py`), and every count
+   quoted anywhere carries its inclusion criterion.
+
+2. **One voltage band, applied to the corpus rather than to a report.** The
+   waveform battery flagged traces outside `[-150, 80] mV` as physiologically
+   impossible while the corpus rule excluded only outside `[-160, 120] mV`, so a
+   trace could be "impossible" in the report and fully analysis-eligible in the
+   inference. There is now one band (`PHYSICAL_V_MIN_MV` / `PHYSICAL_V_MAX_MV`),
+   set at the tighter pair, used by both. Measured cost of the tightening on the
+   previous retained sample: 4 of 914 protocol traces move from flagged-only to
+   excluded, against 17 already excluded under the wider band.
+
+3. **Every waveform finding class now has a disposition, fixed before the run.**
+   `retain_waveforms.FINDING_DISPOSITION` assigns each class to one of
+   *integrity failure*, *numerical invalid*, *prior predictive*, *detector
+   limit* or *protocol settling*, and names the mechanism that carries it into
+   the analysis. A class judged invalid is excluded by a corpus-wide rule
+   applying to all rows, not repaired in a report covering a sample. A finding
+   class with no declared disposition fails the WAVEFORM gate.
+
+4. **The N4 projection applies to every reported arm, not only the discovery
+   headline.** `replication_only` was reading the unprojected replication
+   endpoint table while the manifest reported N4 as globally projected on the
+   strength of the *primary* arm's filename. The replication arm now consumes
+   the projected table and `replication_n4_retained` is added so the cost of the
+   projection is measured on that arm too, exactly as `n4_retained` does for
+   discovery. Disposition is computed per arm and per model by
+   `compass.analysis.cohorts.n4_disposition_by_arm()`.
+
+5. **H-B has an input gate.** `H_B_INPUT` is mandatory and has four subjects:
+   the battery's measurement schema is current, its half-step twin exists, its
+   repeatable subset clears the lineage floor, and H-B carries an explicit
+   evaluable-or-withheld disposition. Previously nothing in the release logic
+   would have stopped a stale battery if the other blockers were cleared, and
+   the analysis tool could clear the staleness check by stamping its own
+   schema — so the gate is paired with an identity sidecar that the analysis
+   must read rather than write.
+
+6. **N2's published summary is generated, and says 6 of 14.** The roll-up reads
+   `7/7`, which is six model tests plus one declaration-coverage test. The
+   sentence every document now quotes is
+   `compass.validation.gates.n2_coverage()["statement"]`: *source-referenced
+   canonical scalar agreement: 6/14 evaluable implementations*. This is a
+   reporting change, not a change of evidence.

@@ -2,139 +2,142 @@
  "by_feature": {
   "ap_amplitude_mV": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.1226023633580995,
-    "control_random": 0.168374343223801,
-    "top_synergy": 0.16123647502729743
+    "control_middle": 0.14313346999825566,
+    "control_random": 0.12895392230202316,
+    "top_synergy": 0.18247395311610703
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.05376106900370536,
-    "control_random": 0.048097386035904945,
-    "top_synergy": 0.052479248749090546
+    "control_middle": 0.061277362394754925,
+    "control_random": 0.04401820202577034,
+    "top_synergy": 0.05722100783628764
    },
    "frac_functionally_supported": {
-    "control_middle": 0.047619047619047616,
-    "control_random": 0.11904761904761904,
-    "top_synergy": 0.07142857142857142
+    "control_middle": 0.041666666666666664,
+    "control_random": 0.08333333333333333,
+    "top_synergy": 0.0625
    },
    "n": {
-    "control_middle": 42,
-    "control_random": 42,
-    "top_synergy": 42
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
    }
   },
   "ap_halfwidth_ms": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.28574364060419494,
-    "control_random": 0.2807096543871772,
-    "top_synergy": 0.24226632658560612
+    "control_middle": 0.18996414185835606,
+    "control_random": 0.19439039978729547,
+    "top_synergy": 0.3328556434858847
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.20781547546509638,
-    "control_random": 0.21524646164431244,
-    "top_synergy": 0.1962617679543235
+    "control_middle": 0.14719632596574264,
+    "control_random": 0.1581828012495863,
+    "top_synergy": 0.19510097601887552
    },
    "frac_functionally_supported": {
-    "control_middle": 0.14285714285714285,
-    "control_random": 0.19047619047619047,
-    "top_synergy": 0.21428571428571427
+    "control_middle": 0.1875,
+    "control_random": 0.125,
+    "top_synergy": 0.25
    },
    "n": {
-    "control_middle": 42,
-    "control_random": 42,
-    "top_synergy": 42
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
    }
   },
   "first_isi_ms": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.0547957200009525,
-    "control_random": 0.052638944449962886,
-    "top_synergy": 0.15286111585091305
+    "control_middle": 0.04657078168302648,
+    "control_random": 0.04735489165619513,
+    "top_synergy": 0.12897989935616858
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.02904475205788519,
-    "control_random": 0.025304841525205825,
-    "top_synergy": 0.09701139553060027
+    "control_middle": 0.021290298881264137,
+    "control_random": 0.021665973874847852,
+    "top_synergy": 0.09589468751612151
    },
    "frac_functionally_supported": {
-    "control_middle": 0.023809523809523808,
+    "control_middle": 0.041666666666666664,
     "control_random": 0.0,
-    "top_synergy": 0.19047619047619047
+    "top_synergy": 0.14583333333333334
    },
    "n": {
-    "control_middle": 42,
-    "control_random": 42,
-    "top_synergy": 42
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
    }
   },
   "mean_firing_rate_Hz": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.10308326573106068,
-    "control_random": 0.0645568702114012,
-    "top_synergy": 0.30624770836736287
+    "control_middle": 0.1149545184476546,
+    "control_random": 0.06799670957629521,
+    "top_synergy": 0.1892618871133389
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.02230890701162197,
-    "control_random": 0.022907236271220634,
-    "top_synergy": 0.09977173059950986
+    "control_middle": 0.04181618328824082,
+    "control_random": 0.029068067107586203,
+    "top_synergy": 0.08964199889907465
    },
    "frac_functionally_supported": {
-    "control_middle": 0.07142857142857142,
-    "control_random": 0.023809523809523808,
-    "top_synergy": 0.30952380952380953
+    "control_middle": 0.08333333333333333,
+    "control_random": 0.020833333333333332,
+    "top_synergy": 0.20833333333333334
    },
    "n": {
-    "control_middle": 42,
-    "control_random": 42,
-    "top_synergy": 42
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
    }
   },
   "spike_count": {
    "mean_abs_eta_sd": {
-    "control_middle": 0.10308326573106068,
-    "control_random": 0.06455687021140119,
-    "top_synergy": 0.30624770836736287
+    "control_middle": 0.1149545184476546,
+    "control_random": 0.06799670957629521,
+    "top_synergy": 0.1892618871133389
    },
    "median_abs_eta_sd": {
-    "control_middle": 0.02230890701162197,
-    "control_random": 0.02290723627122063,
-    "top_synergy": 0.09977173059950986
+    "control_middle": 0.04181618328824081,
+    "control_random": 0.029068067107586203,
+    "top_synergy": 0.08964199889907463
    },
    "frac_functionally_supported": {
-    "control_middle": 0.07142857142857142,
-    "control_random": 0.023809523809523808,
-    "top_synergy": 0.30952380952380953
+    "control_middle": 0.08333333333333333,
+    "control_random": 0.020833333333333332,
+    "top_synergy": 0.20833333333333334
    },
    "n": {
-    "control_middle": 42,
-    "control_random": 42,
-    "top_synergy": 42
+    "control_middle": 48,
+    "control_random": 48,
+    "top_synergy": 48
    }
   }
  },
  "per_model_mean_abs_eta": {
   "control_middle": {
    "bbp_l5pc": 0.0077,
-   "hh_cable": 0.255,
-   "hh_point": 0.0798,
-   "khaliq_purkinje": 0.0124,
+   "hh_cable": 0.0575,
+   "hh_point": 0.2594,
+   "khaliq_purkinje": 0.116,
+   "mainen_l5pc": 0.1125,
    "migliore_ca1": 0.3144,
    "pospischil_fs": 0.0235,
    "pospischil_rs": 0.0287
   },
   "control_random": {
    "bbp_l5pc": 0.0108,
-   "hh_cable": 0.1088,
-   "hh_point": 0.0583,
-   "khaliq_purkinje": 0.0229,
+   "hh_cable": 0.0676,
+   "hh_point": 0.0671,
+   "khaliq_purkinje": 0.0349,
+   "mainen_l5pc": 0.1125,
    "migliore_ca1": 0.1997,
    "pospischil_fs": 0.0072,
    "pospischil_rs": 0.0441
   },
   "top_synergy": {
    "bbp_l5pc": 0.1587,
-   "hh_cable": 0.7855,
-   "hh_point": 0.709,
-   "khaliq_purkinje": 0.0286,
+   "hh_cable": 0.2129,
+   "hh_point": 0.5401,
+   "khaliq_purkinje": 0.0933,
+   "mainen_l5pc": 0.0471,
    "migliore_ca1": 0.2941,
    "pospischil_fs": 0.1022,
    "pospischil_rs": 0.0656
@@ -143,22 +146,25 @@
  "per_lineage_mean_abs_eta": {
   "control_middle": {
    "hay_2011": 0.0077,
-   "hodgkin_huxley_1952": 0.1674,
-   "khaliq_2003": 0.0124,
+   "hodgkin_huxley_1952": 0.1584,
+   "khaliq_2003": 0.116,
+   "mainen_1996": 0.1125,
    "migliore_1999": 0.3144,
    "pospischil_2008": 0.0261
   },
   "control_random": {
    "hay_2011": 0.0108,
-   "hodgkin_huxley_1952": 0.0836,
-   "khaliq_2003": 0.0229,
+   "hodgkin_huxley_1952": 0.0674,
+   "khaliq_2003": 0.0349,
+   "mainen_1996": 0.1125,
    "migliore_1999": 0.1997,
    "pospischil_2008": 0.0257
   },
   "top_synergy": {
    "hay_2011": 0.1587,
-   "hodgkin_huxley_1952": 0.7472,
-   "khaliq_2003": 0.0286,
+   "hodgkin_huxley_1952": 0.3765,
+   "khaliq_2003": 0.0933,
+   "mainen_1996": 0.0471,
    "migliore_1999": 0.2941,
    "pospischil_2008": 0.0839
   }
@@ -175,6 +181,9 @@
   "khaliq_2003": [
    "khaliq_purkinje"
   ],
+  "mainen_1996": [
+   "mainen_l5pc"
+  ],
   "migliore_1999": [
    "migliore_ca1"
   ],
@@ -184,49 +193,135 @@
   ]
  },
  "top_vs_control_middle": {
-  "n_models": 5,
-  "mean_top": 0.2625122378885982,
-  "mean_control": 0.10560944337495681,
-  "ratio_point": 2.4856890586627953,
+  "n_models": 6,
+  "mean_top": 0.1756100808404897,
+  "mean_control": 0.12251783422637806,
+  "ratio_point": 1.4333430063415282,
   "ratio_ci95": [
-   1.0729362221365049,
-   6.912504725339532
+   0.837220445652266,
+   2.9899556041319806
   ],
   "difference_ci95": [
-   0.009915457050239829,
-   0.3740250213990334
+   -0.023089479762097284,
+   0.14045708739438748
   ],
-  "wilcoxon_p": 0.1875,
-  "n_models_top_greater": 4,
+  "wilcoxon_p": 0.5625,
+  "n_models_top_greater": 3,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
  },
  "top_vs_control_random": {
-  "n_models": 5,
-  "mean_top": 0.2625122378885982,
-  "mean_control": 0.06853269164605821,
-  "ratio_point": 3.830467351907913,
+  "n_models": 6,
+  "mean_top": 0.1756100808404897,
+  "mean_control": 0.07515714063648832,
+  "ratio_point": 2.336572138765377,
   "ratio_ci95": [
-   1.5485737939506354,
-   9.018162661080435
+   1.1793792274251866,
+   5.7537096474928395
   ],
   "difference_ci95": [
-   0.0444592522368846,
-   0.43593402383778196
+   0.01708173028262818,
+   0.1987086432578411
   ],
-  "wilcoxon_p": 0.0625,
+  "wilcoxon_p": 0.15625,
   "n_models_top_greater": 5,
   "equivalent_within_0.10sd": false,
   "interpretation": "inconclusive: the confidence interval spans both no enrichment and substantial enrichment"
  },
+ "models_resumed_from_cache": [],
+ "rejected_cache_slices": {},
  "solver_dt_override_ms": null,
+ "solver_dt_scale": null,
+ "effective_dt_ms": {
+  "bbp_l5pc": 0.025,
+  "hh_cable": 0.05,
+  "hh_point": 0.025,
+  "khaliq_purkinje": 0.00625,
+  "mainen_l5pc": 0.0125,
+  "migliore_ca1": 0.025,
+  "pospischil_fs": 0.025,
+  "pospischil_rs": 0.05
+ },
+ "effective_dt_source": "per-slice cache identity (immutable)",
+ "slice_identity": {
+  "bbp_l5pc": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "579739062ee339dd",
+   "candidate_tuples_hash": "5551ffd2071f1041",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  },
+  "hh_cable": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.05}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "builtin",
+   "candidate_tuples_hash": "f9e01297216c43af",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  },
+  "hh_point": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "none",
+   "candidate_tuples_hash": "0133d8becbd30014",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  },
+  "khaliq_purkinje": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.00625}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "652564f3ee00b2b3",
+   "candidate_tuples_hash": "c0700e91cfb39855",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  },
+  "mainen_l5pc": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.0125}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "4050ec98693bb432",
+   "candidate_tuples_hash": "f40bb178c2f2ab60",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  },
+  "migliore_ca1": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "18743b25b47f3a36",
+   "candidate_tuples_hash": "4fb1f0b6d4edb2c6",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  },
+  "pospischil_fs": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.025}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "unknown",
+   "candidate_tuples_hash": "518d0496f69dbc8d",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  },
+  "pospischil_rs": {
+   "solver": "{\"cvode\": false, \"dt_ms\": 0.05}",
+   "sim_code_hash": "92b476892f08f692",
+   "mechanism_hash": "f906670fc4b6027a",
+   "candidate_tuples_hash": "fab49c74b6745c35",
+   "battery_version": "battery-1",
+   "measurement_schema": "probe-4",
+   "feature_schema": "features-2"
+  }
+ },
  "quantisation_arithmetic": {
   "single_observation_quantum_Hz": 2.5,
   "n_backgrounds": 8,
   "mean_over_backgrounds_grid_Hz": 0.3125,
   "note": "a deterministic grid is not a stochastic detection limit; use background-level uncertainty for inferential precision and a finer-dt rerun for numerical repeatability"
  },
- "withdrawn": "The 2.5 Hz 'measurement floor' analysis and its '4/8 models unresolvable' conclusion were withdrawn by the 2026-08-06 audit (section 4). They compared a median of eight-background means against one unaveraged single-observation quantum. See results/analyses/perturbation_inference.json for the replacement.",
- "reanalysed_utc": "2026-08-09T07:33:28.215616+00:00",
- "reanalysed_note": "statistics recomputed from perturbations.parquet without re-simulating; the per-row eta is unchanged"
+ "withdrawn": "The 2.5 Hz 'measurement floor' analysis and its '4/8 models unresolvable' conclusion were withdrawn by the 2026-08-06 audit (section 4). They compared a median of eight-background means against one unaveraged single-observation quantum. See results/analyses/perturbation_inference.json for the replacement."
 }

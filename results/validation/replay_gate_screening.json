@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-09T14:44:50.633897+00:00",
- "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+ "written_utc": "2026-08-11T11:15:09.287473+00:00",
+ "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -37,9 +37,9 @@
     "drift_note": "derived labels and documented schema drift are reported separately: they are not reproduction failures, and gate D5 validates them by exact recomputation",
     "n_rows_total": 76288,
     "n_shards": 3057,
-    "n_replayed": 3338,
-    "n_planned": 3338,
-    "n_match": 3338,
+    "n_replayed": 3341,
+    "n_planned": 3341,
+    "n_match": 3341,
     "n_mismatch": 0,
     "n_replay_error": 0,
     "invalid_shards": [],
@@ -560,7 +560,7 @@
      "hh_cable:E2:1:1636"
     ]
    },
-   "git_tree": "c736e48f90783b6e72cb28ee4ddec81af165bbaa-dirty",
+   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -574,7 +574,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-09T14:44:50.633789+00:00",
+   "recorded_utc": "2026-08-11T11:15:09.287422+00:00",
    "passed": true
   }
  ]

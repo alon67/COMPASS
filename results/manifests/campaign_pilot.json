@@ -114,5 +114,58 @@
   "n_samples": 50,
   "n_error": 0,
   "n_nonspiking": 2
+ },
+ {
+  "invocation_utc": "2026-08-09T18:25:03.568574+00:00",
+  "experiment": "pilot",
+  "models": [
+   "migliore_ca1"
+  ],
+  "regimes": null,
+  "replicates": 1,
+  "workers": 12,
+  "seeds": {
+   "migliore_ca1:r1": 20261847
+  },
+  "code_hash": "ec4da407451158e4",
+  "config_hash": "4e40c55aa6ecbb25",
+  "env_hash": "26da7d85899aec51",
+  "asset_hash": {
+   "migliore_ca1": "2b0b22794ef7eb05"
+  },
+  "mechanism_hash": {
+   "migliore_ca1": "18743b25b47f3a36"
+  },
+  "n_reused_shards": 0,
+  "n_stale_quarantined": 0,
+  "env": {
+   "python": "3.12.4",
+   "numpy": "1.26.4",
+   "platform": "macOS-26.5.2-arm64-arm-64bit"
+  },
+  "wall_min": 23.38,
+  "blocks": [
+   {
+    "shard": "E1_r1_000025.parquet",
+    "n": 25,
+    "wall_s": 1339.8,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   },
+   {
+    "shard": "E1_r1_000000.parquet",
+    "n": 25,
+    "wall_s": 1400.3,
+    "n_error": 0,
+    "n_nonspiking": 1,
+    "n_ineligible": 0
+   }
+  ],
+  "n_blocks_total": 2,
+  "n_blocks_run": 2,
+  "n_samples": 50,
+  "n_error": 0,
+  "n_nonspiking": 2
  }
 ]

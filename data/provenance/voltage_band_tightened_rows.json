@@ -1,0 +1,4288 @@
+{
+ "criterion": "left_the_analysis_set",
+ "definition": "analysis_eligible True before, False after",
+ "generated_utc": "2026-08-10T19:15:15.518862+00:00",
+ "key_columns": [
+  "experiment",
+  "model_id",
+  "regime",
+  "replicate",
+  "parameter_sample_id"
+ ],
+ "n_rows": 609,
+ "by_model": {
+  "dougalis_vlpag_da": 212,
+  "khaliq_purkinje": 397
+ },
+ "by_experiment": {
+  "screening": 251,
+  "screening_scramble2": 65,
+  "screening_v2_replication": 212,
+  "sobol": 81
+ },
+ "rows": [
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 25
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 37
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 75
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 92
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 135
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 136
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 147
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 150
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 152
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 170
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 291
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 306
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 379
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 381
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 397
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 452
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 467
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 469
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 470
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 495
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 500
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 507
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 510
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 517
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 546
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 576
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 624
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 630
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 679
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 709
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 737
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 738
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 753
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 767
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 788
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 811
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 842
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 871
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 880
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 890
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 925
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 941
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 953
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 954
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 970
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 980
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 983
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 984
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1013
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1077
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1088
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1108
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1167
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1176
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1182
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1226
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1286
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1303
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1340
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1359
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1373
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1374
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1434
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1448
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1454
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1505
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1552
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1558
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1580
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1585
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1628
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1652
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1699
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1723
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1725
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1726
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1766
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1777
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1799
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1803
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1823
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1847
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1870
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1898
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1961
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1991
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2035
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2040
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2045
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2057
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2070
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2074
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2090
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2126
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2131
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2137
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2147
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2180
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2223
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2266
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2277
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2315
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2348
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2375
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2409
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2470
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2518
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2540
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2584
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2587
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2695
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2708
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2724
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2741
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2758
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2775
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2781
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2809
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2810
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2816
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2828
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2864
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2902
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2933
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2947
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2977
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3023
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3081
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3142
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3159
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3175
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3210
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3212
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3248
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3273
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3321
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3368
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3391
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3445
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3446
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3473
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3474
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3476
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3479
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3514
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3580
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3583
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3625
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3626
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3655
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3784
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3848
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3866
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3892
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3920
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3945
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3954
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3973
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 4051
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 4063
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 52
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 58
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 124
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 146
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 172
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 184
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 220
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 330
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 342
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 343
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 361
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 379
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 413
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 474
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 492
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 507
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 518
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 545
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 572
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 595
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 641
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 651
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 706
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 718
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 738
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 770
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 773
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 803
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 804
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 846
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 867
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 888
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 890
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 894
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 904
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 908
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 937
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 957
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 967
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1002
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1012
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1020
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1062
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1064
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1103
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1112
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1192
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1223
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1231
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1233
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1260
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1315
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1337
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1350
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1376
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1377
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1386
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1399
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1433
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1450
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1457
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1521
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1595
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1619
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1665
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1681
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1695
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1750
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1774
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1775
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1778
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1790
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1800
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1812
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1835
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1840
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1871
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1880
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1932
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1990
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1996
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 2018
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 211
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 396
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 420
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1057
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1164
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1467
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1737
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1860
+  },
+  {
+   "experiment": "screening",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1963
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 4
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 45
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 54
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 131
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 173
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 185
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 235
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 246
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 304
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 340
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 380
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 437
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 469
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 477
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 520
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 525
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 549
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 550
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 561
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 613
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 637
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 677
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 682
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 784
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 827
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 897
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 937
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 948
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 958
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1010
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1012
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1015
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 12
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 46
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 64
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 71
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 77
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 81
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 84
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 89
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 201
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 243
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 252
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 267
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 269
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 299
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 379
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 428
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 448
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 459
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 465
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 490
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 496
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 0
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 46
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 52
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 76
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 150
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 195
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 203
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 280
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 324
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 411
+  },
+  {
+   "experiment": "screening_scramble2",
+   "model_id": "khaliq_purkinje",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 469
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 56
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 82
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 105
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 124
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 138
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 149
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 193
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 206
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 212
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 259
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 358
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 390
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 475
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 492
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 543
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 578
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 599
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 603
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 629
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 673
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 690
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 696
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 733
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 746
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 780
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 799
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 896
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1059
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1127
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1128
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1143
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1149
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1159
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1166
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1200
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1219
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1294
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1303
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1324
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1337
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1405
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1416
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1419
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1435
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1497
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1547
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1553
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1554
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1696
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1711
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1717
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1721
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1722
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1764
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1840
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1882
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 1978
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2033
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2045
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2046
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2092
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2105
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2106
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2152
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2155
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2265
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2266
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2336
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2348
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2404
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2407
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2408
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2417
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2450
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2571
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2620
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2636
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2639
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2762
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2771
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2788
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2932
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2976
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2979
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2995
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 2997
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3001
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3051
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3070
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3105
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3168
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3199
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3216
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3266
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3272
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3353
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3362
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3373
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3383
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3487
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3496
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3589
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3606
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3650
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3746
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3767
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3839
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3850
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3905
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3912
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3927
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 3928
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 4001
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 4002
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E1",
+   "replicate": 1,
+   "parameter_sample_id": 4020
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 3
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 15
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 18
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 40
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 50
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 69
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 70
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 136
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 179
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 182
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 191
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 225
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 240
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 283
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 302
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 342
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 348
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 365
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 404
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 406
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 410
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 475
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 487
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 532
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 563
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 571
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 574
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 575
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 577
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 607
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 625
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 637
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 714
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 729
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 739
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 762
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 812
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 820
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 824
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 865
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 892
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 899
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 911
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 943
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 984
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 989
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1044
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1058
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1070
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1086
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1155
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1170
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1220
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1241
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1292
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1300
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1321
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1327
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1345
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1388
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1390
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1467
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1469
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1501
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1514
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1515
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1533
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1602
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1609
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1660
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1711
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1731
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1776
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1780
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1792
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1853
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1866
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1887
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1888
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1919
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E2",
+   "replicate": 1,
+   "parameter_sample_id": 1978
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 146
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 278
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 735
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 748
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 940
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 948
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 989
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1186
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1236
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1316
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1335
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1485
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1505
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1825
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 1829
+  },
+  {
+   "experiment": "screening_v2_replication",
+   "model_id": "dougalis_vlpag_da",
+   "regime": "E6",
+   "replicate": 1,
+   "parameter_sample_id": 2046
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 83
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 86
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 106
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 237
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 296
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 304
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 470
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 473
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 475
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 478
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 617
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 625
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 679
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 781
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 782
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 784
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 785
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 790
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 791
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 800
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 920
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 942
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1051
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1053
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1096
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1120
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1250
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1315
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1318
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1342
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1343
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1344
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1345
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1346
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1347
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1348
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1373
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1384
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1557
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1645
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1694
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1696
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1699
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1700
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1702
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1713
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1716
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1717
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1718
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1719
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1720
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1721
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1722
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1723
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1768
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1771
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1772
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1773
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1774
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1775
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1776
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1781
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1827
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1828
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 1967
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2167
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2168
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2169
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2170
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2171
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2172
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2177
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2185
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2231
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2452
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2481
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2525
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2606
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2637
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2736
+  },
+  {
+   "experiment": "sobol",
+   "model_id": "khaliq_purkinje",
+   "regime": "SOBOL",
+   "replicate": 1,
+   "parameter_sample_id": 2789
+  }
+ ]
+}

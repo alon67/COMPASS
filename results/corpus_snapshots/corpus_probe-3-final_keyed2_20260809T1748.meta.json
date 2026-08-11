@@ -1,0 +1,32 @@
+{
+ "label": "probe-3-final (re-keyed, sobol regime corrected)",
+ "written_utc": "2026-08-09T17:48:17.974969+00:00",
+ "n_rows": 130098,
+ "n_shards": 4656,
+ "key_columns": [
+  "experiment",
+  "model_id",
+  "regime",
+  "replicate",
+  "parameter_sample_id"
+ ],
+ "outcome_columns": [
+  "rheobase_nA",
+  "non_spiking",
+  "rheobase_blocked_at_ceiling",
+  "simulation_status",
+  "physiology_class",
+  "execution_valid",
+  "analysis_eligible",
+  "protocol_valid",
+  "normalised_protocol_valid",
+  "qc_flags",
+  "validator_version"
+ ],
+ "n_feature_columns": 102,
+ "file_sha256": "278d1c29ed0341f36486c88360623fb8d1a331d7ea05df8e5862d4df8f80e54b",
+ "purpose": "immutable before/after state for the corpus reconciliation table required by the 2026-08-09 post-response-3 audit, P0-2",
+ "derived_from": "corpus_probe-3-final_keyed_20260809T1748.parquet",
+ "note": "`experiment` and `regime` were absent from the original snapshot: the shards store them as `identity.experiment` and `sampling_regime`, and the first version of snapshot_corpus.py dropped any key column it did not find by its canonical name. Both are recovered here from the shard path, which encodes them exactly. The original file is retained unchanged; the tool now resolves aliases and fails closed on a missing key.",
+ "correction": "23040 sobol rows had regime 'S', derived from the block filename prefix; run_sobol stores sampling_regime 'SOBOL'. The mismatch dropped every sobol row out of the reconciliation join, which the tool reported as UNJOINED before-only=23040 / after-only=23040."
+}

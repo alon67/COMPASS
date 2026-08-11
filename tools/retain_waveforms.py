@@ -35,8 +35,11 @@ re-deriving it here from a handful of traces would be a weaker version of a
 check that already exists.
 
 The waveforms themselves are written to ``results/traces/retained`` as
-compressed ``.npz`` (float32 voltage plus the time base), so the sample can be
-plotted and re-examined without re-simulating.
+compressed ``.npz`` (**float64** voltage plus the time base), so the sample can
+be plotted, re-examined and *recomputed from* without re-simulating.  Reduced
+precision was the earlier behaviour and was withdrawn: a recomputation from a
+float32 archive can only ever agree "to within rounding", which is weaker than
+the claim this gate makes.
 
     python tools/retain_waveforms.py --experiment screening --workers 12
     python tools/retain_waveforms.py --per-cell 1 --limit 40   # quick pass
@@ -62,6 +65,7 @@ os.environ.setdefault("MPLBACKEND", "Agg")
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from compass.adapters.base import PHYSICAL_V_MAX_MV, PHYSICAL_V_MIN_MV  # noqa: E402
 from compass.validation.gates import gate_record, write_gate_records  # noqa: E402
 
 FEATURES = ROOT / "results" / "features"
@@ -72,7 +76,14 @@ TRACES = ROOT / "results" / "traces" / "retained"
 # Deliberately generous: this is a unit-error and blown-up-integration detector,
 # not a goodness-of-fit test.  A model that leaves this band is not a model with
 # an unusual phenotype, it is a broken simulation.
-V_MIN_MV, V_MAX_MV = -150.0, 80.0
+#
+# Aliased, not restated: the same constant that makes `qc_flags` raise
+# `nonphysical_voltage` on every simulation in the corpus, which is what removes
+# the row from every downstream analysis.  A trace this battery calls impossible
+# is therefore a trace the corpus has already excluded, which is the propagation
+# the 2026-08-09 post-response-3 audit (P0-6) required.  Two separate bands --
+# [-160, 120] excluding and [-150, 80] flagging -- is what it replaced.
+V_MIN_MV, V_MAX_MV = PHYSICAL_V_MIN_MV, PHYSICAL_V_MAX_MV
 
 # A spike detected by the extractor should have a physically sensible shape.
 AP_AMPLITUDE_MIN_MV = 10.0
@@ -84,6 +95,15 @@ AP_HALFWIDTH_MAX_MS = 10.0
 # which is exactly what gate N6 found for ortner_snc_da's input resistance.
 BASELINE_DRIFT_FRAC = 0.10
 BASELINE_WINDOW_MS = 50.0
+
+# Median membrane potential over the last third of the stimulus above which a
+# silent cell counts as blocked rather than merely quiet.  Deliberately equal to
+# the threshold in `compass.features.extract.depolarisation_block`: this
+# detector is an independent IMPLEMENTATION of the same definition (own spike
+# times, median rather than mean, run on the reloaded float64 array), so a
+# disagreement between it and the stored flag is a real disagreement about the
+# trace and not an artefact of two different definitions.
+BLOCK_PLATEAU_MV = -45.0
 
 # Largest single-sample jump in V the integrator may produce.  A fixed-step
 # solver stepping through a spike upstroke moves fast, but a jump of this size
@@ -226,21 +246,47 @@ def check_trace(v: np.ndarray, t: np.ndarray, delay_ms: float,
                 f"stimulus window, stored row says {n_sp_stored:.0f}")
 
     # Depolarisation block must be DETECTED rather than showing up as a quiet
-    # cell.  A trace whose last third sits above -20 mV with no spikes there is
-    # blocked; the stored flag has to agree.
-    blocked_obs = False
-    if t.size == v.size and t.size > 30:
-        tail = v[t >= (t.max() - (t.max() - delay_ms) / 3.0)] if t.max() > delay_ms else v[-10:]
-        tail = _finite(tail)
-        blocked_obs = bool(tail.size and float(np.median(tail)) > -20.0)
+    # cell, and the observation must be comparable with the stored flag in both
+    # directions (2026-08-09 post-response-3 audit, P0-6).
+    #
+    # Three defects are fixed here.  The window was computed as
+    # `t.max() - (t.max() - delay)/3`, which for the standard 200 ms delay,
+    # 400 ms stimulus and 800 ms total begins at 600 ms -- the stimulus OFFSET --
+    # so the check examined the post-stimulus tail rather than the last third of
+    # the stimulus.  The stated "with no spikes there" condition was described
+    # but never implemented, so an actively firing plateau counted as blocked.
+    # And only `observed block / stored false` was reported, so the opposite
+    # disagreement -- the row claims block, the trace shows firing -- was
+    # invisible.
+    #
+    # The rule below is the same DEFINITION the feature extractor uses (early
+    # third fires, late third silent, late third depolarised above
+    # BLOCK_PLATEAU_MV) implemented independently: this detector's spike times,
+    # a median rather than a mean, computed on the reloaded float64 array.  A
+    # disagreement is therefore a real disagreement rather than a definitional
+    # one, and is reported as a finding to adjudicate rather than repaired.
+    blocked_obs = None
+    if stim is not None and t.size == v.size and t.size > 30:
+        span = stim[1] - stim[0]
+        if span > 0:
+            late = (t >= stim[1] - span / 3.0) & (t <= stim[1])
+            early = (t >= stim[0]) & (t < stim[0] + span / 3.0)
+            tail = _finite(v[late])
+            if tail.size and early.any() and late.any():
+                n_early = detect_spikes(v[early], t[early])["n_spikes"]
+                n_late = detect_spikes(v[late], t[late])["n_spikes"]
+                blocked_obs = bool(n_early > 0 and n_late == 0
+                                   and float(np.median(tail)) > BLOCK_PLATEAU_MV)
     flag = stored.get(f"{protocol_id}.depolarisation_block")
     try:
         flag_v = bool(float(flag)) if flag is not None and np.isfinite(float(flag)) else None
     except (TypeError, ValueError):
         flag_v = None
-    if blocked_obs and flag_v is False:
-        problems.append("depolarisation_block: trace plateaus above -20 mV but "
-                        "the stored flag is 0")
+    if blocked_obs is not None and flag_v is not None and blocked_obs != flag_v:
+        problems.append(
+            f"depolarisation_block: trace says blocked={blocked_obs}, stored row "
+            f"says blocked={flag_v} (last third of the stimulus, "
+            f"{stim[1] - (stim[1] - stim[0]) / 3.0:.0f}-{stim[1]:.0f} ms)")
 
     return {"problems": problems, "v_min": vmin, "v_max": vmax,
             "max_abs_dv_mV": max_dv, "baseline_drift_mV": drift,
@@ -518,26 +564,206 @@ COVERAGE_POLICY = {
 }
 
 
+# What each finding class MEANS and what it does to the row that produced it.
+#
+# The 2026-08-09 post-response-3 audit (P0-6) found the findings enumerated but
+# not adjudicated: 142 flagged samples with no statement of which ones make a
+# row unusable, so "we found 142 problems" carried no consequence.  Every class
+# is assigned here, before the run, to one of five dispositions, and each
+# disposition names the mechanism that carries it into the analysis -- because a
+# class judged invalid has to be excluded by a rule that applies to all 130,098
+# rows, not repaired in a report that covers 914.
+#
+#   integrity_failure  the evidence is unusable; the GATE fails and the release
+#                      is blocked. Nothing is silently dropped.
+#   numerical_invalid  the simulation is broken. Already excluded corpus-wide by
+#                      `qc_flags` -> execution_valid=False -> not analysis
+#                      eligible. The waveform battery reports it; the corpus rule
+#                      is what removes it.
+#   prior_predictive   a real, deterministic property of a broad-prior draw. NOT
+#                      excluded: dropping these biases the cohort towards
+#                      canonical-looking cells, which is the phenomenon under
+#                      study. Reported with prevalence.
+#   detector_limit     the finding is a property of the screening heuristic, not
+#                      of the trace. Reported, never excluded.
+#   protocol_settling  the measurement window and the cell's time constant are
+#                      mismatched. Reported and carried into the strict-QC
+#                      sensitivity arm, which already drops `unstable_baseline`.
+FINDING_DISPOSITION = {
+    "simulation_error": ("integrity_failure",
+                         "gate record fails; the release manifest lists WAVEFORM as a blocker"),
+    "archive_reload_error": ("integrity_failure", "as simulation_error"),
+    "archive_schema_error": ("integrity_failure", "as simulation_error"),
+    "feature_recomputation": ("integrity_failure",
+                              "archive and stored row disagree; determinism claim fails"),
+    "spike_count_agreement": ("integrity_failure",
+                              "archive and stored row describe different simulations"),
+    "no_protocols": ("integrity_failure", "as simulation_error"),
+    "finite": ("numerical_invalid",
+               "qc_flags raises nonfinite_voltage -> execution_valid=False corpus-wide"),
+    "voltage_range": ("numerical_invalid",
+                      "qc_flags raises nonphysical_voltage on the same band "
+                      "(PHYSICAL_V_MIN_MV/PHYSICAL_V_MAX_MV) -> excluded corpus-wide"),
+    "discontinuity": ("numerical_invalid",
+                      "a step larger than one dt of the integrator can produce; "
+                      "co-occurs with nonfinite/nonphysical voltage in every "
+                      "observed case and is reported if it ever does not"),
+    "depolarisation_block": ("prior_predictive",
+                             "two detectors disagree about one trace; recorded as a "
+                             "finding to adjudicate, never used to drop a row"),
+    "spike_shape": ("detector_limit",
+                    "a 10 mV / 10 ms screening bound, not a validity criterion; a "
+                    "broad-prior draw may legitimately have a wide, small AP"),
+    "baseline_stability": ("protocol_settling",
+                           "the strict-QC sensitivity arm drops rows flagged "
+                           "unstable_baseline; the primary arm keeps them and says so"),
+}
+
+
+def disposition_summary(res: pd.DataFrame) -> dict:
+    """Count findings by class and by prespecified disposition."""
+    import collections
+
+    by_class: collections.Counter = collections.Counter()
+    listed = 0
+    for probs in res.get("problems", pd.Series(dtype=object)):
+        for p in (probs or []):
+            listed += 1
+            parts = str(p).split(": ")
+            by_class[parts[1] if len(parts) > 2 else parts[0].split(":")[0]] += 1
+    # `problems` is truncated to the first ten per sample so the record stays
+    # readable; `n_problems` is the true count. Report both rather than letting
+    # a class breakdown quietly under-count a badly broken sample.
+    total = int(pd.to_numeric(res.get("n_problems", pd.Series(dtype=float)),
+                              errors="coerce").fillna(0).sum())
+    by_disp: collections.Counter = collections.Counter()
+    unassigned = []
+    for k, n in by_class.items():
+        if k in FINDING_DISPOSITION:
+            by_disp[FINDING_DISPOSITION[k][0]] += n
+        else:
+            unassigned.append(k)
+    return {
+        "policy": {k: {"disposition": d, "mechanism": m}
+                   for k, (d, m) in FINDING_DISPOSITION.items()},
+        "findings_by_class": dict(sorted(by_class.items())),
+        "findings_by_disposition": dict(sorted(by_disp.items())),
+        "unassigned_classes": sorted(unassigned),
+        "n_findings_total": total,
+        "n_findings_classified": listed,
+        "n_findings_truncated_from_the_record": max(0, total - listed),
+        "note": ("counts are FINDINGS, not samples: one sample can raise several "
+                 "and they must not be summed to a sample count. Each record "
+                 "lists at most ten; n_findings_total is the true sum."),
+    }
+
+
 def coverage_report(res: pd.DataFrame, df: pd.DataFrame) -> dict:
-    """Did the retained set meet the DECLARED strata, model by model?"""
+    """Did the retained set meet the DECLARED strata, model by model?
+
+    Only records with ``status == "ok"`` count towards coverage.  Reading the
+    labels off every returned record meant that a cell whose only sample failed
+    to simulate, failed to reload or failed its schema check was still reported
+    as covered (2026-08-09 post-response-3 audit, P0-6).  Those records do fail
+    individually, so this never produced a false release pass -- but "coverage
+    satisfied" has to mean archived, reloadable evidence exists, not that the
+    battery returned something for that cell.
+    """
     want_models = sorted(df["model_id"].unique())
     want_cells = sorted({(m, r) for m, r in
                          zip(df["model_id"], df["sampling_regime"], strict=True)})
-    got_models = set(res["model_id"])
-    got_cells = {(m, r) for m, r in zip(res["model_id"], res["regime"], strict=True)}
+    ok = res[res["status"] == "ok"] if "status" in res.columns else res.iloc[0:0]
+    got_models = set(ok["model_id"])
+    got_cells = {(m, r) for m, r in zip(ok["model_id"], ok["regime"], strict=True)}
     missing_models = [m for m in want_models if m not in got_models]
     missing_cells = [f"{m}/{r}" for m, r in want_cells if (m, r) not in got_cells]
+    n_not_ok = int(len(res) - len(ok))
     return {
         "policy": COVERAGE_POLICY,
+        "counts_only_status_ok": True,
+        "n_records": int(len(res)),
+        "n_records_not_ok": n_not_ok,
         "n_models_required": len(want_models),
         "n_models_covered": len(want_models) - len(missing_models),
         "missing_models": missing_models,
         "n_model_regime_cells_required": len(want_cells),
         "n_model_regime_cells_covered": len(want_cells) - len(missing_cells),
         "missing_model_regime_cells": missing_cells,
-        "strata_present": sorted(res["stratum"].unique()),
+        "strata_present": sorted(ok["stratum"].unique()) if len(ok) else [],
         "satisfied": not (missing_models or missing_cells),
     }
+
+
+def summarise() -> int:
+    """Roll the per-campaign records up into the provenance artifact.
+
+    `data/provenance/waveform_findings.json` is cited by docs/RESULTS.md as the
+    source of the measured prevalences and is a `provenance`-class entry in the
+    release inventory -- and until this function existed, **nothing in the
+    repository wrote it**. It was a hand-authored file carrying numbers from a
+    2026-08-09 run, two corpus regenerations out of date, and no check could
+    notice: the release manifest hashed whatever bytes were there, and the
+    clean-build receipt could never attribute a file that no stage produced.
+    A comment in tools/run_receipt.py even named it as an example of what "the
+    campaign and gate stages write", which was not true of this file.
+
+    It is generated now, from the records the battery actually wrote, so it
+    cannot disagree with them.
+    """
+    recs = []
+    for p in sorted(OUT.glob("retained_waveforms_*.json")):
+        recs.append(json.loads(p.read_text()))
+    if not recs:
+        raise SystemExit(
+            f"no retained_waveforms_*.json under {OUT.relative_to(ROOT)}; "
+            f"run the battery before summarising it")
+
+    by_kind: dict[str, int] = {}
+    for r in recs:
+        for k, v in (r.get("problems_by_kind") or {}).items():
+            by_kind[k] = by_kind.get(k, 0) + int(v)
+    totals = {k: sum(int(r[k]) for r in recs) for k in
+              ("n_selected", "n_clean", "n_with_problems",
+               "n_features_recomputed", "n_features_mismatched")}
+
+    doc = {
+        "_doc": ("Cross-campaign roll-up of the trace-level battery, GENERATED "
+                 "by tools/retain_waveforms.py --summarise from the per-campaign "
+                 "records in results/validation/. Do not edit by hand: a "
+                 "hand-maintained version of this file went two corpus "
+                 "regenerations stale while docs/RESULTS.md cited it."),
+        "generated_utc": datetime.now(UTC).isoformat(),
+        "source_records": [str((OUT / f"retained_waveforms_{r['experiment']}.json")
+                               .relative_to(ROOT)) for r in recs],
+        "campaigns": {r["experiment"]: {
+            k: r[k] for k in ("n_selected", "n_clean", "n_with_problems",
+                              "n_features_recomputed", "n_features_mismatched")}
+            for r in recs},
+        "totals": totals,
+        "sample_arithmetic": (f"{totals['n_clean']} clean + "
+                              f"{totals['n_with_problems']} flagged = "
+                              f"{totals['n_selected']} samples"),
+        # A SAMPLE IS NOT A FINDING. One sample can fail several checks on
+        # several protocols; conflating the two is the arithmetic error the
+        # 2026-08-09 post-response-3 audit named (P0-6).
+        "findings_by_class": dict(sorted(by_kind.items(),
+                                         key=lambda kv: -kv[1])),
+        "n_findings_total": sum(by_kind.values()),
+        "n_samples_flagged": totals["n_with_problems"],
+        "disposition_policy": {k: {"disposition": v[0], "mechanism": v[1]}
+                               for k, v in FINDING_DISPOSITION.items()},
+        "what_this_does_not_show": (
+            "prevalence in the CORPUS. These are stratified samples chosen to "
+            "over-represent risky cells, so a rate here is an upper bound on "
+            "the campaign-wide rate, not an estimate of it."),
+    }
+    out = ROOT / "data" / "provenance" / "waveform_findings.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(doc, indent=1) + "\n")
+    print(f"{len(recs)} campaign records -> {doc['sample_arithmetic']}, "
+          f"{doc['n_findings_total']} findings")
+    print(f"-> {out.relative_to(ROOT)}")
+    return 0
 
 
 def main() -> int:
@@ -551,7 +777,14 @@ def main() -> int:
     ap.add_argument("--no-save", action="store_true",
                     help="run the checks without writing the .npz waveforms")
     ap.add_argument("--seed", type=int, default=20260809)
+    ap.add_argument("--summarise", action="store_true",
+                    help="write the cross-campaign roll-up "
+                         "data/provenance/waveform_findings.json from the "
+                         "per-campaign records already on disk, and exit")
     args = ap.parse_args()
+
+    if args.summarise:
+        return summarise()
 
     from compass.adapters.models import get_adapter
 
@@ -626,6 +859,7 @@ def main() -> int:
             by_problem[kind.split()[0]] = by_problem.get(kind.split()[0], 0) + 1
 
     cov = coverage_report(res, df)
+    disp = disposition_summary(res)
     record = {
         "tool": "retain_waveforms.py",
         "written_utc": datetime.now(UTC).isoformat(),
@@ -633,6 +867,12 @@ def main() -> int:
         "n_selected": int(len(res)),
         "n_clean": int(len(ok)),
         "n_with_problems": int(len(bad)),
+        # n_selected = n_clean + n_with_problems, always.  The findings counts
+        # below are FINDINGS and are larger, because one sample can raise
+        # several; the two were conflated in the previous revision's prose.
+        "sample_arithmetic": (f"{len(ok)} clean + {len(bad)} flagged = "
+                              f"{len(res)} samples"),
+        "disposition": disp,
         "n_features_recomputed": int(res["n_features_recomputed"].sum()),
         "n_features_mismatched": int(res["n_features_mismatched"].sum()),
         "features_recomputed_from": (
@@ -687,9 +927,21 @@ def main() -> int:
                    f"model/regime cells with no retained trace: "
                    f"{cov['missing_model_regime_cells'][:12]}"]),
         measurements=cov, detail="declared stratified coverage policy"))
+    # A finding class with no prespecified disposition is itself a gate failure:
+    # otherwise a new check could quietly appear with no statement of what it
+    # does to the affected rows, which is the state P0-6 found the battery in.
+    gate_rows.append(gate_record(
+        "WAVEFORM", f"{args.experiment}/_disposition",
+        failures=([] if not disp["unassigned_classes"] else
+                  [f"finding classes with no declared disposition: "
+                   f"{disp['unassigned_classes']}"]),
+        measurements=disp,
+        detail="every finding class is assigned a disposition before the run"))
     write_gate_records(gate_rows, OUT / f"waveform_gate_{args.experiment}.json")
 
-    print(f"\n{len(ok)}/{len(res)} clean; problems by kind: {by_problem}")
+    print(f"\n{len(ok)}/{len(res)} clean; {len(bad)}/{len(res)} flagged")
+    print(f"findings by class (NOT a sample count): {disp['findings_by_class']}")
+    print(f"findings by disposition: {disp['findings_by_disposition']}")
     print(f"features recomputed {record['n_features_recomputed']}, "
           f"mismatched {record['n_features_mismatched']}")
     for r in record["worst"][:5]:

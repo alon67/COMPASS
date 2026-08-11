@@ -45,7 +45,11 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from compass.validation.gates import environment_record, git_tree  # noqa: E402
+from compass.validation.gates import (  # noqa: E402
+    environment_record,
+    git_tree,
+    n2_coverage,
+)
 
 OUT = ROOT / "results" / "validation" / "numerical_gates.json"
 
@@ -280,6 +284,17 @@ def main() -> int:
     record = {
         "tool": "record_numerical_gates.py",
         "written_utc": datetime.now(UTC).isoformat(),
+        # TOP-LEVEL, WHERE THE RELEASE MANIFEST LOOKS FOR IT.
+        #
+        # The revision was recorded under `provenance.git_tree` only, and
+        # build_release_manifest reads `d.get("git_tree")` at the top level and
+        # falls back to it per record. Both came back None, so the revision-tie
+        # check introduced by the 2026-08-09 audit (P0-4A) rejected all 84
+        # N1-N7 records and the release reported "mandatory gate records
+        # absent: N1..N7" while numerical_gates.json sat beside it saying
+        # N1 82/84. Not a false pass -- a false ABSENCE, which blocked the
+        # release for a reason that was not true and masked the two that were.
+        "git_tree": git_tree(),
         "slow_tests_included": bool(args.slow),
         # --- provenance ---------------------------------------------------- #
         # Without these the record was a bare tally that could have come from any
@@ -296,6 +311,9 @@ def main() -> int:
             "collection_errors": coll.collect_errors,
             "environment": environment_record(),
         },
+        # THE published N2 summary, generated once so every document quotes the
+        # same sentence (2026-08-09 post-response-3 audit, P1-2).
+        "n2_coverage": n2_coverage(),
         "note": ("N2 compares each model's canonical operating point against a "
                  "SOURCED published scalar declared in "
                  "data/provenance/n2_source_targets.json. It is NOT trace-level "
@@ -304,7 +322,8 @@ def main() -> int:
                  "with no sourceable scalar are declared not evaluable with a "
                  "reason and appear as `exempt` in validity_matrix, never as a "
                  "pass; every claim requiring source-level reproduction is "
-                 "withdrawn for them."),
+                 "withdrawn for them. Quote `n2_coverage.statement`, not the "
+                 "roll-up count."),
         "by_gate": by_gate,
         "by_gate_semantics": (
             "by_gate counts NEURONAL-VALIDITY tests only. Tests that police the "

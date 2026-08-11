@@ -118,16 +118,25 @@ def _identity_path(shard: Path) -> Path:
     return shard.with_suffix(".identity.json")
 
 
-def _shard_is_current(shard: Path, identity: dict) -> bool:
-    if not shard.exists():
-        return False
-    ip = _identity_path(shard)
-    if not ip.exists():
-        return False            # unstamped shard: provenance unknown, re-run it
-    try:
-        return json.loads(ip.read_text()) == identity
-    except json.JSONDecodeError:
-        return False
+# `_shard_is_current` used to live here and it could never return True.
+#
+# It compared the sidecar on disk against `shard_identity()` -- the RICH dict
+# (`sim_code_hash`, `solver`, `design`, `features`) -- while the sidecar is
+# written from `flat_identity()`, which has different keys and different value
+# types. Two dictionaries that share no schema are never equal, so every Sobol
+# shard was quarantined and re-simulated on every invocation: eight hours of
+# NEURON discarded and redone each time, with the previous copies piling up
+# under `_superseded/`. Nothing failed and nothing warned, because re-running a
+# deterministic simulation produces the same bytes -- verified when this was
+# found, 44 of 44 re-simulated shards were byte-identical to the originals they
+# had displaced.
+#
+# It is the same failure as the receipt checks in this revision: a comparison
+# whose outcome is fixed by its own construction rather than by the thing it
+# compares. The reuse decision now goes through `shard_is_reusable`, which is
+# the ONE rule the screening campaign uses and the same rule that decides,
+# twenty lines below, what actually gets simulated -- so the quarantine and the
+# work list can no longer disagree.
 
 
 def flat_identity(model_id: str, identity: dict, start: int, n_rows: int) -> dict:
@@ -178,16 +187,18 @@ def simulate(models: list[str], workers: int) -> None:
         for start in range(0, len(scales), BLOCK):
             stop = min(start + BLOCK, len(scales))
             out = FEAT_DIR / mid / f"S_{start:06d}.parquet"
-            if out.exists() and not _shard_is_current(out, identity):
-                # Move aside, never delete.  Overwriting an artefact is how the
-                # Mainen convergence evidence was lost (audit C1).
-                sup = FEAT_DIR / "_superseded" / stamp / mid
-                sup.mkdir(parents=True, exist_ok=True)
-                out.rename(sup / out.name)
-                if _identity_path(out).exists():
-                    _identity_path(out).rename(sup / _identity_path(out).name)
-                quarantined.append(f"{mid}/{out.name}")
             ident = flat_identity(mid, identity, start, stop - start)
+            if out.exists():
+                ok, why = shard_is_reusable(out, ident, stop - start)
+                if not ok:
+                    # Move aside, never delete.  Overwriting an artefact is how
+                    # the Mainen convergence evidence was lost (audit C1).
+                    sup = FEAT_DIR / "_superseded" / stamp / mid
+                    sup.mkdir(parents=True, exist_ok=True)
+                    out.rename(sup / out.name)
+                    if _identity_path(out).exists():
+                        _identity_path(out).rename(sup / _identity_path(out).name)
+                    quarantined.append(f"{mid}/{out.name} ({why})")
             jobs.append((mid, scales[start:stop], pids, np.arange(start, stop),
                          "SOBOL", 1, SEED, f"saltelli_N{n_base}", str(out), ident))
 

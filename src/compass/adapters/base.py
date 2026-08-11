@@ -61,20 +61,60 @@ os.environ.setdefault("NEURON_MODULE_OPTIONS", "-nogui")
 #          rheobase-normalised family for EVERY model, not only for the ones
 #          listed as spontaneously active, so a draw that becomes spontaneous in
 #          an ordinarily silent model no longer runs "1.5x rheobase" at 0 nA.
-MEASUREMENT_SCHEMA_VERSION = "probe-3"
+# probe-4: probe-3's geometric ladder was a SPARSE search presented as an
+#          exhaustive one.  It probed hi/2**k for k = 8..1, so a cell that fires
+#          only between two rungs -- say 0.30-0.40 nA with a 1.0 nA ceiling,
+#          which the ladder straddles at 0.25 and 0.50 -- was still returned as
+#          silent (2026-08-09 post-response-3 audit, P0-1).  probe-3 also ran
+#          the ladder ONLY when the ceiling did not spike, so a cell with a
+#          disconnected LOWER firing window plus an upper firing branch was
+#          bisected on the upper branch and its true rheobase overstated.
+#          probe-4 replaces the ladder with a uniform grid of declared
+#          resolution, scanned upward from the bottom on EVERY sample, and
+#          states the detection guarantee that grid actually provides.
+MEASUREMENT_SCHEMA_VERSION = "probe-4"
 
-# probe-3 differs from probe-2 on a strictly enumerable set of samples, which is
-# what makes a targeted regeneration defensible rather than a shortcut:
-#   * the ladder runs ONLY when the ceiling probe does not spike, so any sample
-#     that spikes at the ceiling takes a bit-identical code path;
-#   * when the ladder finds nothing, the function still returns None;
-#   * the normalised-family change touches only rows with rheobase == 0.
-# Every other row is unchanged by construction.  tools/repair_rheobase.py
-# regenerates the enumerated rows and verifies the invariant on a random sample.
-PROBE3_CHANGES_ROWS_WHERE = (
-    "rheobase probe does not spike at the ceiling but does spike below it, "
-    "or rheobase == 0 on a model not listed in SPONTANEOUSLY_ACTIVE"
+# What the probe-4 search does and does not guarantee.  This string is quoted in
+# the release manifest and in docs/RESULTS.md so the contract travels with the
+# number; the guarantee is a property of the GRID, not of the biology.
+RHEOBASE_SEARCH_CONTRACT = (
+    "uniform grid of RHEOBASE_SCAN_POINTS amplitudes spanning (lo, hi] with "
+    "spacing delta = (hi - lo) / RHEOBASE_SCAN_POINTS, plus lo itself; scanned "
+    "upward from lo and refined by bisection inside the first bracket that "
+    "spikes. GUARANTEED: every firing window of width >= delta lying in "
+    "[lo, hi] is detected, whether or not the ceiling spikes and whether or not "
+    "firing is monotonic in current. NOT GUARANTEED: firing windows narrower "
+    "than delta. None therefore means 'no spike at any probed amplitude at this "
+    "resolution', never 'silent at every real-valued amplitude'."
 )
+
+# probe-4 is NOT a targeted change: the scan now runs on every sample, so no row
+# is unchanged by construction and no enumeration of affected rows is possible.
+# The corpus is regenerated in full from the stored parameter draws.
+PROBE4_CHANGES_ROWS_WHERE = (
+    "any row may change: the upward scan runs on every sample, including the "
+    "ones that spike at the ceiling, so a lower disconnected firing window is "
+    "now found where probe-3 bisected onto the upper branch"
+)
+
+# THE band outside which a membrane potential is a broken integration rather
+# than an unusual phenotype.  One band, one place, two consumers: `qc_flags`
+# raises `nonphysical_voltage` here on every one of the corpus's simulations --
+# which sets `execution_valid = False` and removes the row from every downstream
+# analysis -- and `tools/retain_waveforms.py` reports it as a `voltage_range`
+# finding on its retained sample.
+#
+# They used to disagree: the corpus excluded outside [-160, 120] and the
+# waveform battery flagged outside [-150, 80], so a trace reaching -155 mV was
+# "physiologically impossible" in the waveform report and fully analysis-
+# eligible in the corpus.  The 2026-08-09 post-response-3 audit (P0-6) required
+# every invalid class to be excluded by a rule propagated to every downstream
+# analysis; two bands cannot do that, so there is now one, set at the tighter
+# pair.  Measured cost of the tightening on the previous retained sample: 4 of
+# 914 protocol traces move from "flagged only" to "excluded", against 17 that
+# were already excluded under the wider band.
+PHYSICAL_V_MIN_MV = -150.0
+PHYSICAL_V_MAX_MV = 80.0
 
 _LOADED_MECH_DIRS: set[str] = set()
 
@@ -430,11 +470,20 @@ class NeuronAdapter(ABC):
         crossings = int(np.count_nonzero((~above[:-1]) & above[1:]))
         return self.SPIKING if crossings > 0 else self.NONSPIKING
 
-    # How many geometric rungs to try below the ceiling before concluding that a
-    # cell that does not spike at the ceiling does not spike at all.  Eight rungs
-    # span hi/256 .. hi/2, i.e. more than two decades of current, and the finest
-    # rung is at or below `manifest_rheobase_tol` for every model in the panel.
-    RHEOBASE_SCAN_RUNGS = 8
+    # The declared resolution of the rheobase search.  The interval (lo, hi] is
+    # divided into this many equal steps and EVERY step is a candidate probe, so
+    # the smallest firing window the search is guaranteed to find is
+    # `(hi - lo) / RHEOBASE_SCAN_POINTS` wide.  See RHEOBASE_SEARCH_CONTRACT.
+    #
+    # 64 is a cost choice as much as a resolution choice and is recorded as one.
+    # The scan stops at the first amplitude that spikes and the measured corpus
+    # has a median rheobase at 0.148 of the ceiling, so the expected scan length
+    # is ~15 probes rather than 64; a silent cell pays the full 64.  Raising this
+    # to 128 would halve the smallest detectable window and roughly double the
+    # campaign's simulation budget.  `tools/audit_rheobase_resolution.py` measures
+    # the observed firing-window widths on a stratified sample at 8x this
+    # resolution, which is the evidence for whether 64 is fine enough.
+    RHEOBASE_SCAN_POINTS = 64
 
     def find_rheobase(
         self,
@@ -446,33 +495,48 @@ class NeuronAdapter(ABC):
         total_ms: float = 1400.0,
         dt_ms: float = 0.025,
         max_iter: int = 24,
-        scan_rungs: int | None = None,
+        scan_points: int | None = None,
+        exhaustive: bool = False,
         **sim_kwargs,
     ) -> float | None:
         """Search for the smallest step current that evokes a spike.
 
-        Returns ``None`` only when no probe anywhere in ``[lo_nA, hi_nA]``
-        spikes, and raises :class:`RheobaseProbeFailure` when any probe could not
-        be evaluated, so a numerical failure fails the parent sample instead of
-        masquerading as silence.
+        **The guarantee this search provides is a property of its grid, and it
+        is stated rather than implied.**  ``(lo_nA, hi_nA]`` is divided into
+        ``scan_points`` equal steps of width ``delta``; every one of them is a
+        candidate probe, and ``lo_nA`` itself is probed too.  A contiguous
+        firing window at least ``delta`` wide must contain a grid point, so it
+        is found.  A window narrower than ``delta`` may be stepped over.
+        ``None`` therefore means *no spike at any of the probed amplitudes*, and
+        never *silent at every real-valued amplitude* -- no finite search can
+        establish the latter.  ``RHEOBASE_SEARCH_CONTRACT`` is the same statement
+        in one string, and it travels into the release manifest.
 
-        **Firing is not assumed to be monotonic in current.**  The search used to
-        probe the ceiling and return ``None`` the moment it did not spike, which
-        silently equated "in depolarisation block at ``hi_nA``" with "silent".
-        Under a broad conductance prior that is common, not exotic: 2,327 stored
-        rows labelled non-spiking fire at an absolute step amplitude *below*
-        their own search ceiling (2026-08-09 audit, 4.1).  When the ceiling does
-        not spike, the search therefore walks a geometric ladder upward from
-        ``hi/2**rungs`` and brackets the lowest rung that does, which is the
-        rung nearest the true rheobase; bisection is only ever applied to an
-        interval whose upper end is known to spike and whose lower end is known
-        not to.
+        **Firing is not assumed to be monotonic in current, and the search no
+        longer assumes it in the one place it still did.**  probe-3 walked a
+        geometric ladder ``hi/2**k`` and only when the ceiling did not spike.
+        Both halves were wrong.  The ladder is sparse: a cell firing from 0.30
+        to 0.40 nA under a 1.0 nA ceiling is straddled by the 0.25 and 0.50 nA
+        rungs and was returned as silent.  And running it only for
+        ceiling-silent cells meant that a cell with a low disconnected window
+        *plus* an upper firing branch was bisected on the upper branch, so its
+        rheobase was overstated rather than missed (2026-08-09
+        post-response-3 audit, P0-1).  probe-4 scans the uniform grid upward
+        from the bottom on **every** sample and brackets the first step that
+        spikes, so the value returned is the lowest detectable firing
+        amplitude whatever the shape of the f-I curve above it.
 
-        ``sim_kwargs`` (notably ``cvode``) is forwarded to every probe.  Passing
-        the model's chosen solver settings here matters a great deal: the search
-        costs ~11 simulations per sample and dominates the campaign budget.  The
-        ladder only runs for samples that fail at the ceiling, so it costs
-        nothing on the majority path.
+        With ``exhaustive=True`` the scan does not stop at the first hit; it
+        probes the whole grid and records every non-spiking-to-spiking
+        transition in ``last_rheobase_search["transitions"]``.  That mode costs
+        ``scan_points`` simulations per sample and is used by
+        ``tools/audit_rheobase_resolution.py`` on a stratified sample to measure
+        how wide the real firing windows are, not by the campaign.
+
+        ``sim_kwargs`` (notably ``cvode``) is forwarded to every probe.  Cost:
+        the scan stops at the first spiking step, so a cell whose rheobase sits
+        at the corpus median of 0.148 x ceiling pays ~10 scan probes, and only a
+        genuinely silent cell pays all ``scan_points``.
 
         The diagnosis is recorded on ``self.last_rheobase_search`` so a caller
         can tell a genuinely silent cell from one that is blocked at the ceiling
@@ -480,15 +544,34 @@ class NeuronAdapter(ABC):
         """
         lo = lo_nA
         ceiling = self.manifest_rheobase_hi if hi_nA is None else hi_nA
-        hi = ceiling
         tol = self.manifest_rheobase_tol if tol_nA is None else tol_nA
-        rungs = self.RHEOBASE_SCAN_RUNGS if scan_rungs is None else scan_rungs
-        diag: dict = {"ceiling_nA": float(ceiling), "scan_rungs": 0,
-                      "scan_hit_nA": None, "blocked_at_ceiling": False,
-                      "n_probes": 0}
+        n = int(self.RHEOBASE_SCAN_POINTS if scan_points is None else scan_points)
+        if n < 1:
+            raise ValueError(f"scan_points must be >= 1, got {n}")
+        delta = (ceiling - lo) / n
+        diag: dict = {
+            "contract": "uniform-grid",
+            "ceiling_nA": float(ceiling),
+            "scan_points": n,
+            "scan_resolution_nA": float(delta),
+            "smallest_detectable_window_nA": float(delta),
+            "scan_probes": 0,
+            "scan_hit_index": None,
+            "scan_hit_nA": None,
+            "spikes_at_ceiling": None,
+            "blocked_at_ceiling": False,
+            "spontaneous": False,
+            "exhaustive": bool(exhaustive),
+            "transitions": [],
+            "n_probes": 0,
+        }
         self.last_rheobase_search = diag
+        seen: dict[float, str] = {}
 
         def state(amp: float) -> str:
+            amp = float(amp)
+            if amp in seen:
+                return seen[amp]
             diag["n_probes"] += 1
             s = self.probe_spiking(amp, delay_ms, duration_ms, total_ms, dt_ms,
                                    **sim_kwargs)
@@ -496,35 +579,58 @@ class NeuronAdapter(ABC):
                 raise self.RheobaseProbeFailure(
                     f"{self.manifest.model_id}: rheobase probe at {amp:.6g} nA "
                     f"produced no usable trace")
+            seen[amp] = s
             return s
 
-        if state(ceiling) != self.SPIKING:
-            hit = None
-            for k in range(rungs, 0, -1):
-                amp = ceiling * 2.0 ** (-k)
-                if amp <= lo:
-                    continue
-                diag["scan_rungs"] += 1
-                if state(amp) == self.SPIKING:
-                    hit = amp
-                    break
-            if hit is None:
-                return None          # silent everywhere the ladder looked
-            # The cell spikes below the ceiling but not at it: depolarisation
-            # block (or any other non-monotonicity) at the top of the range.
-            diag["scan_hit_nA"] = float(hit)
-            diag["blocked_at_ceiling"] = True
-            hi = hit
+        def grid(k: int) -> float:
+            # k == n reproduces the ceiling exactly rather than by accumulation.
+            return ceiling if k == n else lo + k * delta
+
+        # A cell that already fires with no injected current has rheobase lo by
+        # definition; probing it first also costs nothing on the majority path,
+        # because the bisection below needs the same value.
         if state(lo) == self.SPIKING:
+            diag["spontaneous"] = True
             return lo
+
+        # The ceiling is grid point n and is memoised, so probing it up front to
+        # record `blocked_at_ceiling` does not add a simulation to the scan.
+        diag["spikes_at_ceiling"] = state(ceiling) == self.SPIKING
+
+        hit = None
+        prev = self.NONSPIKING          # state(lo), established above
+        for k in range(1, n + 1):
+            amp = grid(k)
+            diag["scan_probes"] += 1
+            cur = state(amp)
+            if cur == self.SPIKING and prev != self.SPIKING:
+                diag["transitions"].append(
+                    {"index": k, "lo_nA": float(grid(k - 1)), "hi_nA": float(amp)})
+                if hit is None:
+                    hit = k
+                    if not exhaustive:
+                        break
+            prev = cur
+
+        if hit is None:
+            return None      # no spike at any probed amplitude, at resolution delta
+        diag["scan_hit_index"] = hit
+        diag["scan_hit_nA"] = float(grid(hit))
+        # Spikes somewhere below the ceiling but not at it: depolarisation block
+        # (or any other non-monotonicity) at the top of the range.
+        diag["blocked_at_ceiling"] = not diag["spikes_at_ceiling"]
+
+        # Refine inside the one bracket known to straddle a transition.  Both
+        # ends are already measured, so bisection never re-derives them.
+        lo, hi = grid(hit - 1), grid(hit)
         for _ in range(max_iter):
+            if hi - lo < tol:
+                break
             mid = 0.5 * (lo + hi)
             if state(mid) == self.SPIKING:
                 hi = mid
             else:
                 lo = mid
-            if hi - lo < tol:
-                break
         return hi
 
     # Diagnosis of the most recent `find_rheobase` call; see that method.
@@ -552,7 +658,7 @@ class NeuronAdapter(ABC):
         if not np.all(np.isfinite(v)):
             flags.append("nonfinite_voltage")
             return flags
-        if np.max(v) > 120.0 or np.min(v) < -160.0:
+        if np.max(v) > PHYSICAL_V_MAX_MV or np.min(v) < PHYSICAL_V_MIN_MV:
             flags.append("nonphysical_voltage")
         pre = v[rec.t < rec.stim_start_ms]
         if pre.size > 40:

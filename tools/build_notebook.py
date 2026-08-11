@@ -90,6 +90,27 @@ warnings.filterwarnings("ignore")
 from compass.reporting import figures as FG
 FG.apply_style()
 
+# EVERY FIGURE IS SAVED, NOT ONLY SHOWN.
+#
+# `results/figures/**` is a declared class in configs/release_inventory.json
+# with min_files 6, and until this helper existed NOTHING in the pipeline wrote
+# it: the cells below called plt.show() and the published PNG/PDF pairs had been
+# exported by hand. `--force` therefore quarantined a directory no stage could
+# rebuild, and the 2026-08-11 release came out with zero figures against a
+# declared minimum of six -- the same "no producer" defect as
+# data/provenance/waveform_findings.json, in a different class.
+FIGDIR = ROOT / "results" / "figures"
+FIGDIR.mkdir(parents=True, exist_ok=True)
+_FIG_N = 0
+
+def savefig(fig):
+    # Write Figure_<n>.png and .pdf, and return the figure unchanged.
+    global _FIG_N
+    _FIG_N += 1
+    for ext in ("png", "pdf"):
+        fig.savefig(FIGDIR / f"Figure_{_FIG_N}.{ext}", dpi=200, bbox_inches="tight")
+    return fig
+
 AN  = ROOT / "results" / "analyses"
 MAN = ROOT / "results" / "manifests"
 TR  = ROOT / "results" / "traces"
@@ -218,7 +239,7 @@ display(qcdf)
 """)
 
 code(r"""
-fig = FG.fig_model_panel(MAN, TR); plt.show()
+fig = savefig(FG.fig_model_panel(MAN, TR)); plt.show()
 """)
 
 # --------------------------------------------------------------------------- #
@@ -242,7 +263,7 @@ code(r"""
 sign = pd.DataFrame(bench["rsi_sign_validation"])
 display(sign[["case","expected","rsi","joint","sum_individual","correct"]].round(4))
 print("all RSI sign conventions correct:", bool(sign["correct"].all()))
-fig = FG.fig_estimator_validation(bench); plt.show()
+fig = savefig(FG.fig_estimator_validation(bench)); plt.show()
 """)
 
 md(r"""
@@ -272,7 +293,7 @@ samples are required to reproduce the canonical model's own phenotype.
 """)
 
 code(r"""
-fig = FG.fig_conditioning_effect(endpoints, bench); plt.show()
+fig = savefig(FG.fig_conditioning_effect(endpoints, bench)); plt.show()
 """)
 
 code(r"""
@@ -301,7 +322,7 @@ from column-shuffled ensembles evaluated over the **same number of tuples**
 """)
 
 code(r"""
-fig = FG.fig_order_curves(curves); plt.show()
+fig = savefig(FG.fig_order_curves(curves)); plt.show()
 """)
 
 code(r"""
@@ -327,7 +348,7 @@ conditioning design, columns would be consistent instead.
 """)
 
 code(r"""
-fig = FG.fig_regime_heatmap(endpoints); plt.show()
+fig = savefig(FG.fig_regime_heatmap(endpoints)); plt.show()
 """)
 
 code(r"""
@@ -348,7 +369,7 @@ md(r"""
 """)
 
 code(r"""
-fig = FG.fig_geometry_vs_endpoint(endpoints); plt.show()
+fig = savefig(FG.fig_geometry_vs_endpoint(endpoints)); plt.show()
 """)
 
 code(r"""
@@ -370,7 +391,7 @@ the unconditioned and the conditioned ensembles.
 
 code(r"""
 if rsi_tab is not None and len(rsi_tab):
-    fig = FG.fig_rsi(rsi_tab); plt.show()
+    fig = savefig(FG.fig_rsi(rsi_tab)); plt.show()
     display(rsi_tab[rsi_tab.estimator=="gaussian"]
             .groupby(["regime","target"])[["frac_synergistic","median_rsi"]]
             .mean().round(4))
@@ -388,7 +409,7 @@ independent effect.
 """)
 
 code(r"""
-fig = FG.fig_variance_partition(vpart); plt.show()
+fig = savefig(FG.fig_variance_partition(vpart)); plt.show()
 if vpart is not None and len(vpart) and "endpoint" in vpart.columns:
     display(vpart.pivot_table(index="endpoint", columns="block",
                               values=["r2_unique","r2_alone"]).round(4))
@@ -396,7 +417,7 @@ print(json.dumps(mixed, indent=1))
 """)
 
 code(r"""
-fig = FG.fig_generalisation(lomo, clf); plt.show()
+fig = savefig(FG.fig_generalisation(lomo, clf)); plt.show()
 if lomo is not None and len(lomo):
     # lomo.parquet holds BOTH fold levels. Pooling them medians a mixture of two
     # different experiments (0.563 for lineage folds, 0.748 for model folds), so
@@ -427,7 +448,7 @@ functional counterpart of statistical synergy.
 
 code(r"""
 if sobol_sum is not None and len(sobol_sum):
-    fig = FG.fig_sobol(sobol_sum, sobol_idx); plt.show()
+    fig = savefig(FG.fig_sobol(sobol_sum, sobol_idx)); plt.show()
     display(sobol_sum.pivot_table(index="model_id", columns="feature",
                                   values="interaction_fraction").round(3))
     display(sobol_conv.groupby(["model_id","n_base"])[["interaction_fraction",
@@ -475,7 +496,7 @@ its eight backgrounds, and an exact sign-flip p-value.
 
 code(r"""
 if pert is not None and len(pert):
-    fig = FG.fig_perturbation(pert, resolution); plt.show()
+    fig = savefig(FG.fig_perturbation(pert, resolution)); plt.show()
     prim = pert[pert["primary_feature"]] if "primary_feature" in pert else pert
     print(f"primary readout: {prim['feature'].iloc[0]}   (n={len(prim)} tuples)")
     display(prim.groupby("kind").agg(
@@ -513,7 +534,7 @@ the per-tuple agreement between the Gaussian and copula estimates.
 
 code(r"""
 if stability is not None and len(stability):
-    fig = FG.fig_module_stability(stability, tuple_sc); plt.show()
+    fig = savefig(FG.fig_module_stability(stability, tuple_sc)); plt.show()
     display(stability.round(3))
 """)
 
@@ -558,7 +579,7 @@ Read the `conclusion` field below rather than any label in this prose, and see
 
 code(r"""
 if decision:
-    fig = FG.fig_decision(decision); plt.show()
+    fig = savefig(FG.fig_decision(decision)); plt.show()
     print(f"H-G criteria passed : {decision['n_hg_passed']}/{decision['n_hg_total']}")
     print(f"H-B criteria passed : {decision['n_hb_passed']}/{decision['n_hb_total']}")
     print(f"CONCLUSION          : {decision['conclusion']}")

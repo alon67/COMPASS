@@ -243,7 +243,9 @@ SENSITIVITY_ARMS: dict[str, dict] = {
         "drop_features": [],
     },
     "replication_only": {
-        "description": "the external replication cohort alone",
+        "description": ("the external replication cohort alone, under the SAME "
+                        "N4 rule as the primary arm: tomko_ca1's unidentifiable "
+                        "parameters are projected out before ensembles are built"),
         "exclude": sorted(PRIMARY_EXCLUSIONS),
         "cohort": "replication",
         "drop_features": [],
@@ -252,9 +254,112 @@ SENSITIVITY_ARMS: dict[str, dict] = {
         # discovery table by cohort=="replication" therefore matched nothing and
         # the arm reported "too few models" while
         # endpoints_screening_v2_replication.parquet sat unread on disk.
+        #
+        # ...and then this arm read the UNPROJECTED table while the primary arm
+        # read the projected one, so the registered N4 rule applied to the
+        # discovery headline and not to the replication result -- which is the
+        # arm most load-bearing for a "replicates and expands" claim. tomko_ca1
+        # was retained with gcal_soma, gcat_soma and gkdr_soma unidentifiable,
+        # and the release manifest nonetheless reported N4 as globally projected
+        # because the PRIMARY arm's source name ended in `_n4proj`
+        # (2026-08-09 post-response-3 audit, P0-5). One rule, both arms.
+        "source_experiment": "screening_v2_replication_n4proj",
+    },
+    "wide_voltage_band": {
+        "description": ("the 609 rows the voltage-band unification excluded, "
+                        "re-admitted: the primary cohort as it would be under "
+                        "the previous corpus band [-160, 120] mV instead of the "
+                        "unified [-150, 80]"),
+        "exclude": sorted(PRIMARY_EXCLUSIONS),
+        "drop_features": [],
+        # Unifying the corpus and waveform bands was required by the 2026-08-09
+        # post-response-3 audit (P0-6); unifying them at the TIGHTER pair was a
+        # judgement, and it removed 609 rows -- 397 khaliq_purkinje, 212
+        # dougalis_vlpag_da -- from a panel of five discovery lineages. This arm
+        # measures that choice the way `n4_retained` measures the N4 projection,
+        # so a reviewer who prefers the wider band can read the consequence
+        # rather than take the author's word that it is small.
+        #
+        #   python3 tools/reconcile_corpus.py --before <probe-3 snap> \
+        #       --after <probe-4 snap> --write-keys left_the_analysis_set \
+        #       --keys-out data/provenance/voltage_band_tightened_rows.json
+        #   python3 tools/run_analysis.py --experiment screening \
+        #       --drop-unidentifiable-parameters --suffix _wideband_n4proj \
+        #       --readmit-keys data/provenance/voltage_band_tightened_rows.json
+        #
+        # It reads the N4-PROJECTED space, like `primary`, so the two differ in
+        # the voltage band alone.
+        "source_experiment": "screening_wideband_n4proj",
+    },
+    "replication_n4_retained": {
+        "description": ("the replication cohort with tomko_ca1's unidentifiable "
+                        "parameters retained: the cost of the projection, "
+                        "measured on the replication arm as `n4_retained` "
+                        "measures it on discovery"),
+        "exclude": sorted(PRIMARY_EXCLUSIONS),
+        "cohort": "replication",
+        "drop_features": [],
         "source_experiment": "screening_v2_replication",
     },
 }
+
+
+# Arms whose result is REPORTED as a finding rather than as a sensitivity.
+#
+# One list, three consumers, because they were three separate judgements and
+# they disagreed: `run_crossmodel` skipped an arm with a missing source table
+# unless it was `primary`; `build_release_manifest` blocked on retained N4
+# failures only in `primary`; and nothing at all checked that
+# `replication_only` used the same N4 rule as the headline. It did not
+# (2026-08-09 post-response-3 audit, P0-5).
+#
+# Membership means: a missing source table is a hard error, the N4 projection
+# must apply, and a retained N4 failure blocks the release.
+REPORTED_ARMS: tuple[str, ...] = ("primary", "discovery_only", "replication_only")
+
+
+# Which arms apply the N4 projection, stated per arm rather than inferred.
+#
+# `build_release_manifest.py` decided that ALL N4 failures were projected
+# because `SENSITIVITY_ARMS["primary"]["source_experiment"]` ended in `_n4proj`,
+# and then suppressed the retained-N4 blocker globally -- while the
+# replication-only arm was reading an unprojected table (2026-08-09
+# post-response-3 audit, P0-5).  A disposition that covers every arm cannot be
+# read off one arm's filename.
+def n4_disposition_by_arm() -> dict[str, dict]:
+    """Per arm: which N4-failing models it contains and how it treats them."""
+    from ..adapters.models import MODEL_REGISTRY
+
+    def cohort_of(m: str) -> str:
+        return getattr(MODEL_REGISTRY[m].manifest, "cohort", "discovery") \
+            if m in MODEL_REGISTRY else "discovery"
+
+    out = {}
+    for arm, spec in SENSITIVITY_ARMS.items():
+        excluded = set(spec.get("exclude", ()))
+        want_cohort = spec.get("cohort")
+        present = sorted(
+            m for m in N4_FAILING_MODELS
+            if m not in excluded
+            and (want_cohort is None or cohort_of(m) == want_cohort))
+        # A TOKEN match, not a suffix match: `screening_wideband_n4proj` is
+        # N4-projected and does not end in `_n4proj`. Reading the disposition
+        # off the tail of a filename is how a projected discovery arm came to
+        # certify an unprojected replication arm in the first place, so the
+        # check should not be sensitive to where in the name the token sits.
+        projected = "n4proj" in str(spec.get("source_experiment", "")).split("_")
+        if not present:
+            disp = "not_applicable"
+        elif projected:
+            disp = "projected"
+        else:
+            disp = "retained_unresolved"
+        out[arm] = {
+            "n4_failing_models_present": present,
+            "source_experiment": spec.get("source_experiment"),
+            "disposition": disp,
+        }
+    return out
 
 
 def lineage_column(df: pd.DataFrame) -> pd.Series:
@@ -325,7 +430,11 @@ def cohort_label(arm: str = "primary") -> str:
         # and N1 fails for two of the replication models.  The label names the
         # gates it actually enforces, which is the whole point of this function.
         return "N1/N3/N4-enforced (N2 evaluable for the sourceable subset only)"
-    if spec.get("source_experiment", "").endswith("_n4proj"):
+    # Token match, for the same reason as in `n4_disposition_by_arm`: an arm
+    # whose table carries a further qualifier -- `screening_wideband_n4proj` --
+    # is projected, and a suffix test would print "N4 unresolved" for it in
+    # every report while the manifest recorded it as projected.
+    if "n4proj" in str(spec.get("source_experiment", "")).split("_"):
         return ("N3-passing, with N4-unidentifiable dimensions projected out of "
                 f"{', '.join(unresolved)}")
     return f"N3-passing; N4 unresolved for {', '.join(unresolved)}"

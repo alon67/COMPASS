@@ -22,6 +22,7 @@ import json
 import os
 import sys
 import warnings
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -46,6 +47,15 @@ from compass.conditioning.ensembles import (  # noqa: E402
 )
 
 OUT = ROOT / "results" / "analyses"
+
+# The QC flag `compass.adapters.base.qc_flags` raises for a trace outside
+# [PHYSICAL_V_MIN_MV, PHYSICAL_V_MAX_MV].  Copied rather than imported: that
+# module is inside `SIM_CODE_PATHS`, so adding a constant to it would change
+# every stored shard's recorded `sim_code_hash` and make the corpus's own
+# provenance record disagree with the tree that produced it.  The copy is
+# pinned to the original by test_wide_voltage_band_arm_matches_the_stored_flag,
+# which reads the flag off a real stored row rather than trusting either name.
+BAND_FLAG = "nonphysical_voltage"
 ORDERS = (3, 4, 5)
 MAX_TUPLES = 1200
 N_SURROGATE = 25
@@ -71,6 +81,55 @@ def load_model_table(experiment: str, model_id: str) -> pd.DataFrame | None:
         return None
     df = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
     return df
+
+
+def readmit_band_tightened(df: pd.DataFrame, experiment: str, model_id: str,
+                           keys: set[tuple]) -> tuple[pd.DataFrame, int]:
+    """Undo the voltage-band tightening for exactly the listed rows.
+
+    Unifying the corpus and waveform bands at ``[-150, 80] mV`` excluded 609
+    rows that the previous corpus band ``[-160, 120]`` admitted.  That was a
+    judgement call -- the 2026-08-09 post-response-3 audit required ONE band
+    propagated everywhere, not which one -- so this arm measures its cost the
+    way ``n4_retained`` measures the N4 projection's.
+
+    Re-admission is done by removing ``nonphysical_voltage`` from those rows'
+    ``qc_flags``, which is exactly what the wider band would have produced:
+    ``validity_mask`` reads the flags, and every one of these rows gained that
+    flag and only that flag from the change.  Other flags are left alone, so a
+    row excluded for a second reason stays excluded.
+
+    A stored flag is PROTOCOL-QUALIFIED -- ``hyperpol_abs:nonphysical_voltage``,
+    not the bare name -- because one row carries a trace per protocol and the
+    band is checked on each.  The first version of this function compared whole
+    tokens against the bare name, matched nothing, and stripped nothing; the
+    arm would have been byte-identical to its comparator and "the wider band
+    changes nothing" would have been read off an edit that never happened.  The
+    protocol prefix is kept and the FLAG part is what is matched, here and in
+    the check below -- one rule, so the check cannot pass a strip it disagrees
+    with.  Every protocol's copy goes: the band moved for all of them.
+    """
+    if "qc_flags" not in df.columns:
+        return df, 0
+    regime = df["sampling_regime"] if "sampling_regime" in df else df.get("regime")
+    hit = np.array([
+        (experiment, model_id, str(r), int(rep), int(sid)) in keys
+        for r, rep, sid in zip(regime, df["replicate"],
+                               df["parameter_sample_id"], strict=True)])
+    if not hit.any():
+        return df, 0
+    is_band = lambda tok: tok.rsplit(":", 1)[-1] == BAND_FLAG      # noqa: E731
+    out = df.copy()
+    flags = out.loc[hit, "qc_flags"].astype("string").fillna("")
+    out.loc[hit, "qc_flags"] = (
+        flags.str.split(";")
+             .apply(lambda xs: ";".join(x for x in xs if x and not is_band(x))))
+    still = int(out.loc[hit, "qc_flags"].apply(
+        lambda s: any(is_band(x) for x in str(s).split(";") if x)).sum())
+    if still:
+        raise SystemExit(f"{model_id}: {still} re-admitted rows still carry "
+                         f"{BAND_FLAG}; the strip did not apply")
+    return out, int(hit.sum())
 
 
 def canonical_target(model_id: str, feature_names: list[str]) -> np.ndarray | None:
@@ -225,10 +284,33 @@ def main() -> int:
                          "ensembles are built. Projects the N4-failing models "
                          "onto their observable dimensions instead of excluding "
                          "them; used by the n4_projected sensitivity arm.")
+    ap.add_argument("--readmit-keys", default=None, metavar="JSON",
+                    help="re-admit the rows listed in this key file by removing "
+                         "the `nonphysical_voltage` flag they gained when the "
+                         "corpus and waveform voltage bands were unified at the "
+                         "tighter pair. Used by the wide_voltage_band arm to "
+                         "MEASURE that choice instead of asserting it; the file "
+                         "is produced by tools/reconcile_corpus.py --write-keys.")
     ap.add_argument("--suffix", default="",
                     help="extra output suffix, e.g. '_dropfeat', so a deviating "
                          "analysis never overwrites the primary tables")
     args = ap.parse_args()
+
+    # Rows to re-admit, keyed exactly as the corpus snapshots are keyed.
+    readmit: set[tuple] = set()
+    if args.readmit_keys:
+        rec = json.loads(Path(args.readmit_keys).read_text())
+        if rec.get("criterion") != "left_the_analysis_set":
+            ap.error(f"--readmit-keys expects a key file for criterion "
+                     f"'left_the_analysis_set', got {rec.get('criterion')!r}")
+        readmit = {(r["experiment"], r["model_id"], r["regime"],
+                    int(r["replicate"]), int(r["parameter_sample_id"]))
+                   for r in rec["rows"]}
+        if not readmit:
+            ap.error("--readmit-keys names no rows. Refusing to run an arm that "
+                     "would be identical to its comparator.")
+        print(f"re-admitting {len(readmit)} rows excluded by the voltage-band "
+              f"unification ({rec['by_model']})", flush=True)
 
     # Which parameters to project out, per model.  Empty unless asked for, so
     # the primary analysis is untouched.
@@ -256,11 +338,17 @@ def main() -> int:
         print(f"dropping from the conditioning phenotype: {sorted(drop)}", flush=True)
 
     endpoints, curves, scores, rsis = [], [], [], []
+    readmitted: dict[str, int] = {}
     for model_id in args.models:
         df = load_model_table(args.experiment, model_id)
         if df is None or len(df) < 100:
             print(f"skip {model_id}: no data", flush=True)
             continue
+        if readmit:
+            df, k = readmit_band_tightened(df, args.experiment, model_id, readmit)
+            if k:
+                readmitted[model_id] = k
+                print(f"  {model_id}: re-admitted {k} rows", flush=True)
         specs = get_adapter(model_id).parameter_specs()
         param_ids = [s.parameter_id for s in specs]
         dropped_params: list[str] = []
@@ -315,6 +403,42 @@ def main() -> int:
                             if len(sub) == ens.n:
                                 rsis.extend(analyse_rsi(ens, sub, est, SEED))
         print(f"{model_id:16s} ensembles={len(ens_list)} rows={len(endpoints)}", flush=True)
+
+    # A SENSITIVITY ARM THAT CHANGED NOTHING IS NOT A PASSING ARM.
+    #
+    # The key file spans every campaign, so a run on one campaign re-admits only
+    # that campaign's share of it -- but if the share is ZERO the arm's tables
+    # are byte-identical to its comparator's, and "the wider band changes
+    # nothing" would be read off a join that never matched. That is the same
+    # confusion as counting an unmeasured gate as a passing one, so it fails
+    # here instead of being reported as a null result. The counts are written
+    # beside the tables so the arm's claim is checkable without rerunning it.
+    if readmit:
+        n_readmitted = sum(readmitted.values())
+        if not n_readmitted:
+            keyed_models = sorted({k[1] for k in readmit})
+            raise SystemExit(
+                f"--readmit-keys named {len(readmit)} rows but NONE of them "
+                f"landed in experiment '{args.experiment}' over models "
+                f"{args.models}. The key file's rows are in {keyed_models}. "
+                f"This arm would be identical to its comparator; refusing to "
+                f"write it as a measured result.")
+        rec = {
+            "generated_utc": datetime.now(UTC).isoformat(),
+            "arm": f"{args.experiment}{args.suffix}",
+            "key_file": os.path.relpath(Path(args.readmit_keys).resolve(), ROOT),
+            "criterion": "left_the_analysis_set",
+            "n_rows_in_key_file": len(readmit),
+            "n_rows_readmitted_here": n_readmitted,
+            "by_model": dict(sorted(readmitted.items())),
+            "_doc": ("rows re-admitted by removing the `nonphysical_voltage` "
+                     "flag the voltage-band unification gave them; the key file "
+                     "spans every campaign, this arm covers one"),
+        }
+        out = ROOT / "data" / "provenance" / "voltage_band_arm.json"
+        out.write_text(json.dumps(rec, indent=1) + "\n")
+        print(f"re-admitted {n_readmitted}/{len(readmit)} keyed rows "
+              f"({rec['by_model']}) -> {out.relative_to(ROOT)}", flush=True)
 
     OUT.mkdir(parents=True, exist_ok=True)
     # SEPARATE NAMESPACE per QC policy (2026-08-06 audit, M1).
