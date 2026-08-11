@@ -1,5 +1,5 @@
 {
- "git_revision": "2745fa32293660bffb479538c1edea1b3d3cd651",
+ "git_revision": "316c24275d40e5255284dac79a8f7abd0dad532e",
  "n_claims": 15,
  "claims": [
   {
@@ -320,7 +320,7 @@
  ],
  "repository_facts": [
   {
-   "check": "documented fast-test count == observed (444)",
+   "check": "documented fast-test count == observed (446)",
    "ok": true
   },
   {

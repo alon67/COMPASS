@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-11T14:27:19.075223+00:00",
- "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+ "written_utc": "2026-08-11T18:49:28.831436+00:00",
+ "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -101,7 +101,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -115,7 +115,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T14:27:18.957054+00:00",
+   "recorded_utc": "2026-08-11T18:49:28.706903+00:00",
    "passed": true
   },
   {
@@ -194,7 +194,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -208,7 +208,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T14:27:18.997868+00:00",
+   "recorded_utc": "2026-08-11T18:49:28.746879+00:00",
    "passed": true
   },
   {
@@ -287,7 +287,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -301,7 +301,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T14:27:19.036468+00:00",
+   "recorded_utc": "2026-08-11T18:49:28.788792+00:00",
    "passed": true
   },
   {
@@ -380,7 +380,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -394,7 +394,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T14:27:19.075115+00:00",
+   "recorded_utc": "2026-08-11T18:49:28.831317+00:00",
    "passed": true
   }
  ]

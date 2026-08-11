@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-11T13:21:07.680352+00:00",
- "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+ "written_utc": "2026-08-11T18:38:21.141964+00:00",
+ "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -25,15 +25,15 @@
     "screening_v2_replication/dougalis_vlpag_da__E1__r1__s2636[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E1__r1__s2134[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E2__r1__s528[FAIL]",
-    "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1239[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E1__r1__s3650[FAIL]",
+    "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1239[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1640[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1000[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s131[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s488[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1159[FAIL]",
-    "screening_v2_replication/dougalis_vlpag_da__E6__r1__s661[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1613[FAIL]",
+    "screening_v2_replication/dougalis_vlpag_da__E6__r1__s661[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1919[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E1__r1__s676[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E1__r1__s3094[FAIL]",
@@ -43,11 +43,11 @@
     "screening_v2_replication/dougalis_vlpag_da__E2__r1__s285[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1887[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E2__r1__s2047[FAIL]",
-    "screening_v2_replication/dougalis_vlpag_da__E2__r1__s169[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E2__r1__s142[FAIL]",
+    "screening_v2_replication/dougalis_vlpag_da__E2__r1__s169[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s615[FAIL]",
-    "screening_v2_replication/dougalis_vlpag_da__E6__r1__s479[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s737[FAIL]",
+    "screening_v2_replication/dougalis_vlpag_da__E6__r1__s479[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1014[FAIL]",
     "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1829[FAIL]",
     "screening_v2_replication/tomko_ca1__E1__r1__s916[FAIL]",
@@ -80,7 +80,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1065.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1065.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -94,7 +94,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.227255+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.602364+00:00",
    "passed": true
   },
   {
@@ -119,7 +119,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s873.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s873.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -133,46 +133,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.284343+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s162",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 62,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E1",
-    "stratum": "coverage",
-    "shard": "E1_r1_000150.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s162.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s162.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:03.341469+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.648605+00:00",
    "passed": true
   },
   {
@@ -197,7 +158,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1331.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1331.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -211,7 +172,85 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.396729+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.690189+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s555",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E1",
+    "stratum": "coverage",
+    "shard": "E1_r1_000550.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s555.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s555.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:17.730077+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s162",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 62,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E1",
+    "stratum": "coverage",
+    "shard": "E1_r1_000150.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s162.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s162.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:17.772037+00:00",
    "passed": true
   },
   {
@@ -236,7 +275,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1578.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1578.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -250,7 +289,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.472007+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.817759+00:00",
    "passed": true
   },
   {
@@ -277,7 +316,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2636.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2636.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -291,18 +330,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.528910+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.857982+00:00",
    "passed": false
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s555",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s433",
    "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
     "n_protocols": 6,
-    "n_features_recomputed": 66,
+    "n_features_recomputed": 50,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
     "status": "ok"
@@ -312,11 +351,11 @@
     "model_id": "dougalis_vlpag_da",
     "regime": "E1",
     "stratum": "coverage",
-    "shard": "E1_r1_000550.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s555.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s555.meta.json"
+    "shard": "E1_r1_000425.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s433.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s433.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -330,46 +369,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.593507+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s2943",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 64,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E1",
-    "stratum": "coverage",
-    "shard": "E1_r1_002925.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2943.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2943.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:03.655271+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.898567+00:00",
    "passed": true
   },
   {
@@ -394,7 +394,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2542.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2542.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -408,18 +408,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.709010+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.937924+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s433",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s2943",
    "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
     "n_protocols": 6,
-    "n_features_recomputed": 50,
+    "n_features_recomputed": 64,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
     "status": "ok"
@@ -429,11 +429,11 @@
     "model_id": "dougalis_vlpag_da",
     "regime": "E1",
     "stratum": "coverage",
-    "shard": "E1_r1_000425.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s433.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s433.meta.json"
+    "shard": "E1_r1_002925.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2943.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2943.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -447,7 +447,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.772276+00:00",
+   "recorded_utc": "2026-08-11T18:38:17.977922+00:00",
    "passed": true
   },
   {
@@ -475,7 +475,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2134.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2134.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -489,7 +489,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.833842+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.015383+00:00",
    "passed": false
   },
   {
@@ -514,7 +514,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1918.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1918.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -528,7 +528,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.904607+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.053000+00:00",
    "passed": true
   },
   {
@@ -553,7 +553,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3557.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3557.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -567,7 +567,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:03.992772+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.094648+00:00",
    "passed": true
   },
   {
@@ -592,7 +592,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3198.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3198.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -606,46 +606,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.047075+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s4060",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E1",
-    "stratum": "coverage",
-    "shard": "E1_r1_004050.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s4060.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s4060.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:04.099800+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.142804+00:00",
    "passed": true
   },
   {
@@ -670,7 +631,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s175.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s175.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -684,7 +645,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.149595+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.182714+00:00",
    "passed": true
   },
   {
@@ -711,7 +672,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s528.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s528.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -725,35 +686,32 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.200382+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.221327+00:00",
    "passed": false
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1239",
-   "status": "FAIL",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E1__r1__s4060",
+   "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [
-    "hyperpol_abs: voltage_range: [-187.9, 3.2] mV outside [-150.0, 80.0]",
-    "step_abs_hi: spike_shape: widest detected AP is 399 ms over 2 spikes measured on the trace"
-   ],
+   "failures": [],
    "measurements": {
     "n_protocols": 6,
-    "n_features_recomputed": 62,
+    "n_features_recomputed": 66,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
-    "status": "problems"
+    "status": "ok"
    },
    "tolerances": {},
    "inputs": {
     "model_id": "dougalis_vlpag_da",
-    "regime": "E2",
+    "regime": "E1",
     "stratum": "coverage",
-    "shard": "E2_r1_001225.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1239.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1239.meta.json"
+    "shard": "E1_r1_004050.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s4060.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s4060.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -767,8 +725,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.279881+00:00",
-   "passed": false
+   "recorded_utc": "2026-08-11T18:38:18.260973+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -796,7 +754,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3650.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3650.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -810,7 +768,49 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.331966+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.301293+00:00",
+   "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1239",
+   "status": "FAIL",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [
+    "hyperpol_abs: voltage_range: [-187.9, 3.2] mV outside [-150.0, 80.0]",
+    "step_abs_hi: spike_shape: widest detected AP is 399 ms over 2 spikes measured on the trace"
+   ],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 62,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "problems"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E2",
+    "stratum": "coverage",
+    "shard": "E2_r1_001225.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1239.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1239.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:18.341650+00:00",
    "passed": false
   },
   {
@@ -838,7 +838,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1640.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1640.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -852,47 +852,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.379984+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.382167+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1454",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 60,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E2",
-    "stratum": "coverage",
-    "shard": "E2_r1_001450.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1454.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1454.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:04.425802+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -916,7 +877,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s2044.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s2044.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -930,7 +891,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.471182+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.419939+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s1454",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 60,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E2",
+    "stratum": "coverage",
+    "shard": "E2_r1_001450.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1454.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1454.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:18.458048+00:00",
    "passed": true
   },
   {
@@ -955,7 +955,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s271.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s271.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -969,7 +969,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.517409+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.494275+00:00",
    "passed": true
   },
   {
@@ -999,7 +999,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1000.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1000.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1013,7 +1013,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.559897+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.532550+00:00",
    "passed": false
   },
   {
@@ -1042,7 +1042,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s131.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s131.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1056,7 +1056,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.609222+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.569425+00:00",
    "passed": false
   },
   {
@@ -1083,7 +1083,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s488.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s488.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1097,7 +1097,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.657970+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.604854+00:00",
    "passed": false
   },
   {
@@ -1122,7 +1122,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1363.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1363.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1136,7 +1136,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.704515+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.639851+00:00",
    "passed": true
   },
   {
@@ -1164,7 +1164,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1159.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1159.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1178,7 +1178,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.751663+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.677981+00:00",
    "passed": false
   },
   {
@@ -1203,7 +1203,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s958.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s958.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1217,8 +1217,50 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.795699+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.712574+00:00",
    "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1613",
+   "status": "FAIL",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 6.26 mV, 16% of the 38.4 mV excursion",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 196 ms over 1 spikes measured on the trace"
+   ],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 50,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "problems"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E6",
+    "stratum": "coverage",
+    "shard": "E6_r1_001600.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1613.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1613.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:18.747516+00:00",
+   "passed": false
   },
   {
    "gate": "WAVEFORM",
@@ -1246,7 +1288,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s661.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s661.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1260,49 +1302,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.840304+00:00",
-   "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s1613",
-   "status": "FAIL",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 6.26 mV, 16% of the 38.4 mV excursion",
-    "step_rheo_3p0x: spike_shape: widest detected AP is 196 ms over 1 spikes measured on the trace"
-   ],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 50,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "problems"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E6",
-    "stratum": "coverage",
-    "shard": "E6_r1_001600.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1613.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1613.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:04.884717+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.785808+00:00",
    "passed": false
   },
   {
@@ -1331,7 +1331,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1919.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1919.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1345,7 +1345,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.927280+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.819811+00:00",
    "passed": false
   },
   {
@@ -1370,7 +1370,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2591.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2591.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1384,7 +1384,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:04.968864+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.853631+00:00",
    "passed": true
   },
   {
@@ -1412,7 +1412,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s676.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s676.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1426,7 +1426,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.012420+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.889981+00:00",
    "passed": false
   },
   {
@@ -1456,7 +1456,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3094.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s3094.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1470,7 +1470,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.053688+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.924939+00:00",
    "passed": false
   },
   {
@@ -1495,7 +1495,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1597.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1597.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1509,7 +1509,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.093915+00:00",
+   "recorded_utc": "2026-08-11T18:38:18.973087+00:00",
    "passed": true
   },
   {
@@ -1542,7 +1542,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s673.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s673.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1556,7 +1556,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.133482+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.021018+00:00",
    "passed": false
   },
   {
@@ -1581,7 +1581,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s4095.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s4095.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1595,7 +1595,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.172933+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.060098+00:00",
    "passed": true
   },
   {
@@ -1623,7 +1623,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s43.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s43.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1637,7 +1637,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.213707+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.097364+00:00",
    "passed": false
   },
   {
@@ -1662,7 +1662,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1322.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s1322.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1676,46 +1676,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.256323+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s407",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 38,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E2",
-    "stratum": "qc_flagged",
-    "shard": "E2_r1_000400.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s407.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s407.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:05.299508+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.133739+00:00",
    "passed": true
   },
   {
@@ -1740,7 +1701,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2718.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E1__r1__s2718.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1754,7 +1715,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.345805+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.169636+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s407",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 38,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E2",
+    "stratum": "qc_flagged",
+    "shard": "E2_r1_000400.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s407.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s407.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:19.204595+00:00",
    "passed": true
   },
   {
@@ -1782,7 +1782,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1039.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1039.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1796,7 +1796,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.388568+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.240521+00:00",
    "passed": false
   },
   {
@@ -1826,7 +1826,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s285.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s285.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1840,7 +1840,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.430868+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.276071+00:00",
    "passed": false
   },
   {
@@ -1865,7 +1865,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s639.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s639.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1879,7 +1879,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.471168+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.312019+00:00",
    "passed": true
   },
   {
@@ -1906,7 +1906,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1887.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1887.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1920,7 +1920,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.512988+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.346641+00:00",
    "passed": false
   },
   {
@@ -1950,7 +1950,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s2047.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s2047.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1964,48 +1964,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.554673+00:00",
-   "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s169",
-   "status": "FAIL",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [
-    "hyperpol_abs: voltage_range: [-189.2, 14.4] mV outside [-150.0, 80.0]"
-   ],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 64,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "problems"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E2",
-    "stratum": "rate_max",
-    "shard": "E2_r1_000150.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s169.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s169.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:05.595294+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.381315+00:00",
    "passed": false
   },
   {
@@ -2035,7 +1994,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s142.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s142.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2049,8 +2008,127 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.636213+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.415091+00:00",
    "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E2__r1__s169",
+   "status": "FAIL",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [
+    "hyperpol_abs: voltage_range: [-189.2, 14.4] mV outside [-150.0, 80.0]"
+   ],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 64,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "problems"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E2",
+    "stratum": "rate_max",
+    "shard": "E2_r1_000150.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s169.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s169.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:19.450052+00:00",
+   "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/tomko_ca1__E6__r1__s227",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 58,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "tomko_ca1",
+    "regime": "E6",
+    "stratum": "coverage",
+    "shard": "E6_r1_000225.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s227.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s227.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:19.485861+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/tomko_ca1__E2__r1__s393",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 52,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "tomko_ca1",
+    "regime": "E2",
+    "stratum": "coverage",
+    "shard": "E2_r1_000375.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s393.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s393.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:19.520851+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -2074,7 +2152,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1428.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E2__r1__s1428.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2088,7 +2166,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.676542+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.558001+00:00",
    "passed": true
   },
   {
@@ -2119,7 +2197,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s615.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s615.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2133,18 +2211,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.715383+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.595105+00:00",
    "passed": false
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/tomko_ca1__E6__r1__s227",
+   "subject": "screening_v2_replication/tomko_ca1__E6__r1__s496",
    "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
     "n_protocols": 6,
-    "n_features_recomputed": 58,
+    "n_features_recomputed": 54,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
     "status": "ok"
@@ -2154,54 +2232,11 @@
     "model_id": "tomko_ca1",
     "regime": "E6",
     "stratum": "coverage",
-    "shard": "E6_r1_000225.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s227.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s227.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:05.753767+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s479",
-   "status": "FAIL",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 11.60 mV, 12% of the 98.9 mV excursion",
-    "step_abs_lo: baseline_stability: pre-stimulus mean moved 11.60 mV, 15% of the 79.2 mV excursion",
-    "step_abs_hi: baseline_stability: pre-stimulus mean moved 11.60 mV, 13% of the 88.6 mV excursion"
-   ],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 38,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "problems"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E6",
-    "stratum": "class_spontaneous",
     "shard": "E6_r1_000475.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s479.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s479.meta.json"
+    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s496.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s496.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2215,8 +2250,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.794090+00:00",
-   "passed": false
+   "recorded_utc": "2026-08-11T18:38:19.629850+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -2244,7 +2279,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s737.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s737.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2258,32 +2293,36 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.832063+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.670467+00:00",
    "passed": false
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/tomko_ca1__E2__r1__s393",
-   "status": "PASS",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s479",
+   "status": "FAIL",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
+   "failures": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 11.60 mV, 12% of the 98.9 mV excursion",
+    "step_abs_lo: baseline_stability: pre-stimulus mean moved 11.60 mV, 15% of the 79.2 mV excursion",
+    "step_abs_hi: baseline_stability: pre-stimulus mean moved 11.60 mV, 13% of the 88.6 mV excursion"
+   ],
    "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 52,
+    "n_protocols": 4,
+    "n_features_recomputed": 38,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
-    "status": "ok"
+    "status": "problems"
    },
    "tolerances": {},
    "inputs": {
-    "model_id": "tomko_ca1",
-    "regime": "E2",
-    "stratum": "coverage",
-    "shard": "E2_r1_000375.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s393.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s393.meta.json"
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E6",
+    "stratum": "class_spontaneous",
+    "shard": "E6_r1_000475.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s479.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s479.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2297,8 +2336,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.869516+00:00",
-   "passed": true
+   "recorded_utc": "2026-08-11T18:38:19.706003+00:00",
+   "passed": false
   },
   {
    "gate": "WAVEFORM",
@@ -2330,7 +2369,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1014.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1014.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2344,18 +2383,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.907606+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.743818+00:00",
    "passed": false
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/tomko_ca1__E6__r1__s496",
+   "subject": "screening_v2_replication/tomko_ca1__E1__r1__s395",
    "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
     "n_protocols": 6,
-    "n_features_recomputed": 54,
+    "n_features_recomputed": 66,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
     "status": "ok"
@@ -2363,13 +2402,13 @@
    "tolerances": {},
    "inputs": {
     "model_id": "tomko_ca1",
-    "regime": "E6",
+    "regime": "E1",
     "stratum": "coverage",
-    "shard": "E6_r1_000475.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s496.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s496.meta.json"
+    "shard": "E1_r1_000375.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s395.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s395.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2383,7 +2422,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.948002+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.781131+00:00",
    "passed": true
   },
   {
@@ -2410,7 +2449,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1829.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1829.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2424,7 +2463,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:05.985918+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.815024+00:00",
    "passed": false
   },
   {
@@ -2449,7 +2488,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s6.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s6.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2463,46 +2502,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.026302+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s27",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "dougalis_vlpag_da",
-    "regime": "E6",
-    "stratum": "rate_max",
-    "shard": "E6_r1_000025.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s27.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s27.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:06.067272+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.849416+00:00",
    "passed": true
   },
   {
@@ -2527,7 +2527,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s2047.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s2047.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2541,12 +2541,12 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.105301+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.884331+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/tomko_ca1__E1__r1__s395",
+   "subject": "screening_v2_replication/dougalis_vlpag_da__E6__r1__s27",
    "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
@@ -2559,14 +2559,14 @@
    },
    "tolerances": {},
    "inputs": {
-    "model_id": "tomko_ca1",
-    "regime": "E1",
-    "stratum": "coverage",
-    "shard": "E1_r1_000375.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s395.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s395.meta.json"
+    "model_id": "dougalis_vlpag_da",
+    "regime": "E6",
+    "stratum": "rate_max",
+    "shard": "E6_r1_000025.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s27.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s27.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2580,7 +2580,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.148016+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.921254+00:00",
    "passed": true
   },
   {
@@ -2605,7 +2605,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1428.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__dougalis_vlpag_da__E6__r1__s1428.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2619,7 +2619,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.189690+00:00",
+   "recorded_utc": "2026-08-11T18:38:19.955684+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/moubarak_snc_da__E1__r1__s474",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 47,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "moubarak_snc_da",
+    "regime": "E1",
+    "stratum": "coverage",
+    "shard": "E1_r1_000450.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s474.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s474.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:19.993796+00:00",
    "passed": true
   },
   {
@@ -2646,7 +2685,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s916.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s916.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2660,47 +2699,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.237066+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.029331+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/moubarak_snc_da__E1__r1__s474",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 47,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "moubarak_snc_da",
-    "regime": "E1",
-    "stratum": "coverage",
-    "shard": "E1_r1_000450.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s474.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s474.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:06.281551+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -2724,7 +2724,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s691.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s691.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2738,7 +2738,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.325406+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.063606+00:00",
    "passed": true
   },
   {
@@ -2763,7 +2763,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s166.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s166.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2777,7 +2777,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.373590+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.097495+00:00",
    "passed": true
   },
   {
@@ -2804,7 +2804,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s6.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s6.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2818,7 +2818,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.417416+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.131437+00:00",
    "passed": false
   },
   {
@@ -2843,7 +2843,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s376.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s376.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2857,7 +2857,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.463082+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.164979+00:00",
    "passed": true
   },
   {
@@ -2882,7 +2882,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s133.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s133.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2896,7 +2896,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.508390+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.198978+00:00",
    "passed": true
   },
   {
@@ -2921,7 +2921,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s353.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s353.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2935,7 +2935,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.553852+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.234257+00:00",
    "passed": true
   },
   {
@@ -2960,7 +2960,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s511.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s511.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2974,7 +2974,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.596893+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.267736+00:00",
    "passed": true
   },
   {
@@ -2999,7 +2999,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s26.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s26.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3013,7 +3013,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.645549+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.306391+00:00",
    "passed": true
   },
   {
@@ -3038,7 +3038,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s10.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s10.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3052,7 +3052,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.695016+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.340404+00:00",
    "passed": true
   },
   {
@@ -3077,7 +3077,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s935.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s935.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3091,7 +3091,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.741586+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.375816+00:00",
    "passed": true
   },
   {
@@ -3116,7 +3116,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s446.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s446.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3130,7 +3130,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.782732+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.415176+00:00",
    "passed": true
   },
   {
@@ -3155,7 +3155,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s304.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s304.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3169,7 +3169,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.820629+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.449360+00:00",
    "passed": true
   },
   {
@@ -3194,7 +3194,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s354.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s354.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3208,7 +3208,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.858975+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.483807+00:00",
    "passed": true
   },
   {
@@ -3233,7 +3233,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s52.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s52.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3247,7 +3247,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.897811+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.518551+00:00",
    "passed": true
   },
   {
@@ -3272,7 +3272,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s511.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s511.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3286,7 +3286,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.940833+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.552682+00:00",
    "passed": true
   },
   {
@@ -3311,7 +3311,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s60.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s60.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3325,7 +3325,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:06.984321+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.587314+00:00",
    "passed": true
   },
   {
@@ -3350,7 +3350,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s541.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s541.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3364,7 +3364,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.026922+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.620654+00:00",
    "passed": true
   },
   {
@@ -3389,7 +3389,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s1023.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s1023.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3403,46 +3403,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.067047+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/tomko_ca1__E2__r1__s161",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "tomko_ca1",
-    "regime": "E2",
-    "stratum": "rate_max",
-    "shard": "E2_r1_000150.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s161.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s161.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:07.105911+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.657431+00:00",
    "passed": true
   },
   {
@@ -3467,7 +3428,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s1.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E1__r1__s1.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3481,18 +3442,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.144328+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.694127+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/tomko_ca1__E2__r1__s10",
+   "subject": "screening_v2_replication/tomko_ca1__E2__r1__s161",
    "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
     "n_protocols": 6,
-    "n_features_recomputed": 58,
+    "n_features_recomputed": 66,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
     "status": "ok"
@@ -3501,12 +3462,12 @@
    "inputs": {
     "model_id": "tomko_ca1",
     "regime": "E2",
-    "stratum": "ordinary_random",
-    "shard": "E2_r1_000000.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s10.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s10.meta.json"
+    "stratum": "rate_max",
+    "shard": "E2_r1_000150.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s161.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s161.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3520,7 +3481,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.183654+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.728215+00:00",
    "passed": true
   },
   {
@@ -3545,7 +3506,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s425.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s425.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3559,18 +3520,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.223925+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.763657+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/tomko_ca1__E6__r1__s355",
+   "subject": "screening_v2_replication/tomko_ca1__E2__r1__s10",
    "status": "PASS",
    "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
     "n_protocols": 6,
-    "n_features_recomputed": 66,
+    "n_features_recomputed": 58,
     "n_features_mismatched": 0,
     "campaign": "screening_v2_replication",
     "status": "ok"
@@ -3578,13 +3539,13 @@
    "tolerances": {},
    "inputs": {
     "model_id": "tomko_ca1",
-    "regime": "E6",
-    "stratum": "rate_max",
-    "shard": "E6_r1_000350.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s355.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s355.meta.json"
+    "regime": "E2",
+    "stratum": "ordinary_random",
+    "shard": "E2_r1_000000.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s10.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E2__r1__s10.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3598,7 +3559,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.266075+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.797156+00:00",
    "passed": true
   },
   {
@@ -3623,7 +3584,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s511.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s511.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3637,7 +3598,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.308267+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.831214+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/tomko_ca1__E6__r1__s355",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "tomko_ca1",
+    "regime": "E6",
+    "stratum": "rate_max",
+    "shard": "E6_r1_000350.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s355.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s355.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:20.865113+00:00",
    "passed": true
   },
   {
@@ -3662,7 +3662,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s10.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s10.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3676,7 +3676,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.351387+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.898669+00:00",
    "passed": true
   },
   {
@@ -3701,7 +3701,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s505.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s505.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3715,7 +3715,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.399813+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.933525+00:00",
    "passed": true
   },
   {
@@ -3740,7 +3740,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s167.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s167.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3754,7 +3754,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.446999+00:00",
+   "recorded_utc": "2026-08-11T18:38:20.967818+00:00",
    "passed": true
   },
   {
@@ -3781,7 +3781,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s1.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__tomko_ca1__E6__r1__s1.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3795,8 +3795,47 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.504821+00:00",
+   "recorded_utc": "2026-08-11T18:38:21.002097+00:00",
    "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "screening_v2_replication/moubarak_snc_da__E1__r1__s441",
+   "status": "PASS",
+   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 28,
+    "n_features_mismatched": 0,
+    "campaign": "screening_v2_replication",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "moubarak_snc_da",
+    "regime": "E1",
+    "stratum": "nonspiking",
+    "shard": "E1_r1_000425.parquet",
+    "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s441.npz",
+    "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s441.meta.json"
+   },
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T18:38:21.035975+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -3824,7 +3863,7 @@
     "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s27.npz",
     "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s27.meta.json"
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3838,47 +3877,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.551766+00:00",
+   "recorded_utc": "2026-08-11T18:38:21.071391+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "screening_v2_replication/moubarak_snc_da__E1__r1__s441",
-   "status": "PASS",
-   "detail": "screening_v2_replication: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 28,
-    "n_features_mismatched": 0,
-    "campaign": "screening_v2_replication",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "moubarak_snc_da",
-    "regime": "E1",
-    "stratum": "nonspiking",
-    "shard": "E1_r1_000425.parquet",
-    "trace_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s441.npz",
-    "trace_metadata_file": "results/traces/retained/screening_v2_replication__moubarak_snc_da__E1__r1__s441.meta.json"
-   },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T13:21:07.596735+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -3917,7 +3917,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3931,7 +3931,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.637586+00:00",
+   "recorded_utc": "2026-08-11T18:38:21.106091+00:00",
    "passed": true
   },
   {
@@ -4011,7 +4011,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4025,7 +4025,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T13:21:07.680200+00:00",
+   "recorded_utc": "2026-08-11T18:38:21.141821+00:00",
    "passed": true
   }
  ]

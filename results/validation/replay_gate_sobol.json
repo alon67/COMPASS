@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-11T12:04:53.529469+00:00",
- "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+ "written_utc": "2026-08-11T18:12:11.575947+00:00",
+ "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -539,7 +539,7 @@
      "pospischil_rs:SOBOL:1:946"
     ]
    },
-   "git_tree": "2745fa32293660bffb479538c1edea1b3d3cd651-dirty",
+   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -553,7 +553,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T12:04:53.529388+00:00",
+   "recorded_utc": "2026-08-11T18:12:11.575867+00:00",
    "passed": true
   }
  ]

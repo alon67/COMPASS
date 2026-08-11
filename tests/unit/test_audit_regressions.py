@@ -1802,3 +1802,55 @@ def test_the_tree_identity_is_the_source_revision_not_the_output():
     assert "from compass.validation.gates import git_tree" in rr
     assert "def git_tree" not in rr, "two definitions can disagree"
     assert isinstance(git_tree(), str)
+
+
+def test_committing_regenerated_results_does_not_move_the_tree_identity():
+    """The property the whole scoping change exists to provide, exercised.
+
+    Reasoning about a pathspec is not the same as running it. This builds a
+    throwaway repository, commits source, commits generated output on top, and
+    asserts the identity is unchanged by the second commit -- which is what lets
+    a release re-run its gates, commit the evidence, and tag, without the
+    evidence going stale the moment it is stored.
+    """
+    import subprocess
+    import tempfile
+
+    from compass.validation import gates
+
+    with tempfile.TemporaryDirectory() as tmp:
+        repo = Path(tmp)
+        run = lambda *a: subprocess.run(["git", "-C", str(repo), *a],  # noqa: E731
+                                        capture_output=True, text=True, check=True)
+        run("init", "-q")
+        run("config", "user.email", "t@t")
+        run("config", "user.name", "t")
+        (repo / "src").mkdir()
+        (repo / "results").mkdir()
+        (repo / "src" / "a.py").write_text("x = 1\n")
+        run("add", "-A")
+        run("commit", "-qm", "source")
+
+        old_root = gates.ROOT
+        try:
+            gates.ROOT = repo
+            after_source = gates.git_tree()
+            assert not after_source.endswith("-dirty"), after_source
+
+            # generated output appears, then is committed
+            (repo / "results" / "out.json").write_text("{}\n")
+            assert gates.git_tree() == after_source, (
+                "untracked generated output must not dirty the identity")
+            run("add", "-A")
+            run("commit", "-qm", "results")
+            assert gates.git_tree() == after_source, (
+                "committing generated output must not move the identity")
+
+            # but touching source must
+            (repo / "src" / "a.py").write_text("x = 2\n")
+            assert gates.git_tree() == after_source + "-dirty"
+            run("add", "-A")
+            run("commit", "-qm", "source again")
+            assert gates.git_tree() != after_source
+        finally:
+            gates.ROOT = old_root

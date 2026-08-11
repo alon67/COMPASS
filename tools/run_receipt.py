@@ -166,6 +166,22 @@ def finish() -> None:
     rec["n_produced"] = len(produced)
     rec["stages_run"] = [s["stage"] for s in rec["stages"]]
     rec["stages_failed"] = [s["stage"] for s in rec["stages"] if s["exit_code"]]
+    # DID THE SOURCE MOVE WHILE THE EVIDENCE WAS BEING PRODUCED?
+    #
+    # Both revisions were already recorded and nothing compared them. On
+    # 2026-08-11 a source file was edited part-way through a gate re-run, so
+    # the records written before the edit carried a clean revision and those
+    # after carried `-dirty`; the manifest matched the second set and rejected
+    # 4,783 records from the first. The evidence was self-inconsistent and the
+    # only symptom was a large stale count that looked like a configuration
+    # problem. It is a fact about the run, so the run states it.
+    rec["source_revision_changed_during_run"] = (
+        rec.get("git_tree_at_start") != rec["git_tree_at_finish"])
+    if rec["source_revision_changed_during_run"]:
+        print(f"WARNING: the source revision moved during this run "
+              f"({rec.get('git_tree_at_start')} -> {rec['git_tree_at_finish']}). "
+              f"Gate records written before and after the change name different "
+              f"revisions and cannot all count towards the same release.")
     rec.pop("_index", None)
     RECEIPT.write_text(json.dumps(rec, indent=1))
     print(f"run receipt closed: {len(produced)} artifacts produced by "
