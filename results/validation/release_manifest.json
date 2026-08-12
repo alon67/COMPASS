@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-12T05:45:10.820014+00:00",
- "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty",
+ "written_utc": "2026-08-12T05:47:18.224191+00:00",
+ "git_tree": "841669ec0bb8ee81dc49817534e52c6b1f12a2be",
  "inventory_version": "release-inventory-1",
  "environment": {
   "python": "3.12.4",
@@ -90128,7 +90128,7 @@
  },
  "gate_records_rejected_as_stale": {},
  "gate_evidence_revision": {
-  "release_revision": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty",
+  "release_revision": "841669ec0bb8ee81dc49817534e52c6b1f12a2be",
   "revisions_seen_in_records": [
    "0cd6cbfc8dec24900482bf9f111f9a1b25749754"
   ],
@@ -90811,21 +90811,21 @@
  },
  "confirmatory_release_gates": {
   "source": "COMPASS_INDEPENDENT_POST_RESPONSE_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md, section 7",
-  "n_met": 5,
+  "n_met": 6,
   "n_total": 13,
   "met": [
    "4_half_step_battery_covers_every_primary_model",
    "6_gate_evidence_is_tied_to_commit_and_environment",
    "7_rollups_separate_validity_from_exclusion_policy",
    "8_high_impact_fixes_have_regression_tests",
-   "9_report_tables_generated_from_one_manifest"
+   "9_report_tables_generated_from_one_manifest",
+   "13_reproduced_from_a_committed_tagged_revision"
   ],
   "not_met": [
    "1_n2_source_trace_reproduction",
    "2_n1_and_n4_pass_for_included_models",
    "3_n4_failures_excluded_or_confined",
-   "11_stratified_waveforms_retained_and_inspected",
-   "13_reproduced_from_a_committed_tagged_revision"
+   "11_stratified_waveforms_retained_and_inspected"
   ],
   "not_machine_decidable": [
    "5_run_all_completes_in_dependency_order",
@@ -90963,8 +90963,8 @@
    },
    "13_reproduced_from_a_committed_tagged_revision": {
     "requirement": "the complete workflow is reproduced from a committed, preferably tagged, clean revision",
-    "met": false,
-    "evidence": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty"
+    "met": true,
+    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be"
    }
   }
  },
@@ -90991,11 +90991,12 @@
     "8_cv_preprocessing_is_fold_local"
    ]
   },
-  "n_met": 11,
+  "n_met": 12,
   "n_total": 15,
   "n_met_runtime": 6,
   "n_runtime": 7,
   "met": [
+   "1_one_clean_identified_revision",
    "2_manifest_covers_every_declared_class",
    "3_verification_fails_on_mismatch",
    "6_rheobase_handles_non_monotonic_firing",
@@ -91009,7 +91010,6 @@
    "15_h_b_input_evidence_is_current"
   ],
   "not_met": [
-   "1_one_clean_identified_revision",
    "4_n1_to_n7_have_evidence_for_every_included_model",
    "5_every_primary_model_is_n4_compliant"
   ],
@@ -91255,8 +91255,8 @@
   },
   "checks": {
    "1_one_clean_identified_revision": {
-    "met": false,
-    "evidence": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty",
+    "met": true,
+    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be",
     "requirement": "one clean identified revision",
     "kind": "implementation"
    },
@@ -91516,7 +91516,6 @@
  "release_verdict": "RELEASE-BLOCKED",
  "blockers": [
   "gates with failures: ['N1', 'N4', 'WAVEFORM']",
-  "working tree is 0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty: reproducibility claims apply only to a committed, tagged state",
   "models excluded on gate failure: mainen_l5pc (N3), miyasho_purkinje (N3), ortner_snc_da (N3), tzilivaki_fsbc (N3) -- valid for a screening result, blocking for a confirmatory release",
   "N4-failing implementations retained in a REPORTED arm: discovery_only: bbp_l5pc (gcalva_apical, gskv3_apical) -- these cohorts are N3-passing, NOT gate-passing. See the n4_strict, n4_retained and replication_n4_retained arms"
  ]
