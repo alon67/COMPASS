@@ -284,12 +284,21 @@ Per campaign, probe-4 against the same blocks under probe-3:
 | `screening_scramble2` | 762 | 36.0 **and** 46.0 min | 42.2 | 0.92–1.17x |
 | `screening` | 3,057 | 241.0 min | 300.3 | 1.25x |
 | `screening_v2_replication` | 432 | 95.4 min (see note) | 549.0 | 1.41–5.75x |
-| `sobol` | 360 | never recorded | 483.6 | — |
+| `sobol` | 360 | never recorded | 483.6 † | — |
 
 Two probe-3 runs of the same blocks give two ratios, and both are shown. They
 are not averaged: `screening_expand` ran the identical 43 blocks in 101.5 and
 146.4 minutes, so the baseline is the uncertain quantity and a mean would hide
 that.
+
+† **`sobol`'s wall time is not a release artifact.** Every other campaign
+records its own in `results/manifests/campaign_<name>.json`; `run_sobol.py`
+writes no such manifest, for the same reason its D1 record was missing — sobol
+is generated outside `campaigns.json`. The 483.6 minutes is read from the
+regeneration driver's log, which is not part of the release, so a reader cannot
+check it against anything here. It is quoted because it is the honest measured
+cost and withholding it would be worse; the missing manifest is listed for the
+next revision.
 
 `sobol` has no probe-3 baseline, and its probe-4 figure carries a caveat found
 after the fact: its shard-reuse check compared the stored sidecar against a
@@ -1834,7 +1843,7 @@ claim does not create a positive one.
 
 ### 11.1.1 What the replacement analysis actually found
 
-Raw per-background outcomes now exist (5040 rows, one per model x tuple x
+Raw per-background outcomes now exist (5,760 rows, one per model x tuple x
 background x feature), so the two questions the withdrawn floor analysis
 conflated can finally be answered separately.
 
@@ -2044,12 +2053,14 @@ them now emitted with the decision in `decision.json`
    significant one; with five lineages no sign test on this panel can reach
    p < 0.05.
 3. **The unique-R² ratio is a lower bound, not a point estimate.** The identity
-   contribution is floored at 1e-4, so the >1800× figure is an artefact of a
-   near-zero denominator. The interpretable quantity is the **size-matched
-   ratio, 16.5 with a wide interval [3.4, 105.9]** (§10), and that is what
-   should be quoted.
+   contribution is floored at 1e-4, so the >1,651× figure is an artefact of a
+   near-zero denominator — and the denominator is the finding: identity
+   explains 8.8% of the variance alone, all of it shared with sampling and
+   geometry, so it is collinear with them rather than irrelevant. The
+   interpretable quantity is the **size-matched ratio, 14.4 with a wide
+   interval [2.8, 89.7]** (§10), and that is what should be quoted.
 4. **The transfer criterion is a median over five folds that hides a severely
-   negative one**, and the classifier clears its baseline by about eleven points
+   negative one**, and the classifier clears its baseline by about twelve points
    over five folds. Both are now reported as fold distributions — every fold, the
    worst fold, the IQR and how many beat the intercept-only null — because the
    median alone concealed the spread.
@@ -2290,14 +2301,20 @@ contradicted that directly, and it was right. Three of the five pass narrowly:
   p = 0.375** — the smallest p an outcome this size can produce with five units
   is 0.0625, so no configuration of five lineages could have reached
   significance;
-* the regime classifier clears its threshold at **0.281 against a 0.172
-  baseline**, a margin small relative to its fold-to-fold variability; and
-* the lineage-transfer median of **0.563** conceals a `migliore_1999` fold at
-  **−3.783** — transfer is heterogeneous and fails badly for one lineage.
+* the regime classifier clears its threshold at **0.293 against a 0.172
+  baseline** over 11 classes, a margin small relative to its fold-to-fold
+  variability; and
+* the lineage-transfer median of **0.499** conceals a `hodgkin_huxley_1952`
+  fold at **−72.3** — transfer is heterogeneous and fails catastrophically for
+  one lineage, predicting far worse than the training mean.
 
 The fourth, the unique-R² ratio, is a **lower bound** created by identity
-variance falling below a numerical floor, not a point estimate of 1,840×. Only
-the size-matched version (12.8×, CI [2.6, 46.1]) is a bounded measurement.
+variance falling below a numerical floor, not a point estimate of >1,651×. Its
+denominator is the finding: unique R²(model identity) is 0.000 while identity
+explains 8.8% of the variance *alone*, all of it shared with sampling and
+geometry — identity is collinear with those axes in this design, not
+irrelevant. Only the size-matched version (**14.4×, CI [2.8, 89.7]**) is a
+bounded measurement.
 
 The honest statement is that the H-G rows agree in *direction* across every
 version of this analysis while being individually weak, and that their weight
@@ -2393,7 +2410,7 @@ The **sign** of higher-order structure — whether an ensemble looks synergistic
 redundant — is a property of how the ensemble was built, not of which neuron it
 came from. It appears in a gene circuit with no neurons in it; it is set
 identically across models spanning 1 to 2,304 compartments; sampling and geometry
-explain ~12.8× more unique endpoint variance than model identity even after size
+explain ~14.4× more unique endpoint variance than model identity even after size
 matching; and a shuffled null reproduces 45% of the naive effect.
 
 The **identity** of the parameters involved is not arbitrary. The extreme tuples

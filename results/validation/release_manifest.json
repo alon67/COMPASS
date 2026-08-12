@@ -1,5 +1,5 @@
 {
- "written_utc": "2026-08-12T05:10:41.031097+00:00",
+ "written_utc": "2026-08-12T05:25:12.055006+00:00",
  "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
  "inventory_version": "release-inventory-1",
  "environment": {
@@ -87979,14 +87979,14 @@
   },
   {
    "path": "docs/COMPASS_AUDIT_RESPONSE_4_2026-08-09.md",
-   "bytes": 77819,
-   "sha256": "b15675b41a1b584bd94c5fbd7d961e7e",
+   "bytes": 78164,
+   "sha256": "4d18776ba2f949c269a90ff96b6ce335",
    "inventory_class": "reports"
   },
   {
    "path": "docs/RESULTS.md",
-   "bytes": 173486,
-   "sha256": "e6ce6f13db293f2264b04df7027a8d3d",
+   "bytes": 174567,
+   "sha256": "d8692923107bd3e4e2166a09a9460d70",
    "inventory_class": "reports"
   },
   {
@@ -90088,10 +90088,10 @@
   "reports": {
    "what": "the human-readable scientific record",
    "n_files": 8,
-   "bytes": 3276218,
+   "bytes": 3277644,
    "min_files": 4,
    "satisfied": true,
-   "class_digest": "0314617f6b94937e5db78a879adc6bff"
+   "class_digest": "d8482dd864afd4ad22a73324918bb081"
   },
   "provenance": {
    "what": "downloads, mechanism builds, calibrations, audits, gate evidence inputs",
