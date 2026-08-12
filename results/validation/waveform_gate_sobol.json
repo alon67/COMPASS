@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-11T18:48:47.715696+00:00",
- "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+ "written_utc": "2026-08-11T22:36:18.518074+00:00",
+ "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
  "environment": {
   "python": "3.12.4",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -23,8 +23,8 @@
    "passed": 129,
    "failed_subjects": [
     "sobol/khaliq_purkinje__SOBOL__r1__s1342[FAIL]",
-    "sobol/bbp_l5pc__SOBOL__r1__s1331[FAIL]",
     "sobol/bbp_l5pc__SOBOL__r1__s1918[FAIL]",
+    "sobol/bbp_l5pc__SOBOL__r1__s1331[FAIL]",
     "sobol/bbp_l5pc__SOBOL__r1__s1578[FAIL]",
     "sobol/bbp_l5pc__SOBOL__r1__s555[FAIL]",
     "sobol/pospischil_fs__SOBOL__r1__s2438[FAIL]",
@@ -72,7 +72,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s494.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s494.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -86,7 +86,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:41.870045+00:00",
+   "recorded_utc": "2026-08-11T22:36:13.965605+00:00",
    "passed": true
   },
   {
@@ -111,7 +111,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s588.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s588.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -125,7 +125,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:41.906002+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.023812+00:00",
    "passed": true
   },
   {
@@ -150,7 +150,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s86.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s86.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -164,7 +164,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:41.940222+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.068231+00:00",
    "passed": true
   },
   {
@@ -189,7 +189,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s895.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s895.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -203,7 +203,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:41.974228+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.107438+00:00",
    "passed": true
   },
   {
@@ -228,7 +228,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1509.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1509.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -242,7 +242,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.008041+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.136709+00:00",
    "passed": true
   },
   {
@@ -267,7 +267,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1150.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1150.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -281,7 +281,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.046557+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.164820+00:00",
    "passed": true
   },
   {
@@ -306,7 +306,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1602.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1602.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -320,7 +320,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.080691+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.193472+00:00",
    "passed": true
   },
   {
@@ -345,7 +345,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2012.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2012.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -359,7 +359,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.119579+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.223004+00:00",
    "passed": true
   },
   {
@@ -384,7 +384,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2223.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2223.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -398,7 +398,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.154689+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.251864+00:00",
    "passed": true
   },
   {
@@ -423,7 +423,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2576.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2576.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -437,7 +437,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.188451+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.281062+00:00",
    "passed": true
   },
   {
@@ -462,7 +462,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2319.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2319.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -476,7 +476,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.223347+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.310202+00:00",
    "passed": true
   },
   {
@@ -501,7 +501,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3048.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3048.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -515,46 +515,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.258551+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_cable__SOBOL__r1__s3287",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 44,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_cable",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_003264.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3287.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3287.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:42.300050+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.339430+00:00",
    "passed": true
   },
   {
@@ -579,7 +540,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3502.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3502.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -593,7 +554,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.333815+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.368666+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_cable__SOBOL__r1__s3287",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 44,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_cable",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_003264.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3287.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3287.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:14.396446+00:00",
    "passed": true
   },
   {
@@ -618,7 +618,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3688.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s3688.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -632,7 +632,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.368404+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.425775+00:00",
    "passed": true
   },
   {
@@ -657,7 +657,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4092.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4092.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -671,7 +671,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.403001+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.454991+00:00",
    "passed": true
   },
   {
@@ -696,7 +696,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4584.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4584.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -710,7 +710,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.437333+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.484002+00:00",
    "passed": true
   },
   {
@@ -735,7 +735,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4227.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4227.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -749,46 +749,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.475297+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_point__SOBOL__r1__s446",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 45,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_point",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_000384.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s446.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s446.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:42.509095+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.513952+00:00",
    "passed": true
   },
   {
@@ -813,7 +774,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s149.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s149.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -827,7 +788,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.542900+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.542324+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_point__SOBOL__r1__s446",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 45,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_point",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_000384.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s446.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s446.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:14.570496+00:00",
    "passed": true
   },
   {
@@ -852,7 +852,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s851.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s851.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -866,7 +866,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.575622+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.598288+00:00",
    "passed": true
   },
   {
@@ -891,7 +891,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s647.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s647.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -905,7 +905,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.608766+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.627348+00:00",
    "passed": true
   },
   {
@@ -930,7 +930,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1101.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1101.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -944,7 +944,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.642394+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.656994+00:00",
    "passed": true
   },
   {
@@ -969,7 +969,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1407.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1407.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -983,7 +983,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.677310+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.686644+00:00",
    "passed": true
   },
   {
@@ -1008,7 +1008,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2010.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2010.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1022,7 +1022,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.710798+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.716488+00:00",
    "passed": true
   },
   {
@@ -1047,7 +1047,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1596.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1596.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1061,7 +1061,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.744718+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.746191+00:00",
    "passed": true
   },
   {
@@ -1086,7 +1086,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2443.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2443.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1100,7 +1100,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.790124+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.776810+00:00",
    "passed": true
   },
   {
@@ -1125,7 +1125,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2214.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2214.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1139,7 +1139,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.831735+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.805488+00:00",
    "passed": true
   },
   {
@@ -1164,7 +1164,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2964.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2964.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1178,85 +1178,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.867243+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_point__SOBOL__r1__s3078",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 47,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_point",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_003072.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3078.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3078.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:42.901915+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_point__SOBOL__r1__s3465",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 47,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_point",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_003456.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3465.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3465.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:42.935514+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.834503+00:00",
    "passed": true
   },
   {
@@ -1281,7 +1203,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2739.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2739.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1295,7 +1217,85 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:42.970602+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.863946+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_point__SOBOL__r1__s3078",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 47,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_point",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_003072.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3078.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3078.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:14.893470+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_point__SOBOL__r1__s3465",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 47,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_point",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_003456.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3465.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3465.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:14.924620+00:00",
    "passed": true
   },
   {
@@ -1320,7 +1320,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s496.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s496.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1334,46 +1334,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.004764+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/khaliq_purkinje__SOBOL__r1__s809",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "khaliq_purkinje",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_000768.parquet",
-    "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s809.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s809.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:43.038581+00:00",
+   "recorded_utc": "2026-08-11T22:36:14.968403+00:00",
    "passed": true
   },
   {
@@ -1398,7 +1359,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s609.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s609.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1412,7 +1373,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.072269+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.000509+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/khaliq_purkinje__SOBOL__r1__s809",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "khaliq_purkinje",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_000768.parquet",
+    "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s809.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s809.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:15.032313+00:00",
    "passed": true
   },
   {
@@ -1437,7 +1437,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s227.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s227.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1451,7 +1451,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.106012+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.064094+00:00",
    "passed": true
   },
   {
@@ -1476,7 +1476,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1242.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1242.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1490,7 +1490,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.142891+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.095477+00:00",
    "passed": true
   },
   {
@@ -1515,7 +1515,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1764.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1764.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1529,7 +1529,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.178557+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.124894+00:00",
    "passed": true
   },
   {
@@ -1556,7 +1556,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1342.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1342.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1570,7 +1570,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.211863+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.154223+00:00",
    "passed": false
   },
   {
@@ -1595,7 +1595,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2018.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2018.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1609,7 +1609,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.247071+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.183784+00:00",
    "passed": true
   },
   {
@@ -1634,7 +1634,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2058.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2058.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1648,7 +1648,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.279838+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.212781+00:00",
    "passed": true
   },
   {
@@ -1673,7 +1673,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2438.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2438.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1687,49 +1687,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.313001+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.241279+00:00",
    "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/bbp_l5pc__SOBOL__r1__s1331",
-   "status": "FAIL",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 3.02 mV, 14% of the 21.0 mV excursion"
-   ],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "problems"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "bbp_l5pc",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_001280.parquet",
-    "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1331.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1331.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:43.346370+00:00",
-   "passed": false
   },
   {
    "gate": "WAVEFORM",
@@ -1755,7 +1714,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1918.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1918.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1769,7 +1728,48 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.386656+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.271364+00:00",
+   "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/bbp_l5pc__SOBOL__r1__s1331",
+   "status": "FAIL",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 3.02 mV, 14% of the 21.0 mV excursion"
+   ],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "problems"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "bbp_l5pc",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_001280.parquet",
+    "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1331.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1331.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:15.300551+00:00",
    "passed": false
   },
   {
@@ -1794,7 +1794,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2666.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2666.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1808,7 +1808,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.421569+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.329976+00:00",
    "passed": true
   },
   {
@@ -1833,7 +1833,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s873.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s873.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1847,7 +1847,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.456966+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.359407+00:00",
    "passed": true
   },
   {
@@ -1872,7 +1872,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s94.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s94.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1886,7 +1886,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.491299+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.388387+00:00",
    "passed": true
   },
   {
@@ -1911,7 +1911,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s433.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s433.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1925,7 +1925,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.526564+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.416994+00:00",
    "passed": true
   },
   {
@@ -1950,7 +1950,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s475.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s475.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -1964,7 +1964,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.568180+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.445092+00:00",
    "passed": true
   },
   {
@@ -1989,7 +1989,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s709.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s709.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2003,7 +2003,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.601777+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.474575+00:00",
    "passed": true
   },
   {
@@ -2028,7 +2028,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s972.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s972.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2042,7 +2042,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.635355+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.503909+00:00",
    "passed": true
   },
   {
@@ -2067,7 +2067,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1051.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1051.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2081,7 +2081,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.669833+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.532441+00:00",
    "passed": true
   },
   {
@@ -2106,7 +2106,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1445.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1445.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2120,7 +2120,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.702956+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.561658+00:00",
    "passed": true
   },
   {
@@ -2148,7 +2148,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1578.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1578.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2162,7 +2162,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.735951+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.591120+00:00",
    "passed": false
   },
   {
@@ -2187,7 +2187,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1564.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1564.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2201,7 +2201,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.768918+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.620561+00:00",
    "passed": true
   },
   {
@@ -2231,7 +2231,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s555.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s555.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2245,7 +2245,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.802429+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.649902+00:00",
    "passed": false
   },
   {
@@ -2270,7 +2270,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1794.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1794.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2284,46 +2284,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.838854+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_fs__SOBOL__r1__s2245",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "pospischil_fs",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_002240.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2245.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2245.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:43.897870+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.679574+00:00",
    "passed": true
   },
   {
@@ -2350,7 +2311,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2438.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2438.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2364,12 +2325,12 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:43.948844+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.709444+00:00",
    "passed": false
   },
   {
    "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_fs__SOBOL__r1__s2934",
+   "subject": "sobol/pospischil_fs__SOBOL__r1__s2245",
    "status": "PASS",
    "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
@@ -2385,11 +2346,11 @@
     "model_id": "pospischil_fs",
     "regime": "SOBOL",
     "stratum": "coverage",
-    "shard": "S_002880.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2934.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2934.meta.json"
+    "shard": "S_002240.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2245.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2245.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2403,7 +2364,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.084082+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.739220+00:00",
    "passed": true
   },
   {
@@ -2428,7 +2389,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2687.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2687.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2442,12 +2403,12 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.149883+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.768674+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_fs__SOBOL__r1__s3164",
+   "subject": "sobol/pospischil_fs__SOBOL__r1__s2934",
    "status": "PASS",
    "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
@@ -2463,11 +2424,11 @@
     "model_id": "pospischil_fs",
     "regime": "SOBOL",
     "stratum": "coverage",
-    "shard": "S_003136.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3164.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3164.meta.json"
+    "shard": "S_002880.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2934.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2934.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2481,7 +2442,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.191566+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.798000+00:00",
    "passed": true
   },
   {
@@ -2506,7 +2467,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3369.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3369.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2520,7 +2481,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.229315+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.826831+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/pospischil_fs__SOBOL__r1__s3164",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "pospischil_fs",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_003136.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3164.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3164.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:15.855876+00:00",
    "passed": true
   },
   {
@@ -2545,7 +2545,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3687.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3687.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2559,85 +2559,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.264175+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_fs__SOBOL__r1__s3854",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "pospischil_fs",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_003840.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3854.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3854.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:44.300218+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_rs__SOBOL__r1__s165",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "pospischil_rs",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_000128.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s165.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s165.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:44.338988+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.885217+00:00",
    "passed": true
   },
   {
@@ -2664,7 +2586,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s162.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s162.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2678,8 +2600,47 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.374290+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.914977+00:00",
    "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/pospischil_fs__SOBOL__r1__s3854",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "pospischil_fs",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_003840.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3854.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s3854.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:15.944579+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -2703,7 +2664,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s484.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s484.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2717,7 +2678,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.409580+00:00",
+   "recorded_utc": "2026-08-11T22:36:15.973832+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/pospischil_rs__SOBOL__r1__s165",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "pospischil_rs",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_000128.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s165.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s165.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:16.003567+00:00",
    "passed": true
   },
   {
@@ -2742,7 +2742,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s536.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s536.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2756,7 +2756,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.447132+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.034101+00:00",
    "passed": true
   },
   {
@@ -2781,7 +2781,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s964.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s964.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2795,7 +2795,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.483439+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.063388+00:00",
    "passed": true
   },
   {
@@ -2822,7 +2822,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1253.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1253.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2836,8 +2836,47 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.519066+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.093265+00:00",
    "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/pospischil_rs__SOBOL__r1__s1617",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 64,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "pospischil_rs",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_001600.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1617.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1617.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:16.122246+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -2863,7 +2902,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1439.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1439.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2877,47 +2916,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.559325+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.151092+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_rs__SOBOL__r1__s1617",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 64,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "pospischil_rs",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_001600.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1617.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1617.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:44.594856+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -2943,7 +2943,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1998.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1998.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2957,7 +2957,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.631152+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.180526+00:00",
    "passed": false
   },
   {
@@ -2982,7 +2982,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2186.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2186.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -2996,7 +2996,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.667773+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.211200+00:00",
    "passed": true
   },
   {
@@ -3021,7 +3021,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2439.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2439.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3035,46 +3035,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.703929+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_rs__SOBOL__r1__s2803",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "pospischil_rs",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_002752.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2803.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2803.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:44.740747+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.240577+00:00",
    "passed": true
   },
   {
@@ -3099,7 +3060,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3064.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3064.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3113,7 +3074,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.777136+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.269196+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/pospischil_rs__SOBOL__r1__s2803",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "pospischil_rs",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_002752.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2803.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2803.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:16.298569+00:00",
    "passed": true
   },
   {
@@ -3138,7 +3138,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3135.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3135.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3152,7 +3152,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.817091+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.328229+00:00",
    "passed": true
   },
   {
@@ -3177,7 +3177,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3406.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3406.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3191,46 +3191,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.851244+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_rs__SOBOL__r1__s3697",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 56,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "pospischil_rs",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_003648.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3697.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3697.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:44.887277+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.358075+00:00",
    "passed": true
   },
   {
@@ -3255,7 +3216,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3868.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3868.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3269,7 +3230,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.924329+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.387635+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/pospischil_rs__SOBOL__r1__s3697",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 56,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "pospischil_rs",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_003648.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3697.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3697.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:16.417495+00:00",
    "passed": true
   },
   {
@@ -3294,7 +3294,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4301.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4301.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3308,7 +3308,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:44.963297+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.446753+00:00",
    "passed": true
   },
   {
@@ -3333,7 +3333,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4482.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4482.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3347,7 +3347,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.013475+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.476238+00:00",
    "passed": true
   },
   {
@@ -3372,7 +3372,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1065.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1065.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3386,7 +3386,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.052130+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.506791+00:00",
    "passed": true
   },
   {
@@ -3415,7 +3415,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1856.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1856.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3429,7 +3429,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.090911+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.536101+00:00",
    "passed": false
   },
   {
@@ -3454,7 +3454,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s448.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s448.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3468,7 +3468,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.132156+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.565995+00:00",
    "passed": true
   },
   {
@@ -3493,7 +3493,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s337.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s337.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3507,46 +3507,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.178063+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_cable__SOBOL__r1__s766",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 47,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_cable",
-    "regime": "SOBOL",
-    "stratum": "qc_flagged",
-    "shard": "S_000704.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s766.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s766.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:45.221258+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.595766+00:00",
    "passed": true
   },
   {
@@ -3571,7 +3532,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s208.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s208.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3585,18 +3546,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.259013+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.625416+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "sobol/hh_cable__SOBOL__r1__s464",
+   "subject": "sobol/hh_cable__SOBOL__r1__s766",
    "status": "PASS",
    "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
     "n_protocols": 4,
-    "n_features_recomputed": 18,
+    "n_features_recomputed": 47,
     "n_features_mismatched": 0,
     "campaign": "sobol",
     "status": "ok"
@@ -3605,12 +3566,12 @@
    "inputs": {
     "model_id": "hh_cable",
     "regime": "SOBOL",
-    "stratum": "nonspiking",
-    "shard": "S_000448.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s464.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s464.meta.json"
+    "stratum": "qc_flagged",
+    "shard": "S_000704.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s766.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s766.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3624,7 +3585,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.298261+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.654168+00:00",
    "passed": true
   },
   {
@@ -3649,7 +3610,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s551.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s551.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3663,7 +3624,124 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.336163+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.683449+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_cable__SOBOL__r1__s464",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 18,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_cable",
+    "regime": "SOBOL",
+    "stratum": "nonspiking",
+    "shard": "S_000448.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s464.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s464.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:16.713168+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_cable__SOBOL__r1__s392",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 44,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_cable",
+    "regime": "SOBOL",
+    "stratum": "class_depolarisation_block",
+    "shard": "S_000384.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s392.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s392.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:16.742682+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_cable__SOBOL__r1__s2261",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 47,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_cable",
+    "regime": "SOBOL",
+    "stratum": "class_spontaneous",
+    "shard": "S_002240.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2261.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2261.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:16.772922+00:00",
    "passed": true
   },
   {
@@ -3690,7 +3768,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s288.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s288.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3704,86 +3782,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.371834+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.801988+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_cable__SOBOL__r1__s392",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 44,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_cable",
-    "regime": "SOBOL",
-    "stratum": "class_depolarisation_block",
-    "shard": "S_000384.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s392.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s392.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:45.407945+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_cable__SOBOL__r1__s2261",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 47,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_cable",
-    "regime": "SOBOL",
-    "stratum": "class_spontaneous",
-    "shard": "S_002240.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2261.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s2261.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:45.452944+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -3807,7 +3807,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4607.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4607.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3821,7 +3821,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.496749+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.831998+00:00",
    "passed": true
   },
   {
@@ -3846,7 +3846,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s1.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3860,7 +3860,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.536423+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.861389+00:00",
    "passed": true
   },
   {
@@ -3885,7 +3885,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4447.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4447.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3899,7 +3899,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.578661+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.891027+00:00",
    "passed": true
   },
   {
@@ -3924,7 +3924,7 @@
     "trace_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4205.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_cable__SOBOL__r1__s4205.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3938,7 +3938,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.618712+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.920901+00:00",
    "passed": true
   },
   {
@@ -3963,7 +3963,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1113.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1113.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -3977,7 +3977,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.654393+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.950640+00:00",
    "passed": true
   },
   {
@@ -4002,7 +4002,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3415.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3415.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4016,46 +4016,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.695461+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_point__SOBOL__r1__s1730",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 48,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_point",
-    "regime": "SOBOL",
-    "stratum": "class_spontaneous",
-    "shard": "S_001728.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1730.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1730.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:45.739072+00:00",
+   "recorded_utc": "2026-08-11T22:36:16.980482+00:00",
    "passed": true
   },
   {
@@ -4080,7 +4041,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s590.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s590.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4094,18 +4055,18 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.779720+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.009851+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "sobol/hh_point__SOBOL__r1__s3583",
+   "subject": "sobol/hh_point__SOBOL__r1__s1730",
    "status": "PASS",
    "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
    "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 38,
+    "n_protocols": 4,
+    "n_features_recomputed": 48,
     "n_features_mismatched": 0,
     "campaign": "sobol",
     "status": "ok"
@@ -4114,12 +4075,12 @@
    "inputs": {
     "model_id": "hh_point",
     "regime": "SOBOL",
-    "stratum": "prior_corner",
-    "shard": "S_003520.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3583.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3583.meta.json"
+    "stratum": "class_spontaneous",
+    "shard": "S_001728.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1730.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1730.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4133,46 +4094,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.815937+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/hh_point__SOBOL__r1__s28",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 38,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "hh_point",
-    "regime": "SOBOL",
-    "stratum": "rate_min",
-    "shard": "S_000000.parquet",
-    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s28.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s28.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:45.850126+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.040529+00:00",
    "passed": true
   },
   {
@@ -4197,7 +4119,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2662.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s2662.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4211,7 +4133,85 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.887447+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.070558+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_point__SOBOL__r1__s28",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 38,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_point",
+    "regime": "SOBOL",
+    "stratum": "rate_min",
+    "shard": "S_000000.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s28.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s28.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:17.101236+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/hh_point__SOBOL__r1__s3583",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 38,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "hh_point",
+    "regime": "SOBOL",
+    "stratum": "prior_corner",
+    "shard": "S_003520.parquet",
+    "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3583.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s3583.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:17.130211+00:00",
    "passed": true
   },
   {
@@ -4236,7 +4236,7 @@
     "trace_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1690.npz",
     "trace_metadata_file": "results/traces/retained/sobol__hh_point__SOBOL__r1__s1690.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4250,7 +4250,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.923375+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.159278+00:00",
    "passed": true
   },
   {
@@ -4275,7 +4275,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1411.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s1411.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4289,7 +4289,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.958072+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.188929+00:00",
    "passed": true
   },
   {
@@ -4314,7 +4314,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1230.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1230.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4328,7 +4328,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:45.999935+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.218011+00:00",
    "passed": true
   },
   {
@@ -4353,7 +4353,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s731.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s731.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4367,7 +4367,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.036577+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.246139+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/khaliq_purkinje__SOBOL__r1__s59",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 18,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "khaliq_purkinje",
+    "regime": "SOBOL",
+    "stratum": "rate_min",
+    "shard": "S_000000.parquet",
+    "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s59.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s59.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:17.275939+00:00",
    "passed": true
   },
   {
@@ -4394,7 +4433,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2478.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2478.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4408,47 +4447,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.078318+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.305460+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/khaliq_purkinje__SOBOL__r1__s59",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 18,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "khaliq_purkinje",
-    "regime": "SOBOL",
-    "stratum": "rate_min",
-    "shard": "S_000000.parquet",
-    "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s59.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s59.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:46.113716+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -4472,7 +4472,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2815.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2815.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4486,7 +4486,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.149300+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.335109+00:00",
    "passed": true
   },
   {
@@ -4511,7 +4511,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2569.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s2569.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4525,7 +4525,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.183766+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.364450+00:00",
    "passed": true
   },
   {
@@ -4550,7 +4550,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s861.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s861.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4564,7 +4564,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.219206+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.393169+00:00",
    "passed": true
   },
   {
@@ -4589,7 +4589,7 @@
     "trace_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s932.npz",
     "trace_metadata_file": "results/traces/retained/sobol__khaliq_purkinje__SOBOL__r1__s932.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4603,7 +4603,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.257792+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.421356+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/bbp_l5pc__SOBOL__r1__s1428",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "bbp_l5pc",
+    "regime": "SOBOL",
+    "stratum": "ordinary_random",
+    "shard": "S_001408.parquet",
+    "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1428.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1428.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:17.449251+00:00",
    "passed": true
   },
   {
@@ -4630,7 +4669,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s2047.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s2047.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4644,47 +4683,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.294080+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.477310+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/bbp_l5pc__SOBOL__r1__s1428",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "bbp_l5pc",
-    "regime": "SOBOL",
-    "stratum": "ordinary_random",
-    "shard": "S_001408.parquet",
-    "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1428.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1428.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:46.330352+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -4708,7 +4708,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s34.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s34.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4722,7 +4722,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.369921+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.507306+00:00",
    "passed": true
   },
   {
@@ -4751,7 +4751,7 @@
     "trace_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1368.npz",
     "trace_metadata_file": "results/traces/retained/sobol__bbp_l5pc__SOBOL__r1__s1368.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4765,7 +4765,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.407106+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.544328+00:00",
    "passed": false
   },
   {
@@ -4796,7 +4796,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s350.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s350.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4810,7 +4810,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.441023+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.574479+00:00",
    "passed": false
   },
   {
@@ -4843,7 +4843,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s684.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s684.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4857,7 +4857,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.475778+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.604584+00:00",
    "passed": false
   },
   {
@@ -4884,7 +4884,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s346.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s346.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4898,7 +4898,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.509893+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.634071+00:00",
    "passed": false
   },
   {
@@ -4923,7 +4923,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s83.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s83.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4937,7 +4937,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.574265+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.663630+00:00",
    "passed": true
   },
   {
@@ -4967,7 +4967,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s280.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s280.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -4981,7 +4981,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.614724+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.692740+00:00",
    "passed": false
   },
   {
@@ -5006,7 +5006,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s575.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s575.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5020,7 +5020,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.653833+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.722296+00:00",
    "passed": true
   },
   {
@@ -5045,7 +5045,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1251.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1251.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5059,7 +5059,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.706550+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.751490+00:00",
    "passed": true
   },
   {
@@ -5084,7 +5084,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s4069.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s4069.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5098,7 +5098,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.757304+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.781192+00:00",
    "passed": true
   },
   {
@@ -5123,7 +5123,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s399.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s399.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5137,7 +5137,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.792641+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.810451+00:00",
    "passed": true
   },
   {
@@ -5166,7 +5166,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1903.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s1903.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5180,7 +5180,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.829072+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.839572+00:00",
    "passed": false
   },
   {
@@ -5205,7 +5205,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s4095.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s4095.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5219,7 +5219,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.863774+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.868619+00:00",
    "passed": true
   },
   {
@@ -5244,7 +5244,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s27.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s27.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5258,46 +5258,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.898858+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_fs__SOBOL__r1__s2277",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 66,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "pospischil_fs",
-    "regime": "SOBOL",
-    "stratum": "rate_max",
-    "shard": "S_002240.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2277.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2277.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:46.935971+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.898343+00:00",
    "passed": true
   },
   {
@@ -5322,7 +5283,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s105.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s105.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5336,12 +5297,12 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:46.971585+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.927888+00:00",
    "passed": true
   },
   {
    "gate": "WAVEFORM",
-   "subject": "sobol/pospischil_rs__SOBOL__r1__s3489",
+   "subject": "sobol/pospischil_fs__SOBOL__r1__s2277",
    "status": "PASS",
    "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
    "failures": [],
@@ -5354,14 +5315,14 @@
    },
    "tolerances": {},
    "inputs": {
-    "model_id": "pospischil_rs",
+    "model_id": "pospischil_fs",
     "regime": "SOBOL",
-    "stratum": "qc_flagged",
-    "shard": "S_003456.parquet",
-    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3489.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3489.meta.json"
+    "stratum": "rate_max",
+    "shard": "S_002240.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2277.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2277.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5375,7 +5336,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.021259+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.957400+00:00",
    "passed": true
   },
   {
@@ -5400,7 +5361,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2718.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_fs__SOBOL__r1__s2718.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5414,7 +5375,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.064148+00:00",
+   "recorded_utc": "2026-08-11T22:36:17.986799+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/pospischil_rs__SOBOL__r1__s3489",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 66,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "pospischil_rs",
+    "regime": "SOBOL",
+    "stratum": "qc_flagged",
+    "shard": "S_003456.parquet",
+    "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3489.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3489.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:18.016384+00:00",
    "passed": true
   },
   {
@@ -5439,7 +5439,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2841.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s2841.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5453,7 +5453,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.099270+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.046765+00:00",
    "passed": true
   },
   {
@@ -5481,7 +5481,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3450.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3450.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5495,7 +5495,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.137619+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.076849+00:00",
    "passed": false
   },
   {
@@ -5520,7 +5520,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4607.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4607.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5534,7 +5534,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.182884+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.106949+00:00",
    "passed": true
   },
   {
@@ -5559,7 +5559,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s1.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5573,7 +5573,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.224920+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.135680+00:00",
    "passed": true
   },
   {
@@ -5598,7 +5598,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3051.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s3051.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5612,7 +5612,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.267466+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.165172+00:00",
    "passed": true
   },
   {
@@ -5637,7 +5637,7 @@
     "trace_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4205.npz",
     "trace_metadata_file": "results/traces/retained/sobol__pospischil_rs__SOBOL__r1__s4205.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5651,46 +5651,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.305197+00:00",
-   "passed": true
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/migliore_ca1__SOBOL__r1__s390",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 4,
-    "n_features_recomputed": 18,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "migliore_ca1",
-    "regime": "SOBOL",
-    "stratum": "nonspiking",
-    "shard": "S_000384.parquet",
-    "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s390.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s390.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:47.342984+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.194875+00:00",
    "passed": true
   },
   {
@@ -5715,7 +5676,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s4.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s4.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5729,7 +5690,46 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.380464+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.224559+00:00",
+   "passed": true
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/migliore_ca1__SOBOL__r1__s390",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 4,
+    "n_features_recomputed": 18,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "migliore_ca1",
+    "regime": "SOBOL",
+    "stratum": "nonspiking",
+    "shard": "S_000384.parquet",
+    "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s390.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s390.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:18.253288+00:00",
    "passed": true
   },
   {
@@ -5754,7 +5754,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s703.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s703.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5768,7 +5768,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.417731+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.282216+00:00",
    "passed": true
   },
   {
@@ -5798,7 +5798,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s533.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s533.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5812,8 +5812,47 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.454609+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.311587+00:00",
    "passed": false
+  },
+  {
+   "gate": "WAVEFORM",
+   "subject": "sobol/mainen_l5pc__SOBOL__r1__s673",
+   "status": "PASS",
+   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
+   "failures": [],
+   "measurements": {
+    "n_protocols": 6,
+    "n_features_recomputed": 44,
+    "n_features_mismatched": 0,
+    "campaign": "sobol",
+    "status": "ok"
+   },
+   "tolerances": {},
+   "inputs": {
+    "model_id": "mainen_l5pc",
+    "regime": "SOBOL",
+    "stratum": "coverage",
+    "shard": "S_000640.parquet",
+    "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s673.npz",
+    "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s673.meta.json"
+   },
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-08-11T22:36:18.341350+00:00",
+   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -5841,7 +5880,7 @@
     "trace_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s10.npz",
     "trace_metadata_file": "results/traces/retained/sobol__migliore_ca1__SOBOL__r1__s10.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5855,47 +5894,8 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.492187+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.371024+00:00",
    "passed": false
-  },
-  {
-   "gate": "WAVEFORM",
-   "subject": "sobol/mainen_l5pc__SOBOL__r1__s673",
-   "status": "PASS",
-   "detail": "sobol: voltage_range, baseline_stability, spike_shape, spike_count_agreement, depolarisation_block, discontinuity, finite, feature_recomputation",
-   "failures": [],
-   "measurements": {
-    "n_protocols": 6,
-    "n_features_recomputed": 44,
-    "n_features_mismatched": 0,
-    "campaign": "sobol",
-    "status": "ok"
-   },
-   "tolerances": {},
-   "inputs": {
-    "model_id": "mainen_l5pc",
-    "regime": "SOBOL",
-    "stratum": "coverage",
-    "shard": "S_000640.parquet",
-    "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s673.npz",
-    "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s673.meta.json"
-   },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
-   "environment": {
-    "python": "3.12.4",
-    "platform": "macOS-26.5.2-arm64-arm-64bit",
-    "machine": "arm64",
-    "neuron": "8.2.6-1-gb6e6a5fad+",
-    "efel": "5.7.29",
-    "numpy": "1.26.4",
-    "scipy": "1.14.0",
-    "pandas": "2.2.3",
-    "sklearn": "1.5.2",
-    "statsmodels": "0.14.6",
-    "SALib": "?"
-   },
-   "recorded_utc": "2026-08-11T18:48:47.529657+00:00",
-   "passed": true
   },
   {
    "gate": "WAVEFORM",
@@ -5919,7 +5919,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s75.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s75.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5933,7 +5933,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.568080+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.400264+00:00",
    "passed": true
   },
   {
@@ -5961,7 +5961,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s55.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s55.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -5975,7 +5975,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.604511+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.429425+00:00",
    "passed": false
   },
   {
@@ -6000,7 +6000,7 @@
     "trace_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s594.npz",
     "trace_metadata_file": "results/traces/retained/sobol__mainen_l5pc__SOBOL__r1__s594.meta.json"
    },
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -6014,7 +6014,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.642726+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.459047+00:00",
    "passed": true
   },
   {
@@ -6054,7 +6054,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -6068,7 +6068,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.678922+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.488670+00:00",
    "passed": true
   },
   {
@@ -6146,7 +6146,7 @@
    },
    "tolerances": {},
    "inputs": {},
-   "git_tree": "316c24275d40e5255284dac79a8f7abd0dad532e-dirty",
+   "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
    "environment": {
     "python": "3.12.4",
     "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -6160,7 +6160,7 @@
     "statsmodels": "0.14.6",
     "SALib": "?"
    },
-   "recorded_utc": "2026-08-11T18:48:47.715569+00:00",
+   "recorded_utc": "2026-08-11T22:36:18.517988+00:00",
    "passed": true
   }
  ]

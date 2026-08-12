@@ -1,6 +1,6 @@
 {
  "tool": "retain_waveforms.py",
- "written_utc": "2026-08-11T18:33:36.947871+00:00",
+ "written_utc": "2026-08-11T21:28:42.093795+00:00",
  "experiment": "screening_scramble2",
  "n_selected": 205,
  "n_clean": 168,
@@ -172,6 +172,14 @@
    ]
   },
   {
+   "key": "screening_scramble2/khaliq_purkinje__E2__r1__s483",
+   "stratum": "coverage",
+   "problems": [
+    "step_rheo_1p5x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace"
+   ]
+  },
+  {
    "key": "screening_scramble2/pospischil_rs__E1__r1__s1733",
    "stratum": "coverage",
    "problems": [
@@ -190,14 +198,6 @@
    "stratum": "coverage",
    "problems": [
     "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.24 mV, 12% of the 18.2 mV excursion"
-   ]
-  },
-  {
-   "key": "screening_scramble2/khaliq_purkinje__E2__r1__s483",
-   "stratum": "coverage",
-   "problems": [
-    "step_rheo_1p5x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace",
-    "step_rheo_3p0x: spike_shape: widest detected AP is 400 ms over 2 spikes measured on the trace"
    ]
   },
   {
@@ -301,6 +301,16 @@
    ]
   },
   {
+   "key": "screening_scramble2/bbp_l5pc__E6__r1__s127",
+   "stratum": "prior_corner",
+   "problems": [
+    "step_abs_lo: spike_shape: widest detected AP is 12.8 ms over 1 spikes measured on the trace",
+    "step_abs_hi: spike_shape: smallest detected AP is 3.78 mV over 3 spikes measured on the trace",
+    "step_rheo_1p5x: spike_shape: widest detected AP is 12.2 ms over 2 spikes measured on the trace",
+    "step_rheo_3p0x: spike_shape: smallest detected AP is 7.53 mV over 3 spikes measured on the trace"
+   ]
+  },
+  {
    "key": "screening_scramble2/bbp_l5pc__E6__r1__s27",
    "stratum": "ordinary_random",
    "problems": [
@@ -312,16 +322,6 @@
    "stratum": "class_unstable",
    "problems": [
     "hyperpol_abs: voltage_range: [-164.6, 53.5] mV outside [-150.0, 80.0]"
-   ]
-  },
-  {
-   "key": "screening_scramble2/bbp_l5pc__E6__r1__s127",
-   "stratum": "prior_corner",
-   "problems": [
-    "step_abs_lo: spike_shape: widest detected AP is 12.8 ms over 1 spikes measured on the trace",
-    "step_abs_hi: spike_shape: smallest detected AP is 3.78 mV over 3 spikes measured on the trace",
-    "step_rheo_1p5x: spike_shape: widest detected AP is 12.2 ms over 2 spikes measured on the trace",
-    "step_rheo_3p0x: spike_shape: smallest detected AP is 7.53 mV over 3 spikes measured on the trace"
    ]
   },
   {

@@ -1,6 +1,6 @@
 {
  "tool": "retain_waveforms.py",
- "written_utc": "2026-08-11T18:48:40.801132+00:00",
+ "written_utc": "2026-08-11T22:36:09.609340+00:00",
  "experiment": "sobol",
  "n_selected": 151,
  "n_clean": 127,
@@ -159,17 +159,17 @@
    ]
   },
   {
-   "key": "sobol/bbp_l5pc__SOBOL__r1__s1331",
-   "stratum": "coverage",
-   "problems": [
-    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 3.02 mV, 14% of the 21.0 mV excursion"
-   ]
-  },
-  {
    "key": "sobol/bbp_l5pc__SOBOL__r1__s1918",
    "stratum": "coverage",
    "problems": [
     "hyperpol_abs: baseline_stability: pre-stimulus mean moved 2.19 mV, 11% of the 20.3 mV excursion"
+   ]
+  },
+  {
+   "key": "sobol/bbp_l5pc__SOBOL__r1__s1331",
+   "stratum": "coverage",
+   "problems": [
+    "hyperpol_abs: baseline_stability: pre-stimulus mean moved 3.02 mV, 14% of the 21.0 mV excursion"
    ]
   },
   {
