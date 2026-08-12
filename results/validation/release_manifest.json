@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-12T05:47:18.224191+00:00",
- "git_tree": "841669ec0bb8ee81dc49817534e52c6b1f12a2be",
+ "written_utc": "2026-08-12T06:36:44.590477+00:00",
+ "git_tree": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty",
  "inventory_version": "release-inventory-1",
  "environment": {
   "python": "3.12.4",
@@ -86567,7 +86567,7 @@
   {
    "path": "results/analyses/claim_manifest.json",
    "bytes": 15551,
-   "sha256": "d9c28136a6bb270623fead3fcc454766",
+   "sha256": "aa018e2b3843f793702c0d12c4535f44",
    "inventory_class": "analyses"
   },
   {
@@ -87810,157 +87810,157 @@
    "inventory_class": "validation"
   },
   {
-   "path": "results/figures/Figure_1.pdf",
+   "path": "results/figures/panel_1.pdf",
    "bytes": 78257,
-   "sha256": "5728f682ca2d3965903dd94ceb20cb60",
+   "sha256": "a93d8f16a6ab2083cc8524549db6472e",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_1.png",
+   "path": "results/figures/panel_1.png",
    "bytes": 462454,
    "sha256": "4b2e19d4be01e6fd193042aef5747955",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_10.pdf",
+   "path": "results/figures/panel_10.pdf",
    "bytes": 56224,
-   "sha256": "be03cd137b031e847eda2676993e95e1",
+   "sha256": "91aea48433c34bf222ee8890b70ea215",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_10.png",
+   "path": "results/figures/panel_10.png",
    "bytes": 186973,
    "sha256": "19754b90d9abb55e26cdc86a8697ca55",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_11.pdf",
-   "bytes": 56563,
-   "sha256": "8a492dffe9f2e05eed82d9726c4ed868",
+   "path": "results/figures/panel_11.pdf",
+   "bytes": 56530,
+   "sha256": "1950ff12ae687d11b2fb78e8b41756f7",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_11.png",
-   "bytes": 262087,
-   "sha256": "a4cec5829dfe39e7917768b84ecbcc48",
+   "path": "results/figures/panel_11.png",
+   "bytes": 262181,
+   "sha256": "512add4d68a3161912e0885a37492c02",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_12.pdf",
+   "path": "results/figures/panel_12.pdf",
    "bytes": 48791,
-   "sha256": "56491097a234b2a686868c7fa40ffe0c",
+   "sha256": "6259c20e3ac07398700c6bee702c34de",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_12.png",
+   "path": "results/figures/panel_12.png",
    "bytes": 167772,
    "sha256": "b5ce8f44d5944323574b39a339a3fdbd",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_13.pdf",
+   "path": "results/figures/panel_13.pdf",
    "bytes": 29082,
-   "sha256": "e6570233040878b5bfd1192b6bc5c1ed",
+   "sha256": "1dcebe48b460afeb6ec5afcdd0f9325f",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_13.png",
+   "path": "results/figures/panel_13.png",
    "bytes": 142471,
    "sha256": "c267a282fc3aa70253dcb900feedcbba",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_2.pdf",
+   "path": "results/figures/panel_2.pdf",
    "bytes": 26548,
-   "sha256": "fd17d66479c6951c3f9ae43a77b5fdc9",
+   "sha256": "110e776044a73e005485dc820f7a33c7",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_2.png",
+   "path": "results/figures/panel_2.png",
    "bytes": 138290,
    "sha256": "c2c350c94a6d4058bfed9b9dd8e4ab01",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_3.pdf",
+   "path": "results/figures/panel_3.pdf",
    "bytes": 36400,
-   "sha256": "2a266006fb7b1091cc46c3d29fca264e",
+   "sha256": "47c0ff8b85a39dcd358fd5d8487069d5",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_3.png",
+   "path": "results/figures/panel_3.png",
    "bytes": 227324,
    "sha256": "d6b6ea00a980e575734ca6649daad820",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_4.pdf",
+   "path": "results/figures/panel_4.pdf",
    "bytes": 44715,
-   "sha256": "c18c240a8109d407f6f8ef776493f249",
+   "sha256": "0a0c553156d321b250e67ced377af19e",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_4.png",
+   "path": "results/figures/panel_4.png",
    "bytes": 213295,
    "sha256": "2bc57d623b25b0758e2fc70369774ea3",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_5.pdf",
+   "path": "results/figures/panel_5.pdf",
    "bytes": 56661,
-   "sha256": "265d8292f3d64e74d65fbf7ce582fa8f",
+   "sha256": "96c296e2f05cb8c6536cb1b2b801fb75",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_5.png",
+   "path": "results/figures/panel_5.png",
    "bytes": 129998,
    "sha256": "185a48e74c912efabcd6204434279741",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_6.pdf",
+   "path": "results/figures/panel_6.pdf",
    "bytes": 43346,
-   "sha256": "c265205b812f080080d997a5aef5d153",
+   "sha256": "b70686d89a80068f2bfc2c9320906f27",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_6.png",
+   "path": "results/figures/panel_6.png",
    "bytes": 131671,
    "sha256": "b5eab20aae78c94c86b11116b508a15d",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_7.pdf",
+   "path": "results/figures/panel_7.pdf",
    "bytes": 30042,
-   "sha256": "ac5d1508a49add1e81bd1a91a56ae1dd",
+   "sha256": "14896cea1b2affa88bff92f11fffdbc4",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_7.png",
+   "path": "results/figures/panel_7.png",
    "bytes": 94261,
    "sha256": "381edc7861afdc827a37b320ec7f607a",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_8.pdf",
+   "path": "results/figures/panel_8.pdf",
    "bytes": 25665,
-   "sha256": "9641836dd32f3348956985493bdc8da8",
+   "sha256": "45b263e0eb9662e6814fc2f54ef382ca",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_8.png",
+   "path": "results/figures/panel_8.png",
    "bytes": 70349,
    "sha256": "fef7e75e5f8da9a90a3601d01f35b73a",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_9.pdf",
+   "path": "results/figures/panel_9.pdf",
    "bytes": 33416,
-   "sha256": "9554b09aeca0f84f6516fc20a153317a",
+   "sha256": "fdd0080ec3fa0f313bf0308fee44fcb9",
    "inventory_class": "figures"
   },
   {
-   "path": "results/figures/Figure_9.png",
+   "path": "results/figures/panel_9.png",
    "bytes": 123785,
    "sha256": "66614f9e87b4457ac7daf6043a69c7c9",
    "inventory_class": "figures"
@@ -87979,8 +87979,8 @@
   },
   {
    "path": "docs/COMPASS_AUDIT_RESPONSE_4_2026-08-09.md",
-   "bytes": 80887,
-   "sha256": "fd13f3c2861ad347a6c0b847e3042f20",
+   "bytes": 82545,
+   "sha256": "6a19cf998db42ed897200d225031a1cf",
    "inventory_class": "reports"
   },
   {
@@ -87990,27 +87990,15 @@
    "inventory_class": "reports"
   },
   {
-   "path": "docs/figure_legends.md",
-   "bytes": 26175,
-   "sha256": "aadc0fdba61fa943aee2db3524cb4cc8",
-   "inventory_class": "reports"
-  },
-  {
    "path": "docs/preregistration.md",
    "bytes": 25719,
    "sha256": "ad30aeafe2ebc2f2c829347fcd125448",
    "inventory_class": "reports"
   },
   {
-   "path": "notebooks/COMPASS_figures.ipynb",
-   "bytes": 1067804,
-   "sha256": "31e5fb587b992289e0e6ae906c546b70",
-   "inventory_class": "reports"
-  },
-  {
    "path": "notebooks/COMPASS_results.ipynb",
-   "bytes": 1876897,
-   "sha256": "e6b0d294aab74506cad39e8c28292bc2",
+   "bytes": 1877611,
+   "sha256": "83dc2ebdbea2b06537c907692c9ddb30",
    "inventory_class": "reports"
   },
   {
@@ -89827,8 +89815,8 @@
   },
   {
    "path": "tools/build_notebook.py",
-   "bytes": 34103,
-   "sha256": "c30c07cf3908e85d71ad46fc3ebcd735",
+   "bytes": 34666,
+   "sha256": "10dfd599653426d8ccd2eafbe19268a9",
    "inventory_class": "source"
   },
   {
@@ -90059,7 +90047,7 @@
    "bytes": 7302768,
    "min_files": 20,
    "satisfied": true,
-   "class_digest": "2ebe7281a5049c02e816825e04726765"
+   "class_digest": "63a1c13996e082029f68db2e687f293e"
   },
   "campaign_manifests": {
    "what": "per-campaign and per-model canonical manifests",
@@ -90080,18 +90068,18 @@
   "figures": {
    "what": "every published figure, in both raster and vector form",
    "n_files": 26,
-   "bytes": 2916440,
+   "bytes": 2916501,
    "min_files": 6,
    "satisfied": true,
-   "class_digest": "93dae8146f90a73401eddd333eeb1836"
+   "class_digest": "d8264894b4c344cf338cd70db4558fc4"
   },
   "reports": {
    "what": "the human-readable scientific record",
-   "n_files": 8,
-   "bytes": 3280367,
+   "n_files": 6,
+   "bytes": 2188760,
    "min_files": 4,
    "satisfied": true,
-   "class_digest": "9f5411008f710f16ed29f3dc9ba4e0e4"
+   "class_digest": "bc00afad86ff88d142c7a5a385d8f0bf"
   },
   "provenance": {
    "what": "downloads, mechanism builds, calibrations, audits, gate evidence inputs",
@@ -90120,15 +90108,15 @@
   "source": {
    "what": "the code that produced everything above",
    "n_files": 90,
-   "bytes": 1277548,
+   "bytes": 1278111,
    "min_files": 40,
    "satisfied": true,
-   "class_digest": "44be8a8c90dcd5b9e59cdc465a83a843"
+   "class_digest": "89fb183a549288620c3dd45f73d77802"
   }
  },
  "gate_records_rejected_as_stale": {},
  "gate_evidence_revision": {
-  "release_revision": "841669ec0bb8ee81dc49817534e52c6b1f12a2be",
+  "release_revision": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty",
   "revisions_seen_in_records": [
    "0cd6cbfc8dec24900482bf9f111f9a1b25749754"
   ],
@@ -90811,21 +90799,21 @@
  },
  "confirmatory_release_gates": {
   "source": "COMPASS_INDEPENDENT_POST_RESPONSE_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md, section 7",
-  "n_met": 6,
+  "n_met": 5,
   "n_total": 13,
   "met": [
    "4_half_step_battery_covers_every_primary_model",
    "6_gate_evidence_is_tied_to_commit_and_environment",
    "7_rollups_separate_validity_from_exclusion_policy",
    "8_high_impact_fixes_have_regression_tests",
-   "9_report_tables_generated_from_one_manifest",
-   "13_reproduced_from_a_committed_tagged_revision"
+   "9_report_tables_generated_from_one_manifest"
   ],
   "not_met": [
    "1_n2_source_trace_reproduction",
    "2_n1_and_n4_pass_for_included_models",
    "3_n4_failures_excluded_or_confined",
-   "11_stratified_waveforms_retained_and_inspected"
+   "11_stratified_waveforms_retained_and_inspected",
+   "13_reproduced_from_a_committed_tagged_revision"
   ],
   "not_machine_decidable": [
    "5_run_all_completes_in_dependency_order",
@@ -90963,8 +90951,8 @@
    },
    "13_reproduced_from_a_committed_tagged_revision": {
     "requirement": "the complete workflow is reproduced from a committed, preferably tagged, clean revision",
-    "met": true,
-    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be"
+    "met": false,
+    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty"
    }
   }
  },
@@ -90991,12 +90979,11 @@
     "8_cv_preprocessing_is_fold_local"
    ]
   },
-  "n_met": 12,
+  "n_met": 11,
   "n_total": 15,
   "n_met_runtime": 6,
   "n_runtime": 7,
   "met": [
-   "1_one_clean_identified_revision",
    "2_manifest_covers_every_declared_class",
    "3_verification_fails_on_mismatch",
    "6_rheobase_handles_non_monotonic_firing",
@@ -91010,6 +90997,7 @@
    "15_h_b_input_evidence_is_current"
   ],
   "not_met": [
+   "1_one_clean_identified_revision",
    "4_n1_to_n7_have_evidence_for_every_included_model",
    "5_every_primary_model_is_n4_compliant"
   ],
@@ -91048,7 +91036,7 @@
     "sobol"
    ],
    "force_simulations": null,
-   "n_artifacts_not_produced_by_this_run": 12847,
+   "n_artifacts_not_produced_by_this_run": 12845,
    "artifacts_not_produced_by_this_run": [
     "data/models/bbp_l5pc/mod/CaDynamics_E2.mod",
     "data/models/bbp_l5pc/mod/Ca_HVA.mod",
@@ -91255,8 +91243,8 @@
   },
   "checks": {
    "1_one_clean_identified_revision": {
-    "met": true,
-    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be",
+    "met": false,
+    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty",
     "requirement": "one clean identified revision",
     "kind": "implementation"
    },
@@ -91269,7 +91257,7 @@
      "campaign_manifests": 19,
      "validation": 32,
      "figures": 26,
-     "reports": 8,
+     "reports": 6,
      "provenance": 50,
      "model_assets": 193,
      "configuration": 4,
@@ -91516,6 +91504,7 @@
  "release_verdict": "RELEASE-BLOCKED",
  "blockers": [
   "gates with failures: ['N1', 'N4', 'WAVEFORM']",
+  "working tree is 841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty: reproducibility claims apply only to a committed, tagged state",
   "models excluded on gate failure: mainen_l5pc (N3), miyasho_purkinje (N3), ortner_snc_da (N3), tzilivaki_fsbc (N3) -- valid for a screening result, blocking for a confirmatory release",
   "N4-failing implementations retained in a REPORTED arm: discovery_only: bbp_l5pc (gcalva_apical, gskv3_apical) -- these cohorts are N3-passing, NOT gate-passing. See the n4_strict, n4_retained and replication_n4_retained arms"
  ]

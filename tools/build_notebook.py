@@ -107,8 +107,15 @@ def savefig(fig):
     # Write Figure_<n>.png and .pdf, and return the figure unchanged.
     global _FIG_N
     _FIG_N += 1
+    # `panel_`, not `Figure_`. The manuscript notebook saved SIX composites as
+    # results/figures/Figure_{n} and this one saves THIRTEEN panels; they shared
+    # a namespace, so whichever ran last silently replaced the other's files --
+    # observed on 2026-08-12, when a test execution of the manuscript notebook
+    # overwrote Figure_1 to Figure_4 before dying on an unrelated schema error.
+    # Distinct prefixes make that impossible and leave `Figure_{n}` free for the
+    # manuscript set when it is repaired (docs/_history/manuscript_figures_probe3).
     for ext in ("png", "pdf"):
-        fig.savefig(FIGDIR / f"Figure_{_FIG_N}.{ext}", dpi=200, bbox_inches="tight")
+        fig.savefig(FIGDIR / f"panel_{_FIG_N}.{ext}", dpi=200, bbox_inches="tight")
     return fig
 
 AN  = ROOT / "results" / "analyses"
