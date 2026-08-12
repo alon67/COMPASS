@@ -32,7 +32,7 @@ something a reader of this document would have believed. All are corrected here.
 | what changed | why | consequence |
 |---|---|---|
 | **This cohort is not "gate-passing"** | the exclusion list is built from N3 failures only. `bbp_l5pc` is in the primary cohort and casts one of its five lineage votes, and it **fails N4**: `gskv3_apical` and `gcalva_apical` move no observable feature when scaled by 1/4 and 4×. `tomko_ca1` fails on three somatic conductances | the cohort is described throughout as **N3-passing, N4 unresolved**, and `cohort_label()` in `compass.analysis.cohorts` generates the phrase so it cannot be restated by hand. Two new arms measured the consequence instead of asserting it away: `n4_strict` excludes the N4-failing implementations, and a projection arm retains them with the unidentifiable dimensions dropped from the sampled space before ensembles are built. **§0.0.1 supersedes this row**: the projection arm is now the primary rule, and the former primary rule is the `n4_retained` arm. |
-| **The perturbation criteria were scored without reading their own repeatability check** | `perturbation_inference.py` re-runs the whole battery at half each model's campaign time step and applies a prespecified rule, and nothing consumed the verdict. The top-versus-control contrast was the **only passing H-B criterion** and was being scored from campaign-dt numbers whether or not they survived refinement | **The headline moves from H-M to H-G.** Both perturbation criteria — they are computed from the same η — now sit behind an explicit precondition: full half-step coverage (extended to `bbp_l5pc` and `migliore_ca1`, which had none), scoring restricted to numerically repeatable implementations, and *not evaluable* below three repeatable lineages. **3 of 7 implementations are repeatable**, spanning exactly three lineages, and on that subset both criteria **fail**: functional support 0.444 against a 0.5 bar, and the matched contrast 1.91× with a lineage-clustered interval of [−0.020, +0.530] that includes zero. That is a failure to demonstrate, not a demonstration of absence — see §11.1.1 and §12.0, and §12.2 on the fact that the precondition is not preregistered. |
+| **The perturbation criteria were scored without reading their own repeatability check** | `perturbation_inference.py` re-runs the whole battery at half each model's campaign time step and applies a prespecified rule, and nothing consumed the verdict. The top-versus-control contrast was the **only passing H-B criterion** and was being scored from campaign-dt numbers whether or not they survived refinement | **The headline moves from H-M to H-G.** Both perturbation criteria — they are computed from the same η — now sit behind an explicit precondition: full half-step coverage (extended to `bbp_l5pc` and `migliore_ca1`, which had none), scoring restricted to numerically repeatable implementations, and *not evaluable* below three repeatable lineages. **3 of 7 implementations are repeatable**, spanning exactly three lineages, and on that subset both criteria **fail**: functional support 0.444 against a 0.5 bar, and the matched contrast 1.91× with a lineage-clustered interval of [−0.020, +0.530] that includes zero. **§0.0.2 supersedes these figures**: on the probe-4 corpus the battery covers 8 implementations, 4 are repeatable, and the same two criteria fail more emphatically — support 0.167 against a control's 0.167, and a matched contrast of 0.99× with a lineage-clustered interval of [−0.023, +0.037]. That is a failure to demonstrate, not a demonstration of absence — see §11.1.1 and §12.0, and §12.2 on the fact that the precondition is not preregistered. |
 | **An obsolete eight-model decision table was still in this file** | it predated lineage clustering, the N3 exclusions and the regenerated campaign, and every row quoted a superseded value for a criterion that is still scored | deleted (§12). `tools/verify_report_numbers.py` now fails when any line naming a decision criterion quotes a value other than the current one without a correction marker. Six further stale numbers found by the same new check are corrected below. |
 | **Gate roll-ups counted "known failure correctly excluded" as gate passes** | "N3 46/46" included eight tests asserting that documented failures still fail and are still excluded — and the decisive N3 test is parametrised over the *non-failing* models only, so all four documented N3 failures appeared as passes | `numerical_gates.json` now separates `by_gate` (neuronal validity) from `policy_tests` (exclusion bookkeeping) and adds a per-model `validity_matrix` in which an exempted model reads **exempt**, never pass. The record also carries the commit, the environment, the command and pytest's own exit status, none of which it had. |
 | **Some "lineage-aware" statistics still resampled implementations** | `run_robustness.py` bootstrapped `model_id`, giving the HH and Pospischil lineages two draws each; and the lineage-clustered bootstrap pooled rows across drawn clusters, so a two-implementation lineage carried double weight in the point estimate and in every replicate | the robustness bootstrap clusters on `source_lineage_id` and refuses to fall back; `cluster_bootstrap` now averages *cluster means* rather than pooled rows. Both are regression-tested. |
@@ -358,6 +358,15 @@ been regenerated beneath it (§0.0.1). They are now evaluable, and both **fail**
 | mean \|η\|, top vs matched control | 0.129 vs 0.119 SD | 0.151 vs 0.153 SD |
 | ratio | 1.09x | **0.99x** |
 | paired difference, lineage-clustered | — | −0.002 SD, 95% CI [−0.023, +0.037] |
+
+**4 of the 8 implementations in the battery are numerically repeatable** at
+half their campaign time step — `khaliq_purkinje`, `mainen_l5pc`,
+`migliore_ca1`, `pospischil_rs` — and the primary arm excludes `mainen_l5pc`
+under gate N3, leaving **three implementations spanning three lineages** to
+carry the H-B criteria. That half the panel fails a repeatability check at half
+dt is a first-order limitation of the battery and is stated here rather than
+left in the JSON: the criteria are scored on the subset that survives it, which
+is the minimum the precondition accepts.
 
 On the three repeatable lineages that carry the criteria, **statistically
 synergistic tuples are indistinguishable from matched middle-Ω controls.** The
@@ -2147,12 +2156,24 @@ repeatability outcome was known. See §12.2 and `preregistration.md` Addendum 4.
 endpoint toward synergy in 4 of 5 lineages, exact two-sided sign p = 0.375 —
 and 0.0625 is the *smallest* p a five-unit panel can produce, so no
 configuration of these lineages could have reached significance. The
-high-covariance contrast is likewise 4/5 at p = 0.375. The unique-R² ratio of
-1,840× is a **lower bound**, not a point estimate: identity variance falls below
-the 1e-4 resolution floor. Only the size-matched version (12.8×, CI [2.6, 46.1])
-is a bounded measurement. The lineage-transfer median of 0.563 conceals a
-`migliore_1999` fold at **−3.783**. The classifier clears its 0.172 baseline
-with 0.281.
+high-covariance contrast is likewise 4/5 at p = 0.375. The lineage-transfer
+median of **0.499** conceals a `hodgkin_huxley_1952` fold at **−72.3**: on that
+held-out lineage the model predicts far worse than the training mean. The
+classifier clears its 0.172 baseline with **0.293**, over 11 classes.
+
+**The unique-R² ratio needs its denominator read, not its magnitude.** It is
+**>1,651×**, and the reason is that unique R²(model identity) is **0.000** — it
+sits below the 1e-4 resolution floor, so the ratio is a lower bound produced by
+dividing by a floor, not a measurement. What that zero means matters more than
+the ratio: model identity explains **8.8%** of `synergy_area` variance *on its
+own* (`r2_alone` 0.088), and **all** of it is shared with sampling and geometry
+(`r2_shared` 0.088, `r2_unique` 0.000). Identity is therefore not irrelevant —
+it is **collinear** with the sampling and geometry axes in this design, and a
+commonality analysis cannot separate them. Reporting the ratio without that
+sentence invites the reading that model identity does not matter, which these
+data do not support. The bounded measurement is the size-matched cluster
+bootstrap: **14.4×, CI [2.8, 89.7]** over 5 lineages, and that is the number
+this section rests on.
 
 Their weight comes from agreeing in direction across independent contrasts, not
 from any individual margin.
