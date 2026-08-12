@@ -1,6 +1,6 @@
 {
- "git_revision": "c04d91fc99571d2594868ef25f1db7d707fee26e",
- "n_claims": 15,
+ "git_revision": "d9e65466073259d724ade93de835cb6dabeae628",
+ "n_claims": 25,
  "claims": [
   {
    "label": "decision H-B tally",
@@ -189,6 +189,136 @@
    "note": ""
   },
   {
+   "label": "unique-R2 ratio lower bound",
+   "expected_string": "1,651",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "decision.json",
+   "selector": "criteria[unique R2].value",
+   "aggregation": "commonality R2 ratio",
+   "units": "",
+   "uncertainty": "",
+   "note": "a LOWER BOUND: unique R2(identity) is floored at 1e-4"
+  },
+  {
+   "label": "regime classifier accuracy",
+   "expected_string": "0.293",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "decision.json",
+   "selector": "criteria[sampling regime].value",
+   "aggregation": "leave-one-source-lineage-out accuracy",
+   "units": "",
+   "uncertainty": "baseline 0.172 over 11 classes",
+   "note": ""
+  },
+  {
+   "label": "lineage-transfer median R2",
+   "expected_string": "0.499",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "lomo.parquet",
+   "selector": "median(r2_out_of_sample) where fold_level=source_lineage_id",
+   "aggregation": "median over folds",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "lineage-transfer worst fold",
+   "expected_string": "\u221272.3",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "lomo.parquet",
+   "selector": "min(r2_out_of_sample)",
+   "aggregation": "worst single held-out lineage",
+   "units": "",
+   "uncertainty": "",
+   "note": "a fold predicting far worse than the training mean"
+  },
+  {
+   "label": "raw bootstrap median ratio",
+   "expected_string": "13.1",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "robustness.json",
+   "selector": "cluster_bootstrap_raw.synergy_area.ratio_median",
+   "aggregation": "median over cluster-bootstrap replicates",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "lineage ICC",
+   "expected_string": "0.172",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "mixed_effects.json",
+   "selector": "nested.lineage.icc_adjusted",
+   "aggregation": "var_group / (var_group + var_residual)",
+   "units": "",
+   "uncertainty": "",
+   "note": "quoted only while nested.lineage.quotable is true"
+  },
+  {
+   "label": "numerically repeatable implementations",
+   "expected_string": "4 of 8",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "perturbation_inference.json",
+   "selector": "numerical_repeatability.n_models_repeatable / n_models",
+   "aggregation": "median |delta eta| <= 0.05 SD and >=80% sign agreement",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "raw perturbation rows",
+   "expected_string": "5,760",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "perturbations_raw.parquet",
+   "selector": "row count",
+   "aggregation": "model x tuple x background x feature",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "corpus rows",
+   "expected_string": "130,098",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "corpus_reconciliation.json",
+   "selector": "after.n_rows",
+   "aggregation": "rows in the probe-4 snapshot",
+   "units": "",
+   "uncertainty": "",
+   "note": ""
+  },
+  {
+   "label": "wide_voltage_band rows re-admitted",
+   "expected_string": "251",
+   "documents": [
+    "RESULTS.md"
+   ],
+   "artifact": "voltage_band_arm.json",
+   "selector": "n_rows_readmitted_here",
+   "aggregation": "rows whose nonphysical_voltage flag was stripped",
+   "units": "",
+   "uncertainty": "",
+   "note": "the arm re-admits its campaign's share, not the whole key file"
+  },
+  {
    "label": "E8 naive synergy fraction",
    "expected_string": "0.468",
    "documents": [
@@ -320,7 +450,7 @@
  ],
  "repository_facts": [
   {
-   "check": "documented fast-test count == observed (446)",
+   "check": "documented fast-test count == observed (447)",
    "ok": true
   },
   {

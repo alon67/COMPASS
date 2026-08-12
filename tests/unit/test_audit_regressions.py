@@ -960,10 +960,31 @@ def test_p0_4c_obsolete_outputs_are_rejected_from_the_release():
 
 
 def test_p0_4a_stale_gate_records_do_not_satisfy_a_gate():
+    """Evidence from different code must not count -- with "different" narrowed.
+
+    P0-4A required a gate record to name the release revision. That was applied
+    through the whole-source tree, so a change to a reporting tool no gate
+    imports invalidated every record. The guard now asks whether any file that
+    can CHANGE a gate result has moved since the record was written; the
+    rejection path is unchanged and still reachable, which is what this checks.
+    """
+    import importlib.util as iu
+
     src = (ROOT / "tools" / "build_release_manifest.py").read_text()
     assert 'rec_tree = r.get("git_tree", file_tree)' in src
     assert "records_rejected_as_stale" in src
-    assert "if rec_tree != this_tree:" in src
+    assert "if rec_tree != this_tree and not _gate_code_ok(rec_tree):" in src, (
+        "the narrowed guard must still reject a record whose gate code moved")
+
+    spec = iu.spec_from_file_location(
+        "_m", ROOT / "tools" / "build_release_manifest.py")
+    m = iu.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    # a revision that cannot be resolved is NOT quietly accepted
+    assert m.gate_code_changed_since("") == ["<unversioned>"]
+    assert m.gate_code_changed_since("unversioned") == ["<unversioned>"]
+    assert m.gate_code_changed_since("0" * 40), (
+        "an unknown revision must not be treated as unchanged")
 
 
 def test_p0_4d_runtime_and_implementation_evidence_are_distinguished():
@@ -1738,9 +1759,56 @@ def test_numerical_gate_records_carry_the_revision_the_manifest_reads():
     if "git_tree" not in d:
         pytest.skip("record predates the fix; re-run tools/record_numerical_gates.py")
     man = ROOT / "results" / "validation" / "release_manifest.json"
-    if man.exists():
-        assert d["git_tree"] == json.loads(man.read_text())["git_tree"], (
-            "the gate evidence and the release describe different trees")
+    if not man.exists():
+        return
+    m = json.loads(man.read_text())
+    ger = m["gate_evidence_revision"]
+    # The tie is no longer "the whole tree matches". A gate record counts when
+    # no file that can change a gate result has changed since it was written --
+    # otherwise editing a reporting tool invalidates thousands of records it
+    # cannot have affected, and the only remedy is hours of re-simulation
+    # producing identical numbers. What must hold is that the relationship is
+    # REPORTED, and that nothing counted while gate code moved underneath it.
+    assert d["git_tree"] in ger["revisions_seen_in_records"]
+    assert not ger["gate_code_changed_since_each"], (
+        f"gate code changed since evidence was written: "
+        f"{ger['gate_code_changed_since_each']}")
+    assert ger["gate_code_paths"], "the gate-code path set must not be empty"
+
+
+def test_gate_code_paths_are_derived_not_listed():
+    """The narrowed revision tie must not be gerrymanderable by hand.
+
+    Scoping the tie to code that can change a gate is only defensible while the
+    path set is derived from which tools actually write gate records. A
+    hand-maintained exclusion list would let any inconvenient re-run be avoided
+    by adding a line, which is the failure this test exists to prevent.
+    """
+    import importlib.util as iu
+
+    spec = iu.spec_from_file_location(
+        "_m", ROOT / "tools" / "build_release_manifest.py")
+    m = iu.module_from_spec(spec)
+    spec.loader.exec_module(m)
+
+    paths = set(m.gate_code_paths())
+    assert {"src", "configs"} <= paths
+    # every tool that writes a gate record is in; every one that cannot is out
+    for f in sorted((ROOT / "tools").glob("*.py")):
+        writes = ("gate_record(" in f.read_text()
+                  or "write_gate_records(" in f.read_text())
+        if f.name == "build_release_manifest.py":
+            continue
+        assert (f"tools/{f.name}" in paths) == writes, (
+            f"tools/{f.name}: writes_gate_record={writes} but "
+            f"in_gate_code_paths={f'tools/{f.name}' in paths}")
+    # the reporting tools must be OUT -- that is the whole point
+    for name in ("verify_report_numbers.py", "run_receipt.py",
+                 "build_notebook.py", "summarise_results.py"):
+        assert f"tools/{name}" not in paths, f"{name} cannot change a gate result"
+    # and a change to gate code must still be detected
+    changed = m.gate_code_changed_since("HEAD~1")
+    assert isinstance(changed, list)
 
 
 def test_the_audit_responses_are_inside_the_verifier_scope():

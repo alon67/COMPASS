@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-12T05:25:12.055006+00:00",
- "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+ "written_utc": "2026-08-12T05:45:10.820014+00:00",
+ "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty",
  "inventory_version": "release-inventory-1",
  "environment": {
   "python": "3.12.4",
@@ -86566,8 +86566,8 @@
   },
   {
    "path": "results/analyses/claim_manifest.json",
-   "bytes": 12129,
-   "sha256": "0b9c7041818d75d4a2851860b5af7e4c",
+   "bytes": 15551,
+   "sha256": "d9c28136a6bb270623fead3fcc454766",
    "inventory_class": "analyses"
   },
   {
@@ -87979,8 +87979,8 @@
   },
   {
    "path": "docs/COMPASS_AUDIT_RESPONSE_4_2026-08-09.md",
-   "bytes": 78164,
-   "sha256": "4d18776ba2f949c269a90ff96b6ce335",
+   "bytes": 80887,
+   "sha256": "fd13f3c2861ad347a6c0b847e3042f20",
    "inventory_class": "reports"
   },
   {
@@ -89767,8 +89767,8 @@
   },
   {
    "path": "tests/unit/test_audit_regressions.py",
-   "bytes": 86293,
-   "sha256": "4f2da957ad2d4a25b9eff967fa7d9fff",
+   "bytes": 89731,
+   "sha256": "6d3315aaf8f1a3481eac5a03726c0f86",
    "inventory_class": "source"
   },
   {
@@ -89833,8 +89833,8 @@
   },
   {
    "path": "tools/build_release_manifest.py",
-   "bytes": 56320,
-   "sha256": "2cdf326863a96b057cf650dfbb4db112",
+   "bytes": 61538,
+   "sha256": "65bf5af88c3b63005513d759038a9d12",
    "inventory_class": "source"
   },
   {
@@ -90031,8 +90031,8 @@
   },
   {
    "path": "tools/verify_report_numbers.py",
-   "bytes": 32875,
-   "sha256": "a89220f1752158afd28f5ae478c04e41",
+   "bytes": 37815,
+   "sha256": "a1f482d3fabde688da2c84371751461a",
    "inventory_class": "source"
   }
  ],
@@ -90056,10 +90056,10 @@
   "analyses": {
    "what": "derived analysis tables and summaries",
    "n_files": 140,
-   "bytes": 7299346,
+   "bytes": 7302768,
    "min_files": 20,
    "satisfied": true,
-   "class_digest": "1b2ae126d53878a2c610f1815cbbefd7"
+   "class_digest": "2ebe7281a5049c02e816825e04726765"
   },
   "campaign_manifests": {
    "what": "per-campaign and per-model canonical manifests",
@@ -90088,10 +90088,10 @@
   "reports": {
    "what": "the human-readable scientific record",
    "n_files": 8,
-   "bytes": 3277644,
+   "bytes": 3280367,
    "min_files": 4,
    "satisfied": true,
-   "class_digest": "d8482dd864afd4ad22a73324918bb081"
+   "class_digest": "9f5411008f710f16ed29f3dc9ba4e0e4"
   },
   "provenance": {
    "what": "downloads, mechanism builds, calibrations, audits, gate evidence inputs",
@@ -90120,11 +90120,34 @@
   "source": {
    "what": "the code that produced everything above",
    "n_files": 90,
-   "bytes": 1263952,
+   "bytes": 1277548,
    "min_files": 40,
    "satisfied": true,
-   "class_digest": "047f8ab11e0e403e248a2835dfed35f3"
+   "class_digest": "44be8a8c90dcd5b9e59cdc465a83a843"
   }
+ },
+ "gate_records_rejected_as_stale": {},
+ "gate_evidence_revision": {
+  "release_revision": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty",
+  "revisions_seen_in_records": [
+   "0cd6cbfc8dec24900482bf9f111f9a1b25749754"
+  ],
+  "gate_code_paths": [
+   "configs",
+   "src",
+   "tools/retain_waveforms.py",
+   "tools/run_crossmodel.py",
+   "tools/validate_campaign.py",
+   "tools/validate_replay.py"
+  ],
+  "gate_code_changed_since_each": {},
+  "counted_because_gate_code_unchanged": [
+   "0cd6cbfc8dec24900482bf9f111f9a1b25749754"
+  ],
+  "_doc": "A gate record counts when no file that can change a gate result has changed since the revision it was written at. The whole-tree revision may have moved -- documentation, reporting tools, verification tools -- and that does not invalidate simulation evidence. Any revision listed under `counted_because_gate_code_unchanged` differs from the release revision in files outside `gate_code_paths`.",
+  "policy": "a gate record counts when no file that can change a gate result has changed since the revision the record was written at -- not when the whole source tree matches. Documentation, reporting and verification changes move the release revision without invalidating simulation evidence, and the difference is enumerated above rather than assumed",
+  "records_rejected_as_stale": {},
+  "n_records_rejected_as_stale": 0
  },
  "gates": {
   "D1": {
@@ -90408,12 +90431,6 @@
     "waveform_gate_sobol.json"
    ]
   }
- },
- "gate_evidence_revision": {
-  "release_revision": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
-  "policy": "a gate record counts only when its git_tree equals the release revision; older records remain in the tree as history and are counted here, not in the roll-up",
-  "records_rejected_as_stale": {},
-  "n_records_rejected_as_stale": 0
  },
  "gate_coverage": {
   "D1": {
@@ -90794,21 +90811,21 @@
  },
  "confirmatory_release_gates": {
   "source": "COMPASS_INDEPENDENT_POST_RESPONSE_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md, section 7",
-  "n_met": 6,
+  "n_met": 5,
   "n_total": 13,
   "met": [
    "4_half_step_battery_covers_every_primary_model",
    "6_gate_evidence_is_tied_to_commit_and_environment",
    "7_rollups_separate_validity_from_exclusion_policy",
    "8_high_impact_fixes_have_regression_tests",
-   "9_report_tables_generated_from_one_manifest",
-   "13_reproduced_from_a_committed_tagged_revision"
+   "9_report_tables_generated_from_one_manifest"
   ],
   "not_met": [
    "1_n2_source_trace_reproduction",
    "2_n1_and_n4_pass_for_included_models",
    "3_n4_failures_excluded_or_confined",
-   "11_stratified_waveforms_retained_and_inspected"
+   "11_stratified_waveforms_retained_and_inspected",
+   "13_reproduced_from_a_committed_tagged_revision"
   ],
   "not_machine_decidable": [
    "5_run_all_completes_in_dependency_order",
@@ -90946,8 +90963,8 @@
    },
    "13_reproduced_from_a_committed_tagged_revision": {
     "requirement": "the complete workflow is reproduced from a committed, preferably tagged, clean revision",
-    "met": true,
-    "evidence": "0cd6cbfc8dec24900482bf9f111f9a1b25749754"
+    "met": false,
+    "evidence": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty"
    }
   }
  },
@@ -90974,12 +90991,11 @@
     "8_cv_preprocessing_is_fold_local"
    ]
   },
-  "n_met": 12,
+  "n_met": 11,
   "n_total": 15,
   "n_met_runtime": 6,
   "n_runtime": 7,
   "met": [
-   "1_one_clean_identified_revision",
    "2_manifest_covers_every_declared_class",
    "3_verification_fails_on_mismatch",
    "6_rheobase_handles_non_monotonic_firing",
@@ -90993,6 +91009,7 @@
    "15_h_b_input_evidence_is_current"
   ],
   "not_met": [
+   "1_one_clean_identified_revision",
    "4_n1_to_n7_have_evidence_for_every_included_model",
    "5_every_primary_model_is_n4_compliant"
   ],
@@ -91238,8 +91255,8 @@
   },
   "checks": {
    "1_one_clean_identified_revision": {
-    "met": true,
-    "evidence": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
+    "met": false,
+    "evidence": "0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty",
     "requirement": "one clean identified revision",
     "kind": "implementation"
    },
@@ -91499,6 +91516,7 @@
  "release_verdict": "RELEASE-BLOCKED",
  "blockers": [
   "gates with failures: ['N1', 'N4', 'WAVEFORM']",
+  "working tree is 0cd6cbfc8dec24900482bf9f111f9a1b25749754-dirty: reproducibility claims apply only to a committed, tagged state",
   "models excluded on gate failure: mainen_l5pc (N3), miyasho_purkinje (N3), ortner_snc_da (N3), tzilivaki_fsbc (N3) -- valid for a screening result, blocking for a confirmatory release",
   "N4-failing implementations retained in a REPORTED arm: discovery_only: bbp_l5pc (gcalva_apical, gskv3_apical) -- these cohorts are N3-passing, NOT gate-passing. See the n4_strict, n4_retained and replication_n4_retained arms"
  ]

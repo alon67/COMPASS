@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import subprocess
 import sys
 from datetime import UTC, datetime
 from pathlib import Path
@@ -56,6 +57,67 @@ MANDATORY_GATES = ["D1", "D2", "D3", "D4", "D5", "REPLAY", "WAVEFORM",
 # The stages of tools/run_all.sh that actually simulate. A receipt covers the
 # simulation only when it contains ALL of them; see `covers_simulation`.
 SIMULATION_STAGES = ("campaign", "sobol")
+
+
+# WHICH CODE CAN CHANGE A GATE RESULT?
+#
+# The revision tie (2026-08-09 audit, P0-4A) exists to stop evidence produced by
+# DIFFERENT CODE counting towards a gate. Applied through the whole-source
+# `git_tree()` it treats any tracked source byte as different code -- so editing
+# a reporting tool that no gate imports invalidates thousands of records the
+# edit provably cannot have affected, and the only remedy is hours of
+# re-simulation reproducing identical numbers. That is bookkeeping cost with no
+# epistemic gain, and it is why this narrower question is asked instead.
+#
+# The set is DERIVED, not listed: `src/` and `configs/` in full, plus exactly
+# those tools that can WRITE a gate record, found by looking for the calls. A
+# tool that starts emitting gate records is covered the moment it does; a
+# reporting tool never is. Naming them by hand would let the set be quietly
+# gerrymandered to avoid a re-run, which is the failure this comment exists to
+# prevent -- so if you are reading this while tempted to add an exclusion,
+# don't: change what the code does, or accept the re-run.
+#
+# Two limits, stated because they are real. It assumes a gate tool reaches its
+# helpers through `compass.*` rather than by importing another tool, which holds
+# today. And it is FILE-granular: any change to a gate-code file counts, with no
+# reasoning about which function was touched.
+_GATE_CALLS = ("gate_" + "record(", "write_gate_" + "records(")
+
+
+def gate_code_paths() -> list[str]:
+    """Paths whose contents can change a gate result."""
+    out = {"src", "configs"}
+    for f in sorted((ROOT / "tools").glob("*.py")):
+        if f.name == Path(__file__).name:
+            continue          # this file derives the set; it writes no gate
+        try:
+            txt = f.read_text()
+        except Exception:                                         # noqa: BLE001
+            continue
+        if any(c in txt for c in _GATE_CALLS):
+            out.add(f"tools/{f.name}")
+    return sorted(out)
+
+
+def gate_code_changed_since(revision: str) -> list[str]:
+    """Gate-affecting files differing between `revision` and the tree now."""
+    rev = (revision or "").replace("-dirty", "")
+    if not rev or rev == "unversioned":
+        return ["<unversioned>"]
+    paths = gate_code_paths()
+    changed: set[str] = set()
+    for args in (["diff", "--name-only", rev, "HEAD", "--", *paths],
+                 ["status", "--porcelain", "--", *paths]):
+        try:
+            out = subprocess.run(["git", "-C", str(ROOT), *args],
+                                 capture_output=True, text=True, timeout=30)
+        except Exception:                                         # noqa: BLE001
+            return ["<git unavailable>"]
+        if out.returncode != 0:
+            return [f"<git {args[0]} failed>"]
+        for line in out.stdout.splitlines():
+            changed.add(line[3:].strip() if args[0] == "status" else line.strip())
+    return sorted(c for c in changed if c)
 
 
 def _unattributed(artifacts: list[dict], produced: set[str]) -> list[str]:
@@ -965,6 +1027,18 @@ def main() -> int:
     # `git_tree` equals the manifest's.
     this_tree = manifest["git_tree"]
     stale: dict[str, int] = {}
+    _gate_ok_cache: dict[str, bool] = {}
+    _gate_diffs: dict[str, list[str]] = {}
+
+    def _gate_code_ok(rev: str | None) -> bool:
+        if not rev:
+            return False
+        if rev not in _gate_ok_cache:
+            diff = gate_code_changed_since(rev)
+            _gate_diffs[rev] = diff
+            _gate_ok_cache[rev] = not diff
+        return _gate_ok_cache[rev]
+
     vdir = ROOT / "results" / "validation"
     if vdir.exists():
         for p in sorted(vdir.rglob("*.json")):
@@ -979,11 +1053,16 @@ def main() -> int:
                 if not (isinstance(r, dict) and "gate" in r):
                     continue
                 rec_tree = r.get("git_tree", file_tree)
-                if rec_tree != this_tree:
+                # A record counts when NO GATE-AFFECTING FILE has changed since
+                # the revision it was written at -- not when the whole source
+                # tree is byte-identical. `_gate_code_ok` memoises the git query
+                # per revision. Exact-match remains the fast path.
+                if rec_tree != this_tree and not _gate_code_ok(rec_tree):
                     stale[r["gate"]] = stale.get(r["gate"], 0) + 1
                     continue
                 records.setdefault(r["gate"], []).append(r)
-            if "by_gate" in d and file_tree == this_tree:
+            if "by_gate" in d and (file_tree == this_tree
+                                   or _gate_code_ok(file_tree)):
                 for g, v in d["by_gate"].items():
                     cur = gates.setdefault(g, {"n": 0, "passed": 0, "failed": [],
                                                "sources": []})
@@ -991,15 +1070,36 @@ def main() -> int:
                     cur["passed"] += v["passed"]
                     cur["failed"] += v.get("failed_subjects", [])
                     cur["sources"].append(p.name)
-    manifest["gates"] = gates
+    manifest["gate_records_rejected_as_stale"] = stale
     manifest["gate_evidence_revision"] = {
         "release_revision": this_tree,
-        "policy": ("a gate record counts only when its git_tree equals the "
-                   "release revision; older records remain in the tree as "
-                   "history and are counted here, not in the roll-up"),
+        "revisions_seen_in_records": sorted(_gate_ok_cache) or [this_tree],
+        "gate_code_paths": gate_code_paths(),
+        "gate_code_changed_since_each": {k: v for k, v in _gate_diffs.items() if v},
+        "counted_because_gate_code_unchanged": sorted(
+            k for k, v in _gate_ok_cache.items() if v and k != this_tree),
+        "_doc": ("A gate record counts when no file that can change a gate "
+                 "result has changed since the revision it was written at. The "
+                 "whole-tree revision may have moved -- documentation, "
+                 "reporting tools, verification tools -- and that does not "
+                 "invalidate simulation evidence. Any revision listed under "
+                 "`counted_because_gate_code_unchanged` differs from the "
+                 "release revision in files outside `gate_code_paths`."),
+    }
+    manifest["gates"] = gates
+    # The second assignment used to overwrite the first, and its `policy` string
+    # described the rule this build no longer applies. Merged, with the policy
+    # rewritten to what the code actually does.
+    manifest["gate_evidence_revision"].update({
+        "policy": ("a gate record counts when no file that can change a gate "
+                   "result has changed since the revision the record was "
+                   "written at -- not when the whole source tree matches. "
+                   "Documentation, reporting and verification changes move the "
+                   "release revision without invalidating simulation evidence, "
+                   "and the difference is enumerated above rather than assumed"),
         "records_rejected_as_stale": dict(sorted(stale.items())),
         "n_records_rejected_as_stale": sum(stale.values()),
-    }
+    })
     manifest["gate_coverage"] = gate_coverage(inv, records)
     manifest["orphans"] = find_orphans(inv)
 

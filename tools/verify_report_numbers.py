@@ -68,6 +68,11 @@ DOCS = {k: p.read_text() for k, p in DOC_PATHS.items() if p.exists()}
 MANIFEST = AN / "claim_manifest.json"
 
 
+def _load_prov(name: str):
+    p = ROOT / "data" / "provenance" / name
+    return json.loads(p.read_text()) if p.exists() else None
+
+
 def _load(name: str, kind: str = "json"):
     p = AN / name
     if not p.exists():
@@ -484,6 +489,95 @@ def main() -> int:
               selector="cluster_bootstrap_matched.synergy_area.ratio_median",
               aggregation="median over cluster-bootstrap replicates",
               uncertainty=str(m.get("ratio_ci95", "")))
+
+    # NUMBERS THAT DRIFTED, NOW PINNED.
+    #
+    # A 2026-08-12 sweep traced all 586 distinctive numbers in the documents
+    # against every value in the 140 analysis artifacts. Four had drifted, and
+    # the limitations paragraph -- the passage whose whole purpose is to state
+    # the weaknesses -- existed in THREE copies carrying stale figures that
+    # understated the worst leave-one-lineage-out fold by 19x and attributed it
+    # to the wrong lineage. None was caught, because none was a registered
+    # claim: the verifier protected 15 numbers and these were not among them.
+    # Prose duplicated across sections is exactly what drifts, so the fix is to
+    # pin the quantity rather than to proof-read the copies.
+    def _crit(prefix):
+        return next((c["value"] for c in (dec or {}).get("criteria", [])
+                     if c["criterion"].startswith(prefix)), None)
+
+    if dec:
+        u = _crit("unique R2")
+        if u is not None:
+            claim("unique-R2 ratio lower bound", f"{u:,.0f}", res,
+                  artifact="decision.json", selector="criteria[unique R2].value",
+                  aggregation="commonality R2 ratio",
+                  note="a LOWER BOUND: unique R2(identity) is floored at 1e-4")
+        cl = _crit("sampling regime")
+        if cl is not None:
+            claim("regime classifier accuracy", f"{cl:.3f}", res,
+                  artifact="decision.json", selector="criteria[sampling regime].value",
+                  aggregation="leave-one-source-lineage-out accuracy",
+                  uncertainty="baseline 0.172 over 11 classes")
+
+    _lomo = _load("lomo.parquet", "parquet")
+    if _lomo is not None and "fold_level" in _lomo:
+        _lm = _lomo[(_lomo.endpoint == "synergy_area")
+                    & (_lomo.fold_level == "source_lineage_id")]
+        if len(_lm):
+            claim("lineage-transfer median R2", f"{_lm.r2_out_of_sample.median():.3f}",
+                  res, artifact="lomo.parquet",
+                  selector="median(r2_out_of_sample) where fold_level=source_lineage_id",
+                  aggregation="median over folds")
+            # The documents render a negative with a Unicode minus; the claim has
+            # to match the document, not Python's repr.
+            claim("lineage-transfer worst fold",
+                  f"{_lm.r2_out_of_sample.min():.1f}".replace("-", "\u2212"), res,
+                  artifact="lomo.parquet", selector="min(r2_out_of_sample)",
+                  aggregation="worst single held-out lineage",
+                  note="a fold predicting far worse than the training mean")
+
+    if rob and "cluster_bootstrap_raw" in rob:
+        claim("raw bootstrap median ratio",
+              f"{rob['cluster_bootstrap_raw']['synergy_area']['ratio_median']:.1f}", res,
+              artifact="robustness.json",
+              selector="cluster_bootstrap_raw.synergy_area.ratio_median",
+              aggregation="median over cluster-bootstrap replicates")
+
+    _mx = _load("mixed_effects.json")
+    if _mx and _mx.get("nested", {}).get("lineage", {}).get("quotable"):
+        claim("lineage ICC", f"{_mx['nested']['lineage']['icc_adjusted']:.3f}", res,
+              artifact="mixed_effects.json", selector="nested.lineage.icc_adjusted",
+              aggregation="var_group / (var_group + var_residual)",
+              note="quoted only while nested.lineage.quotable is true")
+
+    _pi = _load("perturbation_inference.json")
+    if _pi:
+        nr = _pi["numerical_repeatability"]
+        claim("numerically repeatable implementations",
+              f"{nr['n_models_repeatable']} of {nr['n_models']}", res,
+              artifact="perturbation_inference.json",
+              selector="numerical_repeatability.n_models_repeatable / n_models",
+              aggregation="median |delta eta| <= 0.05 SD and >=80% sign agreement")
+
+    _raw = _load("perturbations_raw.parquet", "parquet")
+    if _raw is not None:
+        claim("raw perturbation rows", f"{len(_raw):,}", res,
+              artifact="perturbations_raw.parquet", selector="row count",
+              aggregation="model x tuple x background x feature")
+
+    _rc = _load_prov("corpus_reconciliation.json")
+    if _rc:
+        claim("corpus rows", f"{_rc['after']['n_rows']:,}", res,
+              artifact="corpus_reconciliation.json", selector="after.n_rows",
+              aggregation="rows in the probe-4 snapshot")
+
+    _vb = _load_prov("voltage_band_arm.json")
+    if _vb:
+        claim("wide_voltage_band rows re-admitted",
+              f"{_vb['n_rows_readmitted_here']}", res,
+              artifact="voltage_band_arm.json", selector="n_rows_readmitted_here",
+              aggregation="rows whose nonphysical_voltage flag was stripped",
+              note="the arm re-admits its campaign's share, not the whole key file")
 
     if kn and "surrogate_control" in kn:
         sc = kn["surrogate_control"]
