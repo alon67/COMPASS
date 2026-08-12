@@ -1,5 +1,5 @@
 {
- "written_utc": "2026-08-12T04:22:17.730469+00:00",
+ "written_utc": "2026-08-12T04:45:08.611924+00:00",
  "git_tree": "0cd6cbfc8dec24900482bf9f111f9a1b25749754",
  "inventory_version": "release-inventory-1",
  "environment": {
@@ -86567,7 +86567,7 @@
   {
    "path": "results/analyses/claim_manifest.json",
    "bytes": 12129,
-   "sha256": "d1e480910213d5c20f6fce44b329eba9",
+   "sha256": "0b9c7041818d75d4a2851860b5af7e4c",
    "inventory_class": "analyses"
   },
   {
@@ -87812,7 +87812,7 @@
   {
    "path": "results/figures/Figure_1.pdf",
    "bytes": 78257,
-   "sha256": "b6d749d0013ee3a4ff38882fed0fa239",
+   "sha256": "5728f682ca2d3965903dd94ceb20cb60",
    "inventory_class": "figures"
   },
   {
@@ -87824,7 +87824,7 @@
   {
    "path": "results/figures/Figure_10.pdf",
    "bytes": 56224,
-   "sha256": "fc3f693f05690489f597378be01e710e",
+   "sha256": "be03cd137b031e847eda2676993e95e1",
    "inventory_class": "figures"
   },
   {
@@ -87835,20 +87835,20 @@
   },
   {
    "path": "results/figures/Figure_11.pdf",
-   "bytes": 56564,
-   "sha256": "7dc4f1e710f4c768d9c38faea6ed954b",
+   "bytes": 56563,
+   "sha256": "8a492dffe9f2e05eed82d9726c4ed868",
    "inventory_class": "figures"
   },
   {
    "path": "results/figures/Figure_11.png",
-   "bytes": 262030,
-   "sha256": "b603b149928ac1efefe553085247bd30",
+   "bytes": 262087,
+   "sha256": "a4cec5829dfe39e7917768b84ecbcc48",
    "inventory_class": "figures"
   },
   {
    "path": "results/figures/Figure_12.pdf",
    "bytes": 48791,
-   "sha256": "96666b7338051eb02861efffa9211474",
+   "sha256": "56491097a234b2a686868c7fa40ffe0c",
    "inventory_class": "figures"
   },
   {
@@ -87860,7 +87860,7 @@
   {
    "path": "results/figures/Figure_13.pdf",
    "bytes": 29082,
-   "sha256": "9f4f27cfcab2bf2d19c66d28cad7e9c3",
+   "sha256": "e6570233040878b5bfd1192b6bc5c1ed",
    "inventory_class": "figures"
   },
   {
@@ -87872,7 +87872,7 @@
   {
    "path": "results/figures/Figure_2.pdf",
    "bytes": 26548,
-   "sha256": "445c909f444ebca1f8cf92697dbdfe2d",
+   "sha256": "fd17d66479c6951c3f9ae43a77b5fdc9",
    "inventory_class": "figures"
   },
   {
@@ -87884,7 +87884,7 @@
   {
    "path": "results/figures/Figure_3.pdf",
    "bytes": 36400,
-   "sha256": "dc352614824aacb46e9e71aecaf53ad6",
+   "sha256": "2a266006fb7b1091cc46c3d29fca264e",
    "inventory_class": "figures"
   },
   {
@@ -87896,7 +87896,7 @@
   {
    "path": "results/figures/Figure_4.pdf",
    "bytes": 44715,
-   "sha256": "00503664f01fa4640a087fddad015b5a",
+   "sha256": "c18c240a8109d407f6f8ef776493f249",
    "inventory_class": "figures"
   },
   {
@@ -87908,7 +87908,7 @@
   {
    "path": "results/figures/Figure_5.pdf",
    "bytes": 56661,
-   "sha256": "4c0bd1395758e35e8d003639205c7ac7",
+   "sha256": "265d8292f3d64e74d65fbf7ce582fa8f",
    "inventory_class": "figures"
   },
   {
@@ -87920,7 +87920,7 @@
   {
    "path": "results/figures/Figure_6.pdf",
    "bytes": 43346,
-   "sha256": "a664388699036b378b9da740fdcc2682",
+   "sha256": "c265205b812f080080d997a5aef5d153",
    "inventory_class": "figures"
   },
   {
@@ -87932,7 +87932,7 @@
   {
    "path": "results/figures/Figure_7.pdf",
    "bytes": 30042,
-   "sha256": "893b2b61c496f284c81a40d7e5e94aa7",
+   "sha256": "ac5d1508a49add1e81bd1a91a56ae1dd",
    "inventory_class": "figures"
   },
   {
@@ -87944,7 +87944,7 @@
   {
    "path": "results/figures/Figure_8.pdf",
    "bytes": 25665,
-   "sha256": "8bba8bab6529d6742b6eb9ff98bc93c3",
+   "sha256": "9641836dd32f3348956985493bdc8da8",
    "inventory_class": "figures"
   },
   {
@@ -87956,7 +87956,7 @@
   {
    "path": "results/figures/Figure_9.pdf",
    "bytes": 33416,
-   "sha256": "106cccd4106bf32aa148905f26fcfb56",
+   "sha256": "9554b09aeca0f84f6516fc20a153317a",
    "inventory_class": "figures"
   },
   {
@@ -87979,8 +87979,8 @@
   },
   {
    "path": "docs/COMPASS_AUDIT_RESPONSE_4_2026-08-09.md",
-   "bytes": 73735,
-   "sha256": "86e83f7843fdf662ab16116387e95022",
+   "bytes": 74829,
+   "sha256": "27aeaf21f6e02c439eabc4eade685986",
    "inventory_class": "reports"
   },
   {
@@ -88009,8 +88009,8 @@
   },
   {
    "path": "notebooks/COMPASS_results.ipynb",
-   "bytes": 1876653,
-   "sha256": "1931629344117dde5b603302c5a044b5",
+   "bytes": 1876897,
+   "sha256": "e6b0d294aab74506cad39e8c28292bc2",
    "inventory_class": "reports"
   },
   {
@@ -90059,7 +90059,7 @@
    "bytes": 7299346,
    "min_files": 20,
    "satisfied": true,
-   "class_digest": "597fe7a84b921198de0a4cfafbd64494"
+   "class_digest": "1b2ae126d53878a2c610f1815cbbefd7"
   },
   "campaign_manifests": {
    "what": "per-campaign and per-model canonical manifests",
@@ -90080,18 +90080,18 @@
   "figures": {
    "what": "every published figure, in both raster and vector form",
    "n_files": 26,
-   "bytes": 2916384,
+   "bytes": 2916440,
    "min_files": 6,
    "satisfied": true,
-   "class_digest": "aa8a989fbf1e02e197481e6fbc079fa1"
+   "class_digest": "93dae8146f90a73401eddd333eeb1836"
   },
   "reports": {
    "what": "the human-readable scientific record",
    "n_files": 8,
-   "bytes": 3270150,
+   "bytes": 3271488,
    "min_files": 4,
    "satisfied": true,
-   "class_digest": "1e29a126db6e56f73795951d3e1a9327"
+   "class_digest": "f1cd66aa6f1a9971b0f98edf4d5dbf36"
   },
   "provenance": {
    "what": "downloads, mechanism builds, calibrations, audits, gate evidence inputs",
