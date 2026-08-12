@@ -915,12 +915,40 @@ passes for both, so the value lands on the intended NEURON attribute with the
 intended magnitude. For `tomko_ca1/gkdr_soma` the measured cause is a fourth
 possibility the gate's failure message does not name — the effect on membrane
 potential is real but below the resolution of the feature set. Scaling it by 1/4
-and 4× moves `sum(v[::17])` from −72605.84 to −72567.27 and −72663.01, about
-0.07%, while `spike_count` stays at 19 and `ap_halfwidth_ms` at 0.80 ms. Its
-dendritic partner `gkdr_dend` — same mechanism, same attribute, 123 segments
-instead of 1 — moves `spike_count` from 19 to 1. `bbp_l5pc`'s two are apical
-conductances in a panel measured entirely at the soma, corroborated by a Sobol
-total-order index of 0.00081 against 0.08–0.22 for active parameters.
+and 4× moves the summed trace by about 0.07%, while `spike_count` stays at 19
+and `ap_halfwidth_ms` at 0.80 ms. Its dendritic partner `gkdr_dend` — same
+mechanism, same attribute, 123 segments instead of 1 — moves `spike_count` from
+19 to 1. *(The trace sums behind that 0.07% were computed during the
+investigation and are not stored in any release artifact; the percentage is
+quoted, the intermediate values are not, because a reader cannot check them.)*
+
+**`bbp_l5pc`'s two apical conductances are a more interesting case than an
+earlier version of this section claimed, and the claim is withdrawn.** It said
+Sobol corroborated their inertness with a total-order index of 0.00081 against
+0.08–0.22 for active parameters. Neither figure is in
+[`sobol_indices.parquet`](../results/analyses/sobol_indices.parquet). What the
+table actually says, for the six Sobol features:
+
+| parameter | ST range | maximum |
+|---|---|---|
+| `gskv3_apical` | 0.0000 – 0.0022 | 0.0022 (`ap_halfwidth_ms`) |
+| `gcalva_apical` | 0.0003 – 0.3044 | **0.3044 (`hyperpol_abs.input_resistance_Mohm`)** |
+
+against a median ST of **0.0625** over every other single parameter of this
+model. So Sobol corroborates the N4 verdict for `gskv3_apical` and **contradicts
+it for `gcalva_apical`**, which accounts for 30% of the total-order variance in
+input resistance.
+
+The two tests are asking different questions, and that is the likely
+explanation rather than either being wrong: **N4 is a local test** — scale one
+parameter by 1/4 and 4× at the canonical point and look for movement in the
+conditioning feature set — while **Sobol is a global variance decomposition**
+over the whole prior. A parameter can be locally flat at the canonical point and
+still carry variance across the prior's range. But the honest reading is that
+"this parameter does nothing observable" is **not** established for
+`gcalva_apical`, and the retention argument for it rests on the N4 test alone.
+Reconciling the two is left as a stated open question rather than settled by
+choosing the more convenient test.
 
 **Why they are retained, and what is reported instead.** An unidentifiable
 parameter is still drawn and still varies, so it contributes an unconstrained

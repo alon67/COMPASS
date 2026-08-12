@@ -1,6 +1,6 @@
 {
- "written_utc": "2026-08-12T06:36:44.590477+00:00",
- "git_tree": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty",
+ "written_utc": "2026-08-12T06:49:55.291252+00:00",
+ "git_tree": "db79cdc195fdd50e95ebab08447717a18471e95c",
  "inventory_version": "release-inventory-1",
  "environment": {
   "python": "3.12.4",
@@ -86567,7 +86567,7 @@
   {
    "path": "results/analyses/claim_manifest.json",
    "bytes": 15551,
-   "sha256": "aa018e2b3843f793702c0d12c4535f44",
+   "sha256": "a3b49cf8878710cce07bb255662e4bb1",
    "inventory_class": "analyses"
   },
   {
@@ -87985,8 +87985,8 @@
   },
   {
    "path": "docs/RESULTS.md",
-   "bytes": 174567,
-   "sha256": "d8692923107bd3e4e2166a09a9460d70",
+   "bytes": 176169,
+   "sha256": "12498db151412b54fc45b5bdc0089ca2",
    "inventory_class": "reports"
   },
   {
@@ -90047,7 +90047,7 @@
    "bytes": 7302768,
    "min_files": 20,
    "satisfied": true,
-   "class_digest": "63a1c13996e082029f68db2e687f293e"
+   "class_digest": "107dc346f2f80ba2756a3069998c6c2b"
   },
   "campaign_manifests": {
    "what": "per-campaign and per-model canonical manifests",
@@ -90076,10 +90076,10 @@
   "reports": {
    "what": "the human-readable scientific record",
    "n_files": 6,
-   "bytes": 2188760,
+   "bytes": 2190362,
    "min_files": 4,
    "satisfied": true,
-   "class_digest": "bc00afad86ff88d142c7a5a385d8f0bf"
+   "class_digest": "de68679f2575b824dbefa64c4015ec1f"
   },
   "provenance": {
    "what": "downloads, mechanism builds, calibrations, audits, gate evidence inputs",
@@ -90116,7 +90116,7 @@
  },
  "gate_records_rejected_as_stale": {},
  "gate_evidence_revision": {
-  "release_revision": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty",
+  "release_revision": "db79cdc195fdd50e95ebab08447717a18471e95c",
   "revisions_seen_in_records": [
    "0cd6cbfc8dec24900482bf9f111f9a1b25749754"
   ],
@@ -90799,21 +90799,21 @@
  },
  "confirmatory_release_gates": {
   "source": "COMPASS_INDEPENDENT_POST_RESPONSE_TECHNICAL_SCIENTIFIC_AUDIT_2026-08-09.md, section 7",
-  "n_met": 5,
+  "n_met": 6,
   "n_total": 13,
   "met": [
    "4_half_step_battery_covers_every_primary_model",
    "6_gate_evidence_is_tied_to_commit_and_environment",
    "7_rollups_separate_validity_from_exclusion_policy",
    "8_high_impact_fixes_have_regression_tests",
-   "9_report_tables_generated_from_one_manifest"
+   "9_report_tables_generated_from_one_manifest",
+   "13_reproduced_from_a_committed_tagged_revision"
   ],
   "not_met": [
    "1_n2_source_trace_reproduction",
    "2_n1_and_n4_pass_for_included_models",
    "3_n4_failures_excluded_or_confined",
-   "11_stratified_waveforms_retained_and_inspected",
-   "13_reproduced_from_a_committed_tagged_revision"
+   "11_stratified_waveforms_retained_and_inspected"
   ],
   "not_machine_decidable": [
    "5_run_all_completes_in_dependency_order",
@@ -90951,8 +90951,8 @@
    },
    "13_reproduced_from_a_committed_tagged_revision": {
     "requirement": "the complete workflow is reproduced from a committed, preferably tagged, clean revision",
-    "met": false,
-    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty"
+    "met": true,
+    "evidence": "db79cdc195fdd50e95ebab08447717a18471e95c"
    }
   }
  },
@@ -90979,11 +90979,12 @@
     "8_cv_preprocessing_is_fold_local"
    ]
   },
-  "n_met": 11,
+  "n_met": 12,
   "n_total": 15,
   "n_met_runtime": 6,
   "n_runtime": 7,
   "met": [
+   "1_one_clean_identified_revision",
    "2_manifest_covers_every_declared_class",
    "3_verification_fails_on_mismatch",
    "6_rheobase_handles_non_monotonic_firing",
@@ -90997,7 +90998,6 @@
    "15_h_b_input_evidence_is_current"
   ],
   "not_met": [
-   "1_one_clean_identified_revision",
    "4_n1_to_n7_have_evidence_for_every_included_model",
    "5_every_primary_model_is_n4_compliant"
   ],
@@ -91243,8 +91243,8 @@
   },
   "checks": {
    "1_one_clean_identified_revision": {
-    "met": false,
-    "evidence": "841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty",
+    "met": true,
+    "evidence": "db79cdc195fdd50e95ebab08447717a18471e95c",
     "requirement": "one clean identified revision",
     "kind": "implementation"
    },
@@ -91504,7 +91504,6 @@
  "release_verdict": "RELEASE-BLOCKED",
  "blockers": [
   "gates with failures: ['N1', 'N4', 'WAVEFORM']",
-  "working tree is 841669ec0bb8ee81dc49817534e52c6b1f12a2be-dirty: reproducibility claims apply only to a committed, tagged state",
   "models excluded on gate failure: mainen_l5pc (N3), miyasho_purkinje (N3), ortner_snc_da (N3), tzilivaki_fsbc (N3) -- valid for a screening result, blocking for a confirmatory release",
   "N4-failing implementations retained in a REPORTED arm: discovery_only: bbp_l5pc (gcalva_apical, gskv3_apical) -- these cohorts are N3-passing, NOT gate-passing. See the n4_strict, n4_retained and replication_n4_retained arms"
  ]
