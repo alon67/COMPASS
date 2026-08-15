@@ -1,5 +1,20 @@
 # Downloaded model archives (retrieved by tools/fetch_models.py; original licenses apply)
 data/raw/
+# Third-party mechanism SOURCES, extracted from those archives.
+#
+# Twelve of fourteen implementations are fetch-at-runtime: their upstream terms
+# permit academic USE but grant no redistribution right to this project (see
+# docs/ASSET_REDISTRIBUTION.md).  A public repository is redistribution, so the
+# bytes must not be tracked -- 191 .mod and 2 .inc files were removed from the
+# whole history on 2026-08-15, before the first push.
+#
+# What the repository distributes instead is data/provenance/downloads.json:
+# URL, SHA-256, byte count and fetch timestamp per asset.  Run
+# `python3 tools/fetch_models.py` to reconstruct this directory; it fails closed
+# if any hash does not match, so a reader's tree is verifiably the tree the
+# results were computed from.
+data/models/*/mod/*.mod
+data/models/*/mod/*.inc
 # Compiled NEURON mechanism libraries (rebuilt by tools/build_mechanisms.py)
 data/models/*/mod/arm64/
 data/models/*/mod/x86_64/
@@ -26,3 +41,6 @@ __pycache__/
 results/logs/
 results/_superseded_run_*/
 results/features/*/_superseded/
+
+# macOS Finder metadata; never release content.
+.DS_Store
