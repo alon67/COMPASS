@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import ast
 import json
+import os
 import re
 import subprocess
 import sys
@@ -1173,6 +1174,10 @@ def test_p1_4_the_environment_is_locked_and_the_lock_is_checkable():
     pins = m.read_lock()
     for pkg in ("NEURON", "efel", "numpy", "scipy", "statsmodels"):
         assert pkg in pins, f"{pkg} is not pinned"
+    # CI's first job installs the newest allowed versions on purpose, to expose
+    # drift; conformance is checked by the job that installs the lock.
+    if os.environ.get("COMPASS_UNLOCKED_ENV") == "1":
+        return
     assert m.compare(pins)["conforms"], (
         "the running environment does not match requirements.lock")
 

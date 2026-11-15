@@ -26,7 +26,16 @@ CHEAP = "pospischil_rs"
 
 @pytest.fixture(scope="module")
 def adapter():
-    return get_adapter(CHEAP).build()
+    # The Pospischil mechanisms are third-party sources this repository does not
+    # redistribute (docs/ASSET_REDISTRIBUTION.md); a fresh checkout, including CI,
+    # has none until tools/fetch_models.py and tools/build_mechanisms.py are run.
+    try:
+        return get_adapter(CHEAP).build()
+    except ValueError as exc:
+        if "density mechanism" not in str(exc):
+            raise
+        pytest.skip(f"{CHEAP} mechanisms are not compiled here ({exc}); run "
+                    "tools/fetch_models.py and tools/build_mechanisms.py first")
 
 
 def test_every_registered_model_declares_a_valid_parameter_table():

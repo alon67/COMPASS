@@ -105,7 +105,11 @@ class FoldPipeline:
             if c not in train.columns:
                 continue
             s = train[c]
-            if s.dtype == object or isinstance(s.dtype, pd.CategoricalDtype):
+            # pandas >= 3 stores text in a dedicated string dtype, not object; testing
+            # for object alone sent text columns down the numeric branch, where they
+            # coerced to NaN, had zero variance and were silently dropped.
+            if (s.dtype == object or isinstance(s.dtype, pd.CategoricalDtype)
+                    or pd.api.types.is_string_dtype(s.dtype)):
                 levels = sorted(pd.Series(s).dropna().unique().tolist())
                 if len(levels) > 1:                     # drop_first: [0] is the reference
                     self.plan.append(("cat", c, levels[1:]))

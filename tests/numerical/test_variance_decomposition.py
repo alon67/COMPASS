@@ -97,6 +97,14 @@ def test_fixed_effect_variance_is_the_fixed_part_alone() -> None:
 
     from compass.analysis.hierarchical import prepare
 
+    # The library call comes first: on some CPUs the optimiser's line search
+    # reaches a singular fixed-effect system, which the library reports as an
+    # error and this test treats as non-convergence (the reference fit below is
+    # the same call and would raise instead).
+    r = mixed_effects_components(_panel(group_sd=1.5), "synergy_area")
+    if "error" in r:
+        pytest.skip(f"mixed model did not converge: {r['error']}")
+
     d = prepare(_panel(group_sd=1.5)).dropna(subset=["synergy_area"]).copy()
     d["y"] = ((d["synergy_area"] - d["synergy_area"].mean())
               / (d["synergy_area"].std() or 1.0))
@@ -106,10 +114,6 @@ def test_fixed_effect_variance_is_the_fixed_part_alone() -> None:
 
     fixed_only = float(np.var(np.asarray(m.model.exog) @ np.asarray(m.fe_params)))
     with_random = float(np.var(m.fittedvalues))
-
-    r = mixed_effects_components(_panel(group_sd=1.5), "synergy_area")
-    if "error" in r:
-        pytest.skip("mixed model did not converge")
 
     assert r["var_fixed_effects"] == pytest.approx(fixed_only, rel=1e-6)
     # the buggy quantity is strictly larger here, so this is a real distinction

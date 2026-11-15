@@ -45,6 +45,8 @@ jobs:
       - name: Lint
         run: ruff check src tests tools
       - name: Fast suite
+        env:
+          COMPASS_UNLOCKED_ENV: "1"   # newest allowed versions, not the lock
         run: pytest -m "not slow" -q
       - name: Artifact schemas and declared configuration parse
         run: |
