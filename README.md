@@ -343,6 +343,17 @@ overwrite:
 python tools/verify_convergence_evidence.py
 ```
 
+### Manuscript figures
+
+The figures of the manuscript and the summary tables quoted in it are redrawn
+from stored analysis tables only (no simulation) by:
+
+```bash
+bash manuscript/run_figures.sh
+```
+
+See `manuscript/README.md` for what each script computes.
+
 ## Layout
 
 ```
@@ -367,6 +378,7 @@ tests/      unit, numerical and integration tests
 results/    manifests, feature shards, derived analysis tables, traces
 docs/       preregistration, results, model audits
 notebooks/  COMPASS_results.ipynb
+manuscript/ scripts that draw the manuscript figures from stored tables
 ```
 
 ## What this study can and cannot establish

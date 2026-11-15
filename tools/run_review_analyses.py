@@ -184,7 +184,7 @@ def run_model(mid: str) -> dict[str, list[dict]]:
             for kind, d, x in copies:
                 vk = triplet_omegas(x, ts, "knn")
                 vg = triplet_omegas(x, ts, "gaussian")
-                for t, a, g in zip(ts, vk, vg):
+                for t, a, g in zip(ts, vk, vg, strict=True):
                     res["knn"].append({"model_id": mid, "kind": kind, "draw": d,
                                        "n": e.n, "tuple": "-".join(map(str, t)),
                                        "omega_knn": a, "omega_gaussian": g})
