@@ -59,6 +59,9 @@ RV = AN + 'review_v5/'
 NULL = pd.read_csv(sys.argv[3]); DROP = pd.read_csv(sys.argv[4])
 # review of V18 (tools/run_review_v18.py): two-stage selection, decomposed feature removal,
 # matched-size shifts and the attribution sensitivity
+import importlib.util as _iu
+_s = _iu.spec_from_file_location('_ra', str(Path(__file__).resolve().parents[1] / 'tools' / 'run_analysis.py'))
+RA = _iu.module_from_spec(_s); _s.loader.exec_module(RA)
 V18 = AN + 'review_v18/'
 TS = pd.read_parquet(V18 + 'two_stage.parquet'); DD = pd.read_parquet(V18 + 'dropout_decomposed.parquet')
 ATT = json.load(open(V18 + 'attribution.json'))
@@ -71,7 +74,7 @@ lab(ax, 'A', 0.0, 0.955)
 steps = [
     ('Independent prior', 'Parameters drawn independently, ¼ to 4 times the published value', '#1f4e9c', '#eef3fb'),
     ('Simulation', 'Eight published models in NEURON; 13 electrical features per parameter set', '#1f4e9c', '#eef3fb'),
-    ('Selection gate', 'Keep sets within 3, 2, 1 or 0.5 SD of the published behavior', '#c46a00', '#fdf1e2'),
+    ('Selection gate', 'Stage 1: all 13 features measurable (repeated spiking, fitted time constant)\nStage 2: within 3, 2, 1 or 0.5 SD of the published behavior', '#c46a00', '#fdf1e2'),
     ('Accepted population', 'An ensemble of models that share the target behavior', '#1f4e9c', '#eef3fb'),
     ('Higher-order dependence', 'O-information of every group of 3–5 parameters, compared\nwith unselected samples of the same size and shuffled copies', '#2a7a3b', '#edf6ee'),
 ]
@@ -167,18 +170,18 @@ ax.set_xlabel('Selected minus reference,\nmean over triplets [nats]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 ax.legend(loc='upper center', fontsize=6.2, bbox_to_anchor=(0.35, -0.36), ncol=2, handletextpad=0.3, columnspacing=1.0)
 ax = fig.add_subplot(gs2[1, 1]); lab(ax, 'D', -0.75)
+PC = pd.read_parquet(V18 + 'pairs_calibrated.parquet')
+PC = PC[(PC.metric == 'weighted_euclidean') & (PC.tolerance == 'permissive')]
 for i, m in enumerate(KM):
-    for j, (pop, met, tol, col, nm) in enumerate([('selected', 'weighted_euclidean', 'permissive', RED, 'Selected (3 SD)'),
-                                                   ('unselected', 'none', 'none', GREY, 'Unselected')]):
-        g_ = RP[(RP.model_id == m) & (RP.population == pop) & (RP.metric == met) & (RP.tolerance == tol)]
-        d = g_[g_.kind == 'selected'].mi_knn.mean() - g_[g_.kind == 'copula_surrogate'].groupby('draw').mi_knn.mean()
-        yj = i + (j - 0.5) * 0.3
-        ax.plot([d.min(), d.max()], [yj, yj], color=col, lw=0.8)
-        ax.plot(d.mean(), yj, marker='o', ms=3.5, color=col, lw=0, label=nm if i == 0 else None)
+    g_ = PC[PC.model_id == m]
+    sel = g_[g_.kind == 'selected'].excess.iloc[0]; un = g_[g_.kind == 'unselected_same_size'].excess
+    ax.plot(sel, i - 0.15, marker='o', ms=3.5, color=RED, lw=0, label='Selected (3 SD)' if i == 0 else None)
+    ax.plot([un.min(), un.max()], [i + 0.15] * 2, color=GREY, lw=0.8)
+    ax.plot(un.mean(), i + 0.15, marker='o', ms=3.5, color=GREY, lw=0, label='Unselected, same size' if i == 0 else None)
 ax.axvline(0, color='k', lw=0.6); ax.set_yticks(yy); ax.set_yticklabels([KS[m] for m in KM], fontsize=6.6); ax.invert_yaxis()
 ax.set_xlabel('Pairwise information minus synthetic\nwith same rank correlations [nats]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
-ax.legend(loc='lower right', fontsize=6.0, handletextpad=0.3)
+ax.legend(loc='upper center', fontsize=6.2, bbox_to_anchor=(0.5, -0.36), ncol=2, handletextpad=0.3, columnspacing=1.0)
 fig.savefig(OUT + '/fig2.png', bbox_inches='tight', pad_inches=0.12); plt.close(fig)
 
 # ---------------- Figure 3: selection compared with unselected samples of the same size ----------------
@@ -253,7 +256,7 @@ ax.set_xlabel('Accepted sets\nchanged [%]'); offset(ax, ('bottom',))
 ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 handles = [Line2D([], [], color=GREY, lw=0.7, label='Selected, individual implementations'),
            Line2D([], [], color='k', lw=0.8, label='Selected, Hay layer 5'),
-           Line2D([], [], color=RED, lw=1.8, marker='o', ms=3.5, label='Selected, mean of seven'),
+           Line2D([], [], color=RED, lw=1.8, marker='o', ms=3.5, label='Selected, mean of seven (six at 0.5 SD)'),
            Line2D([], [], color=BLUE, lw=1.6, ls=(0, (3, 1.5)), marker='s', ms=3, label='Unselected, same size, mean of seven'),
            Line2D([], [], color=ORANGE, lw=1.4, ls=(0, (1, 1)), marker='^', ms=3, label='All 13 features measurable, same size'),
            Line2D([], [], color=LGREY, lw=0.8, ls=(0, (1.5, 1.5)), label='Mainen, not converged (D only)')]
@@ -264,7 +267,7 @@ fig.savefig(OUT + '/fig3.png', bbox_inches='tight'); plt.close(fig)
 fig = plt.figure(figsize=(7.2, 2.9))
 axs = [fig.add_axes([0.085, 0.24, 0.17, 0.62]), fig.add_axes([0.37, 0.24, 0.19, 0.62]), fig.add_axes([0.80, 0.24, 0.14, 0.62])]
 ax = axs[0]; lab(ax, 'A', -0.42)
-oc = pd.read_parquet(AN + 'order_curves_screening_n4proj.parquet')
+oc = RA.drop_undefined_family_rows(pd.read_parquet(AN + 'order_curves_screening_n4proj.parquet'))
 oc = oc[(oc.estimator == 'gaussian') & (oc.model_id.isin(PRIM))]
 pm = oc[oc.regime.isin(['E3', 'E8'])].groupby(['regime', 'model_id'])[['frac_synergy', 'frac_synergy_sig']].mean() * 100
 pos = {('E3', 'frac_synergy'): 0, ('E3', 'frac_synergy_sig'): 1, ('E8', 'frac_synergy'): 2.4, ('E8', 'frac_synergy_sig'): 3.4}
@@ -341,7 +344,7 @@ ax = fig.add_subplot(gs[1, 1]); lab(ax, 'D', -0.75)
 LN = {'hay_2011': 'Hay', 'hodgkin_huxley_1952': 'Hodgkin–Huxley', 'khaliq_2003': 'Khaliq', 'migliore_1999': 'Migliore', 'pospischil_2008': 'Pospischil'}
 keys = list(LN)
 for j, (key, nm, col) in enumerate(FITS):
-    lolo = ATT[key]['lolo']['sampling+intrinsic_dimension (fixed in advance)']
+    lolo = ATT[key]['lolo']['sampling+intrinsic_dimension (geometry revised after review)']
     yj = np.arange(len(keys)) + (j - 1) * 0.26
     vals = [lolo[k] for k in keys]
     ax.barh(yj, [max(v, -1.0) for v in vals], height=0.25, color=col)

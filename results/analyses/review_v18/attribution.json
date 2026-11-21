@@ -1,9 +1,9 @@
 {
  "all_populations": {
-  "rows": 166,
+  "rows": 164,
   "regimes": {
-   "E3": 27,
-   "E3b": 27,
+   "E3": 26,
+   "E3b": 26,
    "E4": 24,
    "E4b": 17,
    "E7": 13,
@@ -15,60 +15,67 @@
    "E6": 6
   },
   "alone": {
-   "sampling": 0.7619,
-   "geometry": 0.0063,
-   "lineage": 0.088
+   "sampling": 0.7624,
+   "geometry": 0.006,
+   "lineage": 0.0877
   },
   "unique": {
-   "sampling": 0.7071,
+   "sampling": 0.7061,
    "geometry": 0.009,
-   "lineage": 0.0522
+   "lineage": 0.0517
   },
-  "full": 0.8342695472480128,
+  "full": 0.8342381747047573,
   "unique_ci": {
    "sampling": [
-    0.6176064593277846,
-    0.8672215945793268
+    0.6137745309785761,
+    0.867459928423059
    ],
    "geometry": [
-    0.0005163284557537784,
-    0.049640194548909444
+    0.0014768786875070106,
+    0.04987992793945806
    ],
    "lineage": [
-    0.0008198734409017305,
-    0.055888529964647465
+    0.000337364868147505,
+    0.0544045027503105
    ]
   },
   "bootstrap_fits": 1995,
   "bootstrap_skipped": 5,
   "lolo": {
-   "sampling+intrinsic_dimension (fixed in advance)": {
-    "hay_2011": 0.419,
-    "hodgkin_huxley_1952": 0.595,
-    "khaliq_2003": 0.76,
-    "migliore_1999": -1.95,
-    "pospischil_2008": 0.583
+   "sampling+geometry, preregistered geometry block": {
+    "hay_2011": 0.489,
+    "hodgkin_huxley_1952": 0.327,
+    "khaliq_2003": 0.792,
+    "migliore_1999": -3.825,
+    "pospischil_2008": 0.807
+   },
+   "sampling+intrinsic_dimension (geometry revised after review)": {
+    "hay_2011": 0.398,
+    "hodgkin_huxley_1952": 0.586,
+    "khaliq_2003": 0.768,
+    "migliore_1999": -2.176,
+    "pospischil_2008": 0.575
    },
    "sampling_only (post hoc)": {
-    "hay_2011": 0.194,
-    "hodgkin_huxley_1952": 0.557,
-    "khaliq_2003": 0.752,
-    "migliore_1999": 0.606,
-    "pospischil_2008": 0.772
+    "hay_2011": 0.173,
+    "hodgkin_huxley_1952": 0.549,
+    "khaliq_2003": 0.759,
+    "migliore_1999": 0.624,
+    "pospischil_2008": 0.77
    }
   },
   "design_vs_achieved_unique": {
-   "design": 0.6879,
-   "achieved": 0.0177,
+   "design": 0.6865,
+   "achieved": 0.0173,
    "geometry": 0.009,
-   "lineage": 0.0522
+   "lineage": 0.0517
   }
  },
  "without_clustered": {
-  "rows": 160,
+  "rows": 158,
   "regimes": {
-   "E3": 27,
-   "E3b": 27,
+   "E3": 26,
+   "E3b": 26,
    "E4": 24,
    "E4b": 17,
    "E7": 13,
@@ -79,111 +86,125 @@
    "E2": 6
   },
   "alone": {
-   "sampling": 0.3492,
-   "geometry": 0.0086,
-   "lineage": 0.2721
+   "sampling": 0.3509,
+   "geometry": 0.0085,
+   "lineage": 0.2746
   },
   "unique": {
-   "sampling": 0.1161,
-   "geometry": 0.0343,
-   "lineage": 0.1926
+   "sampling": 0.1153,
+   "geometry": 0.0354,
+   "lineage": 0.1909
   },
-  "full": 0.5846955066533545,
+  "full": 0.5855261450963165,
   "unique_ci": {
    "sampling": [
-    0.09512051190361492,
-    0.4999666617879591
+    0.09367149070132008,
+    0.5011827667924453
    ],
    "geometry": [
-    0.0006653300735548484,
-    0.11976112044131149
+    0.0006441363343165918,
+    0.1217136633426612
    ],
    "lineage": [
-    0.01512295176982903,
-    0.25611333564954974
+    0.016479220100394265,
+    0.21644474542858747
    ]
   },
   "bootstrap_fits": 1995,
   "bootstrap_skipped": 5,
   "lolo": {
-   "sampling+intrinsic_dimension (fixed in advance)": {
-    "hay_2011": -1.011,
-    "hodgkin_huxley_1952": 0.176,
-    "khaliq_2003": -0.474,
-    "migliore_1999": -8.315,
-    "pospischil_2008": -2.405
+   "sampling+geometry, preregistered geometry block": {
+    "hay_2011": 0.638,
+    "hodgkin_huxley_1952": 0.54,
+    "khaliq_2003": 0.803,
+    "migliore_1999": -0.377,
+    "pospischil_2008": 0.265
+   },
+   "sampling+intrinsic_dimension (geometry revised after review)": {
+    "hay_2011": -1.164,
+    "hodgkin_huxley_1952": 0.17,
+    "khaliq_2003": -0.379,
+    "migliore_1999": -9.466,
+    "pospischil_2008": -2.519
    },
    "sampling_only (post hoc)": {
-    "hay_2011": -1.585,
-    "hodgkin_huxley_1952": 0.166,
-    "khaliq_2003": -0.265,
-    "migliore_1999": 0.501,
-    "pospischil_2008": -0.54
+    "hay_2011": -1.705,
+    "hodgkin_huxley_1952": 0.15,
+    "khaliq_2003": -0.215,
+    "migliore_1999": 0.521,
+    "pospischil_2008": -0.573
    }
   },
   "design_vs_achieved_unique": {
-   "design": 0.0194,
-   "achieved": 0.0359,
-   "geometry": 0.0343,
-   "lineage": 0.1926
+   "design": 0.0172,
+   "achieved": 0.037,
+   "geometry": 0.0354,
+   "lineage": 0.1909
   }
  },
  "phenotype_selected_only": {
-  "rows": 95,
+  "rows": 93,
   "regimes": {
-   "E3": 27,
-   "E3b": 27,
+   "E3": 26,
+   "E3b": 26,
    "E4": 24,
    "E4b": 17
   },
   "alone": {
-   "sampling": 0.3506,
-   "geometry": 0.0075,
-   "lineage": 0.3673
+   "sampling": 0.3523,
+   "geometry": 0.0078,
+   "lineage": 0.3695
   },
   "unique": {
-   "sampling": 0.0902,
+   "sampling": 0.0838,
    "geometry": 0.0906,
-   "lineage": 0.2553
+   "lineage": 0.2466
   },
-  "full": 0.698947375568102,
+  "full": 0.6990027595137238,
   "unique_ci": {
    "sampling": [
-    0.05477141301441091,
-    0.3691885301886779
+    0.01770016352142434,
+    0.39008681694667025
    ],
    "geometry": [
-    0.00021972762686117697,
-    0.19016544598736362
+    0.00023330772956275947,
+    0.21096889598701332
    ],
    "lineage": [
-    0.00926785103398664,
-    0.3762166164348558
+    0.004239145710437264,
+    0.29442136336238567
    ]
   },
   "bootstrap_fits": 1995,
   "bootstrap_skipped": 5,
   "lolo": {
-   "sampling+intrinsic_dimension (fixed in advance)": {
-    "hay_2011": 0.596,
-    "hodgkin_huxley_1952": 0.204,
-    "khaliq_2003": -0.548,
-    "migliore_1999": -4.744,
-    "pospischil_2008": -1.953
+   "sampling+geometry, preregistered geometry block": {
+    "hay_2011": 0.901,
+    "hodgkin_huxley_1952": 0.361,
+    "khaliq_2003": 0.94,
+    "migliore_1999": 0.874,
+    "pospischil_2008": -0.588
+   },
+   "sampling+intrinsic_dimension (geometry revised after review)": {
+    "hay_2011": 0.564,
+    "hodgkin_huxley_1952": 0.202,
+    "khaliq_2003": -0.219,
+    "migliore_1999": -5.925,
+    "pospischil_2008": -1.879
    },
    "sampling_only (post hoc)": {
-    "hay_2011": -0.86,
-    "hodgkin_huxley_1952": 0.176,
-    "khaliq_2003": -0.053,
-    "migliore_1999": -0.298,
-    "pospischil_2008": -0.174
+    "hay_2011": -0.929,
+    "hodgkin_huxley_1952": 0.158,
+    "khaliq_2003": -0.034,
+    "migliore_1999": -0.225,
+    "pospischil_2008": -0.186
    }
   },
   "design_vs_achieved_unique": {
-   "design": 0.0166,
-   "achieved": 0.0295,
+   "design": 0.0146,
+   "achieved": 0.0289,
    "geometry": 0.0906,
-   "lineage": 0.2553
+   "lineage": 0.2466
   }
  }
 }

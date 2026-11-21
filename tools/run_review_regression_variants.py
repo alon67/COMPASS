@@ -55,6 +55,10 @@ def load():
     src = sp.get("source_experiment", "screening")
     ep = pd.read_parquet(ROOT / f"results/analyses/endpoints_annotated_{src}_n4proj.parquet")
     ep = ep[rc.primary_mask(ep, arm)].reset_index(drop=True)
+    spec2 = importlib.util.spec_from_file_location("ra", ROOT / "tools" / "run_analysis.py")
+    ra = importlib.util.module_from_spec(spec2)
+    spec2.loader.exec_module(ra)
+    ep = ra.drop_undefined_family_rows(ep)
     fit = rc.drop_duplicate_scientific_rows(ep)
     return fit[fit.estimator == "gaussian"].reset_index(drop=True)
 

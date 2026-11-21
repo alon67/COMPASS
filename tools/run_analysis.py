@@ -132,11 +132,55 @@ def readmit_band_tightened(df: pd.DataFrame, experiment: str, model_id: str,
     return out, int(hit.sum())
 
 
+def family_defined(model_id: str, feature_names: list[str], rec: dict | None = None) -> bool:
+    """Is the protocol family of ``feature_names`` defined for the canonical model?
+
+    Rheobase-scaled features (``step_rheo_*``) are undefined when the canonical
+    rheobase is 0 (a spontaneously active model; preregistration section 3).  The
+    same rule is applied to every draw by ``normalised_family_defined``; applying
+    it to the target too stops draws stimulated at a multiple of their own
+    rheobase from being matched against spontaneous firing at 0 nA.
+    """
+    from compass.workflows.simulate import normalised_family_defined
+
+    if not any(f.startswith("step_rheo_") for f in feature_names):
+        return True
+    if rec is None:
+        path = ROOT / "results" / "manifests" / f"canonical_{model_id}.json"
+        if not path.exists():
+            return False
+        rec = json.loads(path.read_text())
+    return bool(normalised_family_defined(rec.get("rheobase_nA")))
+
+
+SELECTION_DERIVED = ("E3", "E3b", "E4", "E4b", "E3m", "E7", "E8", "E9")
+
+
+def drop_undefined_family_rows(df):
+    """Remove stored rows selected against an undefined canonical target.
+
+    Tables written before ``family_defined`` existed contain the
+    rheobase-normalised selections of khaliq_purkinje (canonical rheobase 0),
+    which matched draws stimulated at 3x their own rheobase against spontaneous
+    firing at 0 nA.  Unselected regimes (E1/E2/E6) do not depend on the target
+    and are kept.
+    """
+    if "protocol_family" not in df.columns:
+        return df
+    bad_models = {m for m in df["model_id"].unique()
+                  if not family_defined(m, ["step_rheo_3p0x.spike_count"])}
+    bad = ((df["protocol_family"] == "normalised") & df["regime"].isin(SELECTION_DERIVED)
+           & df["model_id"].isin(bad_models))
+    return df[~bad].reset_index(drop=True)
+
+
 def canonical_target(model_id: str, feature_names: list[str]) -> np.ndarray | None:
     path = ROOT / "results" / "manifests" / f"canonical_{model_id}.json"
     if not path.exists():
         return None
     rec = json.loads(path.read_text())
+    if not family_defined(model_id, feature_names, rec):
+        return None
     feats = rec["canonical_features"]
     out = []
     for name in feature_names:
@@ -375,6 +419,12 @@ def main() -> int:
             if len(feats) < 6:
                 continue
             target = canonical_target(model_id, feats)
+            if target is None:
+                # undefined family for this model (or no canonical record):
+                # never fall back to the median of the draws
+                print(f"  {model_id}: {family} family undefined for the canonical "
+                      f"model; skipped", flush=True)
+                continue
             ens_list = build_ensembles(df, model_id, param_ids, feats, target=target,
                                        seed=SEED, protocol_family=family,
                                        qc_policy=args.qc_policy)

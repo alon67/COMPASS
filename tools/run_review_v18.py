@@ -122,6 +122,10 @@ def setup(experiment, mid, family):
 # --------------------------------------------------------------------------- 1
 def two_stage(task):
     experiment, mid, family = task
+    from compass.conditioning.ensembles import CONDITIONING_FEATURES_NORMALISED
+    if family == "normalised" and not _ra().family_defined(mid, CONDITIONING_FEATURES_NORMALISED):
+        print("two_stage skipped (family undefined for the canonical model)", mid, family, flush=True)
+        return [], []
     ra, ens, pids, feats, target, f1, x1 = setup(experiment, mid, family)
     complete = np.isfinite(f1).all(axis=1)
     pool = x1[complete]
@@ -282,9 +286,13 @@ def clustered_interior(mid):
     from compass.sampling.priors import gaussian_copula_control
     ra, ens, pids, feats, target, f1, x1 = setup("screening", mid, "absolute")
     x = [e for e in ens if e.regime == "E6"][0].params
-    # jitter is clipped to the prior bounds, which piles values onto each
-    # column's extremes; drop every row that sits on a column extreme
-    touch = (np.isclose(x, x.min(axis=0), atol=1e-9) | np.isclose(x, x.max(axis=0), atol=1e-9)).any(axis=1)
+    # jitter is clipped to the configured prior bounds; drop every row with a
+    # value on a bound (log10 scale, as the parameters are analysed)
+    from compass.adapters.models import get_adapter
+    sp = {s.parameter_id: s for s in get_adapter(mid).parameter_specs()}
+    lo = np.log10([sp[p].lower_bound for p in pids])
+    hi = np.log10([sp[p].upper_bound for p in pids])
+    touch = (np.isclose(x, lo, atol=1e-9) | np.isclose(x, hi, atol=1e-9)).any(axis=1)
     ties = float(np.mean([1 - len(np.unique(c)) / len(c) for c in x.T]))
     xi = x[~touch]
     ts = generate_tuples(len(pids), 3, max_tuples=ra.MAX_TUPLES, seed=SEED).tuples
@@ -298,6 +306,59 @@ def clustered_interior(mid):
                      "kind": kind, "draw": d, "omega_knn_mean": float(np.mean([o_information(z[:, list(t)], "knn") for t in ts]))})
     print("clustered", mid, flush=True)
     return rows
+
+
+# --------------------------------------------------------------------------- 4b
+def rate_dedup(task):
+    """Mean firing rate is 2.5 x spike count (400 ms steps), so firing enters the
+    13-feature RMS distance twice.  Re-select with the rate coordinate removed
+    (12 features, RMS denominator 12) at every tolerance."""
+    from compass.conditioning.distances import condition
+    experiment, mid = task
+    ra, ens, pids, feats, target, f1, x1 = setup(experiment, mid, "absolute")
+    j = feats.index("step_abs_hi.mean_firing_rate_Hz")
+    keep = [k for k in range(len(feats)) if k != j]
+    disp = np.nanstd(f1, axis=0)
+    disp = np.where(np.isfinite(disp) & (disp > 0), disp, np.nan)
+    pool = x1[np.isfinite(f1[:, keep]).all(axis=1)]
+    rows = []
+    for tol in TOLS:
+        a = condition(f1, target, disp, metric="weighted_euclidean", tolerance_name=tol).accepted
+        b = condition(f1[:, keep], target[keep], disp[keep], metric="weighted_euclidean",
+                      tolerance_name=tol).accepted
+        if a.sum() < 60 or b.sum() < 60:
+            continue
+        refs = []
+        for d in range(N_REF):
+            rng = np.random.default_rng(91 + 7919 * d + int(b.sum()))
+            if b.sum() < len(pool):
+                refs.append(stats(pool[rng.choice(len(pool), int(b.sum()), replace=False)], ra)["synergy_area"])
+        rows.append({"experiment": experiment, "model_id": mid, "tolerance": tol,
+                     "n_13": int(a.sum()), "n_12": int(b.sum()),
+                     "membership_change": float((a ^ b).sum() / a.sum()),
+                     "synergy_13": stats(x1[a], ra)["synergy_area"],
+                     "synergy_12": stats(x1[b], ra)["synergy_area"],
+                     "complete_ref_mean": float(np.mean(refs)) if refs else np.nan,
+                     "complete_ref_max": float(np.max(refs)) if refs else np.nan})
+    print("rate_dedup", experiment, mid, flush=True)
+    return rows
+
+
+def eligibility(task):
+    """At least three spikes at the stronger step is necessary for the adaptation
+    index, but far from sufficient for all 13 features to be measurable."""
+    experiment, mid = task
+    ra, ens, pids, feats, target, f1, x1 = setup(experiment, mid, "absolute")
+    count = f1[:, feats.index("step_abs_hi.spike_count")]
+    three = np.nan_to_num(count, nan=0) >= 3
+    complete = np.isfinite(f1).all(axis=1)
+    miss = {f: float(np.mean(~np.isfinite(f1[:, k]))) for k, f in enumerate(feats)}
+    return [{"experiment": experiment, "model_id": mid, "n_unselected": len(x1),
+             "n_three_spikes": int(three.sum()), "n_feature_complete": int(complete.sum()),
+             "n_complete_without_three": int((complete & ~three).sum()),
+             "synergy_three_spikes": stats(x1[three], ra)["synergy_area"] if three.sum() >= 60 else np.nan,
+             "synergy_feature_complete": stats(x1[complete], ra)["synergy_area"],
+             **{f"missing_{k}": v for k, v in miss.items()}}]
 
 
 # --------------------------------------------------------------------------- 5
@@ -349,7 +410,8 @@ def attribution():
         vp = variance_partition(d0, "synergy_area", blocks).set_index("block")
         ci, n_ok, skipped = boot(d0, blocks)
         lo = leave_one_lineage_out(d0, "synergy_area", {
-            "sampling+intrinsic_dimension (fixed in advance)": blocks["sampling"] + blocks["geometry"],
+            "sampling+geometry, preregistered geometry block": blocks["sampling"] + PREDICTOR_BLOCKS["geometry"],
+            "sampling+intrinsic_dimension (geometry revised after review)": blocks["sampling"] + blocks["geometry"],
             "sampling_only (post hoc)": blocks["sampling"]})
         vd = variance_partition(d0, "synergy_area", design_only).set_index("block")
         out[name] = {"rows": int(len(d0)), "regimes": d0.regime.value_counts().to_dict(),
@@ -368,12 +430,16 @@ def main() -> int:
     tasks = [("screening", m, f) for m in PRIMARY for f in ("absolute", "normalised")] + \
             [("screening_random", m, "absolute") for m in RANDOM]
     ts_rows, pool_rows, drop_rows, cal, common, ksg, box, clus = [], [], [], [], [], [], [], []
+    dedup, elig = [], []
+    pairs_tasks = [("screening", m) for m in PRIMARY] + [("screening_random", m) for m in RANDOM]
     with ProcessPoolExecutor(12) as ex:
         f_ts = [ex.submit(two_stage, t) for t in tasks]
         f_dr = [ex.submit(dropout, m) for m in PRIMARY]
         f_pr = [ex.submit(pairs_random, m) for m in RANDOM]
         f_bx = [ex.submit(sobol_box, m) for m in RANDOM]
         f_cl = [ex.submit(clustered_interior, m) for m in RANDOM]
+        f_rd = [ex.submit(rate_dedup, t) for t in pairs_tasks]
+        f_el = [ex.submit(eligibility, t) for t in pairs_tasks]
         for f in f_ts:
             r, p = f.result()
             ts_rows += r
@@ -389,9 +455,14 @@ def main() -> int:
             box += f.result()
         for f in f_cl:
             clus += f.result()
+        for f in f_rd:
+            dedup += f.result()
+        for f in f_el:
+            elig += f.result()
     for name, rows in [("two_stage", ts_rows), ("pools", pool_rows), ("dropout_decomposed", drop_rows),
                        ("pairs_calibrated", cal), ("gauss_common_scale", common), ("ksg_pairs", ksg),
-                       ("sobol_box", box), ("clustered_interior", clus)]:
+                       ("sobol_box", box), ("clustered_interior", clus),
+                       ("rate_dedup", dedup), ("eligibility", elig)]:
         pd.DataFrame(rows).to_parquet(OUT / f"{name}.parquet", index=False)
     (OUT / "attribution.json").write_text(json.dumps(attribution(), indent=1))
     from compass.conditioning.ensembles import (

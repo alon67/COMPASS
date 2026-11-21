@@ -1964,3 +1964,37 @@ def test_d2_regenerates_each_campaign_with_its_own_sampling_method():
     bad = vc.d2_parameter_provenance(frame("sobol"), "screening_random", rc)
     assert any(r.status == "FAIL" for r in bad)
 
+
+
+# A spontaneously active canonical model (rheobase 0) has no rheobase-scaled
+# target.  Its stored manifest once carried spontaneous firing at "3 x 0 nA",
+# and positive-rheobase draws stimulated at 3x their own rheobase were matched
+# against it (review of manuscript V19).
+def test_rheobase_scaled_target_is_undefined_at_zero_canonical_rheobase():
+    import importlib.util as iu
+    import json
+
+    import pandas as pd
+
+    from compass.conditioning.ensembles import (
+        CONDITIONING_FEATURES,
+        CONDITIONING_FEATURES_NORMALISED,
+    )
+
+    spec = iu.spec_from_file_location("_ra", ROOT / "tools" / "run_analysis.py")
+    ra = iu.module_from_spec(spec)
+    spec.loader.exec_module(ra)
+    rec = {"rheobase_nA": 0.0, "canonical_features": {f: 1.0 for f in CONDITIONING_FEATURES_NORMALISED}}
+    assert not ra.family_defined("x", CONDITIONING_FEATURES_NORMALISED, rec)
+    assert ra.family_defined("x", CONDITIONING_FEATURES, rec)
+    rec["rheobase_nA"] = 0.2
+    assert ra.family_defined("x", CONDITIONING_FEATURES_NORMALISED, rec)
+
+    path = ROOT / "results" / "manifests" / "canonical_khaliq_purkinje.json"
+    if path.exists() and json.loads(path.read_text()).get("rheobase_nA") == 0:
+        assert ra.canonical_target("khaliq_purkinje", CONDITIONING_FEATURES_NORMALISED) is None
+        rows = pd.DataFrame({"model_id": ["khaliq_purkinje"] * 3,
+                             "protocol_family": ["normalised", "normalised", "absolute"],
+                             "regime": ["E3", "E1", "E3"]})
+        kept = ra.drop_undefined_family_rows(rows)
+        assert list(zip(kept.protocol_family, kept.regime, strict=True)) == [("normalised", "E1"), ("absolute", "E3")]

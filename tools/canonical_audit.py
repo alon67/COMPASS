@@ -126,6 +126,14 @@ def audit(model_id: str) -> dict:
                            total_ms=P.REST_TOTAL_MS, protocol_id=spec.protocol_id, **kw)
             f = extract_rest(r)
         else:
+            if spec.amplitude_nA is None:
+                # Rheobase-scaled step: undefined when the canonical model fires
+                # spontaneously (rheobase 0), exactly as for individual draws
+                # (simulate.normalised_family_defined).  Simulating "3 x 0 nA"
+                # used to store spontaneous firing as a valid target.
+                from compass.workflows.simulate import normalised_family_defined
+                if not normalised_family_defined(rheo):
+                    continue
             amp = (spec.amplitude_nA if spec.amplitude_nA is not None
                    else (rheo or 0.0) * spec.amplitude_rheobase_mult)
             r = a.simulate(float(amp), delay_ms=spec.delay_ms, duration_ms=spec.duration_ms,
