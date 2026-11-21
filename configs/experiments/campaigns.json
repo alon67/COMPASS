@@ -146,6 +146,25 @@
      "E1"
     ]
    }
+  },
+  "screening_random": {
+   "regimes": [
+    "E1"
+   ],
+   "cohort": "discovery",
+   "sampling_method": "random",
+   "seed_offset": 990000,
+   "notes": [
+    "2026-11-21, review of manuscript V17 ('second-order vs higher-order dependence'): the nearest-neighbour O-information check compared selected populations (every scrambled-Sobol point inside a region, so the design's even spacing is kept) with random thinnings of the design (spacing largely lost). A same-size axis-aligned box of the Sobol design, which creates no dependence, reproduced most of the reported shift. This campaign redraws the unconditioned prior with independent pseudo-random draws (numpy default_rng, no low-discrepancy design) for the five models whose selected populations are large enough for the nearest-neighbour estimator, so that shuffled copies and same-rank-correlation Gaussian-copula surrogates become valid references.",
+    "E1 only: E2 and E6 are already pseudo-random draws in `screening`. Sizes equal those of `screening`, so selected population sizes are comparable."
+   ],
+   "sample_sizes": {
+    "hh_point": 8192,
+    "hh_cable": 8192,
+    "pospischil_rs": 8192,
+    "pospischil_fs": 8192,
+    "khaliq_purkinje": 4096
+   }
   }
  }
 }

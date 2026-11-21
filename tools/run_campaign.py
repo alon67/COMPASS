@@ -118,6 +118,10 @@ def job_config_hash(experiment: str, model_id: str) -> str:
         "secondary_fraction": SECONDARY_FRACTION,
         "e2_rho": E2_RHO,
         "e6_n_centres": E6_CENTRES,
+        # Only campaigns that leave the default design carry the key, so the
+        # identities of the existing Sobol shards are unchanged.
+        **({"sampling_method": cfg["sampling_method"]}
+           if cfg.get("sampling_method", "sobol") != "sobol" else {}),
     }, sort_keys=True)
     return hashlib.blake2b(payload.encode(), digest_size=8).hexdigest()
 
@@ -293,10 +297,11 @@ def build_jobs(experiment: str, models: list[str], regimes: list[str],
         want = [r for r in regimes if r in allowed]
         for rep in range(1, replicates + 1):
             seed = model_seed(model_id, rep, experiment) + seed_offset
-            e1 = independent_sample(specs, n1, seed=seed, method="sobol")
+            method = spec_cfg.get("sampling_method", "sobol")
+            e1 = independent_sample(specs, n1, seed=seed, method=method)
             per_regime = {}
             if "E1" in want:
-                per_regime["E1"] = (e1, "independent_sobol")
+                per_regime["E1"] = (e1, f"independent_{method}")
             if "E2" in want:
                 n2 = max(BLOCK, int(n1 * SECONDARY_FRACTION))
                 per_regime["E2"] = (

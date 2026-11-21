@@ -1,11 +1,11 @@
 # Manuscript figures
 
 Scripts that draw the figures of the manuscript *Selection for a shared behavior
-creates higher-order parameter dependence in populations of neuron models*
+creates parameter dependence read as synergy in populations of neuron models*
 (Degani-Katzav and Korngreen) and compute the summary tables quoted in it.
 
-They read only analysis tables stored in this repository (`results/analyses/` and
-`results/analyses/review_v5/`). No simulation is run, and the per-simulation
+They read only analysis tables stored in this repository (`results/analyses/`,
+`results/analyses/review_v5/` and `results/analyses/review_v17/`). No simulation is run, and the per-simulation
 feature tables (`results/features/`, not distributed) are not needed.
 
 ```bash
@@ -28,3 +28,14 @@ The review analyses themselves (`results/analyses/review_v5/`) were produced by
 scripts do read the per-simulation feature tables, so rerunning them requires
 regenerating those tables first with `tools/run_campaign.py --experiment screening`
 (the parameter samples are fixed by the recorded seeds).
+
+The analyses added after the review of manuscript V17 (`results/analyses/review_v17/`)
+were produced by three scripts. `tools/run_review_random_draws.py` repeats the
+selection on parameter sets drawn with independent pseudo-random draws instead of
+the Sobol design (campaign `screening_random`: `tools/run_campaign.py --experiment
+screening_random`) and compares the nearest-neighbour estimate with same-size
+unselected samples, shuffled copies and same-rank-correlation synthetic populations
+(Fig. 2C-D, Table S4). `tools/run_review_selection_bands.py` adds the estimator test
+systems that resemble selection on positive parameters (Fig. 2A-B).
+`tools/run_review_regression_variants.py` repeats the attribution analysis without
+the geometry measures computed from the covariance matrix (Fig. 5C-D, Table S1).

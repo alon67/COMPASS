@@ -1,0 +1,217 @@
+{
+ "n_rows": 166,
+ "n_lineages": 5,
+ "variants": {
+  "synergy_area:published": {
+   "alone": {
+    "sampling": 0.7619,
+    "geometry": 0.7117,
+    "lineage": 0.088
+   },
+   "unique": {
+    "sampling": 0.1585,
+    "geometry": 0.0523,
+    "lineage": 0.0088
+   },
+   "full": 0.8776030285441146,
+   "unique_ci": {
+    "sampling": [
+     0.020063916788951277,
+     0.21032541623000256
+    ],
+    "geometry": [
+     0.003870070568058215,
+     0.0894157407337206
+    ],
+    "lineage": [
+     1.995055178438676e-05,
+     0.03556684877053706
+    ]
+   },
+   "lolo": {
+    "sampling+geometry": {
+     "hay_2011": 0.499,
+     "hodgkin_huxley_1952": 0.385,
+     "khaliq_2003": 0.779,
+     "migliore_1999": -4.018,
+     "pospischil_2008": 0.804
+    },
+    "sampling_only": {
+     "hay_2011": 0.194,
+     "hodgkin_huxley_1952": 0.557,
+     "khaliq_2003": 0.752,
+     "migliore_1999": 0.606,
+     "pospischil_2008": 0.772
+    }
+   }
+  },
+  "synergy_area:geometry_without_covariance": {
+   "alone": {
+    "sampling": 0.7619,
+    "geometry": 0.0063,
+    "lineage": 0.088
+   },
+   "unique": {
+    "sampling": 0.7071,
+    "geometry": 0.009,
+    "lineage": 0.0522
+   },
+   "full": 0.8342695472480128,
+   "unique_ci": {
+    "sampling": [
+     0.6176064593277846,
+     0.8672215945793267
+    ],
+    "geometry": [
+     0.0005163284557537784,
+     0.049640194548909444
+    ],
+    "lineage": [
+     0.0008090342253764599,
+     0.055854880783211464
+    ]
+   },
+   "lolo": {
+    "sampling+geometry": {
+     "hay_2011": 0.419,
+     "hodgkin_huxley_1952": 0.595,
+     "khaliq_2003": 0.76,
+     "migliore_1999": -1.95,
+     "pospischil_2008": 0.583
+    },
+    "sampling_only": {
+     "hay_2011": 0.194,
+     "hodgkin_huxley_1952": 0.557,
+     "khaliq_2003": 0.752,
+     "migliore_1999": 0.606,
+     "pospischil_2008": 0.772
+    }
+   }
+  },
+  "synergy_area:no_geometry": {
+   "alone": {
+    "sampling": 0.7619,
+    "lineage": 0.088
+   },
+   "unique": {
+    "sampling": 0.7373,
+    "lineage": 0.0634
+   },
+   "full": 0.825314285907256,
+   "unique_ci": {
+    "sampling": [
+     0.6729697180835058,
+     0.9813394976714468
+    ],
+    "lineage": [
+     0.0020721404898237372,
+     0.08775852529207251
+    ]
+   },
+   "lolo": {
+    "sampling+geometry": {
+     "hay_2011": 0.194,
+     "hodgkin_huxley_1952": 0.557,
+     "khaliq_2003": 0.752,
+     "migliore_1999": 0.606,
+     "pospischil_2008": 0.772
+    },
+    "sampling_only": {
+     "hay_2011": 0.194,
+     "hodgkin_huxley_1952": 0.557,
+     "khaliq_2003": 0.752,
+     "migliore_1999": 0.606,
+     "pospischil_2008": 0.772
+    }
+   }
+  },
+  "net_o_information:published": {
+   "alone": {
+    "sampling": 0.5993,
+    "geometry": 0.3238,
+    "lineage": 0.0414
+   },
+   "unique": {
+    "sampling": 0.3406,
+    "geometry": 0.0374,
+    "lineage": 0.0093
+   },
+   "full": 0.7025021011549075,
+   "unique_ci": null,
+   "lolo": {
+    "sampling+geometry": {
+     "hay_2011": -0.337,
+     "hodgkin_huxley_1952": -1.086,
+     "khaliq_2003": 0.229,
+     "migliore_1999": -32.336,
+     "pospischil_2008": 0.595
+    },
+    "sampling_only": {
+     "hay_2011": -0.372,
+     "hodgkin_huxley_1952": 0.45,
+     "khaliq_2003": 0.086,
+     "migliore_1999": -10.758,
+     "pospischil_2008": 0.565
+    }
+   }
+  },
+  "net_o_information:geometry_without_covariance": {
+   "alone": {
+    "sampling": 0.5993,
+    "geometry": 0.0358,
+    "lineage": 0.0414
+   },
+   "unique": {
+    "sampling": 0.5916,
+    "geometry": 0.0032,
+    "lineage": 0.0443
+   },
+   "full": 0.6682351459816487,
+   "unique_ci": null,
+   "lolo": {
+    "sampling+geometry": {
+     "hay_2011": -0.385,
+     "hodgkin_huxley_1952": 0.498,
+     "khaliq_2003": 0.004,
+     "migliore_1999": -9.538,
+     "pospischil_2008": 0.535
+    },
+    "sampling_only": {
+     "hay_2011": -0.372,
+     "hodgkin_huxley_1952": 0.45,
+     "khaliq_2003": 0.086,
+     "migliore_1999": -10.758,
+     "pospischil_2008": 0.565
+    }
+   }
+  },
+  "net_o_information:no_geometry": {
+   "alone": {
+    "sampling": 0.5993,
+    "lineage": 0.0414
+   },
+   "unique": {
+    "sampling": 0.6237,
+    "lineage": 0.0658
+   },
+   "full": 0.6650705689712308,
+   "unique_ci": null,
+   "lolo": {
+    "sampling+geometry": {
+     "hay_2011": -0.372,
+     "hodgkin_huxley_1952": 0.45,
+     "khaliq_2003": 0.086,
+     "migliore_1999": -10.758,
+     "pospischil_2008": 0.565
+    },
+    "sampling_only": {
+     "hay_2011": -0.372,
+     "hodgkin_huxley_1952": 0.45,
+     "khaliq_2003": 0.086,
+     "migliore_1999": -10.758,
+     "pospischil_2008": 0.565
+    }
+   }
+  }
+ }
+}

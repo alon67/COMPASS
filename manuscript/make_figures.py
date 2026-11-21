@@ -6,7 +6,8 @@ frame, plain (not bold) panel letters, axis labels with units in square brackets
 individual cases in grey with the population mean in red, unframed legends, and a
 boxed top-to-bottom pipeline with a bold coloured heading and a grey sub-line.
 
-Reads stored COMPASS analysis tables only (results/analyses/ and results/analyses/review_v5/).
+Reads stored COMPASS analysis tables only (results/analyses/, results/analyses/review_v5/ and
+results/analyses/review_v17/).
 Usage: make_figures.py OUTDIR VP_JSON NULL_CSV DROPOUT_CSV  (see run_figures.sh)
 """
 import json, sys
@@ -25,7 +26,8 @@ plt.rcParams.update({
     'axes.spines.top': False, 'axes.spines.right': False,
     'axes.linewidth': 0.8, 'xtick.major.width': 0.8, 'ytick.major.width': 0.8,
     'xtick.direction': 'out', 'ytick.direction': 'out', 'xtick.major.size': 3.5, 'ytick.major.size': 3.5,
-    'lines.linewidth': 1.0, 'savefig.dpi': 300, 'legend.frameon': False})
+    'lines.linewidth': 1.0, 'savefig.dpi': 300, 'legend.frameon': False,
+    'mathtext.fontset': 'custom', 'mathtext.rm': 'Arial', 'mathtext.it': 'Arial:italic'})
 
 RED, BLUE, LBLUE, GREY, LGREY = '#d62728', '#1f4e9c', '#8fb3e0', '#8c8c8c', '#c8c8c8'
 
@@ -86,43 +88,91 @@ ax.legend(loc='upper right', markerscale=5, handletextpad=0.2, borderpad=0.1, bb
 fig.savefig(OUT + '/fig1.png'); plt.close(fig)
 
 # ---------------- Figure 2: estimator check ----------------
+# A-B: the seven four-variable systems of the estimator benchmark plus four systems that
+# look like selection on positive parameters (review of V17; tools/run_review_selection_bands.py).
+# C-D: nearest-neighbour check on populations drawn with independent random draws
+# (campaign screening_random; tools/run_review_random_draws.py).
 ev = pd.DataFrame(bm['estimator_validation'])
+SB = pd.read_parquet(AN + 'review_v17/selection_bands.parquet')
+SB = SB[SB.estimator.isin(['gaussian', 'copula', 'knn'])]
 SYS = [('independent', 'Independent (0)'), ('linear_correlated', 'Linear correlation (+)'),
        ('duplicated', 'Duplicated variable (+)'), ('mixture_pooled', 'Pooled mixture (+)'),
-       ('sum_constrained', 'Sum constraint (−)'), ('xor_like', 'Product of two (−)'), ('multiplicative', 'Product of three (−)')]
+       ('sum_constrained', 'Sum constraint (−)'), ('xor_like', 'Product of two, zero-mean (−)'),
+       ('multiplicative', 'Product of three, zero-mean (−)'),
+       ('product of three positive variables, log scale', 'Product of three, positive (−)'),
+       ('band on the sum of log-parameters', 'Band on sum of logs (−)'),
+       ('band on the sum of squared log-parameters', 'Band on sum of squared logs (−)'),
+       ('band on x1 + |x2 - x3|', r'Band on $x_1 + |x_2 - x_3|$ (−)')]
+NEW = {s_ for s_, _ in SYS[7:]}
+
+
+def est_value(sys_, es, n):
+    if sys_ in NEW:
+        return SB[(SB.system == sys_) & (SB.estimator == es) & (SB.n == n)].o_information.mean()
+    return ev[(ev.system == sys_) & (ev.estimator == es) & (ev.n == n)].o_information.iloc[0]
+
+
+def est_correct(sys_, es, n):
+    if sys_ in NEW:
+        return SB[(SB.system == sys_) & (SB.estimator == es) & (SB.n == n)].correct.mean()
+    return float(ev[(ev.system == sys_) & (ev.estimator == es) & (ev.n == n)].correct.iloc[0])
+
+
 EST = [('gaussian', 'Gaussian', BLUE), ('copula', 'Gaussian copula', LBLUE), ('knn', 'Nearest-neighbor', RED)]
-fig, axs = plt.subplots(1, 3, figsize=(7.2, 2.9), gridspec_kw={'width_ratios': [1.3, 0.95, 1.05]})
-ax = axs[0]; lab(ax, 'A', -0.48); nmax = ev.n.max(); y = np.arange(len(SYS))
+fig = plt.figure(figsize=(7.2, 6.0)); gs2 = fig.add_gridspec(2, 2, hspace=0.55, wspace=0.95, width_ratios=[1.25, 1.0])
+ax = fig.add_subplot(gs2[0, 0]); lab(ax, 'A', -0.62); nmax = ev.n.max(); y = np.arange(len(SYS))
 for j, (es, nm, col) in enumerate(EST):
-    vals = [ev[(ev.system == s) & (ev.estimator == es) & (ev.n == nmax)].o_information.iloc[0] for s, _ in SYS]
-    ax.barh(y + (j - 1) * 0.26, vals, height=0.25, color=col, label=nm)
-ax.axvline(0, color='k', lw=0.6); ax.set_yticks(y); ax.set_yticklabels([t for _, t in SYS], fontsize=6.8); ax.invert_yaxis()
-ax.set_xlabel(f'O-information [nats]'); offset(ax)
-hA, lA = ax.get_legend_handles_labels(); fig.legend(hA, lA, loc='upper center', ncol=3, fontsize=6.8, bbox_to_anchor=(0.5, 1.08))
-ax = axs[1]; lab(ax, 'B', -0.3)
+    ax.barh(y + (j - 1) * 0.26, [est_value(s_, es, nmax) for s_, _ in SYS], height=0.25, color=col, label=nm)
+ax.axvline(0, color='k', lw=0.6); ax.axhline(6.5, color=LGREY, lw=0.6, ls=(0, (2, 2)))
+ax.set_yticks(y); ax.set_yticklabels([t for _, t in SYS], fontsize=6.6); ax.invert_yaxis()
+ax.set_xlabel('O-information [nats]'); offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
+hA, lA = ax.get_legend_handles_labels(); fig.legend(hA, lA, loc='upper center', ncol=3, fontsize=6.8, bbox_to_anchor=(0.5, 0.97))
+ax = fig.add_subplot(gs2[0, 1]); lab(ax, 'B', -0.32)
 ns = sorted(ev.n.unique())
 for es, nm, col in EST:
     ls, mk, ms_ = ('-', 's', 6) if es == 'gaussian' else (('--', 'o', 3.5) if es == 'copula' else ('-', 'o', 3.5))
-    ax.plot(ns, [ev[(ev.estimator == es) & (ev.n == n)].correct.mean() * 100 for n in ns], ls=ls, marker=mk, ms=ms_,
+    ax.plot(ns, [np.mean([est_correct(s_, es, n) for s_, _ in SYS]) * 100 for n in ns], ls=ls, marker=mk, ms=ms_,
             mfc='none' if es == 'gaussian' else col, color=col, label=nm)
 ax.set_xscale('log'); ax.set_xticks(ns); ax.set_xticklabels([f'{n/1000:g}k' if n >= 1000 else str(n) for n in ns]); ax.minorticks_off(); ax.set_ylim(0, 105)
 ax.set_xlabel('Sample size [points]'); ax.set_ylabel('Systems classified correctly [%]'); offset(ax)
-ax = axs[2]; lab(ax, 'C', -0.75)
 KM = ['hh_point', 'hh_cable', 'pospischil_rs', 'pospischil_fs', 'khaliq_purkinje']
 KS = {'hh_point': 'HH, one comp.', 'hh_cable': 'HH, soma + dendrite', 'pospischil_rs': 'Pospischil, RS',
       'pospischil_fs': 'Pospischil, FS', 'khaliq_purkinje': 'Khaliq, Purkinje'}
-yy = np.arange(len(KM))
+RK = pd.read_parquet(AN + 'review_v17/random_knn.parquet')
+RK = RK[(RK.population == 'selected') & (RK.metric == 'weighted_euclidean') & (RK.tolerance == 'permissive')]
+RP = pd.read_parquet(AN + 'review_v17/random_pairs.parquet')
 KR = pd.read_parquet(RV + 'knn_ranked_check.parquet')
+REFS = [('unselected_same_size', 'Unselected, same size', RED, 'o'), ('shuffled', 'Shuffled copies', GREY, 's'),
+        ('copula_surrogate', 'Synthetic, same rank correlations', BLUE, 'D')]
+ax = fig.add_subplot(gs2[1, 0]); lab(ax, 'C', -0.62); yy = np.arange(len(KM))
 for i, m in enumerate(KM):
-    g_ = KR[KR.model_id == m]
-    sel = g_[g_.kind == 'selected'].omega_knn_ranked.mean()
-    un = sel - g_[g_.kind == 'unselected_same_size'].groupby('draw').omega_knn_ranked.mean()
-    ax.barh(i, un.mean(), 0.6, color=RED)
-    ax.plot([un.min(), un.max()], [i, i], color='k', lw=0.8)
+    g_ = RK[RK.model_id == m]; sel = g_[g_.kind == 'selected'].omega_knn.mean()
+    for j, (kind, nm, col, mk) in enumerate(REFS):
+        d = sel - g_[g_.kind == kind].groupby('draw').omega_knn.mean()
+        yj = i + (j - 1) * 0.2
+        ax.plot([d.min(), d.max()], [yj, yj], color=col, lw=0.8)
+        ax.plot(d.mean(), yj, marker=mk, ms=3.5, color=col, lw=0, label=nm if i == 0 else None)
+    k_ = KR[KR.model_id == m]
+    old = k_[k_.kind == 'selected'].omega_knn_ranked.mean() - k_[k_.kind == 'unselected_same_size'].groupby('draw').omega_knn_ranked.mean().mean()
+    ax.plot(old, i + 0.38, marker='o', ms=4, mfc='none', mec='k', lw=0, label='Evenly spaced design (earlier check)' if i == 0 else None)
 ax.axvline(0, color='k', lw=0.6); ax.set_yticks(yy); ax.set_yticklabels([KS[m] for m in KM], fontsize=6.6); ax.invert_yaxis()
-ax.set_xlabel('Selected minus unselected\nof the same size [nats]')
+ax.set_xlabel('Selected minus reference,\nmean over triplets [nats]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
-fig.tight_layout(w_pad=1.6); fig.savefig(OUT + '/fig2.png', bbox_inches='tight', pad_inches=0.12); plt.close(fig)
+ax.legend(loc='upper center', fontsize=6.2, bbox_to_anchor=(0.35, -0.36), ncol=2, handletextpad=0.3, columnspacing=1.0)
+ax = fig.add_subplot(gs2[1, 1]); lab(ax, 'D', -0.75)
+for i, m in enumerate(KM):
+    for j, (pop, met, tol, col, nm) in enumerate([('selected', 'weighted_euclidean', 'permissive', RED, 'Selected (3 SD)'),
+                                                   ('unselected', 'none', 'none', GREY, 'Unselected')]):
+        g_ = RP[(RP.model_id == m) & (RP.population == pop) & (RP.metric == met) & (RP.tolerance == tol)]
+        d = g_[g_.kind == 'selected'].mi_knn.mean() - g_[g_.kind == 'copula_surrogate'].groupby('draw').mi_knn.mean()
+        yj = i + (j - 0.5) * 0.3
+        ax.plot([d.min(), d.max()], [yj, yj], color=col, lw=0.8)
+        ax.plot(d.mean(), yj, marker='o', ms=3.5, color=col, lw=0, label=nm if i == 0 else None)
+ax.axvline(0, color='k', lw=0.6); ax.set_yticks(yy); ax.set_yticklabels([KS[m] for m in KM], fontsize=6.6); ax.invert_yaxis()
+ax.set_xlabel('Pairwise information minus synthetic\nwith same rank correlations [nats]')
+offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
+ax.legend(loc='lower right', fontsize=6.0, handletextpad=0.3)
+fig.savefig(OUT + '/fig2.png', bbox_inches='tight', pad_inches=0.12); plt.close(fig)
 
 # ---------------- Figure 3: selection compared with unselected samples of the same size ----------------
 fig = plt.figure(figsize=(7.2, 5.0)); gs = fig.add_gridspec(2, 3, hspace=0.62, wspace=0.62)
@@ -256,22 +306,23 @@ ax.set_yticks(yy); ax.set_yticklabels([SHORT[m] for m in order], fontsize=6.6); 
 ax.set_xlabel('Net O-information, high-covariance\nminus random subset [millinats]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 ax = fig.add_subplot(gs[1, 0]); lab(ax, 'C', -0.62)
-vp = json.load(open(VP)); bl = [('sampling', 'Sampling design'), ('geometry', 'Population geometry'), ('lineage', 'Source model')]
+# C-D without the covariance-based geometry predictors (review of V17;
+# tools/run_review_regression_variants.py): geometry = the two intrinsic-dimension
+# estimates only; prediction from sampling design alone.
+RVAR = json.load(open(AN + 'review_v17/regression_variants.json'))['variants']
+vp = RVAR['synergy_area:geometry_without_covariance']
+bl = [('sampling', 'Sampling design'), ('geometry', 'Intrinsic dimension'), ('lineage', 'Source model')]
 yy = np.arange(3); u = [vp['unique'][b] for b, _ in bl]
 lo = [vp['unique_ci'][b][0] for b, _ in bl]; hi = [vp['unique_ci'][b][1] for b, _ in bl]
 ax.barh(yy, u, color=[BLUE, LBLUE, RED], height=0.6)
-ax.errorbar(u, yy, xerr=[np.array(u) - lo, np.array(hi) - u], fmt='none', ecolor='k', lw=0.8, capsize=2)
+ax.errorbar(u, yy, xerr=[np.clip(np.array(u) - lo, 0, None), np.clip(np.array(hi) - u, 0, None)], fmt='none', ecolor='k', lw=0.8, capsize=2)
 ax.set_yticks(yy); ax.set_yticklabels([n for _, n in bl], fontsize=6.8); ax.invert_yaxis()
 ax.set_xlabel('Variance explained uniquely [R²]'); offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 ax = fig.add_subplot(gs[1, 1]); lab(ax, 'D', -0.75)
-lo_ = pd.read_parquet(AN + 'lomo.parquet')
-lo_ = lo_[(lo_.fold_level == 'source_lineage_id') & (lo_.predictors == 'sampling+geometry') & (lo_.endpoint == 'synergy_area')]
 LN = {'hay_2011': 'Hay', 'hodgkin_huxley_1952': 'Hodgkin–Huxley', 'khaliq_2003': 'Khaliq', 'migliore_1999': 'Migliore', 'pospischil_2008': 'Pospischil'}
-lo_ = lo_.set_index('held_out_group'); keys = list(LN); yy = np.arange(len(keys))
-vals = [lo_.loc[k, 'r2_out_of_sample'] for k in keys]; shown = [max(v, -1.0) for v in vals]
+lolo = RVAR['synergy_area:no_geometry']['lolo']['sampling_only']; keys = list(LN); yy = np.arange(len(keys))
+vals = [lolo[k] for k in keys]; shown = [max(v, -1.0) for v in vals]
 ax.barh(yy, shown, color=[RED if v < 0 else BLUE for v in vals], height=0.6); ax.axvline(0, color='k', lw=0.6)
-for i, v in enumerate(vals):
-    if v < -1: ax.text(-0.97, i, f'{v:.1f}'.replace('-', '−'), va='center', fontsize=6.5, color='white')
 ax.set_xlim(-1, 1); ax.set_yticks(yy); ax.set_yticklabels([LN[k] for k in keys], fontsize=6.8); ax.invert_yaxis()
 ax.set_xlabel('Prediction of left-out source model [R²]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
