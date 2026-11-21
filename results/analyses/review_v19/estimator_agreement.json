@@ -1,0 +1,20 @@
+{
+ "as_previously_counted": {
+  "n_triplet_estimates": 16306,
+  "n_populations": 185,
+  "r_triplets": 0.8886112007615578,
+  "r_shares": 0.9684587133394233
+ },
+ "without_undefined_khaliq_family": {
+  "n_triplet_estimates": 16066,
+  "n_populations": 183,
+  "r_triplets": 0.8883993626202993,
+  "r_shares": 0.9685187161623516
+ },
+ "unselected_counted_once": {
+  "n_triplet_estimates": 14291,
+  "n_populations": 164,
+  "r_triplets": 0.9072258665894796,
+  "r_shares": 0.9592181376166244
+ }
+}

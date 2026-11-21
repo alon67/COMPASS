@@ -1,0 +1,173 @@
+{
+ "all_populations": {
+  "rows": 164,
+  "sampling+geometry, preregistered geometry block": {
+   "vs_training_mean": {
+    "hay_2011": 0.489,
+    "hodgkin_huxley_1952": 0.327,
+    "khaliq_2003": 0.792,
+    "migliore_1999": -3.825,
+    "pospischil_2008": 0.807
+   },
+   "vs_heldout_mean": {
+    "hay_2011": 0.315,
+    "hodgkin_huxley_1952": 0.147,
+    "khaliq_2003": 0.786,
+    "migliore_1999": -55.327,
+    "pospischil_2008": 0.8
+   },
+   "n_positive_vs_training_mean": 4,
+   "n_positive_vs_heldout_mean": 4
+  },
+  "sampling+intrinsic_dimension (geometry revised after review)": {
+   "vs_training_mean": {
+    "hay_2011": 0.398,
+    "hodgkin_huxley_1952": 0.586,
+    "khaliq_2003": 0.768,
+    "migliore_1999": -2.176,
+    "pospischil_2008": 0.575
+   },
+   "vs_heldout_mean": {
+    "hay_2011": 0.193,
+    "hodgkin_huxley_1952": 0.476,
+    "khaliq_2003": 0.76,
+    "migliore_1999": -36.076,
+    "pospischil_2008": 0.559
+   },
+   "n_positive_vs_training_mean": 4,
+   "n_positive_vs_heldout_mean": 4
+  },
+  "sampling_only (post hoc)": {
+   "vs_training_mean": {
+    "hay_2011": 0.173,
+    "hodgkin_huxley_1952": 0.549,
+    "khaliq_2003": 0.759,
+    "migliore_1999": 0.624,
+    "pospischil_2008": 0.77
+   },
+   "vs_heldout_mean": {
+    "hay_2011": -0.109,
+    "hodgkin_huxley_1952": 0.429,
+    "khaliq_2003": 0.751,
+    "migliore_1999": -3.394,
+    "pospischil_2008": 0.761
+   },
+   "n_positive_vs_training_mean": 5,
+   "n_positive_vs_heldout_mean": 3
+  }
+ },
+ "without_clustered": {
+  "rows": 158,
+  "sampling+geometry, preregistered geometry block": {
+   "vs_training_mean": {
+    "hay_2011": 0.638,
+    "hodgkin_huxley_1952": 0.54,
+    "khaliq_2003": 0.803,
+    "migliore_1999": -0.377,
+    "pospischil_2008": 0.265
+   },
+   "vs_heldout_mean": {
+    "hay_2011": -58.314,
+    "hodgkin_huxley_1952": 0.264,
+    "khaliq_2003": -17.521,
+    "migliore_1999": -4.08,
+    "pospischil_2008": -0.831
+   },
+   "n_positive_vs_training_mean": 4,
+   "n_positive_vs_heldout_mean": 1
+  },
+  "sampling+intrinsic_dimension (geometry revised after review)": {
+   "vs_training_mean": {
+    "hay_2011": -1.164,
+    "hodgkin_huxley_1952": 0.17,
+    "khaliq_2003": -0.379,
+    "migliore_1999": -9.466,
+    "pospischil_2008": -2.519
+   },
+   "vs_heldout_mean": {
+    "hay_2011": -353.154,
+    "hodgkin_huxley_1952": -0.328,
+    "khaliq_2003": -128.525,
+    "migliore_1999": -37.595,
+    "pospischil_2008": -7.763
+   },
+   "n_positive_vs_training_mean": 1,
+   "n_positive_vs_heldout_mean": 0
+  },
+  "sampling_only (post hoc)": {
+   "vs_training_mean": {
+    "hay_2011": -1.705,
+    "hodgkin_huxley_1952": 0.15,
+    "khaliq_2003": -0.215,
+    "migliore_1999": 0.521,
+    "pospischil_2008": -0.573
+   },
+   "vs_heldout_mean": {
+    "hay_2011": -441.723,
+    "hodgkin_huxley_1952": -0.359,
+    "khaliq_2003": -113.13,
+    "migliore_1999": -0.765,
+    "pospischil_2008": -2.917
+   },
+   "n_positive_vs_training_mean": 2,
+   "n_positive_vs_heldout_mean": 0
+  }
+ },
+ "phenotype_selected_only": {
+  "rows": 93,
+  "sampling+geometry, preregistered geometry block": {
+   "vs_training_mean": {
+    "hay_2011": 0.901,
+    "hodgkin_huxley_1952": 0.361,
+    "khaliq_2003": 0.94,
+    "migliore_1999": 0.874,
+    "pospischil_2008": -0.588
+   },
+   "vs_heldout_mean": {
+    "hay_2011": -22.622,
+    "hodgkin_huxley_1952": -0.248,
+    "khaliq_2003": -7.483,
+    "migliore_1999": -1.871,
+    "pospischil_2008": -3.392
+   },
+   "n_positive_vs_training_mean": 4,
+   "n_positive_vs_heldout_mean": 0
+  },
+  "sampling+intrinsic_dimension (geometry revised after review)": {
+   "vs_training_mean": {
+    "hay_2011": 0.564,
+    "hodgkin_huxley_1952": 0.202,
+    "khaliq_2003": -0.219,
+    "migliore_1999": -5.925,
+    "pospischil_2008": -1.879
+   },
+   "vs_heldout_mean": {
+    "hay_2011": -102.752,
+    "hodgkin_huxley_1952": -0.558,
+    "khaliq_2003": -170.082,
+    "migliore_1999": -156.699,
+    "pospischil_2008": -6.962
+   },
+   "n_positive_vs_training_mean": 2,
+   "n_positive_vs_heldout_mean": 0
+  },
+  "sampling_only (post hoc)": {
+   "vs_training_mean": {
+    "hay_2011": -0.929,
+    "hodgkin_huxley_1952": 0.158,
+    "khaliq_2003": -0.034,
+    "migliore_1999": -0.225,
+    "pospischil_2008": -0.186
+   },
+   "vs_heldout_mean": {
+    "hay_2011": -457.74,
+    "hodgkin_huxley_1952": -0.643,
+    "khaliq_2003": -144.174,
+    "migliore_1999": -26.892,
+    "pospischil_2008": -2.281
+   },
+   "n_positive_vs_training_mean": 1,
+   "n_positive_vs_heldout_mean": 0
+  }
+ }
+}

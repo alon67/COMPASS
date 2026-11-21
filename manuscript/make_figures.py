@@ -73,10 +73,10 @@ ax = fig.add_axes([0.0, 0.0, 0.56, 1.0]); ax.set_xlim(0, 10); ax.set_ylim(0, 10.
 lab(ax, 'A', 0.0, 0.955)
 steps = [
     ('Independent prior', 'Parameters drawn independently, ¼ to 4 times the published value', '#1f4e9c', '#eef3fb'),
-    ('Simulation', 'Eight published models in NEURON; 13 electrical features per parameter set', '#1f4e9c', '#eef3fb'),
+    ('Simulation', 'Eight implementations of six published models in NEURON;\n13 electrical features per parameter set', '#1f4e9c', '#eef3fb'),
     ('Selection gate', 'Stage 1: all 13 features measurable (repeated spiking, fitted time constant)\nStage 2: within 3, 2, 1 or 0.5 SD of the published behavior', '#c46a00', '#fdf1e2'),
     ('Accepted population', 'An ensemble of models that share the target behavior', '#1f4e9c', '#eef3fb'),
-    ('Higher-order dependence', 'O-information of every group of 3–5 parameters, compared\nwith unselected samples of the same size and shuffled copies', '#2a7a3b', '#edf6ee'),
+    ('Higher-order dependence', 'O-information of groups of 3–5 parameters (all, or 1,200 per size), compared\nwith unselected samples of the same size and shuffled copies', '#2a7a3b', '#edf6ee'),
 ]
 h, gap, top = 1.55, 0.45, 9.9
 for i, (t, s, ec, fc) in enumerate(steps):
@@ -257,7 +257,7 @@ ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 handles = [Line2D([], [], color=GREY, lw=0.7, label='Selected, individual implementations'),
            Line2D([], [], color='k', lw=0.8, label='Selected, Hay layer 5'),
            Line2D([], [], color=RED, lw=1.8, marker='o', ms=3.5, label='Selected, mean of seven (six at 0.5 SD)'),
-           Line2D([], [], color=BLUE, lw=1.6, ls=(0, (3, 1.5)), marker='s', ms=3, label='Unselected, same size, mean of seven'),
+           Line2D([], [], color=BLUE, lw=1.6, ls=(0, (3, 1.5)), marker='s', ms=3, label='Unselected, same size, mean of seven (six at 0.5 SD)'),
            Line2D([], [], color=ORANGE, lw=1.4, ls=(0, (1, 1)), marker='^', ms=3, label='All 13 features measurable, same size'),
            Line2D([], [], color=LGREY, lw=0.8, ls=(0, (1.5, 1.5)), label='Mainen, not converged (D only)')]
 fig.legend(handles=handles, loc='upper center', ncol=3, fontsize=6.6, bbox_to_anchor=(0.5, 1.04))
@@ -329,8 +329,9 @@ offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(ax
 ax = fig.add_subplot(gs[1, 0]); lab(ax, 'C', -0.62)
 # C-D: attribution for three sets of populations (review of V18): geometry = the two
 # intrinsic-dimension estimates; prediction uses the predictor set fixed in advance.
-FITS = [('all_populations', 'All 166 populations', BLUE), ('without_clustered', 'Without clustered (160)', LBLUE),
-        ('phenotype_selected_only', 'Selected for behavior (95)', RED)]
+FITS = [('all_populations', 'All design rows ({})', BLUE), ('without_clustered', 'Without clustered ({})', LBLUE),
+        ('phenotype_selected_only', 'Selected for behavior ({})', RED)]
+FITS = [(k, nm.format(ATT[k]['rows']), c) for k, nm, c in FITS]   # labels from the fitted row counts
 bl = [('sampling', 'Sampling design'), ('geometry', 'Intrinsic dimension'), ('lineage', 'Source model')]
 for j, (key, nm, col) in enumerate(FITS):
     v = ATT[key]; yj = np.arange(3) + (j - 1) * 0.26
@@ -353,7 +354,7 @@ for j, (key, nm, col) in enumerate(FITS):
             ax.text(-0.98, y_, f'{v:.1f}'.replace('-', '−'), va='center', fontsize=5.2, color='white')
 ax.axvline(0, color='k', lw=0.6)
 ax.set_xlim(-1, 1); ax.set_yticks(range(len(keys))); ax.set_yticklabels([LN[k] for k in keys], fontsize=6.8); ax.invert_yaxis()
-ax.set_xlabel('Prediction of left-out source model [R²]')
+ax.set_xlabel('Prediction of left-out source model,\nR² against the training-model mean')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 fig.savefig(OUT + '/fig5.png', bbox_inches='tight'); plt.close(fig)
 print('ok')

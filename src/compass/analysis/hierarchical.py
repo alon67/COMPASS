@@ -433,7 +433,12 @@ def leave_one_model_out(df: pd.DataFrame, endpoint: str,
             beta, *_ = np.linalg.lstsq(A, ytr, rcond=None)
             pred = np.hstack([np.ones((te.sum(), 1)), Xte]) @ beta
             ss_res = float(np.sum((yte - pred) ** 2))
+            # Baseline: predicting the TRAINING mean for every held-out row.  A
+            # positive score means "beats that prediction for a new group"; it
+            # is not variance explained within the held-out group, which
+            # r2_vs_heldout_mean (held-out mean as the baseline) describes.
             ss_tot = float(np.sum((yte - ytr.mean()) ** 2))
+            ss_own = float(np.sum((yte - yte.mean()) ** 2))
             rows.append({
                 "endpoint": endpoint, "predictors": name,
                 # the unit actually held out, and what kind of unit it is, so a
@@ -444,6 +449,7 @@ def leave_one_model_out(df: pd.DataFrame, endpoint: str,
                 "preprocessing": "fold_local",
                 "rmse": float(np.sqrt(ss_res / te.sum())),
                 "r2_out_of_sample": float(1.0 - ss_res / ss_tot) if ss_tot > 0 else np.nan,
+                "r2_vs_heldout_mean": float(1.0 - ss_res / ss_own) if ss_own > 0 else np.nan,
             })
     return pd.DataFrame(rows)
 
