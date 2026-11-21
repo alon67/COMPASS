@@ -7,8 +7,9 @@ individual cases in grey with the population mean in red, unframed legends, and 
 boxed top-to-bottom pipeline with a bold coloured heading and a grey sub-line.
 
 Reads stored COMPASS analysis tables only (results/analyses/, results/analyses/review_v5/ and
-results/analyses/review_v17/).
-Usage: make_figures.py OUTDIR VP_JSON NULL_CSV DROPOUT_CSV  (see run_figures.sh)
+results/analyses/review_v17/ and review_v18/).
+Usage: make_figures.py OUTDIR ATTRIBUTION_JSON NULL_CSV DROPOUT_CSV  (see run_figures.sh; Fig. 5C-D read
+results/analyses/review_v18/attribution.json)
 """
 import json, sys
 import numpy as np, pandas as pd
@@ -30,6 +31,7 @@ plt.rcParams.update({
     'mathtext.fontset': 'custom', 'mathtext.rm': 'Arial', 'mathtext.it': 'Arial:italic'})
 
 RED, BLUE, LBLUE, GREY, LGREY = '#d62728', '#1f4e9c', '#8fb3e0', '#8c8c8c', '#c8c8c8'
+ORANGE = '#e08a1e'
 
 MODELS = ['hh_point', 'hh_cable', 'pospischil_rs', 'pospischil_fs', 'khaliq_purkinje',
           'migliore_ca1', 'bbp_l5pc', 'mainen_l5pc']
@@ -54,7 +56,12 @@ g = e[(e.estimator == 'gaussian') & (e.protocol_family == 'absolute')]
 TOLS = [('E1', 'none'), ('E3', 'weighted_euclidean'), ('E3b', 'weighted_euclidean'),
         ('E4', 'weighted_euclidean'), ('E4b', 'weighted_euclidean')]
 RV = AN + 'review_v5/'
-NULL = pd.read_csv(sys.argv[3]); KNN = pd.read_parquet(RV + 'knn_check.parquet'); DROP = pd.read_csv(sys.argv[4])
+NULL = pd.read_csv(sys.argv[3]); DROP = pd.read_csv(sys.argv[4])
+# review of V18 (tools/run_review_v18.py): two-stage selection, decomposed feature removal,
+# matched-size shifts and the attribution sensitivity
+V18 = AN + 'review_v18/'
+TS = pd.read_parquet(V18 + 'two_stage.parquet'); DD = pd.read_parquet(V18 + 'dropout_decomposed.parquet')
+ATT = json.load(open(V18 + 'attribution.json'))
 kn = json.load(open(AN + 'key_numbers.json')); bm = json.load(open(AN + 'benchmarks.json'))
 
 # ---------------- Figure 1: design as a pipeline + toy illustration ----------------
@@ -196,6 +203,10 @@ for k, (col, yl, sc, logy) in enumerate(PAN):
         ax.plot(xs, S[m], color='k' if m == 'bbp_l5pc' else GREY, lw=0.8 if m == 'bbp_l5pc' else 0.7, zorder=2)
     mn = np.nanmean([N_[m] for m in PRIM], axis=0)
     ax.plot(xs, mn, color=BLUE, lw=1.6, ls=(0, (3, 1.5)), marker='s', ms=3, zorder=3)
+    fc = TS[(TS.experiment == 'screening') & (TS.protocol_family == 'absolute') & (TS.metric == 'weighted_euclidean')
+            & (TS.kind == 'feature_complete_same_size')].groupby(['model_id', 'tolerance'])[col].mean()
+    C_ = {m: np.array([fc.get((m, t), np.nan) for t in TL], float) * sc for m in PRIM}
+    ax.plot(xs, np.nanmean([C_[m] for m in PRIM], axis=0), color=ORANGE, lw=1.4, ls=(0, (1, 1)), marker='^', ms=3, zorder=3)
     ax.plot(xs, np.nanmean([S[m] for m in PRIM], axis=0), color=RED, lw=1.8, marker='o', ms=3.5, zorder=4)
     ax.set_xticks(xs); ax.set_xticklabels(xt); ax.set_xlabel('Tolerance [SD]'); ax.set_ylabel(yl); offset(ax)
     if col == 'frac_synergy_o3':
@@ -226,20 +237,25 @@ FN = {'hyperpol_abs.membrane_tau_ms': 'Membrane time constant', 'step_abs_hi.ada
       'step_abs_hi.ap_amplitude_mV': 'Spike amplitude', 'hyperpol_abs.input_resistance_Mohm': 'Input resistance',
       'rheobase_nA': 'Rheobase', 'step_abs_hi.first_spike_latency_ms': 'First-spike latency',
       'step_abs_hi.mean_firing_rate_Hz': 'Mean firing rate'}
-d_ = DROP[(DROP.metric == 'weighted_euclidean') & (DROP.tolerance == 'permissive')]
-fr = d_.groupby('dropped_feature').frac_changed.mean() * 100
-others = fr[[f for f in fr.index if f not in FN]]
-items = [(FN[f], fr[f]) for f in FN] + [('Other six features (each)', others.max())]
-items = sorted(items[:-1], key=lambda t: -t[1]) + items[-1:]
+d_ = DD[(DD.metric == 'weighted_euclidean') & (DD.tolerance == 'permissive')]
+fr = d_.groupby('dropped_feature')[['frac_newly_eligible', 'frac_changed_by_distance', 'frac_changed_total']].mean() * 100
+others = fr.loc[[f for f in fr.index if f not in FN]]
+items = [(FN[f], fr.loc[f, 'frac_newly_eligible'], fr.loc[f, 'frac_changed_by_distance']) for f in FN]
+items = sorted(items, key=lambda t: -(t[1] + t[2]))
+oth = others.loc[others.frac_changed_total.idxmax()]
+items.append(('Other six features (each)', oth.frac_newly_eligible, oth.frac_changed_by_distance))
 yy = np.arange(len(items))
-ax.barh(yy, [v for _, v in items], color=[BLUE] * (len(items) - 1) + [LGREY], height=0.6)
-ax.set_yticks(yy); ax.set_yticklabels([n for n, _ in items], fontsize=6.4); ax.invert_yaxis()
+ax.barh(yy, [v for _, v, _ in items], color=BLUE, height=0.6, label='Newly measurable')
+ax.barh(yy, [w for _, _, w in items], left=[v for _, v, _ in items], color=LBLUE, height=0.6, label='Distance only')
+ax.set_yticks(yy); ax.set_yticklabels([n for n, _, _ in items], fontsize=6.4); ax.invert_yaxis()
+ax.legend(loc='center right', fontsize=5.8, handlelength=1.0, borderaxespad=0.0, bbox_to_anchor=(1.38, 0.45))
 ax.set_xlabel('Accepted sets\nchanged [%]'); offset(ax, ('bottom',))
 ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 handles = [Line2D([], [], color=GREY, lw=0.7, label='Selected, individual implementations'),
            Line2D([], [], color='k', lw=0.8, label='Selected, Hay layer 5'),
            Line2D([], [], color=RED, lw=1.8, marker='o', ms=3.5, label='Selected, mean of seven'),
            Line2D([], [], color=BLUE, lw=1.6, ls=(0, (3, 1.5)), marker='s', ms=3, label='Unselected, same size, mean of seven'),
+           Line2D([], [], color=ORANGE, lw=1.4, ls=(0, (1, 1)), marker='^', ms=3, label='All 13 features measurable, same size'),
            Line2D([], [], color=LGREY, lw=0.8, ls=(0, (1.5, 1.5)), label='Mainen, not converged (D only)')]
 fig.legend(handles=handles, loc='upper center', ncol=3, fontsize=6.6, bbox_to_anchor=(0.5, 1.04))
 fig.savefig(OUT + '/fig3.png', bbox_inches='tight'); plt.close(fig)
@@ -271,12 +287,14 @@ ax.plot(ns, [rel[str(n)]['p_sign_flip_mean'] * 100 for n in ns], marker='o', ms=
 ax.axhline(50, color='k', lw=0.5, ls=(0, (2, 2))); ax.set_ylim(0, 60); ax.set_xlabel('Population size [parameter sets]')
 ax.set_ylabel('Subsamples with opposite\nsign of net O-information [%]'); ax.legend(loc='lower left', fontsize=6.5); offset(ax)
 ax = axs[2]; lab(ax, 'C', -1.25)
-cs = pd.read_parquet(AN + 'conditioning_shift.parquet'); cs = cs[cs.estimator == 'gaussian'].groupby('model_id')['d_net_o_information'].mean() * 1000
-order = [m for m in MODELS if m in cs.index]; yy = np.arange(len(order))
-ax.barh(yy, [cs[m] for m in order], color=[LGREY if m == 'mainen_l5pc' else BLUE for m in order], height=0.62)
+sel_ = TS[(TS.experiment == 'screening') & (TS.kind == 'selected')].set_index(['model_id', 'protocol_family', 'metric', 'tolerance'])
+uns_ = TS[(TS.experiment == 'screening') & (TS.kind == 'unselected_same_size')].groupby(['model_id', 'protocol_family', 'metric', 'tolerance']).net_o_information.mean()
+cs = ((sel_.net_o_information - uns_.reindex(sel_.index)).groupby(level=0).mean() * 1000)
+order = [m for m in PRIM if m in cs.index]; yy = np.arange(len(order))
+ax.barh(yy, [cs[m] for m in order], color=BLUE, height=0.62)
 ax.axvline(0, color='k', lw=0.6); ax.set_yticks(yy)
-ax.set_yticklabels([SHORT[m].replace(' (not converged)', '*') for m in order], fontsize=6.6); ax.invert_yaxis()
-ax.set_xlabel('Change in net\nO-information after\nselection [millinats]'); offset(ax, ('bottom',)); ax.tick_params(axis='y', length=0)
+ax.set_yticklabels([SHORT[m] for m in order], fontsize=6.6); ax.invert_yaxis()
+ax.set_xlabel('Selected minus\nsame-size unselected,\nnet O-information\n[millinats]'); offset(ax, ('bottom',)); ax.tick_params(axis='y', length=0)
 ax.spines['left'].set_visible(False)
 fig.savefig(OUT + '/fig4.png', bbox_inches='tight'); plt.close(fig)
 
@@ -285,7 +303,7 @@ fig = plt.figure(figsize=(7.2, 5.1)); gs = fig.add_gridspec(2, 2, hspace=0.6, ws
 ax = fig.add_subplot(gs[0, 0]); lab(ax, 'A', -0.62)
 REG = [('NULL', 'max_z', 'Unselected, same size\nas selected'), ('E2', 'none', 'Correlated prior'), ('E6', 'none', 'Clustered population'),
        ('E3', 'max_z', 'Selected (3 SD)'), ('E3m', 'max_z', 'Random subset of selected'), ('E7', 'max_z', 'High-covariance subset'),
-       ('E8', 'none', 'Shuffled control'), ('E9', 'none', 'Synthetic, same covariance')]
+       ('E8', 'none', 'Shuffled control'), ('E9', 'none', 'Synthetic, fitted copula')]
 for i, (reg, met, nm) in enumerate(REG):
     if reg == 'NULL':
         nn = NULL[(NULL.metric == 'max_z') & (NULL.tolerance == 'permissive') & (NULL.null == 'unselected_same_size')]
@@ -306,24 +324,32 @@ ax.set_yticks(yy); ax.set_yticklabels([SHORT[m] for m in order], fontsize=6.6); 
 ax.set_xlabel('Net O-information, high-covariance\nminus random subset [millinats]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 ax = fig.add_subplot(gs[1, 0]); lab(ax, 'C', -0.62)
-# C-D without the covariance-based geometry predictors (review of V17;
-# tools/run_review_regression_variants.py): geometry = the two intrinsic-dimension
-# estimates only; prediction from sampling design alone.
-RVAR = json.load(open(AN + 'review_v17/regression_variants.json'))['variants']
-vp = RVAR['synergy_area:geometry_without_covariance']
+# C-D: attribution for three sets of populations (review of V18): geometry = the two
+# intrinsic-dimension estimates; prediction uses the predictor set fixed in advance.
+FITS = [('all_populations', 'All 166 populations', BLUE), ('without_clustered', 'Without clustered (160)', LBLUE),
+        ('phenotype_selected_only', 'Selected for behavior (95)', RED)]
 bl = [('sampling', 'Sampling design'), ('geometry', 'Intrinsic dimension'), ('lineage', 'Source model')]
-yy = np.arange(3); u = [vp['unique'][b] for b, _ in bl]
-lo = [vp['unique_ci'][b][0] for b, _ in bl]; hi = [vp['unique_ci'][b][1] for b, _ in bl]
-ax.barh(yy, u, color=[BLUE, LBLUE, RED], height=0.6)
-ax.errorbar(u, yy, xerr=[np.clip(np.array(u) - lo, 0, None), np.clip(np.array(hi) - u, 0, None)], fmt='none', ecolor='k', lw=0.8, capsize=2)
-ax.set_yticks(yy); ax.set_yticklabels([n for _, n in bl], fontsize=6.8); ax.invert_yaxis()
+for j, (key, nm, col) in enumerate(FITS):
+    v = ATT[key]; yj = np.arange(3) + (j - 1) * 0.26
+    u = np.array([v['unique'][b] for b, _ in bl]); lo = np.array([v['unique_ci'][b][0] for b, _ in bl]); hi = np.array([v['unique_ci'][b][1] for b, _ in bl])
+    ax.barh(yj, u, height=0.25, color=col, label=nm)
+    ax.errorbar(u, yj, xerr=[np.clip(u - lo, 0, None), np.clip(hi - u, 0, None)], fmt='none', ecolor='k', lw=0.6, capsize=1.5)
+ax.set_yticks(range(3)); ax.set_yticklabels([n for _, n in bl], fontsize=6.8); ax.invert_yaxis()
+ax.legend(loc='lower right', fontsize=5.8, handlelength=1.0)
 ax.set_xlabel('Variance explained uniquely [R²]'); offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 ax = fig.add_subplot(gs[1, 1]); lab(ax, 'D', -0.75)
 LN = {'hay_2011': 'Hay', 'hodgkin_huxley_1952': 'Hodgkin–Huxley', 'khaliq_2003': 'Khaliq', 'migliore_1999': 'Migliore', 'pospischil_2008': 'Pospischil'}
-lolo = RVAR['synergy_area:no_geometry']['lolo']['sampling_only']; keys = list(LN); yy = np.arange(len(keys))
-vals = [lolo[k] for k in keys]; shown = [max(v, -1.0) for v in vals]
-ax.barh(yy, shown, color=[RED if v < 0 else BLUE for v in vals], height=0.6); ax.axvline(0, color='k', lw=0.6)
-ax.set_xlim(-1, 1); ax.set_yticks(yy); ax.set_yticklabels([LN[k] for k in keys], fontsize=6.8); ax.invert_yaxis()
+keys = list(LN)
+for j, (key, nm, col) in enumerate(FITS):
+    lolo = ATT[key]['lolo']['sampling+intrinsic_dimension (fixed in advance)']
+    yj = np.arange(len(keys)) + (j - 1) * 0.26
+    vals = [lolo[k] for k in keys]
+    ax.barh(yj, [max(v, -1.0) for v in vals], height=0.25, color=col)
+    for y_, v in zip(yj, vals):
+        if v < -1:
+            ax.text(-0.98, y_, f'{v:.1f}'.replace('-', '−'), va='center', fontsize=5.2, color='white')
+ax.axvline(0, color='k', lw=0.6)
+ax.set_xlim(-1, 1); ax.set_yticks(range(len(keys))); ax.set_yticklabels([LN[k] for k in keys], fontsize=6.8); ax.invert_yaxis()
 ax.set_xlabel('Prediction of left-out source model [R²]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 fig.savefig(OUT + '/fig5.png', bbox_inches='tight'); plt.close(fig)

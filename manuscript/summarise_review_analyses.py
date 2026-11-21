@@ -87,7 +87,7 @@ for m, g in k.groupby('model_id'):
              'r_knn_gauss_shift': float(np.corrcoef(d_sh, d_g)[0, 1]) if len(s) > 2 else np.nan,
              'shuffle_sd_of_mean': float(g[g.kind == 'shuffled_same_size'].groupby('draw').omega_knn.mean().std()),
              'sel_mean_vs_shuffle_draw_means_pct': float((g[g.kind == 'shuffled_same_size'].groupby('draw').omega_knn.mean() > s.omega_knn.mean()).mean()*100)}
-out['knn'] = kk
+out['knn_sobol_withdrawn'] = kk   # Sobol-design check, withdrawn (spacing confound; see review_v18/sobol_box.parquet)
 
 # ---- D: top triplets -----------------------------------------------------------
 t = pd.read_parquet(D + 'top_triplets.parquet')

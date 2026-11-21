@@ -1,0 +1,56 @@
+{
+ "seed": 20260804,
+ "n_reference_samples": 100,
+ "feature_complete_seed_base": 72341,
+ "features_absolute": [
+  "rest.resting_potential_mV",
+  "hyperpol_abs.input_resistance_Mohm",
+  "hyperpol_abs.membrane_tau_ms",
+  "hyperpol_abs.sag_ratio",
+  "rheobase_nA",
+  "step_abs_hi.first_spike_latency_ms",
+  "step_abs_hi.ap_amplitude_mV",
+  "step_abs_hi.ap_halfwidth_ms",
+  "step_abs_hi.ahp_depth_mV",
+  "step_abs_hi.first_isi_ms",
+  "step_abs_hi.mean_firing_rate_Hz",
+  "step_abs_hi.adaptation_index",
+  "step_abs_hi.spike_count"
+ ],
+ "features_normalised": [
+  "rest.resting_potential_mV",
+  "hyperpol_abs.input_resistance_Mohm",
+  "hyperpol_abs.membrane_tau_ms",
+  "rheobase_nA",
+  "step_rheo_3p0x.first_spike_latency_ms",
+  "step_rheo_3p0x.ap_amplitude_mV",
+  "step_rheo_3p0x.ap_halfwidth_ms",
+  "step_rheo_3p0x.ahp_depth_mV",
+  "step_rheo_3p0x.first_isi_ms",
+  "step_rheo_3p0x.mean_firing_rate_Hz",
+  "step_rheo_3p0x.adaptation_index",
+  "step_rheo_3p0x.spike_count"
+ ],
+ "parameter_scale": "log10 of the multiplicative factor (Gaussian estimates)",
+ "nearest_neighbour_scale": "normal scores by rank; fourth neighbour; maximum norm",
+ "ksg": "KSG estimator 1, k=4, maximum norm, normal scores, jitter 1e-10, 39 surrogates",
+ "qc_policy": "primary",
+ "experiments": {
+  "screening": [
+   "hh_point",
+   "hh_cable",
+   "pospischil_rs",
+   "pospischil_fs",
+   "khaliq_purkinje",
+   "migliore_ca1",
+   "bbp_l5pc"
+  ],
+  "screening_random": [
+   "hh_point",
+   "hh_cable",
+   "pospischil_rs",
+   "pospischil_fs",
+   "khaliq_purkinje"
+  ]
+ }
+}

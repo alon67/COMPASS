@@ -667,7 +667,7 @@
    "synergy_area_full": 1.7e-05
   }
  ],
- "knn": {
+ "knn_sobol_withdrawn": {
   "hh_cable": {
    "n": 3130,
    "n_triplets": 56,

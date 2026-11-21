@@ -65,6 +65,8 @@ def boot(g, blocks, endpoint, n_boot=2000):
     us = []
     for _ in range(n_boot):
         pick = rng.choice(lineages, len(lineages), replace=True)
+        if len(set(pick)) < 2:   # check the ORIGINAL lineages, before relabelling
+            continue
         parts = []
         for k, lin in enumerate(pick):
             s = g[g.source_lineage_id == lin].copy()
@@ -72,8 +74,6 @@ def boot(g, blocks, endpoint, n_boot=2000):
             s["model_id"] = s["model_id"] + f"__{k}"
             parts.append(s)
         d = pd.concat(parts, ignore_index=True)
-        if d.source_lineage_id.nunique() < 2:
-            continue
         try:
             v = variance_partition(d, endpoint, blocks).set_index("block")["r2_unique"]
         except Exception:  # noqa: BLE001

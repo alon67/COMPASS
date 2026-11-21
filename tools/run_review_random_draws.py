@@ -119,8 +119,17 @@ def run_model(mid: str) -> dict[str, list[dict]]:
     df = ra.load_model_table(EXPERIMENT, mid)
     drop = set(UNIDENTIFIABLE_PARAMETERS.get(mid, []))
     pids = [s.parameter_id for s in get_adapter(mid).parameter_specs() if s.parameter_id not in drop]
-    feats = [f for f in CONDITIONING_FEATURES if f in df.columns]
-    ens = build_ensembles(df, mid, pids, feats, target=ra.canonical_target(mid, feats), seed=seed,
+    # Strict inputs: the declared phenotype and the published target, or stop.
+    # (A missing column or target used to be dropped or replaced by the median
+    # silently, which would answer a different question under the same labels.)
+    missing = [f for f in CONDITIONING_FEATURES if f not in df.columns]
+    if missing:
+        raise SystemExit(f"{EXPERIMENT}/{mid}: feature columns missing {missing}")
+    feats = list(CONDITIONING_FEATURES)
+    target = ra.canonical_target(mid, feats)
+    if target is None:
+        raise SystemExit(f"{mid}: canonical target missing; refusing the median fallback")
+    ens = build_ensembles(df, mid, pids, feats, target=target, seed=seed,
                           protocol_family="absolute", qc_policy="primary")
     e1 = [e for e in ens if e.regime == "E1"][0].params
     sel = [e for e in ens if e.regime in ("E3", "E3b", "E4", "E4b")]
@@ -188,6 +197,15 @@ def main() -> int:
                 allres[k] += r[k]
     for k, name in (("null", "random_null"), ("knn", "random_knn"), ("pairs", "random_pairs")):
         pd.DataFrame(allres[k]).to_parquet(OUT / f"{name}.parquet", index=False)
+    import json
+
+    from compass.conditioning.ensembles import CONDITIONING_FEATURES
+    (OUT / "random_draws_run_record.json").write_text(json.dumps({
+        "experiment": EXPERIMENT, "models": MODELS, "features": CONDITIONING_FEATURES,
+        "seed": _ra().SEED, "n_null": N_NULL, "n_references": N_KNN_REF, "knn_min_n": KNN_MIN_N,
+        "gaussian_scale": "log10 of the multiplicative factor",
+        "nearest_neighbour_scale": "normal scores by rank; fourth neighbour; maximum norm",
+        "copula_surrogate_seeds": "seed + 1000 + draw"}, indent=1))
     return 0
 
 

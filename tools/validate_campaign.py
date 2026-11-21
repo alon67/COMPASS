@@ -199,10 +199,12 @@ def d2_parameter_provenance(df, experiment, rc) -> list:
                 out = int(((x[:, j] < lo * (1 - 1e-9)) | (x[:, j] > hi * (1 + 1e-9))).sum())
                 if out:
                     fails.append(f"{s.parameter_id}: {out} values outside [{lo}, {hi}]")
-            # E1 is a deterministic Sobol design: regenerate and compare.
+            # E1 is a deterministic design (Sobol unless the campaign declares
+            # another sampling method): regenerate it the way the runner did.
             if r == "E1":
                 seed = int(g["seed"].iloc[0])
-                want = independent_sample(specs, len(x), seed=seed, method="sobol")
+                want = independent_sample(specs, len(x), seed=seed,
+                                          method=rc.sampling_method(experiment))
                 if want.shape == x.shape and not np.allclose(want, x, rtol=1e-9, atol=1e-12):
                     n_bad = int((~np.isclose(want, x, rtol=1e-9, atol=1e-12)).any(axis=1).sum())
                     fails.append(f"E1 design does not regenerate from seed {seed}: "

@@ -281,6 +281,15 @@ def model_seed(model_id: str, replicate: int, experiment: str = "screening") -> 
     return BASE_SEED + 1000 * replicate + int.from_bytes(digest, "big") % 997
 
 
+def sampling_method(experiment: str) -> str:
+    """Design of the independent prior for this campaign ("sobol" unless declared).
+
+    One lookup shared by the runner and by validate_campaign.py, so the design
+    that is regenerated for checking is the design that was simulated.
+    """
+    return CONFIG["campaigns"][experiment].get("sampling_method", "sobol")
+
+
 def build_jobs(experiment: str, models: list[str], regimes: list[str],
                replicates: int) -> list[tuple]:
     jobs = []
@@ -297,7 +306,7 @@ def build_jobs(experiment: str, models: list[str], regimes: list[str],
         want = [r for r in regimes if r in allowed]
         for rep in range(1, replicates + 1):
             seed = model_seed(model_id, rep, experiment) + seed_offset
-            method = spec_cfg.get("sampling_method", "sobol")
+            method = sampling_method(experiment)
             e1 = independent_sample(specs, n1, seed=seed, method=method)
             per_regime = {}
             if "E1" in want:

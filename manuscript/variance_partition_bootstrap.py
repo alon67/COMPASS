@@ -1,4 +1,8 @@
-"""Variance partition of the synergy area by sampling design, population geometry and source lineage,
+"""WITHDRAWN (V17 attribution; kept for the record). Its geometry block contains measures computed
+from the covariance matrix, of which the synergy part is itself a function, and it is not run by
+run_figures.sh. The current analysis is tools/run_review_v18.py (results/analyses/review_v18/attribution.json).
+
+Variance partition of the synergy area by sampling design, population geometry and source lineage,
 with a bootstrap over source lineages (the five lineages used for the main decision).
 
 Usage: variance_partition_bootstrap.py OUT.json
@@ -28,7 +32,7 @@ for b in range(2000):
     for k,l in enumerate(pick):
         s=g[g.source_lineage_id==l].copy(); s['source_lineage_id']=f'{l}__{k}'; s['model_id']=s['model_id']+f'__{k}'; parts.append(s)
     d=pd.concat(parts,ignore_index=True)
-    if d.source_lineage_id.nunique()<2: continue
+    if len(set(pick))<2: continue   # check the ORIGINAL lineages
     try: v,r=ratio(d)
     except Exception: continue
     rs.append(r); us.append(v.values)

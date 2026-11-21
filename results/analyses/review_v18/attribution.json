@@ -1,0 +1,189 @@
+{
+ "all_populations": {
+  "rows": 166,
+  "regimes": {
+   "E3": 27,
+   "E3b": 27,
+   "E4": 24,
+   "E4b": 17,
+   "E7": 13,
+   "E3m": 13,
+   "E8": 13,
+   "E9": 13,
+   "E1": 7,
+   "E2": 6,
+   "E6": 6
+  },
+  "alone": {
+   "sampling": 0.7619,
+   "geometry": 0.0063,
+   "lineage": 0.088
+  },
+  "unique": {
+   "sampling": 0.7071,
+   "geometry": 0.009,
+   "lineage": 0.0522
+  },
+  "full": 0.8342695472480128,
+  "unique_ci": {
+   "sampling": [
+    0.6176064593277846,
+    0.8672215945793268
+   ],
+   "geometry": [
+    0.0005163284557537784,
+    0.049640194548909444
+   ],
+   "lineage": [
+    0.0008198734409017305,
+    0.055888529964647465
+   ]
+  },
+  "bootstrap_fits": 1995,
+  "bootstrap_skipped": 5,
+  "lolo": {
+   "sampling+intrinsic_dimension (fixed in advance)": {
+    "hay_2011": 0.419,
+    "hodgkin_huxley_1952": 0.595,
+    "khaliq_2003": 0.76,
+    "migliore_1999": -1.95,
+    "pospischil_2008": 0.583
+   },
+   "sampling_only (post hoc)": {
+    "hay_2011": 0.194,
+    "hodgkin_huxley_1952": 0.557,
+    "khaliq_2003": 0.752,
+    "migliore_1999": 0.606,
+    "pospischil_2008": 0.772
+   }
+  },
+  "design_vs_achieved_unique": {
+   "design": 0.6879,
+   "achieved": 0.0177,
+   "geometry": 0.009,
+   "lineage": 0.0522
+  }
+ },
+ "without_clustered": {
+  "rows": 160,
+  "regimes": {
+   "E3": 27,
+   "E3b": 27,
+   "E4": 24,
+   "E4b": 17,
+   "E7": 13,
+   "E3m": 13,
+   "E8": 13,
+   "E9": 13,
+   "E1": 7,
+   "E2": 6
+  },
+  "alone": {
+   "sampling": 0.3492,
+   "geometry": 0.0086,
+   "lineage": 0.2721
+  },
+  "unique": {
+   "sampling": 0.1161,
+   "geometry": 0.0343,
+   "lineage": 0.1926
+  },
+  "full": 0.5846955066533545,
+  "unique_ci": {
+   "sampling": [
+    0.09512051190361492,
+    0.4999666617879591
+   ],
+   "geometry": [
+    0.0006653300735548484,
+    0.11976112044131149
+   ],
+   "lineage": [
+    0.01512295176982903,
+    0.25611333564954974
+   ]
+  },
+  "bootstrap_fits": 1995,
+  "bootstrap_skipped": 5,
+  "lolo": {
+   "sampling+intrinsic_dimension (fixed in advance)": {
+    "hay_2011": -1.011,
+    "hodgkin_huxley_1952": 0.176,
+    "khaliq_2003": -0.474,
+    "migliore_1999": -8.315,
+    "pospischil_2008": -2.405
+   },
+   "sampling_only (post hoc)": {
+    "hay_2011": -1.585,
+    "hodgkin_huxley_1952": 0.166,
+    "khaliq_2003": -0.265,
+    "migliore_1999": 0.501,
+    "pospischil_2008": -0.54
+   }
+  },
+  "design_vs_achieved_unique": {
+   "design": 0.0194,
+   "achieved": 0.0359,
+   "geometry": 0.0343,
+   "lineage": 0.1926
+  }
+ },
+ "phenotype_selected_only": {
+  "rows": 95,
+  "regimes": {
+   "E3": 27,
+   "E3b": 27,
+   "E4": 24,
+   "E4b": 17
+  },
+  "alone": {
+   "sampling": 0.3506,
+   "geometry": 0.0075,
+   "lineage": 0.3673
+  },
+  "unique": {
+   "sampling": 0.0902,
+   "geometry": 0.0906,
+   "lineage": 0.2553
+  },
+  "full": 0.698947375568102,
+  "unique_ci": {
+   "sampling": [
+    0.05477141301441091,
+    0.3691885301886779
+   ],
+   "geometry": [
+    0.00021972762686117697,
+    0.19016544598736362
+   ],
+   "lineage": [
+    0.00926785103398664,
+    0.3762166164348558
+   ]
+  },
+  "bootstrap_fits": 1995,
+  "bootstrap_skipped": 5,
+  "lolo": {
+   "sampling+intrinsic_dimension (fixed in advance)": {
+    "hay_2011": 0.596,
+    "hodgkin_huxley_1952": 0.204,
+    "khaliq_2003": -0.548,
+    "migliore_1999": -4.744,
+    "pospischil_2008": -1.953
+   },
+   "sampling_only (post hoc)": {
+    "hay_2011": -0.86,
+    "hodgkin_huxley_1952": 0.176,
+    "khaliq_2003": -0.053,
+    "migliore_1999": -0.298,
+    "pospischil_2008": -0.174
+   }
+  },
+  "design_vs_achieved_unique": {
+   "design": 0.0166,
+   "achieved": 0.0295,
+   "geometry": 0.0906,
+   "lineage": 0.2553
+  }
+ }
+}
