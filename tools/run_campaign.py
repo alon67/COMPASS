@@ -177,12 +177,18 @@ def mechanism_hash(model_id: str) -> str:
     return "builtin" if md is None else "unknown"
 
 
-@functools.lru_cache(maxsize=1)
-def env_hash() -> str:
-    """Hash of the runtime identity: Python, NEURON, eFEL, NumPy, platform."""
+@functools.lru_cache(maxsize=8)
+def env_hash(platform_string: str | None = None) -> str:
+    """Hash of the runtime identity: Python, NEURON, eFEL, NumPy, platform.
+
+    ``platform_string`` replaces ``platform.platform()`` (the operating-system
+    version string).  The integrity check uses it to ask whether a stored hash
+    differs from the current one only through the operating-system version.
+    """
     import numpy as _np
 
-    parts = [sys.version.split()[0], _np.__version__, platform.platform(),
+    parts = [sys.version.split()[0], _np.__version__,
+             platform.platform() if platform_string is None else platform_string,
              platform.machine()]
     for mod in ("neuron", "efel", "SALib", "scipy", "pandas", "sklearn"):
         try:

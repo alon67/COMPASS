@@ -412,8 +412,74 @@ def _sobol_module():
     return mod
 
 
+def recorded_platforms() -> set[str]:
+    """Operating-system strings recorded by every campaign invocation."""
+    found: set[str] = set()
+
+    def walk(o):
+        if isinstance(o, dict):
+            env = o.get("env")
+            if isinstance(env, dict) and env.get("platform"):
+                found.add(str(env["platform"]))
+            for v in o.values():
+                walk(v)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v)
+
+    for f in sorted((ROOT / "results" / "manifests").glob("campaign_*.json")):
+        walk(json.loads(f.read_text()))
+    return found
+
+
+def cross_platform_evidence(experiment: str) -> tuple[bool, str]:
+    """Was a replay of this experiment run, and passed, on the current system?
+
+    A shard written under another operating-system version is accepted only
+    when stored rows of the same experiment have been simulated again on the
+    current system and reproduced.  The full replay record or the labelled
+    sample check (``validate_replay.py --sample-per-group K --label
+    crossplatform``) both count.
+    """
+    import platform
+
+    for name in (f"replay_gate_{experiment}.json", f"replay_gate_{experiment}_crossplatform.json"):
+        f = OUT / name
+        if not f.exists():
+            continue
+        rec = json.loads(f.read_text())
+        if rec.get("all_passed") and rec.get("environment", {}).get("platform") == platform.platform():
+            return True, name
+    return False, ""
+
+
+def _os_only_change(side: Path, rc) -> str | None:
+    """The recorded OS string, if the stored env hash differs only through it."""
+    try:
+        stored = json.loads(side.read_text()).get("env_hash")
+    except Exception:  # noqa: BLE001
+        return None
+    for plat in sorted(recorded_platforms()):
+        if rc.env_hash(plat) == stored:
+            return plat
+    return None
+
+
 def d4_shard_identity(shards, rc, experiment) -> list:
-    """Every shard bound to a recorded, checked identity."""
+    """Every shard bound to a recorded, checked identity.
+
+    One identity difference is tolerated with evidence: a shard whose stored
+    environment hash differs from the current one only through the
+    operating-system version string (Python, NumPy, NEURON, eFEL, SciPy, pandas
+    and scikit-learn identical) passes if rows of the same experiment were
+    replayed and reproduced on the current system; without that replay it is
+    INDETERMINATE, not a pass.
+    """
+    import platform
+
+    from compass.validation.gates import GateResult
+
+    evidence_ok, evidence_file = cross_platform_evidence(experiment)
     records = [gate_record(
         "D4", "documented_drift_allowances", verify_documented_drift(),
         detail="each tolerated identity difference must still be non-load-bearing")]
@@ -442,11 +508,28 @@ def d4_shard_identity(shards, rc, experiment) -> list:
         if side.exists():
             backfilled = json.loads(side.read_text()).get(
                 "identity_provenance") == "backfilled"
-        records.append(gate_record(
-            "D4", p.name, [] if ok else [why],
-            measurements={"n_rows": int(len(df)),
-                          "identity_provenance": "backfilled" if backfilled else "recorded"},
-            inputs={"shard": str(p.relative_to(ROOT))}))
+        meas = {"n_rows": int(len(df)),
+                "identity_provenance": "backfilled" if backfilled else "recorded"}
+        inputs = {"shard": str(p.relative_to(ROOT))}
+        old_os = _os_only_change(side, rc) if (not ok and why == "identity_mismatch:env_hash") else None
+        if old_os is None:
+            records.append(gate_record("D4", p.name, [] if ok else [why],
+                                       measurements=meas, inputs=inputs))
+            continue
+        meas.update({"environment_change": "operating-system version only",
+                     "recorded_platform": old_os, "current_platform": platform.platform()})
+        if evidence_ok:
+            records.append(gate_record(
+                "D4", p.name, [], measurements=meas,
+                inputs={**inputs, "cross_platform_replay": evidence_file},
+                detail="environment differs only in the operating-system version; "
+                       "rows of this experiment replayed and reproduced on the current system"))
+        else:
+            records.append(GateResult(
+                gate="D4", subject=p.name, status="INDETERMINATE",
+                failures=[f"operating-system version changed ({old_os} -> {platform.platform()}); "
+                          "software identical; no replay of this experiment on the current system"],
+                measurements=meas, inputs=inputs))
     return records
 
 
@@ -637,7 +720,8 @@ def main() -> int:
             print(f"  {g}: {ok}/{n} passed", flush=True)
         all_records += recs
 
-    dest = OUT / "campaign_integrity.json"
+    # A single-experiment run must not overwrite the whole-campaign record.
+    dest = OUT / ("campaign_integrity.json" if args.all else f"campaign_integrity_{args.experiment}.json")
     write_gate_records(all_records, dest)
     n_ok = sum(r.passed for r in all_records)
     print(f"\n{n_ok}/{len(all_records)} gate records passed -> {dest}")

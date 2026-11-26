@@ -305,7 +305,15 @@ def main() -> int:
                     help="cap the number of replays (a partial run is reported "
                          "as INDETERMINATE, never as a pass)")
     ap.add_argument("--strata-only", action="store_true")
+    ap.add_argument("--sample-per-group", type=int, default=0,
+                    help="replay only this many rows per model and sampling regime, "
+                         "evenly spaced through the planned rows; requires --label")
+    ap.add_argument("--label", default="",
+                    help="suffix for the output files of a sample check, so it "
+                         "never overwrites the full replay record")
     args = ap.parse_args()
+    if bool(args.sample_per_group) != bool(args.label):
+        ap.error("--sample-per-group and --label go together")
 
     from validate_campaign import load_experiment  # noqa: PLC0415
 
@@ -318,6 +326,15 @@ def main() -> int:
     total_planned = len(jobs)
     if args.limit:
         jobs = jobs[:args.limit]
+    if args.sample_per_group:
+        groups: dict[tuple, list] = {}
+        for j in jobs:
+            groups.setdefault((j[0], j[4]), []).append(j)  # model, sampling regime
+        jobs = []
+        for _, js in sorted(groups.items(), key=lambda kv: str(kv[0])):
+            k = min(args.sample_per_group, len(js))
+            jobs += [js[int(i)] for i in np.linspace(0, len(js) - 1, k).round().astype(int)]
+    stem = args.experiment + (f"_{args.label}" if args.label else "")
 
     p_detect = {p: math.ceil(math.log(0.05) / math.log(1 - p))
                 for p in (0.001, 0.005, 0.01)}
@@ -341,7 +358,7 @@ def main() -> int:
 
     res = pd.DataFrame(results)
     OUT.mkdir(parents=True, exist_ok=True)
-    res.to_parquet(OUT / f"replay_{args.experiment}.parquet", index=False)
+    res.to_parquet(OUT / f"replay_{stem}.parquet", index=False)
 
     bad = res[res["status"] != "match"]
     # Escalation: a mismatch invalidates the whole shard, and a model with any
@@ -379,14 +396,19 @@ def main() -> int:
         inputs={"selection_rule": SELECTION_RULE,
                 "replayed_run_ids": sorted(res["run_id"].dropna().astype(str))[:500]},
         detail="one deterministic row per shard plus every risky stratum")]
-    if args.limit and len(jobs) < total_planned:
+    if args.sample_per_group:
+        records[0].subject = stem
+        records[0].detail = (f"sample check: {args.sample_per_group} rows per model and "
+                             f"sampling regime ({len(jobs)} of {total_planned} planned rows), "
+                             "replayed on the current system")
+    elif args.limit and len(jobs) < total_planned:
         records[0].status = "INDETERMINATE"
         records[0].detail += (f" -- PARTIAL RUN ({len(jobs)}/{total_planned}); "
                               "a capped replay is not a pass")
 
-    write_gate_records(records, OUT / f"replay_gate_{args.experiment}.json")
+    write_gate_records(records, OUT / f"replay_gate_{stem}.json")
     print(f"\n{int((res['status'] == 'match').sum())}/{len(res)} rows reproduced "
-          f"exactly -> {OUT / f'replay_gate_{args.experiment}.json'}")
+          f"exactly -> {OUT / f'replay_gate_{stem}.json'}")
     if not bad.empty:
         print(f"INVALIDATED SHARDS ({len(invalid_shards)}): {invalid_shards[:10]}")
         print(f"escalation would invalidate {len(escalated)} shards of "

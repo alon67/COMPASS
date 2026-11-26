@@ -1998,3 +1998,20 @@ def test_rheobase_scaled_target_is_undefined_at_zero_canonical_rheobase():
                              "regime": ["E3", "E1", "E3"]})
         kept = ra.drop_undefined_family_rows(rows)
         assert list(zip(kept.protocol_family, kept.regime, strict=True)) == [("normalised", "E1"), ("absolute", "E3")]
+
+
+# A macOS update changed the environment hash of every shard written before it
+# although no scientific package changed, and the whole-campaign integrity check
+# then failed them all (26 November 2026).  The hash can now be recomputed for a
+# recorded OS string, so the check can tell an OS-only change from a software
+# change; the OS-only change still needs a replay on the current system.
+def test_env_hash_separates_os_version_from_software():
+    import importlib.util as iu
+    import platform
+
+    spec = iu.spec_from_file_location("_rc_env", ROOT / "tools" / "run_campaign.py")
+    rc = iu.module_from_spec(spec)
+    spec.loader.exec_module(rc)
+    assert rc.env_hash(platform.platform()) == rc.env_hash()
+    assert rc.env_hash("macOS-0.0-test") != rc.env_hash()
+    assert rc.env_hash("macOS-0.0-test") == rc.env_hash("macOS-0.0-test")

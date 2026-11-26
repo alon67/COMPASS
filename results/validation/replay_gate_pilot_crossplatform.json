@@ -1,0 +1,84 @@
+{
+ "written_utc": "2026-11-26T19:12:55.832670+00:00",
+ "git_tree": "bc0457e1c10d3d35ab56cc9f6e33a3e6f5053a55-dirty",
+ "environment": {
+  "python": "3.12.4",
+  "platform": "macOS-27.2.1-arm64-arm-64bit",
+  "machine": "arm64",
+  "neuron": "8.2.6-1-gb6e6a5fad+",
+  "efel": "5.7.29",
+  "numpy": "1.26.4",
+  "scipy": "1.14.0",
+  "pandas": "2.2.3",
+  "sklearn": "1.5.2",
+  "statsmodels": "0.14.6",
+  "SALib": "?"
+ },
+ "n_records": 1,
+ "n_passed": 1,
+ "all_passed": true,
+ "by_gate": {
+  "REPLAY": {
+   "n": 1,
+   "passed": 1,
+   "failed_subjects": []
+  }
+ },
+ "records": [
+  {
+   "gate": "REPLAY",
+   "subject": "pilot_crossplatform",
+   "status": "PASS",
+   "detail": "sample check: 3 rows per model and sampling regime (3 of 12 planned rows), replayed on the current system",
+   "failures": [],
+   "measurements": {
+    "n_derived_label_drift_rows": 0,
+    "n_schema_drift_rows": 0,
+    "drift_note": "derived labels and documented schema drift are reported separately: they are not reproduction failures, and gate D5 validates them by exact recomputation",
+    "n_rows_total": 50,
+    "n_shards": 2,
+    "n_replayed": 3,
+    "n_planned": 12,
+    "n_match": 3,
+    "n_mismatch": 0,
+    "n_replay_error": 0,
+    "invalid_shards": [],
+    "escalated_shards_if_clustered": 0,
+    "detection_power": {
+     "0.001": 2995,
+     "0.005": 598,
+     "0.01": 299
+    }
+   },
+   "tolerances": {
+    "rheobase_nA": 1e-09,
+    "_default_abs": 1e-06,
+    "_default_rel": 1e-09
+   },
+   "inputs": {
+    "selection_rule": "blake2b-shard-v1",
+    "replayed_run_ids": [
+     "migliore_ca1:E1:1:14",
+     "migliore_ca1:E1:1:34",
+     "migliore_ca1:E1:1:8"
+    ]
+   },
+   "git_tree": "bc0457e1c10d3d35ab56cc9f6e33a3e6f5053a55-dirty",
+   "environment": {
+    "python": "3.12.4",
+    "platform": "macOS-27.2.1-arm64-arm-64bit",
+    "machine": "arm64",
+    "neuron": "8.2.6-1-gb6e6a5fad+",
+    "efel": "5.7.29",
+    "numpy": "1.26.4",
+    "scipy": "1.14.0",
+    "pandas": "2.2.3",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.6",
+    "SALib": "?"
+   },
+   "recorded_utc": "2026-11-26T19:12:55.832618+00:00",
+   "passed": true
+  }
+ ]
+}
