@@ -1,0 +1,42 @@
+{
+ "set_up": "8 independent standard normal parameters; keep draws whose projection on a random unit vector lies within +/- tau; 400,000 draws",
+ "max_abs_error_exact_vs_simulated": 0.001269820324636628,
+ "max_o_exact_over_grid": -9.169639873796154e-17,
+ "share_triplets_synergistic_one_constraint": 0.9071428571428571,
+ "log_log_slope_synergy_vs_mean_abs_r": 3.428312004087866,
+ "corr_leading_vs_exact_at_tau_0p5": 0.9818770029381094,
+ "two_constraints_share_synergistic": 0.75,
+ "two_constraints_share_redundant": 0.25,
+ "by_band": [
+  {
+   "band_halfwidth_sd": 0.25,
+   "k": 0.9793397589455184,
+   "mean_abs_r": 0.09839195854398711,
+   "synergy": 0.005357070675203889
+  },
+  {
+   "band_halfwidth_sd": 0.5,
+   "k": 0.9194108453991884,
+   "mean_abs_r": 0.0906919877079988,
+   "synergy": 0.0036182061634992373
+  },
+  {
+   "band_halfwidth_sd": 1.0,
+   "k": 0.7088749052272069,
+   "mean_abs_r": 0.06554277029537944,
+   "synergy": 0.0009881976527641903
+  },
+  {
+   "band_halfwidth_sd": 2.0,
+   "k": 0.2262586964500768,
+   "mean_abs_r": 0.018513704336479007,
+   "synergy": 1.4893923155905417e-05
+  },
+  {
+   "band_halfwidth_sd": 3.0,
+   "k": 0.026663075337458528,
+   "mean_abs_r": 0.0026552597510223373,
+   "synergy": 2.01430950206575e-08
+  }
+ ]
+}

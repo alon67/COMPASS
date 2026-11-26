@@ -1,0 +1,14 @@
+model_id,tolerance,n,n_triplets,share_triplets_with_geometric,share_synergy_area_with_geometric,frac_synergy_o3
+hh_point,permissive,3055,20,0.8,0.024385,0.4
+hh_point,very_strict,1091,20,0.8,0.277381,0.5
+hh_cable,permissive,3130,56,0.642857,0.0493584,0.5
+hh_cable,very_strict,1467,56,0.642857,0.334952,0.607143
+pospischil_rs,permissive,6054,56,0.642857,0.775633,0.75
+pospischil_rs,very_strict,717,56,0.642857,0.920292,0.571429
+pospischil_fs,permissive,7119,35,0.714286,0.847933,0.828571
+pospischil_fs,very_strict,1224,35,0.714286,0.897159,0.542857
+khaliq_purkinje,permissive,2432,120,0.533333,0.532957,0.675
+khaliq_purkinje,very_strict,572,120,0.533333,0.637864,0.508333
+migliore_ca1,permissive,154,56,0.642857,0.912316,0.464286
+bbp_l5pc,permissive,344,286,0,-0,0.346154
+bbp_l5pc,very_strict,106,286,0,-0,0.398601

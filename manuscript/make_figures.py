@@ -63,7 +63,9 @@ import importlib.util as _iu
 _s = _iu.spec_from_file_location('_ra', str(Path(__file__).resolve().parents[1] / 'tools' / 'run_analysis.py'))
 RA = _iu.module_from_spec(_s); _s.loader.exec_module(RA)
 V18 = AN + 'review_v18/'
-TS = pd.read_parquet(V18 + 'two_stage.parquet'); DD = pd.read_parquet(V18 + 'dropout_decomposed.parquet')
+TS = pd.read_parquet(V18 + 'two_stage.parquet')
+# Hay model redrawn with 8,192 independent random draws (fixed-amplitude steps only)
+HT = pd.read_parquet(AN + 'review_v22/hay_two_stage.parquet'); DD = pd.read_parquet(V18 + 'dropout_decomposed.parquet')
 ATT = json.load(open(V18 + 'attribution.json'))
 kn = json.load(open(AN + 'key_numbers.json')); bm = json.load(open(AN + 'benchmarks.json'))
 
@@ -145,10 +147,12 @@ for es, nm, col in EST:
             mfc='none' if es == 'gaussian' else col, color=col, label=nm)
 ax.set_xscale('log'); ax.set_xticks(ns); ax.set_xticklabels([f'{n/1000:g}k' if n >= 1000 else str(n) for n in ns]); ax.minorticks_off(); ax.set_ylim(0, 105)
 ax.set_xlabel('Sample size [points]'); ax.set_ylabel('Systems classified correctly [%]'); offset(ax)
-KM = ['hh_point', 'hh_cable', 'pospischil_rs', 'pospischil_fs', 'khaliq_purkinje']
+KM = ['hh_point', 'hh_cable', 'pospischil_rs', 'pospischil_fs', 'khaliq_purkinje', 'bbp_l5pc']
 KS = {'hh_point': 'HH, one comp.', 'hh_cable': 'HH, soma + dendrite', 'pospischil_rs': 'Pospischil, RS',
-      'pospischil_fs': 'Pospischil, FS', 'khaliq_purkinje': 'Khaliq, Purkinje'}
-RK = pd.read_parquet(AN + 'review_v17/random_knn.parquet')
+      'pospischil_fs': 'Pospischil, FS', 'khaliq_purkinje': 'Khaliq, Purkinje', 'bbp_l5pc': 'Hay, layer 5'}
+# the Hay model was redrawn at random later (8,192 sets); its tables are in review_v22
+RK = pd.concat([pd.read_parquet(AN + 'review_v17/random_knn.parquet'),
+                pd.read_parquet(AN + 'review_v22/hay_random_knn.parquet')])
 RK = RK[(RK.population == 'selected') & (RK.metric == 'weighted_euclidean') & (RK.tolerance == 'permissive')]
 RP = pd.read_parquet(AN + 'review_v17/random_pairs.parquet')
 KR = pd.read_parquet(RV + 'knn_ranked_check.parquet')
@@ -164,13 +168,14 @@ for i, m in enumerate(KM):
         ax.plot(d.mean(), yj, marker=mk, ms=3.5, color=col, lw=0, label=nm if i == 0 else None)
     k_ = KR[KR.model_id == m]
     old = k_[k_.kind == 'selected'].omega_knn_ranked.mean() - k_[k_.kind == 'unselected_same_size'].groupby('draw').omega_knn_ranked.mean().mean()
-    ax.plot(old, i + 0.38, marker='o', ms=4, mfc='none', mec='k', lw=0, label='Evenly spaced design (earlier check)' if i == 0 else None)
+    ax.plot(old, i + 0.38, marker='o', ms=4, mfc='none', mec='k', lw=0, label='Evenly spaced design' if i == 0 else None)
 ax.axvline(0, color='k', lw=0.6); ax.set_yticks(yy); ax.set_yticklabels([KS[m] for m in KM], fontsize=6.6); ax.invert_yaxis()
 ax.set_xlabel('Selected minus reference,\nmean over triplets [nats]')
 offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 ax.legend(loc='upper center', fontsize=6.2, bbox_to_anchor=(0.35, -0.36), ncol=2, handletextpad=0.3, columnspacing=1.0)
 ax = fig.add_subplot(gs2[1, 1]); lab(ax, 'D', -0.75)
-PC = pd.read_parquet(V18 + 'pairs_calibrated.parquet')
+PC = pd.concat([pd.read_parquet(V18 + 'pairs_calibrated.parquet'),
+                pd.read_parquet(AN + 'review_v22/hay_pairs_calibrated.parquet')])
 PC = PC[(PC.metric == 'weighted_euclidean') & (PC.tolerance == 'permissive')]
 for i, m in enumerate(KM):
     g_ = PC[PC.model_id == m]
@@ -211,6 +216,8 @@ for k, (col, yl, sc, logy) in enumerate(PAN):
     C_ = {m: np.array([fc.get((m, t), np.nan) for t in TL], float) * sc for m in PRIM}
     ax.plot(xs, np.nanmean([C_[m] for m in PRIM], axis=0), color=ORANGE, lw=1.4, ls=(0, (1, 1)), marker='^', ms=3, zorder=3)
     ax.plot(xs, np.nanmean([S[m] for m in PRIM], axis=0), color=RED, lw=1.8, marker='o', ms=3.5, zorder=4)
+    hs = HT[(HT.kind == 'selected') & (HT.metric == 'weighted_euclidean')].set_index('tolerance')[col]
+    ax.plot(xs, np.array([hs.get(t, np.nan) for t in TL], float) * sc, color='k', lw=1.0, ls=(0, (4, 2)), zorder=2)
     ax.set_xticks(xs); ax.set_xticklabels(xt); ax.set_xlabel('Tolerance [SD]'); ax.set_ylabel(yl); offset(ax)
     if col == 'frac_synergy_o3':
         ax.axhline(50, color='k', lw=0.5, ls=(0, (2, 2))); ax.set_ylim(0, 100)
@@ -256,6 +263,7 @@ ax.set_xlabel('Accepted sets\nchanged [%]'); offset(ax, ('bottom',))
 ax.spines['left'].set_visible(False); ax.tick_params(axis='y', length=0)
 handles = [Line2D([], [], color=GREY, lw=0.7, label='Selected, individual implementations'),
            Line2D([], [], color='k', lw=0.8, label='Selected, Hay layer 5'),
+           Line2D([], [], color='k', lw=1.0, ls=(0, (4, 2)), label='Selected, Hay layer 5, 8,192 random draws'),
            Line2D([], [], color=RED, lw=1.8, marker='o', ms=3.5, label='Selected, mean of seven (six at 0.5 SD)'),
            Line2D([], [], color=BLUE, lw=1.6, ls=(0, (3, 1.5)), marker='s', ms=3, label='Unselected, same size, mean of seven (six at 0.5 SD)'),
            Line2D([], [], color=ORANGE, lw=1.4, ls=(0, (1, 1)), marker='^', ms=3, label='All 13 features measurable, same size'),
@@ -293,10 +301,19 @@ ax = axs[2]; lab(ax, 'C', -1.25)
 sel_ = TS[(TS.experiment == 'screening') & (TS.kind == 'selected')].set_index(['model_id', 'protocol_family', 'metric', 'tolerance'])
 uns_ = TS[(TS.experiment == 'screening') & (TS.kind == 'unselected_same_size')].groupby(['model_id', 'protocol_family', 'metric', 'tolerance']).net_o_information.mean()
 cs = ((sel_.net_o_information - uns_.reindex(sel_.index)).groupby(level=0).mean() * 1000)
-order = [m for m in PRIM if m in cs.index]; yy = np.arange(len(order))
-ax.barh(yy, [cs[m] for m in order], color=BLUE, height=0.62)
+order = [m for m in PRIM if m in cs.index]
+hk = ['metric', 'tolerance']
+hay_r = ((HT[HT.kind == 'selected'].set_index(hk).net_o_information
+          - HT[HT.kind == 'unselected_same_size'].groupby(hk).net_o_information.mean()).mean() * 1000)
+vals = [cs[m] for m in order] + [hay_r]; labs = [SHORT[m] for m in order] + ['Hay, layer 5, random draws']
+yy = np.arange(len(vals))
+ax.barh(yy, vals, color=[BLUE] * len(order) + [LBLUE], height=0.62)
 ax.axvline(0, color='k', lw=0.6); ax.set_yticks(yy)
-ax.set_yticklabels([SHORT[m] for m in order], fontsize=6.6); ax.invert_yaxis()
+ax.set_yticklabels(labs, fontsize=6.6); ax.invert_yaxis()
+from matplotlib.transforms import blended_transform_factory
+for y_, v_ in zip(yy, vals):   # bar values, so the small Hay values can be read
+    ax.text(1.04, y_, f'{v_:+.2f}'.replace('-', '\u2212'), transform=blended_transform_factory(ax.transAxes, ax.transData),
+            va='center', ha='left', fontsize=6.0)
 ax.set_xlabel('Selected minus\nsame-size unselected,\nnet O-information\n[millinats]'); offset(ax, ('bottom',)); ax.tick_params(axis='y', length=0)
 ax.spines['left'].set_visible(False)
 fig.savefig(OUT + '/fig4.png', bbox_inches='tight'); plt.close(fig)

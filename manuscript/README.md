@@ -18,7 +18,7 @@ bash manuscript/run_figures.sh
 | `variance_partition_bootstrap.py` | **Withdrawn, kept for the record; not run by `run_figures.sh`.** The V17 attribution, whose geometry block contained measures computed from the covariance matrix. Fig. 5C-D now read `results/analyses/review_v18/attribution.json` (see below). | (none) |
 | `summarise_review_analyses.py` | Summarises the analyses added after review: each accepted population compared with same-size unselected and shuffled populations, each electrical feature left out of the acceptance rule in turn, the nearest-neighbour estimate, and the most synergistic triplets. | `results/analyses/manuscript/review_numbers.json`, `review_numbers_null_table.csv`, `review_numbers_dropout_table.csv` |
 | `make_figures.py` | Figures 1 to 5 of the main text (Fig. 5C-D from `results/analyses/review_v18/attribution.json`). | `results/figures/manuscript/fig1.png` … `fig5.png` |
-| `make_table3.py` | Table 3 of the main text: for each implementation, accepted population sizes, the synergy part of the selected population against same-size unselected and feature-complete samples at 3 and 0.5 SD, and the change in synergy part and net O-information averaged over all conditions (as in Fig. 4C). Reads `results/analyses/review_v18/two_stage.parquet`. | `results/analyses/manuscript/table3_per_implementation.csv` |
+| `make_table3.py` | Table 3 of the main text: for each implementation, at 3 and 0.5 SD with the root-mean-square distance and fixed-amplitude steps, the accepted population size and the synergy part, redundancy part and net O-information of the selected population against the mean and 95% range of 100 same-size unselected samples (and the synergy part of 100 same-size feature-complete samples); the Hay model also on 8,192 random draws. Reads `results/analyses/review_v18/two_stage.parquet` and `results/analyses/review_v22/hay_two_stage.parquet`. | `results/analyses/manuscript/table3_per_implementation.csv` |
 | `make_figure_s1.py` | The figure of the direct perturbation test. That test is no longer part of the Supplementary Material (it could not answer its question); the script is kept for the record. | `results/figures/manuscript/figS1.png` |
 
 The figures stored under `results/figures/manuscript/` are the ones in the
@@ -72,3 +72,30 @@ against the training-model mean and against the left-out model's own mean; Fig. 
 Section S1) and `top_triplet_thinning.parquet` (overlap of the most synergistic
 triplets between tolerances, against random thinning of the 3-SD population;
 Section S2).
+
+The analyses for the review of manuscript V22 (`results/analyses/review_v22/`) are
+produced by `tools/run_review_v22.py` in two parts. The first reads stored tables and the
+per-simulation feature tables of the `screening` and `screening_random` campaigns; the
+second needs the Hay model in `screening_random` (8,192 random draws, added to
+`configs/experiments/campaigns.json`):
+
+```bash
+python tools/run_campaign.py --experiment screening_random --models bbp_l5pc --workers 13
+python tools/run_review_v22.py stored
+python tools/run_review_v22.py hay --workers 3
+```
+
+Outputs of the first part: `effect_with_chance_ranges.parquet` and
+`table3_conditions.csv` (synergy part, redundancy part and net O-information of every
+selected population with the chance range of same-size unselected and feature-complete
+samples), `ratios.csv` and `ratio_summary.csv` (per-model ratios and their median, range
+and geometric mean), `geometry_excluded.parquet` (summaries with capacitance, diameter and
+axial resistance left out; Table S5), `top_triplets.csv` and `triplet_shares.csv` (most
+synergistic triplets and the share of synergy carried by those parameters; Section S2)
+and `rank_one.json` / `rank_one_check.csv` (numerical check of the exact result for a
+single selection constraint; Section S1). Outputs of the second part: `hay_two_stage.parquet`
+and `hay_pools.parquet` (Table 3), `hay_random_null.parquet`, `hay_random_knn.parquet`,
+`hay_random_pairs.parquet`, `hay_pairs_calibrated.parquet`, `hay_gauss_common_scale.parquet`
+and `hay_ksg_pairs.parquet` (Fig. 2C-D, Table S4), with the same code, seeds and reference
+sizes as the other models.
+
