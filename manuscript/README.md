@@ -5,8 +5,8 @@ creates parameter dependence read as synergy in populations of neuron models*
 (Degani-Katzav and Korngreen) and compute the summary tables quoted in it.
 
 They read only analysis tables stored in this repository (`results/analyses/`,
-`results/analyses/review_v5/`, `results/analyses/review_v17/` and
-`results/analyses/review_v18/`). No simulation is run, and the per-simulation
+`results/analyses/review_v5/`, `results/analyses/review_v17/`,
+`results/analyses/review_v18/` and `results/analyses/review_v19/`). No simulation is run, and the per-simulation
 feature tables (`results/features/`, not distributed) are not needed.
 
 ```bash
@@ -18,7 +18,8 @@ bash manuscript/run_figures.sh
 | `variance_partition_bootstrap.py` | **Withdrawn, kept for the record; not run by `run_figures.sh`.** The V17 attribution, whose geometry block contained measures computed from the covariance matrix. Fig. 5C-D now read `results/analyses/review_v18/attribution.json` (see below). | (none) |
 | `summarise_review_analyses.py` | Summarises the analyses added after review: each accepted population compared with same-size unselected and shuffled populations, each electrical feature left out of the acceptance rule in turn, the nearest-neighbour estimate, and the most synergistic triplets. | `results/analyses/manuscript/review_numbers.json`, `review_numbers_null_table.csv`, `review_numbers_dropout_table.csv` |
 | `make_figures.py` | Figures 1 to 5 of the main text (Fig. 5C-D from `results/analyses/review_v18/attribution.json`). | `results/figures/manuscript/fig1.png` … `fig5.png` |
-| `make_figure_s1.py` | Supplementary Figure S1 (the perturbation test). | `results/figures/manuscript/figS1.png` |
+| `make_table3.py` | Table 3 of the main text: for each implementation, accepted population sizes, the synergy part of the selected population against same-size unselected and feature-complete samples at 3 and 0.5 SD, and the change in synergy part and net O-information averaged over all conditions (as in Fig. 4C). Reads `results/analyses/review_v18/two_stage.parquet`. | `results/analyses/manuscript/table3_per_implementation.csv` |
+| `make_figure_s1.py` | The figure of the direct perturbation test. That test is no longer part of the Supplementary Material (it could not answer its question); the script is kept for the record. | `results/figures/manuscript/figS1.png` |
 
 The figures stored under `results/figures/manuscript/` are the ones in the
 submitted manuscript; rerunning `run_figures.sh` reproduces them pixel for pixel
@@ -56,3 +57,18 @@ rheobase-normalised selections of the Khaliq model are excluded everywhere: its
 canonical rheobase is 0, so that family is undefined for it (`tools/run_analysis.py`,
 `family_defined`).
 
+The analyses added after the review of manuscript V20 (`results/analyses/review_v19/`)
+are produced by `tools/run_review_v19.py`, which also reads the per-simulation feature
+tables of the `screening` campaign:
+
+```bash
+python tools/run_review_v19.py
+```
+
+Outputs: `estimator_agreement.json` (agreement between the Gaussian and
+Gaussian-copula triplet estimates, under three counting conventions; Methods and
+Section S1), `lolo_two_baselines.json` (leave-one-source-model-out prediction scored
+against the training-model mean and against the left-out model's own mean; Fig. 5D,
+Section S1) and `top_triplet_thinning.parquet` (overlap of the most synergistic
+triplets between tolerances, against random thinning of the 3-SD population;
+Section S2).

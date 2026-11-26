@@ -12,5 +12,6 @@ mkdir -p "$OUT" "$TAB"
 python3 "$HERE/summarise_review_analyses.py" "$TAB/review_numbers.json"
 python3 "$HERE/make_figures.py" "$OUT" "$ROOT/results/analyses/review_v18/attribution.json" \
         "$TAB/review_numbers_null_table.csv" "$TAB/review_numbers_dropout_table.csv"
+python3 "$HERE/make_table3.py" "$TAB/table3_per_implementation.csv"
 python3 "$HERE/make_figure_s1.py" "$OUT/figS1.png"
 echo "figures in $OUT; tables in $TAB"
