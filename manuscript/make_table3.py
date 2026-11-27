@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Table 3 of the main text: the effect of selection in each implementation.
+"""Supplementary Table S3 (main-text Table 3 up to manuscript V23): the effect of selection in each implementation.
 
 Reads stored analysis tables only (no simulation):
 results/analyses/review_v18/two_stage.parquet (main run) and

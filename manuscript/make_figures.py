@@ -346,7 +346,7 @@ offset(ax, ('bottom',)); ax.spines['left'].set_visible(False); ax.tick_params(ax
 ax = fig.add_subplot(gs[1, 0]); lab(ax, 'C', -0.62)
 # C-D: attribution for three sets of populations (review of V18): geometry = the two
 # intrinsic-dimension estimates; prediction uses the predictor set fixed in advance.
-FITS = [('all_populations', 'All design rows ({})', BLUE), ('without_clustered', 'Without clustered ({})', LBLUE),
+FITS = [('all_populations', 'All populations ({})', BLUE), ('without_clustered', 'Without clustered ({})', LBLUE),
         ('phenotype_selected_only', 'Selected for behavior ({})', RED)]
 FITS = [(k, nm.format(ATT[k]['rows']), c) for k, nm, c in FITS]   # labels from the fitted row counts
 bl = [('sampling', 'Sampling design'), ('geometry', 'Intrinsic dimension'), ('lineage', 'Source model')]
